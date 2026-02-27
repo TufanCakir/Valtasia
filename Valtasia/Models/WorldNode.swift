@@ -18,5 +18,5 @@ struct WorldNode: Codable, Identifiable {
 
     let connectsTo: [String]
 
-    let levels: [Level]   // ⭐ NICHT [String] !!
+    let levels: [Level]  // ⭐ NICHT [String] !!
 }

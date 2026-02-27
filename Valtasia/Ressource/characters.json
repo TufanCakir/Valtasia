@@ -1,71 +1,71 @@
 [
-  {
-    "id": "hero_01",
-    "name": "Aeris",
+    {
+        "id": "hero_01",
+        "name": "Aeris",
 
-    "rarity": "epic",
+        "rarity": "epic",
 
-    "role": "dps",
+        "role": "dps",
 
-    "stats": {
-      "hp": 1200,
-      "attack": 150,
-      "energyPower": 80,
-      "attackSpeed": 1.2
+        "stats": {
+            "hp": 1200,
+            "attack": 150,
+            "energyPower": 80,
+            "attackSpeed": 1.2
+        },
+
+        "energyType": "arcane",
+
+        "summon": {
+            "rate": 0.05,
+            "banner": "standard",
+            "rateUp": false
+        },
+
+        "sprite": "character1",
+
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character1"
+            },
+            {
+                "id": "winter",
+                "sprite": "character2"
+            }
+        ]
     },
 
-    "energyType": "arcane",
+    {
+        "id": "hero_02",
+        "name": "Kael",
 
-    "summon": {
-      "rate": 0.05,
-      "banner": "standard",
-      "rateUp": false
-    },
+        "rarity": "rare",
 
-    "sprite": "character1",
+        "role": "support",
 
-    "skins": [
-      {
-        "id": "default",
-        "sprite": "character1"
-      },
-      {
-        "id": "winter",
-        "sprite": "character2"
-      }
-    ]
-  },
+        "stats": {
+            "hp": 1000,
+            "attack": 120,
+            "energyPower": 60,
+            "attackSpeed": 1.5
+        },
 
-  {
-    "id": "hero_02",
-    "name": "Kael",
+        "energyType": "fire",
 
-    "rarity": "rare",
+        "summon": {
+            "rate": 0.15,
+            "banner": "epic_rateup",
+            "rateUp": false
+        },
 
-    "role": "support",
+        "sprite": "character3",
 
-    "stats": {
-      "hp": 1000,
-      "attack": 120,
-      "energyPower": 60,
-      "attackSpeed": 1.5
-    },
-
-    "energyType": "fire",
-
-    "summon": {
-      "rate": 0.15,
-      "banner": "epic_rateup",
-      "rateUp": false
-    },
-
-    "sprite": "character3",
-
-    "skins": [
-      {
-        "id": "default",
-        "sprite": "character2"
-      }
-    ]
-  }
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character2"
+            }
+        ]
+    }
 ]

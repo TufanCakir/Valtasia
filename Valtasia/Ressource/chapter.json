@@ -1,6 +1,9 @@
 {
-  "chapterId": 1,
-  "enemies": ["enemy_01", "enemy_02"],
-  "boss": "enemy_boss_01",
-  "rewardGold": 500
+    "chapterId": 1,
+    "enemies": [
+        "enemy_01",
+        "enemy_02"
+    ],
+    "boss": "enemy_boss_01",
+    "rewardGold": 500
 }

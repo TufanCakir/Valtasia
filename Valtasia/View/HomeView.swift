@@ -49,16 +49,16 @@ struct HomeView: View {
     }
 }
 
-private extension HomeView {
+extension HomeView {
 
-    var worldMapSection: some View {
+    fileprivate var worldMapSection: some View {
         Group {
             if let world = appModel.worlds[safe: selectedWorldIndex] {
-                
+
                 HomeWorldMapView(world: world) { levelId in
                     appModel.startLevel(levelId)
                 }
-                
+
             } else {
                 Color.black.ignoresSafeArea()
             }
@@ -66,16 +66,18 @@ private extension HomeView {
     }
 }
 
-private extension HomeView {
+extension HomeView {
 
-    var worldBar: some View {
+    fileprivate var worldBar: some View {
 
         ScrollView(.horizontal, showsIndicators: false) {
 
             HStack(spacing: 20) {
 
-                ForEach(Array(appModel.worlds.enumerated()),
-                        id: \.element.id) { index, world in
+                ForEach(
+                    Array(appModel.worlds.enumerated()),
+                    id: \.element.id
+                ) { index, world in
 
                     worldButton(for: world, index: index)
                 }
@@ -87,9 +89,9 @@ private extension HomeView {
     }
 }
 
-private extension HomeView {
+extension HomeView {
 
-    func worldButton(for world: World, index: Int) -> some View {
+    fileprivate func worldButton(for world: World, index: Int) -> some View {
 
         let isSelected = index == selectedWorldIndex
         let isLocked = !appModel.progress.isWorldUnlocked(world)
@@ -125,7 +127,7 @@ private extension HomeView {
         .disabled(isLocked)
     }
 
-    var lockOverlay: some View {
+    fileprivate var lockOverlay: some View {
         Image(systemName: "lock.fill")
             .font(.caption)
             .foregroundStyle(.white)
@@ -135,9 +137,9 @@ private extension HomeView {
     }
 }
 
-private extension HomeView {
+extension HomeView {
 
-    func validateSelectedIndex() {
+    fileprivate func validateSelectedIndex() {
         if selectedWorldIndex >= appModel.worlds.count {
             selectedWorldIndex = max(0, appModel.worlds.count - 1)
         }
@@ -146,12 +148,12 @@ private extension HomeView {
 
 // MARK: Safe Array Access
 
-private extension Array {
+extension Array {
 
-    subscript(safe index:Int) -> Element? {
+    fileprivate subscript(safe index: Int) -> Element? {
 
         indices.contains(index)
-        ? self[index]
-        : nil
+            ? self[index]
+            : nil
     }
 }

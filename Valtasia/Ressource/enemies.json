@@ -1,21 +1,55 @@
 [
-  {
-    "id": "slime_blue",
-    "shape": "circle",
-    "color": "blue",
-    "hp": 1
-  },
-  {
-    "id": "crab",
-    "shape": "square",
-    "color": "red",
-    "hp": 1
-  },
-  {
-    "id": "water_spirit",
-    "shape": "triangle",
-    "color": "green",
-    "hp": 1
-  }
+    {
+        "id": "slime_blue",
+        "shape": "circle",
+        "color": "blue",
+        "hp": 1
+    },
+    {
+        "id": "crab",
+        "shape": "square",
+        "color": "red",
+        "hp": 1
+    },
+    {
+        "id": "water_spirit",
+        "shape": "triangle",
+        "color": "green",
+        "hp": 1
+    },
+
+    {
+        "id": "slime_green",
+        "shape": "blob",
+        "color": "green",
+        "hp": 2
+    },
+
+    {
+        "id": "forest_spirit",
+        "shape": "star",
+        "color": "yellow",
+        "hp": 3
+    },
+
+    {
+        "id": "vampire",
+        "shape": "vampire",
+        "color": "purple",
+        "hp": 4
+    },
+
+    {
+        "id": "warrior",
+        "shape": "warrior",
+        "color": "orange",
+        "hp": 5
+    },
+
+    {
+        "id": "mage",
+        "shape": "mage",
+        "color": "cyan",
+        "hp": 5
+    }
 ]
- 

@@ -77,12 +77,13 @@ struct SummonView: View {
         for banner: SummonBanner
     ) {
 
-        guard let character =
-            summonManager.summon(from: banner.id)
+        guard
+            let character =
+                summonManager.summon(from: banner.id)
         else { return }
 
         let owned =
-        OwnedCharacter(base: character)
+            OwnedCharacter(base: character)
 
         teamManager.ownedCharacters.append(owned)
 

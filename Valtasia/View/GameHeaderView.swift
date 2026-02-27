@@ -9,108 +9,174 @@ import SwiftUI
 
 struct GameHeaderView: View {
 
-    @ObservedObject
-    var coins = CoinManager.shared
-
-    @ObservedObject
-    var crystals = CrystalManager.shared
-
-    @ObservedObject
-    var progress = PlayerProgressManager.shared
+    @ObservedObject var coins = CoinManager.shared
+    @ObservedObject var crystals = CrystalManager.shared
+    @ObservedObject var progress = PlayerProgressManager.shared
 
     var body: some View {
 
-        VStack(spacing: 8) {
+        VStack {
 
-            HStack {
+            HStack(alignment: .center, spacing: 16) {
 
-                levelView
+                levelSection
 
                 Spacer()
 
-                currencyView
+                currencySection
             }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
         }
-        .padding(.horizontal)
-        .padding(.top,8)
-        .background(.ultraThinMaterial)
+        .background(headerBackground)
+        .ignoresSafeArea(edges: .top)
     }
 }
 
-private extension GameHeaderView {
+extension GameHeaderView {
 
-    var levelView: some View {
+    fileprivate var headerBackground: some View {
 
-        VStack(alignment:.leading,spacing:4){
+        ZStack {
 
-            Text("LV \(progress.level)")
+            // Blur Material
+            Rectangle()
+                .fill(.ultraThinMaterial)
+
+            // RPG Gradient
+            LinearGradient(
+                colors: [
+                    .black.opacity(0.65),
+                    .black.opacity(0.35),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
+        .overlay(alignment: .bottom) {
+
+            Divider()
+                .background(.white.opacity(0.2))
+        }
+    }
+}
+
+extension GameHeaderView {
+
+    fileprivate var levelSection: some View {
+
+        VStack(alignment: .leading, spacing: 6) {
+
+            HStack(spacing: 6) {
+
+                Image(systemName: "star.circle.fill")
+                    .foregroundStyle(.yellow)
+
+                Text("LV \(progress.level)")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.white)
+            }
+
+            expBar
+        }
+    }
+
+    fileprivate var expBar: some View {
+
+        GeometryReader { geo in
+
+            ZStack(alignment: .leading) {
+
+                Capsule()
+                    .fill(.black.opacity(0.5))
+
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                .green,
+                                .mint,
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(
+                        width:
+                            geo.size.width * CGFloat(progress.exp)
+                            / CGFloat(progress.requiredEXP)
+                    )
+                    .shadow(color: .green.opacity(0.6), radius: 4)
+            }
+        }
+        .frame(width: 160, height: 12)
+    }
+}
+
+extension GameHeaderView {
+
+    fileprivate var currencySection: some View {
+
+        HStack(spacing: 12) {
+
+            currencyCard(
+                icon: "diamond.fill",
+                gradient: [.cyan, .blue],
+                value: crystals.crystals
+            )
+
+            currencyCard(
+                icon: "bitcoinsign.circle.fill",
+                gradient: [.yellow, .orange],
+                value: coins.coins
+            )
+        }
+    }
+
+    fileprivate func currencyCard(
+        icon: String,
+        gradient: [Color],
+        value: Int
+    ) -> some View {
+
+        HStack(spacing: 8) {
+
+            Image(systemName: icon)
                 .font(.headline)
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: gradient,
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+
+            Text(value.formatted())
+                .font(.subheadline)
+                .fontWeight(.bold)
                 .foregroundStyle(.white)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .background {
 
-            GeometryReader { geo in
+            Capsule()
+                .fill(.black.opacity(0.55))
 
-                ZStack(alignment:.leading){
+                .overlay {
 
                     Capsule()
-                        .fill(.black.opacity(0.5))
-
-                    Capsule()
-                        .fill(.green)
-                        .frame(
-                            width:
-                                geo.size.width *
-                                CGFloat(progress.exp)
-                                /
-                                CGFloat(progress.requiredEXP)
+                        .stroke(
+                            LinearGradient(
+                                colors: gradient,
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 1
                         )
                 }
-            }
-            .frame(width:140,height:10)
         }
-    }
-}
-
-private extension GameHeaderView {
-
-    var currencyView: some View {
-
-        HStack(spacing:14){
-
-            currencyBubble(
-                icon:"diamond.fill",
-                color:.cyan,
-                value:crystals.crystals
-            )
-
-            currencyBubble(
-                icon:"bitcoinsign.circle.fill",
-                color:.yellow,
-                value:coins.coins
-            )
-        }
-    }
-
-    func currencyBubble(
-        icon:String,
-        color:Color,
-        value:Int
-    )-> some View{
-
-        HStack(spacing:6){
-
-            Image(systemName:icon)
-                .foregroundStyle(color)
-
-            Text("\(value)")
-                .foregroundStyle(.white)
-                .fontWeight(.bold)
-
-        }
-        .padding(.horizontal,10)
-        .padding(.vertical,6)
-        .background(
-            Capsule()
-                .fill(.black.opacity(0.6))
-        )
+        .shadow(color: .black.opacity(0.4), radius: 6, y: 3)
     }
 }

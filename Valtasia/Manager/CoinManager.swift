@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 final class CoinManager: ObservableObject {
 
@@ -60,8 +60,8 @@ final class CoinManager: ObservableObject {
     private func load() {
 
         coins =
-        UserDefaults.standard.integer(
-            forKey: key
-        )
+            UserDefaults.standard.integer(
+                forKey: key
+            )
     }
 }

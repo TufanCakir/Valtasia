@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct HomeWorldMapView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
-    
+
     let world: World
     let onSelectLevel: (String) -> Void
-    
+
     @State private var focusedNode: WorldNode?
-    
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -27,9 +27,9 @@ struct HomeWorldMapView: View {
     }
 }
 
-private extension HomeWorldMapView {
-    
-    var backgroundView: some View {
+extension HomeWorldMapView {
+
+    fileprivate var backgroundView: some View {
         Image(world.background)
             .resizable()
             .scaledToFill()
@@ -37,14 +37,17 @@ private extension HomeWorldMapView {
     }
 }
 
-private extension HomeWorldMapView {
-    
-    func connectionLines(in geo: GeometryProxy) -> some View {
+extension HomeWorldMapView {
+
+    fileprivate func connectionLines(in geo: GeometryProxy) -> some View {
         ZStack {
             ForEach(world.worldNodes) { node in
                 ForEach(node.connectsTo, id: \.self) { targetId in
-                    if let target = world.worldNodes.first(where: { $0.id == targetId }),
-                       node.id < target.id {
+                    if let target = world.worldNodes.first(where: {
+                        $0.id == targetId
+                    }),
+                        node.id < target.id
+                    {
                         Path { path in
                             path.move(to: point(for: node, in: geo))
                             path.addLine(to: point(for: target, in: geo))
@@ -55,8 +58,10 @@ private extension HomeWorldMapView {
             }
         }
     }
-    
-    func point(for node: WorldNode, in geo: GeometryProxy) -> CGPoint {
+
+    fileprivate func point(for node: WorldNode, in geo: GeometryProxy)
+        -> CGPoint
+    {
         CGPoint(
             x: geo.size.width * node.positionX,
             y: geo.size.height * node.positionY
@@ -64,9 +69,9 @@ private extension HomeWorldMapView {
     }
 }
 
-private extension HomeWorldMapView {
-    
-    func nodesView(in geo: GeometryProxy) -> some View {
+extension HomeWorldMapView {
+
+    fileprivate func nodesView(in geo: GeometryProxy) -> some View {
         ForEach(world.worldNodes) { node in
             WorldNodeView(
                 node: node,
@@ -85,21 +90,20 @@ private extension HomeWorldMapView {
     }
 }
 
-private extension HomeWorldMapView {
-    
-    func isNodeUnlocked(_ node: WorldNode) -> Bool {
+extension HomeWorldMapView {
+
+    fileprivate func isNodeUnlocked(_ node: WorldNode) -> Bool {
         if node.id == world.worldNodes.first?.id {
             return true
         }
-        
+
         if let previous = world.worldNodes.first(where: {
             $0.connectsTo.contains(node.id)
         }) {
             return appModel.progress
                 .clearedAllLevels(of: previous)
         }
-        
+
         return false
     }
 }
-

@@ -17,27 +17,27 @@ struct TeamView: View {
 
     var body: some View {
 
-        VStack(spacing:20){
+        VStack(spacing: 20) {
 
             Text("Characters")
                 .font(.title)
 
             ScrollView {
 
-                LazyVGrid(columns: columns, spacing:16){
+                LazyVGrid(columns: columns, spacing: 16) {
 
-                    ForEach(teamManager.ownedCharacters){ owned in
+                    ForEach(teamManager.ownedCharacters) { owned in
 
                         let character = owned.base
                         let inTeam =
-                        teamManager.isInTeam(owned)
+                            teamManager.isInTeam(owned)
 
-                        VStack{
+                        VStack {
 
                             Image(character.sprite)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height:70)
+                                .frame(height: 70)
 
                             Text(character.name)
                                 .font(.caption)
@@ -45,10 +45,10 @@ struct TeamView: View {
                             Button(
 
                                 inTeam
-                                ? "Remove"
-                                : "Add"
+                                    ? "Remove"
+                                    : "Add"
 
-                            ){
+                            ) {
 
                                 if inTeam {
 
@@ -73,43 +73,44 @@ struct TeamView: View {
 
             Text("Team")
 
-            HStack(spacing:20){
+            HStack(spacing: 20) {
 
-                ForEach(0..<teamManager.maxTeamSize,
-                        id:\.self){ index in
+                ForEach(
+                    0..<teamManager.maxTeamSize,
+                    id: \.self
+                ) { index in
 
-                    ZStack{
+                    ZStack {
 
-                        RoundedRectangle(cornerRadius:14)
-                            .stroke(.white.opacity(0.3),lineWidth:2)
-                            .frame(width:80,height:80)
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(.white.opacity(0.3), lineWidth: 2)
+                            .frame(width: 80, height: 80)
 
-                        if teamManager.activeTeam.indices.contains(index){
+                        if teamManager.activeTeam.indices.contains(index) {
 
                             let owned =
-                            teamManager.activeTeam[index]
+                                teamManager.activeTeam[index]
 
-                            VStack{
+                            VStack {
 
                                 Image(owned.base.sprite)
                                     .resizable()
                                     .scaledToFit()
 
-                                Button{
+                                Button {
 
                                     teamManager
                                         .removeFromTeam(owned)
 
-                                }label:{
+                                } label: {
 
-                                    Image(systemName:"xmark.circle.fill")
+                                    Image(systemName: "xmark.circle.fill")
                                 }
                             }
                             .padding(6)
-                        }
-                        else{
+                        } else {
 
-                            Image(systemName:"plus")
+                            Image(systemName: "plus")
                                 .foregroundStyle(.gray)
                         }
                     }

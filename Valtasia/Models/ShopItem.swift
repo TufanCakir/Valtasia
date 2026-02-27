@@ -5,9 +5,13 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-struct ShopItem: Codable {
-    let id: String
-    let storeProductId: String
-    let gems: Int
-}
+struct ShopItem: Codable, Identifiable {
 
+    let id: String
+
+    let storeProductId: String?
+    let category: ShopCategory
+
+    let gems: Int?
+    let coins: Int?
+}

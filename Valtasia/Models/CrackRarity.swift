@@ -8,8 +8,11 @@
 enum CrackRarity: String, Codable {
 
     case common
+    case uncommon
     case rare
     case epic
     case legendary
-
+    case mythic
+    case ancient
+    case divine
 }

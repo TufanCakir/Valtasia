@@ -5,39 +5,25 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import SwiftUI
 import StoreKit
+import SwiftUI
 
 struct ShopView: View {
 
     @State private var storeProducts: [StoreProduct] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
+    @State private var selectedCategory: ShopCategory = .realMoney
 
     var body: some View {
 
         NavigationStack {
 
-            Group {
+            VStack {
 
-                if isLoading {
-                    ProgressView("Loading Shop...")
-                }
+                ShopCategoryBar(selected: $selectedCategory)
 
-                else if let errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                }
-
-                else {
-                    List(storeProducts, id: \.product.id) { item in
-                        ShopRowView(storeProduct: item) {
-                            Task {
-                                await purchase(item)
-                            }
-                        }
-                    }
-                }
+                contentList
             }
             .navigationTitle("Shop")
         }
@@ -45,43 +31,97 @@ struct ShopView: View {
             await loadShop()
         }
     }
+}
 
-    // MARK: - Load Products
+extension ShopView {
 
-    private func loadShop() async {
+    fileprivate func loadShop() async {
 
         do {
 
-            // 1️⃣ JSON laden (später durch echten Loader ersetzen)
-            let shopItems: [ShopItem] = [
-                ShopItem(id: "gem_small",
-                         storeProductId: "com.valtasia.gems.small",
-                         gems: 500),
+            let shopItems: [ShopItem] =
+                try JSONLoader.load("shop")
 
-                ShopItem(id: "gem_medium",
-                         storeProductId: "com.valtasia.gems.medium",
-                         gems: 1200)
-            ]
-
-            // 2️⃣ Apple Produkte laden
             let manager = ShopManager()
-            let products = try await manager.loadShopProducts(shopItems: shopItems)
+
+            let products =
+                try await manager.loadShopProducts(
+                    shopItems: shopItems
+                )
 
             storeProducts = products
             isLoading = false
 
         } catch {
+
             errorMessage = "Failed to load shop."
             isLoading = false
         }
     }
+}
 
-    // MARK: - Purchase
+extension ShopView {
+
+    fileprivate var contentList: some View {
+
+        Group {
+
+            if isLoading {
+                ProgressView("Loading Shop...")
+            }
+
+            else if let errorMessage {
+                Text(errorMessage)
+                    .foregroundColor(.red)
+            }
+
+            else {
+                List(filteredProducts, id: \.shopItem.id) { item in
+
+                    ShopRowView(storeProduct: item) {
+
+                        Task {
+                            await purchase(item)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fileprivate var filteredProducts: [StoreProduct] {
+
+        storeProducts.filter {
+            $0.shopItem.category == selectedCategory
+        }
+    }
+}
+
+extension ShopView {
 
     private func purchase(_ storeProduct: StoreProduct) async {
 
+        // ⭐ Soft Currency
+        if storeProduct.product == nil {
+
+            if let coins = storeProduct.shopItem.coins {
+
+                let success = CrystalManager.shared.spend(50)
+
+                if success {
+                    CoinManager.shared.add(coins)
+                }
+            }
+
+            return
+        }
+
+        // ⭐ Echtgeld
+        guard let product = storeProduct.product else { return }
+
         do {
-            let result = try await storeProduct.product.purchase()
+
+            let result = try await product.purchase()
 
             switch result {
 
@@ -90,18 +130,20 @@ struct ShopView: View {
                 switch verification {
 
                 case .verified(_):
-                    print("Purchase successful")
-                    // Gems gutschreiben hier
+
+                    if let gems = storeProduct.shopItem.gems {
+                        CrystalManager.shared.add(gems)
+                    }
 
                 case .unverified(_, _):
-                    print("Purchase unverified")
+                    print("Unverified")
                 }
 
             case .pending:
-                print("Purchase pending")
+                print("Pending")
 
             case .userCancelled:
-                print("User cancelled")
+                print("Cancelled")
 
             @unknown default:
                 break

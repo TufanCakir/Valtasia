@@ -1,5 +1,24 @@
-{
-  "id": "gem_pack_small",
-  "storeProductId": "com.valtasia.gems.small",
-  "gems": 500
-}
+[
+    {
+        "id": "crystal_pack_small",
+        "storeProductId": "com.valtasia.crystal.small",
+        "category": "real_money",
+        "gems": 500
+    },
+    {
+        "id": "crystal_pack_big",
+        "storeProductId": "com.valtasia.crystal.big",
+        "category": "real_money",
+        "gems": 1500
+    },
+    {
+        "id": "coin_pack_1",
+        "category": "coins",
+        "coins": 5000
+    },
+    {
+        "id": "coin_pack_2",
+        "category": "crystals",
+        "crystals": 15000
+    }
+]

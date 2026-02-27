@@ -13,20 +13,21 @@ class JSONLoader {
         _ file: String
     ) throws -> T {
 
-        guard let url =
-            Bundle.main.url(
-                forResource: file,
-                withExtension: "json"
-            )
+        guard
+            let url =
+                Bundle.main.url(
+                    forResource: file,
+                    withExtension: "json"
+                )
         else {
 
             fatalError(
-             "JSON file not found: \(file).json"
+                "JSON file not found: \(file).json"
             )
         }
 
         let data =
-        try Data(contentsOf: url)
+            try Data(contentsOf: url)
 
         return try JSONDecoder()
             .decode(

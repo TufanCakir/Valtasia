@@ -9,28 +9,51 @@ import SwiftUI
 
 struct RootView: View {
 
+    private enum Tab {
+        case home
+        case team
+        case summon
+        case shop
+    }
+
     @EnvironmentObject var appModel: AppModel
+    @State private var selectedTab: Tab = .home
 
     var body: some View {
 
-        TabView {
-            HomeView()
-                .tabItem { Label("Home", systemImage: "house") }
-            
+        TabView(selection: $selectedTab) {
 
-                NavigationStack {
-                    SummonView(teamManager: appModel.teamManager)
-                }
-                .tabItem {
-                    Label("Summon", systemImage: "sparkles")
-                }
-            
-            TeamView(teamManager: appModel.teamManager)
-                .tabItem { Label("Team", systemImage: "person.3") }
+            NavigationStack {
+                HomeView()
+            }
+            .tabItem {
+                Label("Home", systemImage: "house")
+            }
+            .tag(Tab.home)
 
-            ShopView()
-                .tabItem { Label("Shop", systemImage: "cart") }
+            NavigationStack {
+                TeamView(teamManager: appModel.teamManager)
+            }
+            .tabItem {
+                Label("Team", systemImage: "person.3")
+            }
+            .tag(Tab.team)
+
+            NavigationStack {
+                SummonView(teamManager: appModel.teamManager)
+            }
+            .tabItem {
+                Label("Summon", systemImage: "sparkles")
+            }
+            .tag(Tab.summon)
+
+            NavigationStack {
+                ShopView()
+            }
+            .tabItem {
+                Label("Shop", systemImage: "cart")
+            }
+            .tag(Tab.shop)
         }
-        .environmentObject(appModel)
     }
 }

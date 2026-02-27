@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 final class ProgressManager: ObservableObject {
-    
+
     private let clearedLevelsKey = "clearedLevels"
     private let clearedWorldsKey = "clearedWorlds"
 
@@ -18,12 +18,12 @@ final class ProgressManager: ObservableObject {
 
     // welche Worlds sind komplett geschafft (optional, kann man auch berechnen)
     @Published var clearedWorlds: Set<String> = []
-    
+
     init() {
 
         load()
     }
-    
+
     private func save() {
 
         UserDefaults.standard.set(
@@ -36,25 +36,27 @@ final class ProgressManager: ObservableObject {
             forKey: clearedWorldsKey
         )
     }
-    
+
     private func load() {
 
         if let levels =
             UserDefaults.standard.array(
                 forKey: clearedLevelsKey
-            ) as? [String] {
+            ) as? [String]
+        {
 
             clearedLevels =
-            Set(levels)
+                Set(levels)
         }
 
         if let worlds =
             UserDefaults.standard.array(
                 forKey: clearedWorldsKey
-            ) as? [String] {
+            ) as? [String]
+        {
 
             clearedWorlds =
-            Set(worlds)
+                Set(worlds)
         }
     }
 

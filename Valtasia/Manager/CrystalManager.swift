@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 final class CrystalManager: ObservableObject {
 
@@ -58,8 +58,8 @@ final class CrystalManager: ObservableObject {
     private func load() {
 
         crystals =
-        UserDefaults.standard.integer(
-            forKey: key
-        )
+            UserDefaults.standard.integer(
+                forKey: key
+            )
     }
 }

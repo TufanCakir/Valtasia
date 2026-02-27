@@ -5,15 +5,15 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import UIKit
-import SpriteKit
 import GameplayKit
+import SpriteKit
+import UIKit
 
 class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if let view = self.view as? SKView {
 
             let scene = GameScene(size: view.bounds.size)

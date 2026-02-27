@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 final class PlayerProgressManager: ObservableObject {
 
@@ -57,7 +57,7 @@ final class PlayerProgressManager: ObservableObject {
 
         let d = UserDefaults.standard
 
-        level = max(1,d.integer(forKey: levelKey))
+        level = max(1, d.integer(forKey: levelKey))
         exp = d.integer(forKey: expKey)
     }
 }

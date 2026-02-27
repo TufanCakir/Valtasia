@@ -12,6 +12,6 @@ final class EnemyInstance {
 
     init(base: Enemy) {
         self.base = base
-        self.hp = base.hp   // ✅ statt base.stats.hp
+        self.hp = base.hp  // ✅ statt base.stats.hp
     }
 }

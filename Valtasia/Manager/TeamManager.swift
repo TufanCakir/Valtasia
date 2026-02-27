@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 class TeamManager: ObservableObject {
 
@@ -18,7 +18,6 @@ class TeamManager: ObservableObject {
 
     let maxTeamSize = 4
 
-
     // MARK: Add
 
     func addToTeam(_ character: OwnedCharacter) {
@@ -26,9 +25,11 @@ class TeamManager: ObservableObject {
         guard activeTeam.count < maxTeamSize else { return }
 
         // doppelt verhindern
-        guard !activeTeam.contains(where: {
-            $0.id == character.id
-        }) else { return }
+        guard
+            !activeTeam.contains(where: {
+                $0.id == character.id
+            })
+        else { return }
 
         activeTeam.append(character)
     }

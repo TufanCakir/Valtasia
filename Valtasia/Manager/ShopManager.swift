@@ -13,33 +13,51 @@ class ShopManager {
         shopItems: [ShopItem]
     ) async throws -> [StoreProduct] {
 
-        let ids =
-        shopItems.map {
+        var storeProducts: [StoreProduct] = []
+
+        // Echtgeld Items
+        let realMoneyItems = shopItems.filter {
+            $0.category == .realMoney
+        }
+
+        let ids = realMoneyItems.compactMap {
             $0.storeProductId
         }
 
         let products =
-        try await StoreKitService
+            try await StoreKitService
             .shared
             .fetchProducts(ids: ids)
 
-        return products.compactMap {
+        // Echtgeld Produkte verbinden
+        for product in products {
 
-            product in
+            if let item = realMoneyItems.first(
+                where: { $0.storeProductId == product.id }
+            ) {
 
-            guard let item =
-            shopItems.first(
-             where: {
-              $0.storeProductId ==
-              product.id
-             }
-            )
-            else { return nil }
+                storeProducts.append(
+                    StoreProduct(
+                        product: product,
+                        shopItem: item
+                    )
+                )
+            }
+        }
 
-            return StoreProduct(
-                product: product,
-                shopItem: item
+        // ⭐ Soft Currency Produkte (kein StoreKit nötig)
+        let softItems = shopItems.filter {
+            $0.category != .realMoney
+        }
+
+        storeProducts += softItems.map {
+
+            StoreProduct(
+                product: nil,
+                shopItem: $0
             )
         }
+
+        return storeProducts
     }
 }

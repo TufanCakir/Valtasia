@@ -8,10 +8,10 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    
+
     var world: World?
-    
-    var appModel: AppModel?   // ⭐ HIER
+
+    var appModel: AppModel?  // ⭐ HIER
 
     // MARK: Managers
 
@@ -24,56 +24,62 @@ class GameScene: SKScene {
 
     var enemyNode: SKNode?
     var currentEnemy: EnemyInstance?
-    
+
     var portraitNodes: [SKSpriteNode] = []
     var hpBarBG: SKShapeNode?
     var hpBarFill: SKShapeNode?
     var expBarFill: SKShapeNode?
     var currentExp: CGFloat = 0
-    
+
     var onVictory: (() -> Void)?
-    
+
     var levelId: String?
-    
+
     // MARK: Scene Start
 
     override func didMove(to view: SKView) {
 
-        if let world {
+        setupBackground()
 
-            let bg =
-            SKSpriteNode(
-                imageNamed: world.battleBackground
-            )
-
-            bg.position =
-            CGPoint(
-                x:size.width/2,
-                y:size.height/2
-            )
-
-            bg.size = size
-
-            bg.zPosition = -100
-
-            addChild(bg)
-        }
-
-        addChild(crackLayer)   // ⭐ NUR HIER
+        addChild(crackLayer)
 
         loadCracks()
 
         spawnRandomEnemy()
 
-        setupHPBar()
-        setupEXPBar()
+        setupUI()
 
         spawnTeamPortraits()
+
         run(.wait(forDuration: 0.05)) { [weak self] in
             self?.spawnCracks(count: 6)
         }
     }
-    
+
+    private func setupBackground() {
+
+        let backgroundName =
+            world?.battleBackground ?? "ocean_bg"
+
+        let bg = SKSpriteNode(imageNamed: backgroundName)
+
+        bg.position = CGPoint(
+            x: size.width / 2,
+            y: size.height / 2
+        )
+
+        bg.size = size
+        bg.zPosition = -100
+
+        addChild(bg)
+    }
+
+    private func setupUI() {
+
+        setupHPBar()
+        setupEXPBar()
+    }
+
     func setupHPBar() {
 
         hpBarBG?.removeFromParent()
@@ -81,14 +87,20 @@ class GameScene: SKScene {
         let width: CGFloat = 240
         let height: CGFloat = 16
 
-        let bg = SKShapeNode(rectOf: CGSize(width: width, height: height), cornerRadius: 6)
+        let bg = SKShapeNode(
+            rectOf: CGSize(width: width, height: height),
+            cornerRadius: 6
+        )
         bg.fillColor = .darkGray
         bg.strokeColor = .clear
-        bg.position = CGPoint(x: size.width/2, y: size.height - 120)
+        bg.position = CGPoint(x: size.width / 2, y: size.height - 120)
         bg.zPosition = 50
         addChild(bg)
 
-        let fill = SKShapeNode(rectOf: CGSize(width: width, height: height), cornerRadius: 6)
+        let fill = SKShapeNode(
+            rectOf: CGSize(width: width, height: height),
+            cornerRadius: 6
+        )
         fill.fillColor = .green
         fill.strokeColor = .clear
         fill.position = .zero
@@ -98,20 +110,26 @@ class GameScene: SKScene {
         hpBarBG = bg
         hpBarFill = fill
     }
-    
+
     func setupEXPBar() {
 
         let width: CGFloat = 240
         let height: CGFloat = 12
 
-        let bg = SKShapeNode(rectOf: CGSize(width: width, height: height), cornerRadius: 6)
+        let bg = SKShapeNode(
+            rectOf: CGSize(width: width, height: height),
+            cornerRadius: 6
+        )
         bg.fillColor = .darkGray
         bg.strokeColor = .clear
-        bg.position = CGPoint(x: size.width/2, y: 50)
+        bg.position = CGPoint(x: size.width / 2, y: 50)
         bg.zPosition = 50
         addChild(bg)
 
-        let fill = SKShapeNode(rectOf: CGSize(width: width, height: height), cornerRadius: 6)
+        let fill = SKShapeNode(
+            rectOf: CGSize(width: width, height: height),
+            cornerRadius: 6
+        )
         fill.fillColor = .cyan
         fill.strokeColor = .clear
         fill.position = .zero
@@ -120,17 +138,22 @@ class GameScene: SKScene {
 
         expBarFill = fill
     }
-    
+
     func updateHPBar() {
 
         guard let enemy = currentEnemy,
-              let fill = hpBarFill
+            let fill = hpBarFill
         else { return }
 
-        let maxHP = max(1, enemy.base.hp)   // ✅ statt enemy.base.stats.hp
-        let ratio = CGFloat(enemy.hp) / CGFloat(maxHP)
+        let maxHP = max(1, enemy.base.hp)
+
+        let ratio =
+            CGFloat(enemy.hp) / CGFloat(maxHP)
 
         fill.xScale = max(0, min(1, ratio))
+
+        fill.position.x =
+            -(240 * (1 - fill.xScale)) / 2
     }
 
     // MARK: Load JSON
@@ -149,41 +172,22 @@ class GameScene: SKScene {
     func spawnRandomEnemy() {
 
         guard
-            let levelId,
-            let level = appModel?.level(for: levelId)
-        else {
-            print("Level not found")
-            return
-        }
+            let enemy = randomEnemy()
+        else { return }
 
-        print("Level enemies:", level.enemies)
-
-        guard let enemyId = level.enemies.randomElement() else {
-            print("No enemyId")
-            return
-        }
-
-        print("Chosen enemyId:", enemyId)
-
-        guard let enemy =
-            EnemyDatabase.shared.enemy(id: enemyId)
-        else {
-            print("Enemy not found in database")
-            return
-        }
-
-        print("Enemy FOUND:", enemy.id)
-
-        currentEnemy = EnemyInstance(base: enemy)
+        currentEnemy =
+            EnemyInstance(base: enemy)
 
         enemyNode?.removeFromParent()
 
-        let node = EnemyShapeFactory.makeNode(from: enemy)
+        let node =
+            EnemyShapeFactory.makeNode(from: enemy)
 
-        node.position = CGPoint(
-            x: size.width / 2,
-            y: size.height - 200
-        )
+        node.position =
+            CGPoint(
+                x: size.width / 2,
+                y: size.height - 200
+            )
 
         node.zPosition = 10
 
@@ -193,13 +197,32 @@ class GameScene: SKScene {
 
         updateHPBar()
     }
-    
+
+    private func randomEnemy() -> Enemy? {
+
+        guard
+            let levelId,
+            let level = appModel?.level(for: levelId),
+            let enemyId =
+                level.enemies.randomElement()
+        else {
+
+            print("Enemy spawn failed")
+            return nil
+        }
+
+        return EnemyDatabase.shared.enemy(
+            id: enemyId
+        )
+    }
+
     // MARK: Portraits
 
     func spawnTeamPortraits() {
 
-        guard let team =
-            teamManager?.activeTeam
+        guard
+            let team =
+                teamManager?.activeTeam
         else { return }
 
         portraitNodes.removeAll()
@@ -210,18 +233,19 @@ class GameScene: SKScene {
 
             let character = owned.base
 
-            guard let sprite =
-                character.defaultSkin?.sprite
+            guard
+                let sprite =
+                    character.defaultSkin?.sprite
             else { continue }
 
             let portrait =
-            SKSpriteNode(imageNamed: sprite)
+                SKSpriteNode(imageNamed: sprite)
 
             portrait.size =
-            CGSize(width: 90, height: 90)
+                CGSize(width: 90, height: 90)
 
             portrait.position =
-            CGPoint(x: x, y: 90)
+                CGPoint(x: x, y: 90)
 
             portrait.zPosition = 100
 
@@ -284,25 +308,25 @@ class GameScene: SKScene {
         path.move(to: start)
 
         let segments =
-        crack.shape.segments
+            crack.shape.segments
 
         for i in 1...segments {
 
             let t =
-            CGFloat(i) / CGFloat(segments)
+                CGFloat(i) / CGFloat(segments)
 
             let x =
-            start.x + (end.x - start.x) * t
+                start.x + (end.x - start.x) * t
 
             let baseY =
-            start.y + (end.y - start.y) * t
+                start.y + (end.y - start.y) * t
 
             let jaggedness = crack.shape.jaggedness
 
             let randomY =
-            CGFloat.random(
-                in: -jaggedness...jaggedness
-            )
+                CGFloat.random(
+                    in: -jaggedness...jaggedness
+                )
 
             path.addLine(
                 to: CGPoint(
@@ -313,12 +337,13 @@ class GameScene: SKScene {
         }
 
         let line =
-        SKShapeNode(path: path)
+            SKShapeNode(path: path)
 
         line.lineWidth =
-        crack.shape.lineWidth
+            crack.shape.lineWidth
 
-        line.strokeColor = .cyan
+        line.strokeColor =
+            crack.energyColor.skColor
 
         addChild(line)
 
@@ -326,7 +351,7 @@ class GameScene: SKScene {
             .sequence([
                 .wait(forDuration: 0.4),
                 .fadeOut(withDuration: 0.2),
-                .removeFromParent()
+                .removeFromParent(),
             ])
         )
     }
@@ -340,10 +365,10 @@ class GameScene: SKScene {
         for node in nodes(at: location) {
 
             guard let shape = node as? SKShapeNode,
-                  let id = shape.name,
-                  let crack = cracks.first(where: { $0.id == id }),
-                  let used = shape.userData?["used"] as? Bool,
-                  used == false
+                let id = shape.name,
+                let crack = cracks.first(where: { $0.id == id }),
+                let used = shape.userData?["used"] as? Bool,
+                used == false
             else { continue }
 
             // markieren als benutzt
@@ -353,18 +378,25 @@ class GameScene: SKScene {
             attack(with: crack)
         }
     }
-    
+
     // MARK: Combat
     func attack(with crack: Crack) {
 
         guard let enemy = currentEnemy,
-              let enemyNode,
-              let portrait = portraitNodes.first
+            let enemyNode,
+            let portrait = portraitNodes.first
         else { return }
 
         let damage = Int(100 * crack.damageMultiplier)
 
         enemy.hp = max(0, enemy.hp - damage)
+
+        enemyNode.run(
+            .sequence([
+                .fadeAlpha(to: 0.4, duration: 0.05),
+                .fadeAlpha(to: 1, duration: 0.05),
+            ])
+        )
 
         updateHPBar()
 
@@ -387,61 +419,86 @@ class GameScene: SKScene {
             enemyDefeated()
         }
     }
-    
+
     func enemyDefeated() {
 
         // ⭐ Coins Reward
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(
+            deadline: .now() + 0.3
+        ) {
 
-        CoinManager.shared.add(50)
-        CrystalManager.shared.add(1)
+            CoinManager.shared.add(50)
+            CrystalManager.shared.add(1)
 
-        PlayerProgressManager.shared.addEXP(30)
+            PlayerProgressManager.shared.addEXP(30)
 
         }
         enemyNode?.run(
             .sequence([
                 .fadeOut(withDuration: 0.3),
-                .removeFromParent()
+                .removeFromParent(),
             ])
         )
 
-        run(.sequence([
-            .wait(forDuration: 0.5),
-            .run { [weak self] in
-                self?.onVictory?()
-            }
-        ]))
+        run(
+            .sequence([
+                .wait(forDuration: 0.5),
+                .run { [weak self] in
+                    self?.onVictory?()
+                },
+            ])
+        )
     }
 
     // MARK: FX
-
     func spawnEnergyEffect(
         crack: Crack,
         at position: CGPoint
     ) {
 
-        guard let emitter =
-        SKEmitterNode(
-            fileNamed: "EnergyParticle"
-        )
+        guard
+            let emitter =
+                SKEmitterNode(fileNamed: "EnergyParticle")
         else { return }
 
         emitter.position = position
 
-        switch crack.energyColor {
+        emitter.particleColor =
+            crack.energyColor.skColor
 
-        case .arcaneBlue:
-            emitter.particleColor = .blue
+        emitter.particleColorBlendFactor = 1
 
-        case .gold:
-            emitter.particleColor = .yellow
+        if crack.energyColor == .chaosBlack {
 
-        case .crimson:
-            emitter.particleColor = .red
+            emitter.particleAlpha = 0.8
+        }
 
-        case .violet:
-            emitter.particleColor = .purple
+        if crack.energyColor == .rainbow {
+
+            let sequence = SKAction.sequence([
+
+                .run { emitter.particleColor = .red },
+                .wait(forDuration: 0.12),
+
+                .run { emitter.particleColor = .orange },
+                .wait(forDuration: 0.12),
+
+                .run { emitter.particleColor = .yellow },
+                .wait(forDuration: 0.12),
+
+                .run { emitter.particleColor = .green },
+                .wait(forDuration: 0.12),
+
+                .run { emitter.particleColor = .blue },
+                .wait(forDuration: 0.12),
+
+                .run { emitter.particleColor = .purple },
+                .wait(forDuration: 0.12),
+            ])
+
+            emitter.run(
+                .repeat(sequence, count: 4)
+            )
         }
 
         addChild(emitter)
@@ -449,9 +506,8 @@ class GameScene: SKScene {
         emitter.run(
             .sequence([
                 .wait(forDuration: 1),
-                .removeFromParent()
+                .removeFromParent(),
             ])
         )
     }
 }
-

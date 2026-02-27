@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 final class AppModel: ObservableObject {
 
@@ -14,7 +14,7 @@ final class AppModel: ObservableObject {
     let progress = ProgressManager()
     let coinManager = CoinManager.shared
     let crystalManager = CrystalManager.shared
-    
+
     @Published var worlds: [World] = []
 
     @Published var selectedWorld: World?
@@ -33,7 +33,7 @@ final class AppModel: ObservableObject {
         selectedWorld = world
         selectedNode = node
     }
-    
+
     func world(containing levelId: String) -> World? {
 
         for world in worlds {
@@ -46,7 +46,7 @@ final class AppModel: ObservableObject {
 
         return nil
     }
-    
+
     func worldForLevel(_ levelId: String) -> World? {
 
         worlds.first { world in
@@ -72,7 +72,7 @@ final class AppModel: ObservableObject {
     func completeLevel() {
 
         guard let world = selectedWorld,
-              let levelId = selectedLevelId
+            let levelId = selectedLevelId
         else { return }
 
         progress.markLevelCleared(levelId)
@@ -82,14 +82,14 @@ final class AppModel: ObservableObject {
         selectedLevelId = nil
     }
 
-    func level(for id:String) -> Level? {
+    func level(for id: String) -> Level? {
 
         worlds
             .flatMap { $0.worldNodes }
             .flatMap { $0.levels }
             .first { $0.id == id }
     }
-    
+
     // MARK: Load
 
     private func loadCharacters() {
@@ -114,7 +114,7 @@ final class AppModel: ObservableObject {
     private func loadWorlds() {
         do {
             worlds =
-            try JSONLoader.load("worlds")
+                try JSONLoader.load("worlds")
             selectedWorld = worlds.first
         } catch {
             print(error)

@@ -9,6 +9,6 @@ import Foundation
 
 struct OwnedCharacter: Identifiable, Hashable {
 
-    let id = UUID()           // ⭐ EINDEUTIG
-    let base: Character       // Referenz auf Daten
+    let id = UUID()  // ⭐ EINDEUTIG
+    let base: Character  // Referenz auf Daten
 }

@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 final class SummonManager: ObservableObject {
 
@@ -41,18 +41,18 @@ final class SummonManager: ObservableObject {
     func summon(from bannerId: String) -> Character? {
 
         let pool =
-        characters.filter {
+            characters.filter {
 
-            $0.summon.banner == bannerId
-        }
+                $0.summon.banner == bannerId
+            }
 
         guard !pool.isEmpty else { return nil }
 
         let totalRate =
-        pool.reduce(0) { $0 + $1.summon.rate }
+            pool.reduce(0) { $0 + $1.summon.rate }
 
         let roll =
-        Double.random(in: 0...totalRate)
+            Double.random(in: 0...totalRate)
 
         var current = 0.0
 

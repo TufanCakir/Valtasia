@@ -1,51 +1,237 @@
-[
-  {
-    "id": "crack_small",
+    [
+        {
+            "id": "crack_small",
+            "rarity": "common",
+            "damageMultiplier": 1.0,
+            "energySpeed": 0.5,
+            "spawnWeight": 80,
+            "tapRewardEnergy": 15,
+            "shape": {
+                "length": 120,
+                "segments": 5,
+                "jaggedness": 12,
+                "lineWidth": 3
+            },
+            "energyColor": "arcaneBlue",
+            "energyShader": "pulse_flow"
+        },
 
-    "rarity": "common",
+        {
+            "id": "crack_rare",
+            "rarity": "rare",
+            "damageMultiplier": 2.5,
+            "energySpeed": 1.2,
+            "spawnWeight": 20,
+            "tapRewardEnergy": 20,
+            "shape": {
+                "length": 180,
+                "segments": 9,
+                "jaggedness": 22,
+                "lineWidth": 5
+            },
+            "energyColor": "gold",
+            "energyShader": "lightning_flow"
+        },
 
-    "damageMultiplier": 1.0,
+        {
+            "id": "crack_crimson",
+            "rarity": "rare",
+            "damageMultiplier": 3.0,
+            "energySpeed": 1.3,
+            "spawnWeight": 18,
+            "tapRewardEnergy": 25,
+            "shape": {
+                "length": 200,
+                "segments": 10,
+                "jaggedness": 26,
+                "lineWidth": 6
+            },
+            "energyColor": "crimson",
+            "energyShader": "blood_flow"
+        },
 
-    "energySpeed": 0.5,
+        {
+            "id": "crack_violet",
+            "rarity": "epic",
+            "damageMultiplier": 4.0,
+            "energySpeed": 1.5,
+            "spawnWeight": 10,
+            "tapRewardEnergy": 30,
+            "shape": {
+                "length": 230,
+                "segments": 12,
+                "jaggedness": 30,
+                "lineWidth": 7
+            },
+            "energyColor": "violet",
+            "energyShader": "void_flow"
+        },
 
-    "spawnWeight": 80,
+        {
+            "id": "crack_lightning",
+            "rarity": "epic",
+            "damageMultiplier": 5.0,
+            "energySpeed": 2.0,
+            "spawnWeight": 8,
+            "tapRewardEnergy": 35,
+            "shape": {
+                "length": 260,
+                "segments": 14,
+                "jaggedness": 40,
+                "lineWidth": 8
+            },
+            "energyColor": "gold",
+            "energyShader": "lightning_flow"
+        },
 
-    "tapRewardEnergy": 15,
+        {
+            "id": "crack_legendary",
+            "rarity": "legendary",
+            "damageMultiplier": 7.5,
+            "energySpeed": 2.8,
+            "spawnWeight": 3,
+            "tapRewardEnergy": 50,
+            "shape": {
+                "length": 300,
+                "segments": 18,
+                "jaggedness": 50,
+                "lineWidth": 10
+            },
+            "energyColor": "arcaneBlue",
+            "energyShader": "legend_flow"
+        },
 
-    "shape": {
-      "length": 120,
-      "segments": 5,
-      "jaggedness": 12,
-      "lineWidth": 3
+        {
+            "id": "crack_chaos",
+            "rarity": "mythic",
+            "damageMultiplier": 10.0,
+            "energySpeed": 3.5,
+            "spawnWeight": 1,
+            "tapRewardEnergy": 80,
+            "shape": {
+                "length": 340,
+                "segments": 22,
+                "jaggedness": 70,
+                "lineWidth": 12
+            },
+            "energyColor": "violet",
+            "energyShader": "chaos_flow"
+        }
+    ][{
+        "id": "crack_small",
+        "rarity": "common",
+        "damageMultiplier": 1.0,
+        "energySpeed": 0.5,
+        "spawnWeight": 80,
+        "tapRewardEnergy": 15,
+        "shape": {
+            "length": 120,
+            "segments": 5,
+            "jaggedness": 12,
+            "lineWidth": 3
+        },
+        "energyColor": "arcaneBlue",
+        "energyShader": "pulse_flow"
     },
 
-    "energyColor": "arcaneBlue",
+      {
+          "id": "crack_rare",
+          "rarity": "rare",
+          "damageMultiplier": 2.5,
+          "energySpeed": 1.2,
+          "spawnWeight": 20,
+          "tapRewardEnergy": 20,
+          "shape": {
+              "length": 180,
+              "segments": 9,
+              "jaggedness": 22,
+              "lineWidth": 5
+          },
+          "energyColor": "gold",
+          "energyShader": "lightning_flow"
+      },
 
-    "energyShader": "pulse_flow"
-  },
+      {
+          "id": "crack_crimson",
+          "rarity": "rare",
+          "damageMultiplier": 3.0,
+          "energySpeed": 1.3,
+          "spawnWeight": 18,
+          "tapRewardEnergy": 25,
+          "shape": {
+              "length": 200,
+              "segments": 10,
+              "jaggedness": 26,
+              "lineWidth": 6
+          },
+          "energyColor": "crimson",
+          "energyShader": "blood_flow"
+      },
 
-  {
-    "id": "crack_rare",
+      {
+          "id": "crack_violet",
+          "rarity": "epic",
+          "damageMultiplier": 4.0,
+          "energySpeed": 1.5,
+          "spawnWeight": 10,
+          "tapRewardEnergy": 30,
+          "shape": {
+              "length": 230,
+              "segments": 12,
+              "jaggedness": 30,
+              "lineWidth": 7
+          },
+          "energyColor": "violet",
+          "energyShader": "void_flow"
+      },
 
-    "rarity": "rare",
+      {
+          "id": "crack_lightning",
+          "rarity": "epic",
+          "damageMultiplier": 5.0,
+          "energySpeed": 2.0,
+          "spawnWeight": 8,
+          "tapRewardEnergy": 35,
+          "shape": {
+              "length": 260,
+              "segments": 14,
+              "jaggedness": 40,
+              "lineWidth": 8
+          },
+          "energyColor": "gold",
+          "energyShader": "lightning_flow"
+      },
 
-    "damageMultiplier": 2.5,
+      {
+          "id": "crack_legendary",
+          "rarity": "legendary",
+          "damageMultiplier": 7.5,
+          "energySpeed": 2.8,
+          "spawnWeight": 3,
+          "tapRewardEnergy": 50,
+          "shape": {
+              "length": 300,
+              "segments": 18,
+              "jaggedness": 50,
+              "lineWidth": 10
+          },
+          "energyColor": "arcaneBlue",
+          "energyShader": "legend_flow"
+      },
 
-    "energySpeed": 1.2,
-
-    "spawnWeight": 20,
-
-    "tapRewardEnergy": 15,
-
-    "shape": {
-      "length": 180,
-      "segments": 9,
-      "jaggedness": 22,
-      "lineWidth": 5
-    },
-
-    "energyColor": "gold",
-
-    "energyShader": "lightning_flow"
-  }
-]
+      {
+          "id": "crack_chaos",
+          "rarity": "mythic",
+          "damageMultiplier": 10.0,
+          "energySpeed": 3.5,
+          "spawnWeight": 1,
+          "tapRewardEnergy": 80,
+          "shape": {
+              "length": 340,
+              "segments": 22,
+              "jaggedness": 70,
+              "lineWidth": 12
+          },
+          "energyColor": "violet",
+          "energyShader": "chaos_flow"
+      }]

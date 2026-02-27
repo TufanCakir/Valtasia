@@ -5,24 +5,24 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
-import SwiftUI
 import SpriteKit
+import SwiftUI
 
 struct GameContainerView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
     let teamManager: TeamManager
     let levelId: String
-    
+
     @Environment(\.dismiss) private var dismiss
     @State private var showVictory = false
-    
+
     var body: some View {
         GeometryReader { proxy in
             ZStack {
                 SpriteView(scene: createScene(size: proxy.size))
                     .ignoresSafeArea()
-                
+
                 if showVictory {
                     VictoryView {
                         appModel.completeLevel()
@@ -32,7 +32,7 @@ struct GameContainerView: View {
             }
         }
     }
-    
+
     private func createScene(size: CGSize) -> SKScene {
 
         let scene = GameScene()

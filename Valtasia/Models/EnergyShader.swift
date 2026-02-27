@@ -11,4 +11,10 @@ enum EnergyShader: String, Codable {
     case lightning_flow
     case wave_flow
 
+    // ⭐ neue
+
+    case blood_flow
+    case void_flow
+    case legend_flow
+    case chaos_flow
 }

@@ -12,4 +12,8 @@ enum EnergyType: String, Codable {
     case ice
     case lightning
 
+    case blood
+    case void
+    case holy
+    case chaos
 }
