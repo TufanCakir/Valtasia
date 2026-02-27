@@ -1,0 +1,15 @@
+[
+  {
+    "id": "standard",
+    "title": "Standard Summon",
+    "bannerImage": "character1",
+    "currencyCost": 1
+  },
+
+  {
+    "id": "epic_rateup",
+    "title": "Epic Rate Up",
+    "bannerImage": "character2",
+    "currencyCost": 1
+  }
+]

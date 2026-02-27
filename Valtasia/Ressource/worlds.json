@@ -1,0 +1,120 @@
+[
+  {
+    "id": "world_1",
+    "background": "ocean_bg",
+    "battleBackground": "ocean_bg",
+    "unlockAfterWorld": null,
+    "worldNodes": [
+      {
+        "id": "1",
+        "image": "island_lava",
+        "positionX": 0.2,
+        "positionY": 0.4,
+        "connectsTo": ["2","3"],
+        "levels": [
+          { "id": "level_1", "enemies": ["slime_blue"] },
+          { "id": "level_2", "enemies": ["slime_blue","crab"] }
+        ]
+      },
+      {
+        "id": "2",
+        "image": "island_lava",
+        "positionX": 0.45,
+        "positionY": 0.25,
+        "connectsTo": ["4"],
+        "levels": [
+          { "id": "level_3", "enemies": ["crab"] },
+          { "id": "level_4", "enemies": ["crab","water_spirit"] }
+        ]
+      },
+      {
+        "id": "3",
+        "image": "island_lava",
+        "positionX": 0.45,
+        "positionY": 0.6,
+        "connectsTo": ["4"],
+        "levels": [
+          { "id": "level_5", "enemies": ["slime_blue","water_spirit"] }
+        ]
+      },
+      {
+        "id": "4",
+        "image": "island_lava",
+        "positionX": 0.7,
+        "positionY": 0.4,
+        "connectsTo": [],
+        "levels": [
+          { "id": "level_6", "enemies": ["water_spirit"] },
+          { "id": "level_7", "enemies": ["slime_blue","crab","water_spirit"] }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "world_2",
+    "background": "ocean_bg",
+    "battleBackground": "ocean_bg",
+    "unlockAfterWorld": "world_1",
+    "worldNodes": [
+
+      {
+        "id": "1",
+        "image": "island_ice",
+        "positionX": 0.2,
+        "positionY": 0.5,
+        "connectsTo": ["2"],
+        "levels": [
+          { "id": "level_8", "enemies": ["slime_green"] },
+          { "id": "level_9", "enemies": ["slime_green","forest_spirit"] }
+        ]
+      },
+
+      {
+        "id": "2",
+        "image": "island_lava",
+        "positionX": 0.4,
+        "positionY": 0.3,
+        "connectsTo": ["3","4"],
+        "levels": [
+          { "id": "level_10", "enemies": ["forest_spirit"] },
+          { "id": "level_11", "enemies": ["forest_spirit","crab"] }
+        ]
+      },
+
+      {
+        "id": "3",
+        "image": "island_void",
+        "positionX": 0.6,
+        "positionY": 0.2,
+        "connectsTo": ["5"],
+        "levels": [
+          { "id": "level_12", "enemies": ["slime_green","water_spirit"] }
+        ]
+      },
+
+      {
+        "id": "4",
+        "image": "island_lava",
+        "positionX": 0.6,
+        "positionY": 0.6,
+        "connectsTo": ["5"],
+        "levels": [
+          { "id": "level_13", "enemies": ["forest_spirit","slime_blue"] }
+        ]
+      },
+
+      {
+        "id": "5",
+        "image": "island_ice",
+        "positionX": 0.8,
+        "positionY": 0.4,
+        "connectsTo": [],
+        "levels": [
+          { "id": "level_14", "enemies": ["slime_green","forest_spirit","water_spirit"] },
+          { "id": "level_15", "enemies": ["forest_spirit","water_spirit","crab"] }
+        ]
+      }
+    ]
+  }
+]

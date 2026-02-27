@@ -1,0 +1,51 @@
+[
+  {
+    "id": "crack_small",
+
+    "rarity": "common",
+
+    "damageMultiplier": 1.0,
+
+    "energySpeed": 0.5,
+
+    "spawnWeight": 80,
+
+    "tapRewardEnergy": 15,
+
+    "shape": {
+      "length": 120,
+      "segments": 5,
+      "jaggedness": 12,
+      "lineWidth": 3
+    },
+
+    "energyColor": "arcaneBlue",
+
+    "energyShader": "pulse_flow"
+  },
+
+  {
+    "id": "crack_rare",
+
+    "rarity": "rare",
+
+    "damageMultiplier": 2.5,
+
+    "energySpeed": 1.2,
+
+    "spawnWeight": 20,
+
+    "tapRewardEnergy": 15,
+
+    "shape": {
+      "length": 180,
+      "segments": 9,
+      "jaggedness": 22,
+      "lineWidth": 5
+    },
+
+    "energyColor": "gold",
+
+    "energyShader": "lightning_flow"
+  }
+]

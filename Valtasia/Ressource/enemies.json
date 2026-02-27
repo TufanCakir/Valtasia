@@ -1,0 +1,21 @@
+[
+  {
+    "id": "slime_blue",
+    "shape": "circle",
+    "color": "blue",
+    "hp": 1
+  },
+  {
+    "id": "crab",
+    "shape": "square",
+    "color": "red",
+    "hp": 1
+  },
+  {
+    "id": "water_spirit",
+    "shape": "triangle",
+    "color": "green",
+    "hp": 1
+  }
+]
+ 
