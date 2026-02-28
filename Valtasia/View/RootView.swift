@@ -9,11 +9,8 @@ import SwiftUI
 
 struct RootView: View {
 
-    private enum Tab {
-        case home
-        case team
-        case summon
-        case shop
+    enum Tab {
+        case home, team, summon, shop, exchange
     }
 
     @EnvironmentObject var appModel: AppModel
@@ -21,39 +18,52 @@ struct RootView: View {
 
     var body: some View {
 
-        TabView(selection: $selectedTab) {
+        currentView
+
+        CustomFooter(selectedTab: $selectedTab)
+    }
+}
+
+extension RootView {
+
+    @ViewBuilder
+    var currentView: some View {
+
+        switch selectedTab {
+
+        case .home:
 
             NavigationStack {
                 HomeView()
             }
-            .tabItem {
-                Label("Home", systemImage: "house")
-            }
-            .tag(Tab.home)
+
+        case .team:
 
             NavigationStack {
-                TeamView(teamManager: appModel.teamManager)
+                TeamView(
+                    teamManager: appModel.teamManager
+                )
             }
-            .tabItem {
-                Label("Team", systemImage: "person.3")
-            }
-            .tag(Tab.team)
+
+        case .summon:
 
             NavigationStack {
-                SummonView(teamManager: appModel.teamManager)
+                SummonView(
+                    teamManager: appModel.teamManager
+                )
             }
-            .tabItem {
-                Label("Summon", systemImage: "sparkles")
-            }
-            .tag(Tab.summon)
+
+        case .shop:
 
             NavigationStack {
                 ShopView()
             }
-            .tabItem {
-                Label("Shop", systemImage: "cart")
+
+        case .exchange:
+
+            NavigationStack {
+                ExchangeView()
             }
-            .tag(Tab.shop)
         }
     }
 }

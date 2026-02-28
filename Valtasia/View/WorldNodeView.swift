@@ -22,77 +22,179 @@ struct WorldNodeView: View {
 
         ZStack {
 
-            Button(action: {
+            Button {
+
                 guard isUnlocked else { return }
-                onTap()
-            }) {
 
-                Image(node.image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 140, height: 140)
-                    .opacity(isUnlocked ? 1 : 0.4)
-                    .scaleEffect(isFocused ? 1.1 : 1.0)
-                    .animation(.spring(), value: isFocused)
-                    .overlay {
-                        if !isUnlocked {
-                            lockOverlay
-                        }
+                withAnimation(
+                    .spring(
+                        response: 0.35,
+                        dampingFraction: 0.75
+                    )
+                ) {
+                    onTap()
+                }
+
+            } label: {
+
+                ZStack {
+
+                    // MARK: FOCUS GLOW
+
+                    if isFocused {
+
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    colors: [
+                                        .cyan.opacity(0.6),
+                                        .clear,
+                                    ],
+                                    center: .center,
+                                    startRadius: 10,
+                                    endRadius: 120
+                                )
+                            )
+                        .frame(width: 140, height: 140)
                     }
-            }
-            .zIndex(0)
 
-            if isFocused {
-                levelButtons
-                    .offset(y: -0)
-                    .zIndex(10)
+                    Image(node.image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(
+                            width: min(geo.size.width * 0.22, 110),
+                            height: min(geo.size.width * 0.22, 110)
+                        )
+                        .opacity(isUnlocked ? 1 : 0.35)
+                        .scaleEffect(isFocused ? 1.15 : 1)
+                        .shadow(
+                            color: isFocused
+                                ? .cyan.opacity(0.7)
+                                : .black.opacity(0.5),
+                            radius: isFocused ? 18 : 8
+                        )
+
+                        .overlay {
+
+                            ZStack {
+
+                                if !isUnlocked {
+                                    lockOverlay
+                                }
+
+                                // ⭐ LEVELS AUF ISLAND
+                                if isFocused {
+
+                                    levelButtons
+                                        .offset(y: 20) // ← Höhe auf Island einstellen
+                                }
+                            }
+                        }
+                }
             }
+            .buttonStyle(.plain)
         }
     }
 
     private var lockOverlay: some View {
+
         Image(systemName: "lock.fill")
+            .font(.headline)
             .foregroundStyle(.white)
-            .padding(8)
+            .padding()
             .background(
                 Circle()
-                    .fill(.black.opacity(0.6))
+                    .fill(.black.opacity(0.75))
+                    .overlay(
+                        Circle()
+                            .stroke(.white.opacity(0.4))
+                    )
             )
     }
 
     private var levelButtons: some View {
 
-        HStack(spacing: 18) {
+        HStack(spacing: 20) {
 
             ForEach(node.levels) { level in
 
                 let unlocked = isLevelUnlocked(level)
 
                 Button {
+
                     guard unlocked else { return }
+
                     onSelectLevel(level.id)
+
                 } label: {
 
-                    Circle()
-                        .fill(unlocked ? .white : .gray.opacity(0.4))
-                        .frame(width: 50, height: 50)
-                        .overlay(
-                            Text(
-                                level.id.replacingOccurrences(
+                    ZStack {
+
+                        Circle()
+                            .fill(
+
+                                unlocked
+                                    ?
+
+                                    LinearGradient(
+                                        colors: [
+                                            .cyan,
+                                            .purple,
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+
+                                    :
+
+                                    LinearGradient(
+                                        colors: [
+                                            .gray.opacity(0.5),
+                                            .black,
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                            )
+
+                            .frame(width: 36, height: 36)
+
+                            .overlay(
+
+                                Circle()
+                                    .stroke(
+                                        .white.opacity(0.5),
+                                        lineWidth: 1.2
+                                    )
+                            )
+
+                            .shadow(
+                                color: unlocked
+                                    ? .cyan.opacity(0.6)
+                                    : .black.opacity(0.4),
+                                radius: 8
+                            )
+
+                        Text(
+
+                            level.id
+                                .replacingOccurrences(
                                     of: "level_",
                                     with: ""
                                 )
-                            )
-                            .foregroundStyle(.black)
                         )
-                        .overlay {
-                            if !unlocked {
-                                Image(systemName: "lock.fill")
-                                    .foregroundStyle(.white)
-                            }
+                        .font(.caption.bold())
+                        .foregroundStyle(.white)
+
+                        if !unlocked {
+
+                            Image(systemName: "lock.fill")
+                                .font(.caption)
+                                .foregroundStyle(.white)
                         }
-                        .shadow(radius: 8)
+                    }
                 }
+                .buttonStyle(.plain)
             }
         }
     }

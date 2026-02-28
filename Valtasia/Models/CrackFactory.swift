@@ -6,19 +6,51 @@
 //
 
 import SpriteKit
+import UIKit
 
 class CrackFactory {
 
-    static func createNode(
-        from crack: Crack
-    ) -> SKShapeNode {
+    // MARK: - Public
+
+    static func createNode(from crack: Crack) -> SKNode {
+
+        let container = SKNode()
+
+        let path = buildPath(for: crack)
+
+        // ⭐ Glow Layer
+        let glow = SKShapeNode(path: path)
+        glow.lineCap = .round
+        glow.lineJoin = .round
+        glow.lineWidth = crack.shape.lineWidth * 4
+        glow.strokeColor = crack.energyColor.skColor.withAlphaComponent(0.25)
+        glow.glowWidth = 20
+        container.addChild(glow)
+
+        // ⭐ Core Layer
+        let core = SKShapeNode(path: path)
+        core.lineCap = .round
+        core.lineJoin = .round
+        core.lineWidth = crack.shape.lineWidth * 1.6
+        core.strokeColor = .white
+        core.strokeTexture = gradientTexture(for: crack)
+        container.addChild(core)
+
+        applyRarityScale(container, crack)
+
+        return container
+    }
+
+    // MARK: - Path Builder
+
+    private static func buildPath(for crack: Crack) -> CGPath {
 
         let path = CGMutablePath()
 
-        path.move(to: .zero)
+        let halfLength = crack.shape.length / 2
+        path.move(to: CGPoint(x: -halfLength, y: 0))
 
-        var currentX: CGFloat = 0
-
+        var currentX: CGFloat = -halfLength
         let segmentLength =
             crack.shape.length / CGFloat(crack.shape.segments)
 
@@ -26,11 +58,13 @@ class CrackFactory {
 
             currentX += segmentLength
 
-            let range =
-                (-crack.shape.jaggedness)...(crack.shape.jaggedness)
+            let jaggedness =
+                CGFloat(crack.shape.jaggedness)
 
             let randomY =
-                CGFloat.random(in: range)
+                CGFloat.random(
+                    in: (-jaggedness)...jaggedness
+                )
 
             path.addLine(
                 to: CGPoint(
@@ -40,121 +74,110 @@ class CrackFactory {
             )
         }
 
-        let node = SKShapeNode(path: path)
+        return path
+    }
 
-        node.lineWidth =
-            crack.shape.lineWidth
+    // MARK: - Gradient
 
-        // Farbe
+    private static func gradientTexture(
+        for crack: Crack
+    ) -> SKTexture {
+
+        let size = CGSize(width: 256, height: 8)
+
+        UIGraphicsBeginImageContext(size)
+        let ctx = UIGraphicsGetCurrentContext()!
+
+        let colors = gradientColors(crack)
+
+        let gradient = CGGradient(
+            colorsSpace: CGColorSpaceCreateDeviceRGB(),
+            colors: colors.map { $0.cgColor } as CFArray,
+            locations: nil
+        )!
+
+        ctx.drawLinearGradient(
+            gradient,
+            start: CGPoint(x: 0, y: 0),
+            end: CGPoint(x: size.width, y: 0),
+            options: []
+        )
+
+        let image =
+            UIGraphicsGetImageFromCurrentImageContext()!
+
+        UIGraphicsEndImageContext()
+
+        return SKTexture(image: image)
+    }
+
+    private static func gradientColors(
+        _ crack: Crack
+    ) -> [UIColor] {
+
         switch crack.energyColor {
 
         case .arcaneBlue:
-
-            node.strokeColor = .cyan
-            node.glowWidth = 4
+            return [.cyan, .systemBlue]
 
         case .gold:
-
-            node.strokeColor = .yellow
-            node.glowWidth = 7
+            return [.yellow, .orange]
 
         case .crimson:
-
-            node.strokeColor = .red
-            node.glowWidth = 6
+            return [.red, .systemPink]
 
         case .violet:
-
-            node.strokeColor = .purple
-            node.glowWidth = 8
+            return [.purple, .magenta]
 
         case .emerald:
-
-            node.strokeColor = .green
-            node.glowWidth = 6
+            return [.green, .cyan]
 
         case .ice:
-
-            node.strokeColor = .systemTeal
-            node.glowWidth = 7
-
-        case .chaosBlack:
-
-            node.strokeColor = .black
-            node.glowWidth = 10
+            return [.white, .systemTeal]
 
         case .rainbow:
+            return [
+                .red, .orange, .yellow,
+                .green, .blue, .purple,
+            ]
 
-            node.strokeColor = .white
-            node.glowWidth = 12
+        case .chaosBlack:
+            return [.darkGray, .black]
         }
+    }
+
+    // MARK: - Rarity Scale
+
+    private static func applyRarityScale(
+        _ node: SKNode,
+        _ crack: Crack
+    ) {
 
         switch crack.rarity {
+
         case .common:
-            break
-        case .uncommon:
-            node.setScale(1.05)
-        case .rare:
-            node.setScale(1.1)
-        case .epic:
             node.setScale(1.2)
-        case .legendary:
+
+        case .uncommon:
             node.setScale(1.35)
+
+        case .rare:
+            node.setScale(1.6)
+
+        case .epic:
+            node.setScale(1.9)
+
+        case .legendary:
+            node.setScale(2.3)
+
         case .mythic:
-            node.setScale(1.5)
+            node.setScale(2.8)
+
         case .ancient:
-            node.setScale(1.7)
+            node.setScale(3.2)
+
         case .divine:
-            node.setScale(2.0)
+            node.setScale(3.6)
         }
-
-        switch crack.energyShader {
-        case .pulse_flow:
-            node.run(
-                .repeatForever(
-                    .sequence([
-                        .fadeAlpha(to: 0.7, duration: 0.3),
-                        .fadeAlpha(to: 1, duration: 0.3),
-                    ])
-                )
-            )
-        case .lightning_flow:
-            node.run(
-                .repeatForever(
-                    .sequence([
-                        .rotate(byAngle: .pi / 40, duration: 0.05),
-                        .rotate(byAngle: -.pi / 40, duration: 0.05),
-                    ])
-                )
-            )
-        case .void_flow:
-            node.run(
-                .repeatForever(
-                    .scale(to: 1.1, duration: 0.4)
-                )
-            )
-        case .legend_flow:
-            node.run(
-                .repeatForever(
-                    .sequence([
-                        .scale(to: 1.2, duration: 0.5),
-                        .scale(to: 1, duration: 0.5),
-                    ])
-                )
-            )
-        case .chaos_flow:
-            node.run(
-                .repeatForever(
-                    .sequence([
-                        .rotate(byAngle: .pi / 10, duration: 0.1),
-                        .rotate(byAngle: -.pi / 10, duration: 0.1),
-                    ])
-                )
-            )
-        default:
-            break
-        }
-
-        return node
     }
 }

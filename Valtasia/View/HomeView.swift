@@ -10,6 +10,9 @@ import SwiftUI
 struct HomeView: View {
 
     @EnvironmentObject var appModel: AppModel
+
+    @EnvironmentObject var eventManager: EventManager
+
     @State private var selectedWorldIndex = 0
 
     var body: some View {
@@ -17,18 +20,21 @@ struct HomeView: View {
         NavigationStack {
 
             ZStack {
+                
+                VStack(spacing:0) {
 
-                worldMapSection
+                 GameHeaderView()
 
-                VStack {
+                 worldMapSection
 
-                    GameHeaderView()
+                 Spacer(minLength:0)
 
-                    Spacer()
+                 eventButton
 
-                    worldBar
+                 worldBar
                 }
             }
+            .ignoresSafeArea(edges: .bottom)
             .navigationDestination(
                 item: $appModel.selectedLevelId
             ) { levelId in
@@ -51,11 +57,69 @@ struct HomeView: View {
 
 extension HomeView {
 
+    fileprivate var eventButton: some View {
+
+        NavigationLink {
+
+            EventView()
+
+        } label: {
+
+            ZStack {
+
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                .cyan.opacity(0.8),
+                                .purple.opacity(0.7),
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(height: 50)
+                    .shadow(color: .cyan.opacity(0.6), radius: 15)
+
+                HStack {
+
+                    Image(systemName: "sparkles")
+                        .font(.headline)
+
+                    Text("Limited Event")
+                        .font(.headline.bold())
+
+                    if eventManager.activeEvents().count > 1 {
+
+                        Text("\(eventManager.activeEvents().count)")
+                            .font(.caption.bold())
+                            .padding()
+                            .background(.black.opacity(0.7))
+                            .clipShape(Circle())
+                    }
+                }
+                .foregroundStyle(.white)
+            }
+            .padding(.horizontal, 40)
+        }
+        .transition(.move(edge: .bottom).combined(with: .opacity))
+        .animation(.spring(), value: eventManager.activeEvents().count)
+    }
+}
+
+extension HomeView {
+
     fileprivate var worldMapSection: some View {
         Group {
             if let world = appModel.worlds[safe: selectedWorldIndex] {
 
                 HomeWorldMapView(world: world) { levelId in
+
+                    guard !appModel.teamManager.activeTeam.isEmpty else {
+                        print("⚠️ Team ist leer")
+                        return
+                    }
+
                     appModel.startLevel(levelId)
                 }
 
@@ -72,7 +136,7 @@ extension HomeView {
 
         ScrollView(.horizontal, showsIndicators: false) {
 
-            HStack(spacing: 20) {
+            HStack(spacing: 18) {
 
                 ForEach(
                     Array(appModel.worlds.enumerated()),
@@ -82,25 +146,66 @@ extension HomeView {
                     worldButton(for: world, index: index)
                 }
             }
-            .padding(.horizontal)
-            .padding(.vertical, 12)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
         }
-        .background(.ultraThinMaterial)
+        .background(
+            RoundedRectangle(cornerRadius: 18)
+                .fill(.ultraThinMaterial)
+                .background(
+                    worldBarBackground.clipShape(
+                        RoundedRectangle(cornerRadius: 28)
+                    )
+                )
+        )
+        .shadow(color: .cyan.opacity(0.15), radius: 6)
+    }
+
+    private var worldBarBackground: some View {
+        ZStack {
+            LinearGradient(
+                colors: [
+                    Color.black.opacity(0.95),
+                    Color.blue.opacity(0.35),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            RoundedRectangle(cornerRadius: 28)
+                .stroke(
+                    LinearGradient(
+                        colors: [
+                            .cyan.opacity(0.7),
+                            .purple.opacity(0.6),
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    lineWidth: 1.5
+                )
+        }
     }
 }
 
 extension HomeView {
 
-    fileprivate func worldButton(for world: World, index: Int) -> some View {
+    fileprivate func worldButton(
+        for world: World,
+        index: Int
+    ) -> some View {
 
-        let isSelected = index == selectedWorldIndex
-        let isLocked = !appModel.progress.isWorldUnlocked(world)
+        let isSelected =
+            index == selectedWorldIndex
+
+        let isLocked =
+            !appModel.progress.isWorldUnlocked(world)
 
         return Button {
 
             guard !isLocked else { return }
 
-            withAnimation(.spring()) {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+
                 selectedWorldIndex = index
             }
 
@@ -109,22 +214,83 @@ extension HomeView {
             ZStack {
 
                 Circle()
-                    .fill(isSelected ? .blue : .yellow)
-                    .frame(width: 64, height: 64)
-                    .scaleEffect(isSelected ? 1.1 : 1)
-                    .animation(.spring(), value: isSelected)
+                    .fill(
+                        LinearGradient(
+                            colors:
+                                isLocked
+                                ? [.gray.opacity(0.5), .black]
+                                : isSelected
+                                    ? [.cyan, .purple]
+                                    : [.blue.opacity(0.6), .black],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 30, height: 30)
+                    .overlay(
+                        Circle()
+                            .stroke(
+                                LinearGradient(
+                                    colors: [
+                                        .cyan.opacity(0.8),
+                                        .purple.opacity(0.7),
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: isSelected ? 2 : 1
+                            )
+                    )
+                    .shadow(
+                        color: isSelected
+                            ? .cyan.opacity(0.7)
+                            : .black.opacity(0.4),
+                        radius: isSelected ? 14 : 8
+                    )
+                    .scaleEffect(isSelected ? 1.15 : 1)
+
+                    .overlay(
+
+                        Circle()
+                            .stroke(
+
+                                LinearGradient(
+                                    colors: [
+                                        .cyan.opacity(0.7),
+                                        .purple.opacity(0.7),
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 2
+                            )
+                    )
+
+                    .shadow(
+                        color:
+                            isSelected
+                            ? .cyan.opacity(0.6)
+                            : .black.opacity(0.4),
+                        radius: 10
+                    )
+
+                    .scaleEffect(isSelected ? 1.15 : 1)
 
                 Text("\(index + 1)")
-                    .font(.headline)
+                    .font(.subheadline.bold())
                     .foregroundStyle(.white)
 
                 if isLocked {
-                    lockOverlay
+
+                    Image(systemName: "lock.fill")
+                        .foregroundStyle(.white)
+                        .padding()
+                        .background(.black.opacity(0.6))
+                        .clipShape(Circle())
                 }
             }
         }
         .buttonStyle(.plain)
-        .disabled(isLocked)
     }
 
     fileprivate var lockOverlay: some View {

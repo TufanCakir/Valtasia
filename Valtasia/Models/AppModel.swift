@@ -71,17 +71,19 @@ final class AppModel: ObservableObject {
 
     func completeLevel() {
 
-        guard let world = selectedWorld,
-            let levelId = selectedLevelId
-        else { return }
+        guard let levelId = selectedLevelId else { return }
 
         progress.markLevelCleared(levelId)
 
-        progress.updateWorldClearedIfNeeded(world)
+        // ⭐ WORLD FINDEN
+        if let world = world(containing: levelId) {
+
+            progress.updateWorldClearedIfNeeded(world)
+        }
 
         selectedLevelId = nil
     }
-
+    
     func level(for id: String) -> Level? {
 
         worlds
@@ -91,22 +93,28 @@ final class AppModel: ObservableObject {
     }
 
     // MARK: Load
-
     private func loadCharacters() {
 
         do {
+
             let baseCharacters: [Character] =
                 try JSONLoader.load("characters")
 
-            // Starter Team z.B. erster Character
-            if let starter = baseCharacters.first {
+            // ⭐ NUR wenn Spieler nix besitzt
+            if teamManager.ownedCharacters.isEmpty {
 
-                teamManager.activeTeam = [
-                    OwnedCharacter(base: starter)
-                ]
+                if let starter = baseCharacters.first {
+
+                    let owned =
+                        OwnedCharacter(base: starter)
+
+                    teamManager.ownedCharacters.append(owned)
+                    teamManager.activeTeam = [owned]
+                }
             }
 
         } catch {
+
             print(error)
         }
     }

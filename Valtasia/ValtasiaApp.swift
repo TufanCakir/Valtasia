@@ -11,7 +11,8 @@ import SwiftUI
 struct ValtasiaApp: App {
 
     @StateObject private var appModel = AppModel()
-
+    @StateObject private var eventManager = EventManager.shared
+    
     @Environment(\.scenePhase)
     private var scenePhase
 
@@ -28,6 +29,7 @@ struct ValtasiaApp: App {
                 .environmentObject(CoinManager.shared)
                 .environmentObject(CrystalManager.shared)
                 .environmentObject(PlayerProgressManager.shared)
+                .environmentObject(eventManager)
                 .preferredColorScheme(.dark)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
@@ -35,8 +37,8 @@ struct ValtasiaApp: App {
             switch newPhase {
 
             case .active:
-                print("App became active")
-
+                EventManager.shared.load()
+                
             case .inactive:
                 print("App inactive")
 

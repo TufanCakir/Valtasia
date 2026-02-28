@@ -15,9 +15,9 @@ struct GameHeaderView: View {
 
     var body: some View {
 
-        VStack {
+        VStack(spacing: 12) {
 
-            HStack(alignment: .center, spacing: 16) {
+            HStack {
 
                 levelSection
 
@@ -25,98 +25,99 @@ struct GameHeaderView: View {
 
                 currencySection
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
         }
-        .background(headerBackground)
-        .ignoresSafeArea(edges: .top)
-    }
-}
-
-extension GameHeaderView {
-
-    fileprivate var headerBackground: some View {
-
-        ZStack {
-
-            // Blur Material
-            Rectangle()
-                .fill(.ultraThinMaterial)
-
-            // RPG Gradient
+        .padding()
+        .background(
             LinearGradient(
                 colors: [
-                    .black.opacity(0.65),
-                    .black.opacity(0.35),
+                    Color.black.opacity(0.95),
+                    Color.blue.opacity(0.35)
                 ],
-                startPoint: .top,
-                endPoint: .bottom
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
-        }
-        .overlay(alignment: .bottom) {
-
-            Divider()
-                .background(.white.opacity(0.2))
-        }
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(
+                    LinearGradient(
+                        colors: [
+                            .cyan.opacity(0.6),
+                            .purple.opacity(0.6)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1.5
+                )
+        )
+        .shadow(
+            color: .cyan.opacity(0.4),
+            radius: 12
+        )
     }
 }
 
 extension GameHeaderView {
 
-    fileprivate var levelSection: some View {
+    var levelSection: some View {
 
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
 
-            HStack(spacing: 6) {
+            HStack(spacing: 8) {
 
-                Image(systemName: "star.circle.fill")
+                Image(systemName: "star.fill")
                     .foregroundStyle(.yellow)
+                    .shadow(color: .yellow.opacity(0.8), radius: 6)
 
                 Text("LV \(progress.level)")
-                    .font(.headline)
-                    .fontWeight(.bold)
+                    .font(.headline.bold())
                     .foregroundStyle(.white)
             }
 
             expBar
         }
-    }
-
-    fileprivate var expBar: some View {
-
-        GeometryReader { geo in
-
-            ZStack(alignment: .leading) {
-
-                Capsule()
-                    .fill(.black.opacity(0.5))
-
-                Capsule()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                .green,
-                                .mint,
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(
-                        width:
-                            geo.size.width * CGFloat(progress.exp)
-                            / CGFloat(progress.requiredEXP)
-                    )
-                    .shadow(color: .green.opacity(0.6), radius: 4)
-            }
-        }
-        .frame(width: 160, height: 12)
+        .frame(maxWidth: 200, alignment: .leading)
     }
 }
 
 extension GameHeaderView {
 
-    fileprivate var currencySection: some View {
+    var expBar: some View {
+
+        GeometryReader { geo in
+
+            let maxEXP = max(progress.requiredEXP, 1)
+            let ratio = CGFloat(progress.exp) / CGFloat(maxEXP)
+
+            ZStack(alignment: .leading) {
+
+                Capsule()
+                    .fill(Color.black.opacity(0.6))
+
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [.cyan, .purple],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(width: geo.size.width * ratio)
+                    .shadow(
+                        color: .cyan.opacity(0.8),
+                        radius: 10
+                    )
+                    .animation(.easeOut(duration: 0.25), value: ratio)
+            }
+        }
+        .frame(height: 12)
+    }
+}
+
+extension GameHeaderView {
+
+    var currencySection: some View {
 
         HStack(spacing: 12) {
 
@@ -134,49 +135,47 @@ extension GameHeaderView {
         }
     }
 
-    fileprivate func currencyCard(
+    func currencyCard(
         icon: String,
         gradient: [Color],
         value: Int
     ) -> some View {
 
-        HStack(spacing: 8) {
+        HStack(spacing: 6) {
 
             Image(systemName: icon)
-                .font(.headline)
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: gradient,
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
+                .font(.subheadline)
+                .foregroundStyle(.white)
 
             Text(value.formatted())
-                .font(.subheadline)
-                .fontWeight(.bold)
+                .font(.footnote.bold())
                 .foregroundStyle(.white)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
-        .background {
-
+        .background(
+            LinearGradient(
+                colors: gradient,
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+            .opacity(0.25)
+        )
+        .overlay(
             Capsule()
-                .fill(.black.opacity(0.55))
-
-                .overlay {
-
-                    Capsule()
-                        .stroke(
-                            LinearGradient(
-                                colors: gradient,
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ),
-                            lineWidth: 1
-                        )
-                }
-        }
-        .shadow(color: .black.opacity(0.4), radius: 6, y: 3)
+                .stroke(
+                    LinearGradient(
+                        colors: gradient,
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    lineWidth: 1.5
+                )
+        )
+        .clipShape(Capsule())
+        .shadow(
+            color: gradient.first!.opacity(0.6),
+            radius: 8
+        )
     }
 }

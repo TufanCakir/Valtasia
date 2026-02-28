@@ -15,31 +15,72 @@ struct VictoryView: View {
 
         ZStack {
 
-            Color.black.opacity(0.6)
-                .ignoresSafeArea()
+            // MARK: Background Blur Overlay
 
-            VStack(spacing: 20) {
+            LinearGradient(
+                colors: [
+                    Color.black.opacity(0.85),
+                    Color.blue.opacity(0.4),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-                Text("Victory")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.white)
+            VStack(spacing: 28) {
+
+                Text("VICTORY")
+                    .font(.largeTitle.bold())
+                    .tracking(2)
+                    .foregroundStyle(.white)
 
                 Text("Enemy Defeated!")
-                    .foregroundColor(.white)
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.75))
 
-                Button("Continue") {
+                Divider()
+                    .background(.white.opacity(0.2))
+
+                Button {
                     onContinue()
+                } label: {
+
+                    Text("Continue")
+                        .font(.caption.bold())
+                        .padding(.horizontal, 26)
+                        .padding(.vertical, 10)
+                        .background(
+                            LinearGradient(
+                                colors: [.purple, .blue],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .foregroundStyle(.white)
+                        .clipShape(Capsule())
                 }
-                .padding()
-                .frame(width: 200)
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(12)
             }
-            .padding(40)
-            .background(.ultraThinMaterial)
-            .cornerRadius(20)
+            .padding(32)
+            .background(
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(.ultraThinMaterial)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 24)
+                            .stroke(
+                                LinearGradient(
+                                    colors: [
+                                        .cyan.opacity(0.7),
+                                        .purple.opacity(0.6),
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 2
+                            )
+                    )
+            )
+            .shadow(color: .cyan.opacity(0.35), radius: 20)
+            .padding(.horizontal, 32)
         }
     }
 }

@@ -18,19 +18,80 @@ struct GameContainerView: View {
     @State private var showVictory = false
 
     var body: some View {
+
         GeometryReader { proxy in
+
             ZStack {
+
+                // MARK: GAME SCENE
                 SpriteView(scene: createScene(size: proxy.size))
                     .ignoresSafeArea()
 
-                if showVictory {
-                    VictoryView {
-                        appModel.completeLevel()
-                        dismiss()
+                // MARK: SOFT TOP / BOTTOM GRADIENT
+                LinearGradient(
+                    colors: [
+                        .black.opacity(0.4),
+                        .clear,
+                        .black.opacity(0.6),
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+
+                // MARK: EXIT BUTTON (optional but recommended)
+                VStack {
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "chevron.left")
+                                .font(.headline.bold())
+                                .padding(10)
+                                .background(.ultraThinMaterial)
+                                .clipShape(Circle())
+                        }
+
+                        Spacer()
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 20)
+
+                    Spacer()
+                }
+                .allowsHitTesting(true)
+                .background(Color.clear)
+
+                // MARK: VICTORY OVERLAY
+
+                if showVictory {
+
+                    ZStack {
+
+                        // Dim Layer
+                        Color.black.opacity(0.75)
+                            .ignoresSafeArea()
+                            .transition(.opacity)
+
+                        VictoryView {
+                            appModel.completeLevel()
+                            dismiss()
+                        }
+                        .transition(
+                            .scale(scale: 0.9)
+                                .combined(with: .opacity)
+                        )
+                    }
+                    .animation(.easeInOut(duration: 0.35), value: showVictory)
                 }
             }
         }
+        .onAppear {
+            withAnimation(.easeIn(duration: 0.4)) {}
+        }
+        .navigationBarHidden(true)
+
     }
 
     private func createScene(size: CGSize) -> SKScene {
@@ -50,7 +111,9 @@ struct GameContainerView: View {
 
         scene.onVictory = {
             DispatchQueue.main.async {
-                showVictory = true
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                    showVictory = true
+                }
             }
         }
 

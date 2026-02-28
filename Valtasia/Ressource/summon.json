@@ -1,15 +1,54 @@
 [
     {
-        "id": "standard",
-        "title": "Standard Summon",
-        "bannerImage": "character1",
-        "currencyCost": 1
-    },
+        "id": "riven_banner",
+        "title": "Riven Summon",
+        "bannerImage": "character_riven",
+        "currencyCost": 50,
+        "multiCost": 450,
+        "multiAmount": 10,
+        "poolLimit": 10,
 
+        "pool": [
+            "hero_01"
+        ]
+    },
     {
-        "id": "epic_rateup",
-        "title": "Epic Rate Up",
-        "bannerImage": "character2",
-        "currencyCost": 1
+        "id": "nyra_banner",
+        "title": "Nyra Summon",
+        "bannerImage": "character_nyra",
+        "currencyCost": 50,
+        "multiCost": 450,
+        "multiAmount": 10,
+        "poolLimit": 10,
+
+        "pool": [
+            "hero_02"
+        ]
+    },
+    {
+        "id": "vex_banner",
+        "title": "Vex Summon",
+        "bannerImage": "character_vex",
+        "currencyCost": 50,
+        "multiCost": 450,
+        "multiAmount": 10,
+        "poolLimit": 10,
+
+        "pool": [
+            "hero_03"
+        ]
+    },
+    {
+        "id": "selyn_banner",
+        "title": "Selyn Summon",
+        "bannerImage": "character_selyn",
+        "currencyCost": 50,
+        "multiCost": 450,
+        "multiAmount": 10,
+        "poolLimit": 10,
+
+        "pool": [
+            "hero_04"
+        ]
     }
 ]

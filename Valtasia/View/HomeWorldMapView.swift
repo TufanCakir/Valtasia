@@ -15,6 +15,7 @@ struct HomeWorldMapView: View {
     let onSelectLevel: (String) -> Void
 
     @State private var focusedNode: WorldNode?
+    @State private var pulse = false
 
     var body: some View {
         GeometryReader { geo in
@@ -23,6 +24,11 @@ struct HomeWorldMapView: View {
                 connectionLines(in: geo)
                 nodesView(in: geo)
             }
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.5).repeatForever()) {
+                    pulse.toggle()
+                }
+            }
         }
     }
 }
@@ -30,6 +36,7 @@ struct HomeWorldMapView: View {
 extension HomeWorldMapView {
 
     fileprivate var backgroundView: some View {
+
         Image(world.background)
             .resizable()
             .scaledToFill()
@@ -52,18 +59,37 @@ extension HomeWorldMapView {
                             path.move(to: point(for: node, in: geo))
                             path.addLine(to: point(for: target, in: geo))
                         }
-                        .stroke(.white.opacity(0.6), lineWidth: 4)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    .cyan.opacity(0.8),
+                                    .purple.opacity(0.7),
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            style: StrokeStyle(
+                                lineWidth: 4,
+                                lineCap: .round
+                            )
+                        )
+                        .shadow(color: .cyan.opacity(0.6), radius: 6)
                     }
                 }
             }
         }
     }
 
-    fileprivate func point(for node: WorldNode, in geo: GeometryProxy)
-        -> CGPoint
-    {
-        CGPoint(
-            x: geo.size.width * node.positionX,
+    fileprivate func point(
+        for node: WorldNode,
+        in geo: GeometryProxy
+    ) -> CGPoint {
+
+        let horizontalPadding: CGFloat = 60  // ← hier justieren
+        let usableWidth = geo.size.width - (horizontalPadding * 2)
+
+        return CGPoint(
+            x: horizontalPadding + (usableWidth * node.positionX),
             y: geo.size.height * node.positionY
         )
     }
@@ -73,19 +99,35 @@ extension HomeWorldMapView {
 
     fileprivate func nodesView(in geo: GeometryProxy) -> some View {
         ForEach(world.worldNodes) { node in
+            let isUnlocked = isNodeUnlocked(node)
+            let isFocused = (focusedNode?.id == node.id)
+
+            let scale: CGFloat = {
+                if isFocused {
+                    return pulse ? 1.25 : 1.15
+                } else {
+                    return 1.0
+                }
+            }()
+
+            let shadowColor: Color = isFocused ? .cyan.opacity(0.7) : .clear
+
             WorldNodeView(
                 node: node,
                 geo: geo,
-                isUnlocked: isNodeUnlocked(node),
-                isFocused: focusedNode?.id == node.id,
+                isUnlocked: isUnlocked,
+                isFocused: isFocused,
                 onTap: {
                     withAnimation(.spring()) {
-                        focusedNode = focusedNode?.id == node.id ? nil : node
+                        focusedNode = isFocused ? nil : node
                     }
                 },
                 onSelectLevel: onSelectLevel
             )
+            .opacity(isUnlocked ? 1 : 0.4)
             .position(point(for: node, in: geo))
+            .scaleEffect(scale)
+            .shadow(color: shadowColor, radius: 15)
         }
     }
 }

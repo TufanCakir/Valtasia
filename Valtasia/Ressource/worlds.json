@@ -32,7 +32,7 @@
             },
             {
                 "id": "2",
-                "image": "island_lava",
+                "image": "island_ice",
                 "positionX": 0.45,
                 "positionY": 0.25,
                 "connectsTo": [
@@ -56,7 +56,7 @@
             },
             {
                 "id": "3",
-                "image": "island_lava",
+                "image": "island_nature",
                 "positionX": 0.45,
                 "positionY": 0.6,
                 "connectsTo": [
@@ -74,7 +74,7 @@
             },
             {
                 "id": "4",
-                "image": "island_lava",
+                "image": "island_earth",
                 "positionX": 0.7,
                 "positionY": 0.4,
                 "connectsTo": [],
@@ -107,7 +107,7 @@
 
             {
                 "id": "1",
-                "image": "island_ice",
+                "image": "island_void",
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
@@ -132,7 +132,7 @@
 
             {
                 "id": "2",
-                "image": "island_lava",
+                "image": "island_tech",
                 "positionX": 0.4,
                 "positionY": 0.3,
                 "connectsTo": [
@@ -158,7 +158,7 @@
 
             {
                 "id": "3",
-                "image": "island_void",
+                "image": "island_computer",
                 "positionX": 0.6,
                 "positionY": 0.2,
                 "connectsTo": [

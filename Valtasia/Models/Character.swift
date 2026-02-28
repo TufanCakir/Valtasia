@@ -13,7 +13,7 @@ struct Character: Codable, Identifiable, Hashable {
     let name: String
     let rarity: Rarity
     let role: String
-
+    let skills: [Skill]
     let stats: Stats
     let energyType: String
 
@@ -38,4 +38,14 @@ struct Character: Codable, Identifiable, Hashable {
         let id: String
         let sprite: String
     }
+}
+
+struct Skill: Codable, Identifiable, Hashable {
+
+    let id: String
+    let name: String
+    let type: SkillType
+    let multiplier: Double
+    let particle: String?
+    let color: String?
 }

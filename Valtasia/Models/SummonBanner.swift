@@ -8,10 +8,13 @@
 struct SummonBanner: Codable, Identifiable {
 
     let id: String
-
     let title: String
-
     let bannerImage: String
-
     let currencyCost: Int
+
+    let multiCost: Int?      // ⭐ neu
+    let multiAmount: Int?    // ⭐ neu
+
+    let poolLimit: Int
+    let pool: [String]
 }

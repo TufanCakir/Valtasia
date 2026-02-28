@@ -1,0 +1,12 @@
+[
+    {
+        "id": "event_boss_level_01",
+
+        "battleBackground": "ocean_bg",
+
+        "enemies": [
+            "slime_blue"
+        ]
+
+    }
+]

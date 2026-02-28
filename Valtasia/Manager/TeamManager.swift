@@ -10,26 +10,35 @@ import SwiftUI
 
 class TeamManager: ObservableObject {
 
-    // ⭐ Alle Characters die Spieler besitzt
-    @Published var ownedCharacters: [OwnedCharacter] = []
+    @Published var ownedCharacters: [OwnedCharacter] = [] {
+        didSet {
+            if !isLoading { save() }
+        }
+    }
 
-    // ⭐ Aktives Team (4 Slots)
-    @Published var activeTeam: [OwnedCharacter] = []
+    @Published var activeTeam: [OwnedCharacter] = [] {
+        didSet {
+            if !isLoading { save() }
+        }
+    }
 
     let maxTeamSize = 4
+
+    private let ownedKey = "saved_owned_characters"
+    private let teamKey = "saved_active_team_ids"
+
+    private var isLoading = false
+
+    init() {
+        load()
+    }
 
     // MARK: Add
 
     func addToTeam(_ character: OwnedCharacter) {
 
         guard activeTeam.count < maxTeamSize else { return }
-
-        // doppelt verhindern
-        guard
-            !activeTeam.contains(where: {
-                $0.id == character.id
-            })
-        else { return }
+        guard !isInTeam(character) else { return }
 
         activeTeam.append(character)
     }
@@ -38,19 +47,66 @@ class TeamManager: ObservableObject {
 
     func removeFromTeam(_ character: OwnedCharacter) {
 
-        activeTeam.removeAll {
+        guard activeTeam.count > 1 else { return }
 
-            $0.id == character.id
-        }
+        activeTeam.removeAll { $0.id == character.id }
     }
 
-    // MARK: Check
-
     func isInTeam(_ character: OwnedCharacter) -> Bool {
+        activeTeam.contains { $0.id == character.id }
+    }
 
-        activeTeam.contains {
+    // MARK: Save
 
-            $0.id == character.id
+    private func save() {
+
+        let encoder = JSONEncoder()
+        let defaults = UserDefaults.standard
+
+        if let ownedData = try? encoder.encode(ownedCharacters) {
+            defaults.set(ownedData, forKey: ownedKey)
         }
+
+        let ids = activeTeam.map { $0.id }
+        defaults.set(ids, forKey: teamKey)
+    }
+
+    // MARK: Load
+
+    private func load() {
+
+        isLoading = true
+
+        let decoder = JSONDecoder()
+        let defaults = UserDefaults.standard
+
+        // Load Owned FIRST
+        if let ownedData = defaults.data(forKey: ownedKey),
+            let decodedOwned = try? decoder.decode(
+                [OwnedCharacter].self,
+                from: ownedData
+            )
+        {
+
+            ownedCharacters = decodedOwned
+        }
+
+        // Load Team AFTER ownedCharacters exists
+        if let savedIDs = defaults.stringArray(forKey: teamKey) {
+
+            activeTeam = savedIDs.compactMap { id in
+                ownedCharacters.first(where: { $0.id == id })
+            }
+        }
+
+        // Safety fallback
+        if activeTeam.isEmpty,
+            let first = ownedCharacters.first
+        {
+
+            activeTeam = [first]
+        }
+
+        isLoading = false
     }
 }

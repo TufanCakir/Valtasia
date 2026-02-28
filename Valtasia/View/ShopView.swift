@@ -17,16 +17,47 @@ struct ShopView: View {
 
     var body: some View {
 
-        NavigationStack {
+        VStack(spacing: 0) {
 
-            VStack {
+            // MARK: HEADER
+            header
+                .padding(.horizontal, 20)
+                .padding(.top, 18)
+                .padding(.bottom, 12)
 
-                ShopCategoryBar(selected: $selectedCategory)
+            Divider()
+                .background(.white.opacity(0.15))
 
-                contentList
+            // MARK: CATEGORY BAR
+            ShopCategoryBar(selected: $selectedCategory)
+                .padding(.horizontal, 20)
+                .padding(.top, 14)
+
+            // MARK: CONTENT
+            ScrollView {
+
+                VStack(spacing: 24) {
+                    contentList
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 24)
+                .padding(.bottom, 140)  // Platz für Footer
             }
-            .navigationTitle("Shop")
+            .scrollIndicators(.hidden)
         }
+        .background(
+            LinearGradient(
+                colors: [
+                    Color.black,
+                    Color.blue.opacity(0.25),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+        )
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
         .task {
             await loadShop()
         }
@@ -35,27 +66,42 @@ struct ShopView: View {
 
 extension ShopView {
 
-    fileprivate func loadShop() async {
+    var header: some View {
 
-        do {
+        HStack {
 
-            let shopItems: [ShopItem] =
-                try JSONLoader.load("shop")
+            VStack(alignment: .leading, spacing: 4) {
 
-            let manager = ShopManager()
+                Text("Premium Shop")
+                    .font(.largeTitle.bold())
+                    .foregroundStyle(.white)
 
-            let products =
-                try await manager.loadShopProducts(
-                    shopItems: shopItems
-                )
+                Text("Erweitere deine Macht")
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.7))
+            }
 
-            storeProducts = products
-            isLoading = false
+            Spacer()
 
-        } catch {
+            VStack(alignment: .trailing, spacing: 8) {
 
-            errorMessage = "Failed to load shop."
-            isLoading = false
+                HStack(spacing: 8) {
+                    Image(systemName: "circle.fill")
+                    Text("\(CoinManager.shared.coins)")
+                }
+
+                HStack(spacing: 8) {
+                    Image(systemName: "diamond.fill")
+                        .foregroundStyle(.cyan)
+                    Text("\(CrystalManager.shared.crystals)")
+                        .bold()
+                }
+            }
+            .foregroundStyle(.white)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
     }
 }
@@ -64,21 +110,27 @@ extension ShopView {
 
     fileprivate var contentList: some View {
 
-        Group {
+        VStack(spacing: 20) {
 
             if isLoading {
+
                 ProgressView("Loading Shop...")
+                    .tint(.white)
+                    .padding(.top, 40)
             }
 
             else if let errorMessage {
+
                 Text(errorMessage)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
+                    .padding(.top, 40)
             }
 
             else {
-                List(filteredProducts, id: \.shopItem.id) { item in
 
-                    ShopRowView(storeProduct: item) {
+                ForEach(filteredProducts, id: \.shopItem.id) { item in
+
+                    PremiumShopRow(storeProduct: item) {
 
                         Task {
                             await purchase(item)
@@ -93,6 +145,23 @@ extension ShopView {
 
         storeProducts.filter {
             $0.shopItem.category == selectedCategory
+        }
+    }
+}
+
+extension ShopView {
+    fileprivate func loadShop() async {
+        do {
+            let shopItems: [ShopItem] = try JSONLoader.load("shop")
+            let manager = ShopManager()
+            let products = try await manager.loadShopProducts(
+                shopItems: shopItems
+            )
+            storeProducts = products
+            isLoading = false
+        } catch {
+            errorMessage = "Failed to load shop."
+            isLoading = false
         }
     }
 }

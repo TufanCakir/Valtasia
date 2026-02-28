@@ -7,8 +7,37 @@
 
 import Foundation
 
-struct OwnedCharacter: Identifiable, Hashable {
+final class OwnedCharacter: Codable, Identifiable {
 
-    let id = UUID()  // ⭐ EINDEUTIG
-    let base: Character  // Referenz auf Daten
+    let id: String
+    var level: Int = 1
+    var exp: Int = 0
+
+    let base: Character
+
+    init(base: Character) {
+        self.base = base
+        self.id = UUID().uuidString
+    }
+}
+
+extension OwnedCharacter {
+
+    func addEXP(_ amount: Int) {
+
+        exp += amount
+
+        while exp >= requiredEXP {
+
+            exp -= requiredEXP
+            level += 1
+
+            print("⭐ \(base.name) LEVEL UP → \(level)")
+        }
+    }
+
+    var requiredEXP: Int {
+
+        50 + level * 20
+    }
 }

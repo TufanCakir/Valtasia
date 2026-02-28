@@ -1,0 +1,68 @@
+[
+    {
+        "id": "event_arcane_week_01",
+        "type": "crack_boost",
+
+        "title": "Arcane Week",
+        "description": "Arcane cracks spawn 3x more often.",
+
+        "start": "2026-02-25",
+
+        "icon": "event_arcane",
+
+        "modifiers": {
+            "crackColor": "arcane",
+            "spawnMultiplier": 3.0
+        }
+    },
+
+    {
+        "id": "event_shadow_colossus_raid",
+
+        "type": "boss",
+
+        "title": "Shadow Colossus Raid",
+
+        "description": "Defeat the Shadow Titan and earn exclusive rewards.",
+
+        "start": "2026-02-25",
+
+        "icon": "event_boss",
+
+        "bossEnemy": "circle",
+
+        "bossLevelId": "event_boss_level_01",
+
+        "rewardCurrency": "event_token",
+
+        "rewardAmount": 100,
+
+        "rewards": {
+
+            "coins": 200,
+
+            "crystals": 5,
+
+            "exp": 120,
+
+            "eventToken": 100
+        }
+    },
+    {
+        "id": "event_riven_rateup",
+
+        "type": "summon",
+
+        "title": "Riven Rate Up Banner",
+
+        "description": "Increased chance to summon Riven.",
+
+        "start": "2026-02-25",
+
+        "icon": "event_summon",
+
+        "hero": "character_riven",
+
+        "rateUpMultiplier": 2.0
+    }
+]

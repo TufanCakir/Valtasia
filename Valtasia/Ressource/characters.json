@@ -1,70 +1,152 @@
 [
     {
         "id": "hero_01",
-        "name": "Aeris",
-
+        "name": "Riven",
         "rarity": "epic",
-
         "role": "dps",
-
         "stats": {
-            "hp": 1200,
-            "attack": 150,
-            "energyPower": 80,
-            "attackSpeed": 1.2
+            "hp": 1300,
+            "attack": 170,
+            "energyPower": 90,
+            "attackSpeed": 1.3
         },
-
         "energyType": "arcane",
-
         "summon": {
-            "rate": 0.05,
-            "banner": "standard",
+            "rate": 0.08,
+            "banner": "riven_banner",
             "rateUp": false
         },
-
-        "sprite": "character1",
-
+        "sprite": "character_riven",
         "skins": [
             {
                 "id": "default",
-                "sprite": "character1"
+                "sprite": "character_riven"
+            }
+        ],
+        "skills": [
+            {
+                "id": "arcane_slash",
+                "name": "Arcane Slash",
+                "type": "damage",
+                "multiplier": 1.6,
+                "particle": "ArcaneParticle",
+                "color": "arcane"
             },
             {
-                "id": "winter",
-                "sprite": "character2"
+                "id": "mana_burst",
+                "name": "Mana Burst",
+                "type": "damage",
+                "multiplier": 2.2,
+                "particle": "ExplosionParticle",
+                "color": "arcane"
             }
         ]
     },
 
     {
         "id": "hero_02",
-        "name": "Kael",
-
-        "rarity": "rare",
-
-        "role": "support",
-
+        "name": "Nyra",
+        "rarity": "epic",
+        "role": "dps",
         "stats": {
-            "hp": 1000,
-            "attack": 120,
-            "energyPower": 60,
+            "hp": 1100,
+            "attack": 190,
+            "energyPower": 70,
             "attackSpeed": 1.5
         },
-
-        "energyType": "fire",
-
+        "energyType": "shadow",
         "summon": {
-            "rate": 0.15,
-            "banner": "epic_rateup",
+            "rate": 0.06,
+            "banner": "nyra_banner",
             "rateUp": false
         },
-
-        "sprite": "character3",
-
+        "sprite": "character_nyra",
         "skins": [
             {
                 "id": "default",
-                "sprite": "character2"
+                "sprite": "character_nyra"
+            }
+        ],
+        "skills": [
+            {
+                "id": "shadow_strike",
+                "name": "Shadow Strike",
+                "type": "damage",
+                "multiplier": 2.4,
+                "particle": "ShadowParticle",
+                "color": "shadow"
+            }
+        ]
+    },
+
+    {
+        "id": "hero_03",
+        "name": "Vex",
+        "rarity": "rare",
+        "role": "support",
+        "stats": {
+            "hp": 1400,
+            "attack": 130,
+            "energyPower": 110,
+            "attackSpeed": 1.4
+        },
+        "energyType": "crimson",
+        "summon": {
+            "rate": 0.12,
+            "banner": "vex_banner",
+            "rateUp": false
+        },
+        "sprite": "character_vex",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_vex"
+            }
+        ],
+        "skills": [
+            {
+                "id": "crimson_wave",
+                "name": "Crimson Wave",
+                "type": "damage",
+                "multiplier": 1.4,
+                "particle": "CrimsonParticle",
+                "color": "crimson"
+            }
+        ]
+    },
+
+    {
+        "id": "hero_04",
+        "name": "Selyn",
+        "rarity": "legendary",
+        "role": "support",
+        "stats": {
+            "hp": 1500,
+            "attack": 120,
+            "energyPower": 160,
+            "attackSpeed": 1.2
+        },
+        "energyType": "ice",
+        "summon": {
+            "rate": 0.03,
+            "banner": "selyn_banner",
+            "rateUp": true
+        },
+        "sprite": "character_selyn",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_selyn"
+            }
+        ],
+        "skills": [
+            {
+                "id": "ice_bloom",
+                "name": "Ice Bloom",
+                "type": "heal",
+                "multiplier": 1.5,
+                "particle": "IceParticle",
+                "color": "ice"
             }
         ]
     }

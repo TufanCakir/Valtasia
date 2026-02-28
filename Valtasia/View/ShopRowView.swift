@@ -15,11 +15,11 @@ struct ShopRowView: View {
 
     var body: some View {
 
-        HStack(spacing: 16) {
+        HStack(spacing: 18) {
 
             iconView
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
 
                 titleView
 
@@ -30,18 +30,33 @@ struct ShopRowView: View {
 
             buyButton
         }
-        .padding(14)
+        .padding(18)
         .background(
 
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: 22)
                 .fill(.ultraThinMaterial)
+
                 .overlay(
 
-                    RoundedRectangle(cornerRadius: 18)
-                        .stroke(.white.opacity(0.15))
+                    RoundedRectangle(cornerRadius: 22)
+                        .stroke(
+
+                            LinearGradient(
+                                colors: [
+                                    iconColor.opacity(0.6),
+                                    .purple.opacity(0.5),
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1.5
+                        )
                 )
         )
-        .padding(.horizontal)
+        .shadow(
+            color: iconColor.opacity(0.25),
+            radius: 10
+        )
     }
 }
 
@@ -54,14 +69,29 @@ extension ShopRowView {
         ZStack {
 
             Circle()
-                .fill(iconColor.opacity(0.2))
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            iconColor.opacity(0.35),
+                            .black.opacity(0.4),
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+
+            Circle()
+                .stroke(
+                    iconColor.opacity(0.6),
+                    lineWidth: 1.5
+                )
 
             Image(systemName: iconName)
-                .font(.title2)
+                .font(.title2.bold())
                 .foregroundStyle(iconColor)
 
         }
-        .frame(width: 60, height: 60)
+        .frame(width: 64, height: 64)
     }
 
     fileprivate var iconName: String {
@@ -77,22 +107,14 @@ extension ShopRowView {
     fileprivate var titleView: some View {
 
         Group {
-
-            if let gems =
-                storeProduct.shopItem.gems
-            {
-
+            if let gems = storeProduct.shopItem.gems {
                 Text("\(gems) Crystals")
-                    .font(.headline)
-
-            }
-
-            else if let coins =
-                storeProduct.shopItem.coins
-            {
-
+                    .font(.title3.bold())
+                    .foregroundStyle(.white)
+            } else if let coins = storeProduct.shopItem.coins {
                 Text("\(coins) Coins")
-                    .font(.headline)
+                    .font(.title3.bold())
+                    .foregroundStyle(.white)
             }
         }
     }
@@ -108,19 +130,17 @@ extension ShopRowView {
             {
 
                 Text(product.displayPrice)
-                    .foregroundStyle(.secondary)
 
             } else {
 
                 Text("Pay with Crystals")
-                    .foregroundStyle(.secondary)
             }
         }
         .font(.caption)
+        .foregroundStyle(.white.opacity(0.7))
     }
 
     // MARK: BUY BUTTON
-
     fileprivate var buyButton: some View {
 
         Button {
@@ -130,12 +150,23 @@ extension ShopRowView {
         } label: {
 
             Text(buttonTitle)
-                .fontWeight(.bold)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+                .font(.caption.bold())
+                .padding(.horizontal, 18)
+                .padding(.vertical, 10)
+                .background(
+
+                    LinearGradient(
+                        colors: [
+                            .purple,
+                            iconColor,
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .foregroundStyle(.white)
+                .clipShape(Capsule())
         }
-        .buttonStyle(.borderedProminent)
-        .tint(iconColor)
     }
 
     fileprivate var buttonTitle: String {
