@@ -20,18 +20,17 @@ struct HomeView: View {
         NavigationStack {
 
             ZStack {
-                
-                VStack(spacing:0) {
 
-                 GameHeaderView()
+                VStack {
 
-                 worldMapSection
+                    GameHeaderView()
+                        .padding()
 
-                 Spacer(minLength:0)
+                    worldMapSection
 
-                 eventButton
+                    eventButton
 
-                 worldBar
+                    worldBar
                 }
             }
             .ignoresSafeArea(edges: .bottom)
@@ -83,10 +82,7 @@ extension HomeView {
 
                 HStack {
 
-                    Image(systemName: "sparkles")
-                        .font(.headline)
-
-                    Text("Limited Event")
+                    Text("Event")
                         .font(.headline.bold())
 
                     if eventManager.activeEvents().count > 1 {
@@ -100,7 +96,7 @@ extension HomeView {
                 }
                 .foregroundStyle(.white)
             }
-            .padding(.horizontal, 40)
+            .padding()
         }
         .transition(.move(edge: .bottom).combined(with: .opacity))
         .animation(.spring(), value: eventManager.activeEvents().count)
@@ -136,7 +132,7 @@ extension HomeView {
 
         ScrollView(.horizontal, showsIndicators: false) {
 
-            HStack(spacing: 18) {
+            HStack(spacing: 16) {
 
                 ForEach(
                     Array(appModel.worlds.enumerated()),
@@ -146,8 +142,7 @@ extension HomeView {
                     worldButton(for: world, index: index)
                 }
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
+            .padding()
         }
         .background(
             RoundedRectangle(cornerRadius: 18)
@@ -159,6 +154,7 @@ extension HomeView {
                 )
         )
         .shadow(color: .cyan.opacity(0.15), radius: 6)
+        .padding()
     }
 
     private var worldBarBackground: some View {

@@ -15,70 +15,59 @@ struct TeamView: View {
     @State private var showTeamWarning = false
 
     private let columns = [
-        GridItem(.adaptive(minimum: 120))
+        GridItem(.adaptive(minimum: 130))
     ]
 
     var body: some View {
+        VStack {
 
-        VStack(spacing: 0) {
-
-            // MARK: TOP AREA
-            VStack(spacing: 28) {
-
-                header
-
-                teamSection
-                    .padding()
-                    .background(.ultraThinMaterial)
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 22)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 22)
-                            .stroke(.white.opacity(0.15))
-                    )
-            }
-            .padding(.horizontal,16)
-            .padding(.top,18)
-            .padding(.bottom,10)
+            teamSection
+                .padding()
+                .background(.ultraThinMaterial)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 22)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 22)
+                        .stroke(.white.opacity(0.15))
+                )
 
             // MARK: SCROLL AREA
 
             ScrollView {
 
                 charactersSection
-                    .padding(.horizontal,16)
-                    .padding(.top,20)
-                    .padding(.bottom,120) // Platz für Footer
+
             }
+            .padding()
             .scrollIndicators(.hidden)
         }
 
         .background(
             LinearGradient(
-                colors:[
+                colors: [
                     .black,
-                    .blue.opacity(0.25)
+                    .blue.opacity(0.25),
                 ],
-                startPoint:.top,
-                endPoint:.bottom
+                startPoint: .top,
+                endPoint: .bottom
             )
             .ignoresSafeArea()
         )
 
-        .sheet(item:$selectedCharacter){
+        .sheet(item: $selectedCharacter) {
 
-            CharacterDetailView(owned:$0)
+            CharacterDetailView(owned: $0)
         }
 
         .alert(
             "Team benötigt mindestens 1 Character",
-            isPresented:$showTeamWarning
-        ){
+            isPresented: $showTeamWarning
+        ) {
 
-            Button("OK",role:.cancel){}
+            Button("OK", role: .cancel) {}
 
-        } message:{
+        } message: {
 
             Text(
                 "Du musst mindestens einen Character im Team behalten, um spielen zu können."
@@ -86,83 +75,31 @@ struct TeamView: View {
         }
     }
 
-    var header: some View {
-
-        HStack {
-
-            VStack(alignment: .leading) {
-
-                Text("Team Setup")
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(.white)
-                    .padding(.bottom,6)
-
-                Text("Wähle deine Kämpfer")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.7))
-                    .padding(.bottom,6)
-            }
-
-            Spacer()
-
-            VStack(alignment: .trailing) {
-
-                Label(
-                    "\(CoinManager.shared.coins)",
-                    systemImage: "circle.fill"
-                )
-
-                Label(
-                    "\(CrystalManager.shared.crystals)",
-                    systemImage: "diamond.fill"
-                )
-                .foregroundStyle(.cyan)
-            }
-            .foregroundStyle(.white)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(.ultraThinMaterial)
-            .clipShape(
-                RoundedRectangle(cornerRadius: 14)
-            )
-        }
-    }
-
     var charactersSection: some View {
 
-        VStack(alignment:.leading,spacing:18){
+        VStack {
 
-            Text("Characters")
-                .font(.title.bold())
-                .foregroundStyle(.white)
+            LazyVGrid(columns: columns, spacing: 30) {
 
-            LazyVGrid(columns:columns,spacing:20){
-
-                ForEach(teamManager.ownedCharacters){
+                ForEach(teamManager.ownedCharacters) {
 
                     characterCard($0)
                 }
             }
 
         }
-        .padding()
-        .background(.ultraThinMaterial)
         .clipShape(
-            RoundedRectangle(cornerRadius:22)
+            RoundedRectangle(cornerRadius: 22)
         )
         .overlay(
-            RoundedRectangle(cornerRadius:22)
+            RoundedRectangle(cornerRadius: 22)
                 .stroke(.white.opacity(0.12))
         )
     }
 
     var teamSection: some View {
 
-        VStack(alignment: .leading, spacing: 14) {
-
-            Text("Active Team")
-                .font(.title2.bold())
-                .foregroundStyle(.white)
+        VStack(alignment: .leading, spacing: 0) {
 
             teamSlots
         }
@@ -173,7 +110,7 @@ struct TeamView: View {
         let character = owned.base
         let inTeam = teamManager.isInTeam(owned)
 
-        return VStack(spacing: 10) {
+        return VStack {
 
             ZStack {
 
@@ -196,7 +133,7 @@ struct TeamView: View {
                 Image(character.sprite)
                     .resizable()
                     .scaledToFit()
-                    .padding(10)
+                    .padding()
             }
             .frame(height: 100)
 
@@ -226,8 +163,7 @@ struct TeamView: View {
                 }
             }
             .font(.caption.bold())
-            .padding(.horizontal, 14)
-            .padding(.vertical, 6)
+            .padding()
             .background(
 
                 LinearGradient(
@@ -266,7 +202,7 @@ struct TeamView: View {
 
     var teamSlots: some View {
 
-        HStack(spacing: 14) {
+        HStack {
 
             ForEach(0..<teamManager.maxTeamSize, id: \.self) { index in
 
@@ -298,13 +234,11 @@ struct TeamView: View {
                         Image(owned.base.sprite)
                             .resizable()
                             .scaledToFit()
-                            .padding(12)
+                            .padding()
 
                         VStack {
 
                             HStack {
-
-                                Spacer()
 
                                 Button {
 
@@ -325,10 +259,7 @@ struct TeamView: View {
                                         .shadow(radius: 4)
                                 }
                             }
-
-                            Spacer()
                         }
-                        .padding(6)
 
                     } else {
 
@@ -337,14 +268,13 @@ struct TeamView: View {
                             .foregroundStyle(.gray.opacity(0.7))
                     }
                 }
-                .frame(width: 95, height: 95)
+                .frame(width: 80, height: 80)
                 .shadow(
                     color: .cyan.opacity(0.25),
                     radius: 8
                 )
             }
         }
-        .padding(.vertical, 6)
     }
 }
 
