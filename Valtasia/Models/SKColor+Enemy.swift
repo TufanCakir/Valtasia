@@ -12,11 +12,12 @@ func colorFromString(_ name: String) -> SKColor {
 
     switch name {
 
-    case "blue": return .blue
-    case "red": return .red
-    case "green": return .green
+    case "cyan": return .cyan
     case "yellow": return .yellow
-    case "purple": return .purple
+    case "red": return .red
+    case "orange": return .orange
+    case "darkGray": return .darkGray
+    case "black": return .black
 
     default: return .gray
     }

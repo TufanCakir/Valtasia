@@ -7,35 +7,23 @@
 
 import SwiftUI
 
-enum ShopCategory: String, Codable, CaseIterable {
+struct ShopCategory: Codable, Hashable, Identifiable {
 
-    case realMoney
-    case crystals
-    case coins
-    case bundles
-    case special
+    let id: String
+    let icon: String
+    let color: String
 
-    var iconName: String {
-
-        switch self {
-
-        case .realMoney: return "diamond.fill"
-        case .crystals: return "bitcoinsign.circle.fill"
-        case .coins: return "c.circle.fill"
-        case .bundles: return "shippingbox.fill"
-        case .special: return "sparkles"
-        }
-    }
-
-    var color: Color {
-
-        switch self {
-
-        case .realMoney: return .cyan
-        case .crystals: return .purple
-        case .coins: return .yellow
-        case .bundles: return .orange
-        case .special: return .pink
+    var uiColor: Color {
+        switch color.lowercased() {
+        case "cyan": return .cyan
+        case "purple": return .purple
+        case "yellow": return .yellow
+        case "orange": return .orange
+        case "pink": return .pink
+        case "blue": return .blue
+        case "green": return .green
+        case "red": return .red
+        default: return .white
         }
     }
 }

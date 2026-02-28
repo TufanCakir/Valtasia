@@ -17,39 +17,71 @@
         "color": "green",
         "hp": 1000
     },
-
     {
         "id": "slime_green",
         "shape": "blob",
         "color": "green",
         "hp": 1000
     },
-
     {
         "id": "forest_spirit",
         "shape": "star",
         "color": "yellow",
         "hp": 1000
     },
-
     {
         "id": "vampire",
         "shape": "vampire",
         "color": "purple",
         "hp": 1000
     },
-
     {
         "id": "warrior",
         "shape": "warrior",
         "color": "orange",
         "hp": 1000
     },
-
     {
         "id": "mage",
         "shape": "mage",
         "color": "cyan",
         "hp": 1000
+    },
+
+    {
+        "id": "storm_sprite",
+        "shape": "star",
+        "color": "cyan",
+        "hp": 1200
+    },
+    {
+        "id": "light_elemental",
+        "shape": "circle",
+        "color": "yellow",
+        "hp": 1400
+    },
+    {
+        "id": "fire_imp",
+        "shape": "triangle",
+        "color": "red",
+        "hp": 1600
+    },
+    {
+        "id": "lava_golem",
+        "shape": "square",
+        "color": "orange",
+        "hp": 2200
+    },
+    {
+        "id": "shadow_wisp",
+        "shape": "blob",
+        "color": "darkGray",
+        "hp": 2000
+    },
+    {
+        "id": "void_dragon",
+        "shape": "dragon",
+        "color": "black",
+        "hp": 5000
     }
 ]

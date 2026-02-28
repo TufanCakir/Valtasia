@@ -15,23 +15,18 @@ struct GameHeaderView: View {
 
     var body: some View {
 
-        VStack(spacing: 12) {
+        VStack {
 
-            HStack {
+            currencySection
+            levelSection
 
-                levelSection
-
-                Spacer()
-
-                currencySection
-            }
         }
         .padding()
         .background(
             LinearGradient(
                 colors: [
                     Color.black.opacity(0.95),
-                    Color.blue.opacity(0.35)
+                    Color.blue.opacity(0.35),
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -43,17 +38,13 @@ struct GameHeaderView: View {
                     LinearGradient(
                         colors: [
                             .cyan.opacity(0.6),
-                            .purple.opacity(0.6)
+                            .purple.opacity(0.6),
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
                     lineWidth: 1.5
                 )
-        )
-        .shadow(
-            color: .cyan.opacity(0.4),
-            radius: 12
         )
     }
 }
@@ -62,13 +53,12 @@ extension GameHeaderView {
 
     var levelSection: some View {
 
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
 
-            HStack(spacing: 8) {
+            HStack {
 
                 Image(systemName: "star.fill")
-                    .foregroundStyle(.yellow)
-                    .shadow(color: .yellow.opacity(0.8), radius: 6)
+                    .foregroundStyle(.blue)
 
                 Text("LV \(progress.level)")
                     .font(.headline.bold())
@@ -77,7 +67,6 @@ extension GameHeaderView {
 
             expBar
         }
-        .frame(maxWidth: 200, alignment: .leading)
     }
 }
 
@@ -93,7 +82,7 @@ extension GameHeaderView {
             ZStack(alignment: .leading) {
 
                 Capsule()
-                    .fill(Color.black.opacity(0.6))
+                    .fill(.white)
 
                 Capsule()
                     .fill(
@@ -104,14 +93,10 @@ extension GameHeaderView {
                         )
                     )
                     .frame(width: geo.size.width * ratio)
-                    .shadow(
-                        color: .cyan.opacity(0.8),
-                        radius: 10
-                    )
                     .animation(.easeOut(duration: 0.25), value: ratio)
             }
         }
-        .frame(height: 12)
+        .frame(height: 16)
     }
 }
 
@@ -124,12 +109,14 @@ extension GameHeaderView {
             currencyCard(
                 icon: "diamond.fill",
                 gradient: [.cyan, .blue],
+                iconColor: .cyan,
                 value: crystals.crystals
             )
 
             currencyCard(
                 icon: "bitcoinsign.circle.fill",
                 gradient: [.yellow, .orange],
+                iconColor: .yellow,
                 value: coins.coins
             )
         }
@@ -138,14 +125,15 @@ extension GameHeaderView {
     func currencyCard(
         icon: String,
         gradient: [Color],
+        iconColor: Color,
         value: Int
     ) -> some View {
 
-        HStack(spacing: 6) {
+        HStack(spacing: 16) {
 
             Image(systemName: icon)
                 .font(.subheadline)
-                .foregroundStyle(.white)
+                .foregroundStyle(iconColor)
 
             Text(value.formatted())
                 .font(.footnote.bold())
@@ -171,11 +159,6 @@ extension GameHeaderView {
                     ),
                     lineWidth: 1.5
                 )
-        )
-        .clipShape(Capsule())
-        .shadow(
-            color: gradient.first!.opacity(0.6),
-            radius: 8
         )
     }
 }

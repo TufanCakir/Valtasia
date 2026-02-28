@@ -1,8 +1,8 @@
 [
     {
         "id": "world_1",
-        "background": "ocean_bg",
-        "battleBackground": "ocean_bg",
+        "background": "water_bg",
+        "battleBackground": "water_bg",
         "unlockAfterWorld": null,
         "worldNodes": [
             {
@@ -100,8 +100,8 @@
 
     {
         "id": "world_2",
-        "background": "ocean_bg",
-        "battleBackground": "ocean_bg",
+        "background": "water_bg",
+        "battleBackground": "water_bg",
         "unlockAfterWorld": "world_1",
         "worldNodes": [
 
@@ -219,6 +219,503 @@
                     }
                 ]
             }
+        ]
+    },
+    {
+        "id": "world_3",
+        "background": "sky_bg",
+        "battleBackground": "sky_bg",
+        "unlockAfterWorld": "world_2",
+        "worldNodes": [
+
+            {
+                "id": "1",
+                "image": "island_lava",
+                "positionX": 0.2,
+                "positionY": 0.5,
+                "connectsTo": [
+                    "2",
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_16",
+                        "enemies": [
+                            "storm_sprite"
+                        ]
+                    },
+                    {
+                        "id": "level_17",
+                        "enemies": [
+                            "storm_sprite",
+                            "slime_green"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "2",
+                "image": "island_ice",
+                "positionX": 0.45,
+                "positionY": 0.25,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_18",
+                        "enemies": [
+                            "storm_sprite",
+                            "forest_spirit"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "image": "island_heaven",
+                "positionX": 0.45,
+                "positionY": 0.7,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_19",
+                        "enemies": [
+                            "light_elemental"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "image": "island_tech",
+                "positionX": 0.75,
+                "positionY": 0.5,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_20",
+                        "enemies": [
+                            "storm_sprite",
+                            "light_elemental"
+                        ]
+                    }
+                ]
+            }
+
+        ]
+    },
+    {
+        "id": "world_4",
+        "background": "lava_bg",
+        "battleBackground": "lava_bg",
+        "unlockAfterWorld": "world_3",
+        "worldNodes": [
+
+            {
+                "id": "1",
+                "image": "island_lava",
+                "positionX": 0.2,
+                "positionY": 0.5,
+                "connectsTo": [
+                    "2",
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_21",
+                        "enemies": [
+                            "fire_imp"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "2",
+                "image": "island_computer",
+                "positionX": 0.45,
+                "positionY": 0.25,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_22",
+                        "enemies": [
+                            "fire_imp",
+                            "lava_golem"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "image": "island_ice",
+                "positionX": 0.45,
+                "positionY": 0.7,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_23",
+                        "enemies": [
+                            "lava_golem"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "image": "island_computer",
+                "positionX": 0.75,
+                "positionY": 0.5,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_24",
+                        "enemies": [
+                            "fire_imp",
+                            "lava_golem"
+                        ]
+                    }
+                ]
+            }
+
+        ]
+    },
+    {
+        "id": "world_5",
+        "background": "nature_bg",
+        "battleBackground": "nature_bg",
+        "unlockAfterWorld": "world_4",
+        "worldNodes": [
+
+            {
+                "id": "1",
+                "image": "island_nature",
+                "positionX": 0.2,
+                "positionY": 0.5,
+                "connectsTo": [
+                    "2",
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_25",
+                        "enemies": [
+                            "forest_spirit"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "2",
+                "image": "island_void",
+                "positionX": 0.45,
+                "positionY": 0.25,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_26",
+                        "enemies": [
+                            "forest_spirit",
+                            "water_spirit"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "image": "island_heaven",
+                "positionX": 0.45,
+                "positionY": 0.7,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_27",
+                        "enemies": [
+                            "water_spirit"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "image": "island_nature",
+                "positionX": 0.75,
+                "positionY": 0.5,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_28",
+                        "enemies": [
+                            "forest_spirit",
+                            "water_spirit"
+                        ]
+                    }
+                ]
+            }
+
+        ]
+    },
+    {
+        "id": "world_6",
+        "background": "earth_bg",
+        "battleBackground": "earth_bg",
+        "unlockAfterWorld": "world_5",
+        "worldNodes": [
+
+            {
+                "id": "1",
+                "image": "island_earth",
+                "positionX": 0.2,
+                "positionY": 0.5,
+                "connectsTo": [
+                    "2",
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_29",
+                        "enemies": [
+                            "lava_golem"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "2",
+                "image": "island_space",
+                "positionX": 0.45,
+                "positionY": 0.25,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_30",
+                        "enemies": [
+                            "lava_golem",
+                            "forest_spirit"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "image": "island_lava",
+                "positionX": 0.45,
+                "positionY": 0.7,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_31",
+                        "enemies": [
+                            "lava_golem"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "image": "island_computer",
+                "positionX": 0.75,
+                "positionY": 0.5,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_32",
+                        "enemies": [
+                            "lava_golem",
+                            "shadow_wisp"
+                        ]
+                    }
+                ]
+            }
+
+        ]
+    },
+    {
+        "id": "world_7",
+        "background": "space_bg",
+        "battleBackground": "space_bg",
+        "unlockAfterWorld": "world_6",
+        "worldNodes": [
+
+            {
+                "id": "1",
+                "image": "island_space",
+                "positionX": 0.2,
+                "positionY": 0.5,
+                "connectsTo": [
+                    "2",
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_33",
+                        "enemies": [
+                            "storm_sprite"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "2",
+                "image": "island_tech",
+                "positionX": 0.45,
+                "positionY": 0.25,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_34",
+                        "enemies": [
+                            "light_elemental"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "image": "island_lava",
+                "positionX": 0.45,
+                "positionY": 0.7,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_35",
+                        "enemies": [
+                            "storm_sprite",
+                            "light_elemental"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "image": "island_ice",
+                "positionX": 0.75,
+                "positionY": 0.5,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_36",
+                        "enemies": [
+                            "shadow_wisp"
+                        ]
+                    }
+                ]
+            }
+
+        ]
+    },
+    {
+        "id": "world_8",
+        "background": "void_bg",
+        "battleBackground": "void_bg",
+        "unlockAfterWorld": "world_7",
+        "worldNodes": [
+
+            {
+                "id": "1",
+                "image": "island_void",
+                "positionX": 0.2,
+                "positionY": 0.5,
+                "connectsTo": [
+                    "2",
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_37",
+                        "enemies": [
+                            "shadow_wisp"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "2",
+                "image": "island_tech",
+                "positionX": 0.45,
+                "positionY": 0.25,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_38",
+                        "enemies": [
+                            "shadow_wisp",
+                            "light_elemental"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "image": "island_void",
+                "positionX": 0.45,
+                "positionY": 0.7,
+                "connectsTo": [
+                    "4"
+                ],
+                "levels": [
+                    {
+                        "id": "level_39",
+                        "enemies": [
+                            "shadow_wisp"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "image": "island_computer",
+                "positionX": 0.75,
+                "positionY": 0.5,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_40",
+                        "enemies": [
+                            "void_dragon"
+                        ]
+                    }
+                ]
+            }
+
         ]
     }
 ]

@@ -2,7 +2,7 @@
     {
         "id": "small_pack",
         "title": "Small Crystal Pack",
-        "coinCost": 500,
+        "coinCost": 5,
         "crystalReward": 5,
         "purchaseLimit": 10
     },
@@ -10,16 +10,16 @@
     {
         "id": "medium_pack",
         "title": "Medium Crystal Pack",
-        "coinCost": 2000,
-        "crystalReward": 25,
-        "purchaseLimit": 5
+        "coinCost": 30,
+        "crystalReward": 3,
+        "purchaseLimit": 10
     },
 
     {
         "id": "large_pack",
         "title": "Large Crystal Pack",
-        "coinCost": 8000,
-        "crystalReward": 120,
-        "purchaseLimit": 2
+        "coinCost": 50,
+        "crystalReward": 10,
+        "purchaseLimit": 10
     }
 ]

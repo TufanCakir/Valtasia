@@ -5,47 +5,62 @@
 //  Created by Tufan Cakir on 28.02.26.
 //
 
+import Combine
 import SwiftUI
 
 struct EventTimerOverlay: View {
 
     @State private var now = Date()
 
+    // SwiftUI-native Timer
+    private let timer = Timer.publish(every: 1, on: .main, in: .common)
+        .autoconnect()
+
     var body: some View {
 
-        if let event = EventRuntime.shared.activeEvent,
-           let start = event.start.date,
-           let end = Calendar.current.date(
-                byAdding: .day,
-                value: 7,
-                to: start
-           ) {
+        if let event = EventRuntime.shared.activeEvent {
 
-            let remaining = Int(end.timeIntervalSince(now))
+            let key = "event_start_\(event.id)"
 
-            HStack {
+            if let start = UserDefaults.standard.object(forKey: key) as? Date,
+                let end = Calendar.current.date(
+                    byAdding: .day,
+                    value: 7,
+                    to: start
+                )
+            {
 
-                Image(systemName: "clock.fill")
+                let remaining = max(0, Int(end.timeIntervalSince(now)))
 
-                Text(timeString(remaining))
-                    .font(.caption.bold())
-            }
-            .padding(8)
-            .background(.black.opacity(0.7))
-            .clipShape(Capsule())
-            .foregroundStyle(.cyan)
-            .onAppear {
-                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                    now = Date()
+                HStack(spacing: 6) {
+
+                    Image(systemName: "clock.fill")
+
+                    Text(timeString(remaining))
+                        .monospacedDigit()
+                        .font(.caption.bold())
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(.black.opacity(0.75))
+                .clipShape(Capsule())
+                .foregroundStyle(remaining < 86400 ? .red : .cyan)
+                .onReceive(timer) { value in
+                    now = value
                 }
             }
         }
     }
 
-    func timeString(_ seconds:Int)->String{
+    private func timeString(_ seconds: Int) -> String {
         let d = seconds / 86400
         let h = (seconds % 86400) / 3600
         let m = (seconds % 3600) / 60
-        return "\(d)d \(h)h \(m)m"
+
+        if d > 0 {
+            return "\(d)d \(h)h \(m)m"
+        } else {
+            return "\(h)h \(m)m"
+        }
     }
 }

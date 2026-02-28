@@ -78,7 +78,6 @@ extension HomeView {
                         )
                     )
                     .frame(height: 50)
-                    .shadow(color: .cyan.opacity(0.6), radius: 15)
 
                 HStack {
 
@@ -153,7 +152,6 @@ extension HomeView {
                     )
                 )
         )
-        .shadow(color: .cyan.opacity(0.15), radius: 6)
         .padding()
     }
 
@@ -262,14 +260,6 @@ extension HomeView {
                             )
                     )
 
-                    .shadow(
-                        color:
-                            isSelected
-                            ? .cyan.opacity(0.6)
-                            : .black.opacity(0.4),
-                        radius: 10
-                    )
-
                     .scaleEffect(isSelected ? 1.15 : 1)
 
                 Text("\(index + 1)")
@@ -293,7 +283,7 @@ extension HomeView {
         Image(systemName: "lock.fill")
             .font(.caption)
             .foregroundStyle(.white)
-            .padding(6)
+            .padding()
             .background(Circle().fill(.black.opacity(0.6)))
             .offset(y: 22)
     }

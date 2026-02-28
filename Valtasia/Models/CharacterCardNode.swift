@@ -14,7 +14,7 @@ class CharacterCardNode: SKNode {
     private var expFill: SKShapeNode!
 
     // ⭐ Skills pro Character
-    private var skillButtons:[SkillButtonNode] = []
+    private var skillButtons: [SkillButtonNode] = []
 
     init(owned: OwnedCharacter) {
 
@@ -23,7 +23,7 @@ class CharacterCardNode: SKNode {
         super.init()
 
         buildUI()
-        spawnSkills()   // ⭐ Skills erzeugen
+        spawnSkills()  // ⭐ Skills erzeugen
         updateEXP()
     }
 
@@ -54,10 +54,10 @@ class CharacterCardNode: SKNode {
         )
 
         portrait.size =
-        CGSize(width: 70, height: 70)
+            CGSize(width: 70, height: 70)
 
         portrait.position =
-        CGPoint(x: 0, y: 12)
+            CGPoint(x: 0, y: 12)
 
         addChild(portrait)
 
@@ -71,7 +71,7 @@ class CharacterCardNode: SKNode {
         expBG.fillColor = .darkGray
 
         expBG.position =
-        CGPoint(x: 0, y: -35)
+            CGPoint(x: 0, y: -35)
 
         addChild(expBG)
 
@@ -95,34 +95,30 @@ class CharacterCardNode: SKNode {
 
     private func spawnSkills() {
 
-        skillButtons.forEach {
-            $0.removeFromParent()
-        }
-
+        skillButtons.forEach { $0.removeFromParent() }
         skillButtons.removeAll()
 
         let skills = owned.base.skills
-
         guard !skills.isEmpty else { return }
 
-        var x:CGFloat =
-        -CGFloat(skills.count - 1) * 22
+        let buttonSpacing: CGFloat = 70  // Abstand zwischen Buttons
+        let totalWidth = buttonSpacing * CGFloat(skills.count - 1)
+
+        var startX = -totalWidth / 2
 
         for skill in skills {
 
-            let button =
-            SkillButtonNode(skill: skill)
+            let button = SkillButtonNode(skill: skill)
 
             button.position = CGPoint(
-                x: x,
-                y: -65   // unter portrait
+                x: startX,
+                y: 95  // etwas höher über Portrait
             )
 
             addChild(button)
-
             skillButtons.append(button)
 
-            x += 44
+            startX += buttonSpacing
         }
     }
 
@@ -131,13 +127,12 @@ class CharacterCardNode: SKNode {
     func updateEXP() {
 
         let ratio =
-        CGFloat(owned.exp) /
-        CGFloat(owned.requiredEXP)
+            CGFloat(owned.exp) / CGFloat(owned.requiredEXP)
 
         expFill.xScale =
-        max(0,min(1,ratio))
+            max(0, min(1, ratio))
 
         expFill.position.x =
-        -(70 * (1-expFill.xScale))/2
+            -(70 * (1 - expFill.xScale)) / 2
     }
 }

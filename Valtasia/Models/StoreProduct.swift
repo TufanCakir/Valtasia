@@ -7,9 +7,9 @@
 
 import StoreKit
 
-struct StoreProduct {
+struct StoreProduct: Identifiable {
 
-    let product: Product?   // ⭐ optional
+    let id = UUID()
+    let product: Product?
     let shopItem: ShopItem
-
 }

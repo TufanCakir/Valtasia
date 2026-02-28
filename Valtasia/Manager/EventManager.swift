@@ -9,65 +9,59 @@ import Combine  // ⭐ hinzufügen
 import Foundation
 
 class EventManager: ObservableObject {  // ⭐ hinzufügen
-    
+
     static let shared = EventManager()
-    
+
     @Published var events: [GameEvent] = []  // ⭐ wichtig !!
-    
+
     func load() {
-        
+
         do {
-            
+
             events = try JSONLoader.load("events")
-            
+
             print("Loaded Events:", events.count)
-            
-        }catch{
-            
+
+        } catch {
+
             print(error)
-            
+
         }
     }
-    
+
     func activeEvents() -> [GameEvent] {
-        
+
         let now = Date()
-        
-        return events.filter {
-            
-            guard let start = $0.start.date else {
+
+        return events.filter { event in
+
+            let key = "event_start_\(event.id)"
+
+            // Wenn noch kein Start gespeichert → jetzt starten
+            if UserDefaults.standard.object(forKey: key) == nil {
+                UserDefaults.standard.set(now, forKey: key)
+            }
+
+            guard let start = UserDefaults.standard.object(forKey: key) as? Date
+            else {
                 return false
             }
-            
-            // ⭐ automatisch 7 Tage Dauer
-            guard let end = Calendar.current.date(
-                byAdding: .day,
-                value: 7,
-                to: start
-            ) else {
+
+            guard
+                let end = Calendar.current.date(
+                    byAdding: .day,
+                    value: 7,
+                    to: start
+                )
+            else {
                 return false
             }
-            
-            print("Now:", now)
-            print("Start:", start)
-            print("End:", end)
-            
-            let active = now >= start && now <= end
-            
-            print("Is Active:", active)
-            
-            return active
+
+            if now > end {
+                UserDefaults.standard.set(now, forKey: key)
+                return true
+            }
+            return true
         }
-    }}
-
-extension String {
-
-    var date: Date? {
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-        return formatter.date(from: self)
     }
 }

@@ -13,25 +13,35 @@ struct ShopView: View {
     @State private var storeProducts: [StoreProduct] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
-    @State private var selectedCategory: ShopCategory = .realMoney
+    @State private var selectedCategory: String = "real_money"
+
+    fileprivate var uniqueCategories: [ShopCategory] {
+        Array(
+            Dictionary(
+                grouping: storeProducts.map { $0.shopItem.category },
+                by: { $0.id }
+            ).values.compactMap { $0.first }
+        )
+    }
 
     var body: some View {
 
-        VStack(spacing: 0) {
+        VStack {
 
             // MARK: HEADER
-            header
-                .padding(.horizontal, 20)
-                .padding(.top, 18)
-                .padding(.bottom, 12)
+            GameHeaderView()
+                .padding()
 
             Divider()
                 .background(.white.opacity(0.15))
 
             // MARK: CATEGORY BAR
-            ShopCategoryBar(selected: $selectedCategory)
-                .padding(.horizontal, 20)
-                .padding(.top, 14)
+            ShopCategoryBar(
+                categories: uniqueCategories,
+                selected: $selectedCategory
+            )
+            .padding(.horizontal, 20)
+            .padding(.top, 14)
 
             // MARK: CONTENT
             ScrollView {
@@ -66,48 +76,6 @@ struct ShopView: View {
 
 extension ShopView {
 
-    var header: some View {
-
-        HStack {
-
-            VStack(alignment: .leading, spacing: 4) {
-
-                Text("Premium Shop")
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(.white)
-
-                Text("Erweitere deine Macht")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.7))
-            }
-
-            Spacer()
-
-            VStack(alignment: .trailing, spacing: 8) {
-
-                HStack(spacing: 8) {
-                    Image(systemName: "circle.fill")
-                    Text("\(CoinManager.shared.coins)")
-                }
-
-                HStack(spacing: 8) {
-                    Image(systemName: "diamond.fill")
-                        .foregroundStyle(.cyan)
-                    Text("\(CrystalManager.shared.crystals)")
-                        .bold()
-                }
-            }
-            .foregroundStyle(.white)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-        }
-    }
-}
-
-extension ShopView {
-
     fileprivate var contentList: some View {
 
         VStack(spacing: 20) {
@@ -128,9 +96,9 @@ extension ShopView {
 
             else {
 
-                ForEach(filteredProducts, id: \.shopItem.id) { item in
+                ForEach(filteredProducts, id: \.id) { item in
 
-                    PremiumShopRow(storeProduct: item) {
+                    ShopRowView(storeProduct: item) {
 
                         Task {
                             await purchase(item)
@@ -144,7 +112,7 @@ extension ShopView {
     fileprivate var filteredProducts: [StoreProduct] {
 
         storeProducts.filter {
-            $0.shopItem.category == selectedCategory
+            $0.shopItem.category.id == selectedCategory
         }
     }
 }
@@ -158,6 +126,11 @@ extension ShopView {
                 shopItems: shopItems
             )
             storeProducts = products
+
+            if let first = uniqueCategories.first {
+                selectedCategory = first.id
+            }
+
             isLoading = false
         } catch {
             errorMessage = "Failed to load shop."
@@ -170,15 +143,24 @@ extension ShopView {
 
     private func purchase(_ storeProduct: StoreProduct) async {
 
-        // ⭐ Soft Currency
+        let item = storeProduct.shopItem
+
+        // ⭐ GRATIS PACK
         if storeProduct.product == nil {
 
-            if let coins = storeProduct.shopItem.coins {
+            if let crystals = item.crystals {
+                CrystalManager.shared.add(crystals)
+            }
 
-                let success = CrystalManager.shared.spend(50)
+            if item.oneTimePurchase == true {
 
-                if success {
-                    CoinManager.shared.add(coins)
+                UserDefaults.standard.set(
+                    true,
+                    forKey: "shop_bought_\(item.id)"
+                )
+
+                storeProducts.removeAll {
+                    $0.shopItem.id == item.id
                 }
             }
 
@@ -196,25 +178,26 @@ extension ShopView {
 
             case .success(let verification):
 
-                switch verification {
+                if case .verified(_) = verification {
 
-                case .verified(_):
-
-                    if let gems = storeProduct.shopItem.gems {
-                        CrystalManager.shared.add(gems)
+                    if let crystals = item.crystals {
+                        CrystalManager.shared.add(crystals)
                     }
 
-                case .unverified(_, _):
-                    print("Unverified")
+                    if item.oneTimePurchase == true {
+
+                        UserDefaults.standard.set(
+                            true,
+                            forKey: "shop_bought_\(item.id)"
+                        )
+
+                        storeProducts.removeAll {
+                            $0.shopItem.id == item.id
+                        }
+                    }
                 }
 
-            case .pending:
-                print("Pending")
-
-            case .userCancelled:
-                print("Cancelled")
-
-            @unknown default:
+            default:
                 break
             }
 

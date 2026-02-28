@@ -15,7 +15,7 @@ struct ShopRowView: View {
 
     var body: some View {
 
-        HStack(spacing: 18) {
+        HStack(spacing: 16) {
 
             iconView
 
@@ -95,27 +95,24 @@ extension ShopRowView {
     }
 
     fileprivate var iconName: String {
-        storeProduct.shopItem.category.iconName
+        storeProduct.shopItem.category.icon
     }
 
     fileprivate var iconColor: Color {
-        storeProduct.shopItem.category.color
+        storeProduct.shopItem.category.uiColor
     }
 
     // MARK: TITLE
 
+    @ViewBuilder
     fileprivate var titleView: some View {
 
-        Group {
-            if let gems = storeProduct.shopItem.gems {
-                Text("\(gems) Crystals")
-                    .font(.title3.bold())
-                    .foregroundStyle(.white)
-            } else if let coins = storeProduct.shopItem.coins {
-                Text("\(coins) Coins")
-                    .font(.title3.bold())
-                    .foregroundStyle(.white)
-            }
+        if let crystals = storeProduct.shopItem.crystals {
+            Text("\(crystals) Crystals")
+                .font(.title3.bold())
+                .foregroundStyle(.white)
+        } else {
+            EmptyView()
         }
     }
 

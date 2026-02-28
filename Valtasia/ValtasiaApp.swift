@@ -10,9 +10,11 @@ import SwiftUI
 @main
 struct ValtasiaApp: App {
 
+    @StateObject private var network = NetworkMonitor.shared
+
     @StateObject private var appModel = AppModel()
     @StateObject private var eventManager = EventManager.shared
-    
+
     @Environment(\.scenePhase)
     private var scenePhase
 
@@ -24,13 +26,23 @@ struct ValtasiaApp: App {
 
         WindowGroup {
 
-            RootView()
-                .environmentObject(appModel)
-                .environmentObject(CoinManager.shared)
-                .environmentObject(CrystalManager.shared)
-                .environmentObject(PlayerProgressManager.shared)
-                .environmentObject(eventManager)
-                .preferredColorScheme(.dark)
+            Group {
+
+                if network.isConnected {
+
+                    RootView()
+
+                } else {
+
+                    OfflineView()
+                }
+            }
+            .environmentObject(appModel)
+            .environmentObject(CoinManager.shared)
+            .environmentObject(CrystalManager.shared)
+            .environmentObject(PlayerProgressManager.shared)
+            .environmentObject(eventManager)
+            .preferredColorScheme(.dark)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
 
@@ -38,7 +50,7 @@ struct ValtasiaApp: App {
 
             case .active:
                 EventManager.shared.load()
-                
+
             case .inactive:
                 print("App inactive")
 

@@ -13,6 +13,13 @@ final class EnemyShapeFactory {
 
         let container = SKNode()
 
+        // DRAGON baut sich komplett selbst
+        if enemy.shape == "dragon" {
+
+            addDragon(to: container)
+            return container
+        }
+
         let body: SKShapeNode
 
         switch enemy.shape {
@@ -38,11 +45,9 @@ final class EnemyShapeFactory {
             body = SKShapeNode(path: path)
 
         case "star":
-
             body = SKShapeNode(path: starPath())
 
         case "blob":
-
             body = SKShapeNode(
                 ellipseOf: CGSize(width: 130, height: 100)
             )
@@ -50,7 +55,6 @@ final class EnemyShapeFactory {
         case "vampire":
 
             body = SKShapeNode(circleOfRadius: 65)
-
             addVampireFace(to: container)
 
         case "warrior":
@@ -64,11 +68,9 @@ final class EnemyShapeFactory {
         case "mage":
 
             body = SKShapeNode(circleOfRadius: 60)
-
             addMageHat(to: container)
 
         default:
-
             body = SKShapeNode(circleOfRadius: 50)
         }
 
@@ -144,6 +146,75 @@ extension EnemyShapeFactory {
 }
 
 extension EnemyShapeFactory {
+
+    fileprivate static func addDragon(to node: SKNode) {
+
+        // BODY
+        let body = SKShapeNode(circleOfRadius: 90)
+        body.fillColor = .black
+        body.strokeColor = .purple
+        body.lineWidth = 5
+        body.glowWidth = 15
+
+        node.addChild(body)
+
+        // EYES
+        for x in [-25, 25] {
+
+            let eye = SKShapeNode(circleOfRadius: 10)
+            eye.fillColor = .purple
+            eye.glowWidth = 12
+            eye.position = CGPoint(x: x, y: 15)
+
+            node.addChild(eye)
+        }
+
+        // HORNS
+        let hornPath = CGMutablePath()
+
+        hornPath.move(to: CGPoint(x: 0, y: 90))
+        hornPath.addLine(to: CGPoint(x: -30, y: 140))
+        hornPath.addLine(to: CGPoint(x: -10, y: 80))
+
+        let hornL = SKShapeNode(path: hornPath)
+        hornL.fillColor = .purple
+        hornL.glowWidth = 10
+
+        node.addChild(hornL)
+
+        let hornR = hornL.copy() as! SKShapeNode
+        hornR.xScale = -1
+
+        node.addChild(hornR)
+
+        // WINGS
+        let wing = CGMutablePath()
+
+        wing.move(to: CGPoint(x: 90, y: 10))
+        wing.addLine(to: CGPoint(x: 170, y: 60))
+        wing.addLine(to: CGPoint(x: 150, y: -40))
+        wing.closeSubpath()
+
+        let wingRight = SKShapeNode(path: wing)
+        wingRight.fillColor = .black
+        wingRight.strokeColor = .purple
+        wingRight.glowWidth = 10
+
+        node.addChild(wingRight)
+
+        let wingLeft = wingRight.copy() as! SKShapeNode
+        wingLeft.xScale = -1
+
+        node.addChild(wingLeft)
+
+        // VOID AURA
+        let aura = SKShapeNode(circleOfRadius: 130)
+        aura.strokeColor = .purple
+        aura.glowWidth = 30
+        aura.alpha = 0.5
+
+        node.addChild(aura)
+    }
 
     fileprivate static func addVampireFace(to node: SKNode) {
         let fang = SKShapeNode(rectOf: CGSize(width: 6, height: 14))

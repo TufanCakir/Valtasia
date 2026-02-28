@@ -1,24 +1,43 @@
 [
     {
+        "id": "starter_pack",
+        "category": {
+            "id": "starter",
+            "icon": "sparkles",
+            "color": "purple"
+        },
+        "crystals": 100,
+        "tag": "best_value",
+        "oneTimePurchase": true
+    },
+    {
         "id": "crystal_pack_small",
         "storeProductId": "com.valtasia.crystal.small",
-        "category": "real_money",
-        "gems": 500
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "cyan"
+        },
+        "crystals": 10
+    },
+    {
+        "id": "crystal_pack_medium",
+        "storeProductId": "com.valtasia.crystal.medium",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "cyan"
+        },
+        "crystals": 30
     },
     {
         "id": "crystal_pack_big",
         "storeProductId": "com.valtasia.crystal.big",
-        "category": "real_money",
-        "gems": 1500
-    },
-    {
-        "id": "coin_pack_1",
-        "category": "coins",
-        "coins": 5000
-    },
-    {
-        "id": "coin_pack_2",
-        "category": "crystals",
-        "crystals": 15000
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "cyan"
+        },
+        "crystals": 50
     }
 ]

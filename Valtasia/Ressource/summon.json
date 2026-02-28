@@ -3,8 +3,8 @@
         "id": "riven_banner",
         "title": "Riven Summon",
         "bannerImage": "character_riven",
-        "currencyCost": 50,
-        "multiCost": 450,
+        "currencyCost": 5,
+        "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
 
@@ -16,8 +16,8 @@
         "id": "nyra_banner",
         "title": "Nyra Summon",
         "bannerImage": "character_nyra",
-        "currencyCost": 50,
-        "multiCost": 450,
+        "currencyCost": 5,
+        "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
 
@@ -29,8 +29,8 @@
         "id": "vex_banner",
         "title": "Vex Summon",
         "bannerImage": "character_vex",
-        "currencyCost": 50,
-        "multiCost": 450,
+        "currencyCost": 5,
+        "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
 
@@ -42,8 +42,8 @@
         "id": "selyn_banner",
         "title": "Selyn Summon",
         "bannerImage": "character_selyn",
-        "currencyCost": 50,
-        "multiCost": 450,
+        "currencyCost": 5,
+        "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
 

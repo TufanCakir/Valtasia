@@ -15,16 +15,17 @@ struct SummonView: View {
     @State private var selectedBanner: SummonBanner?
     @State private var selectedCharacter: Character?
     @State private var showNotEnoughCrystals = false
+    @State private var pendingBanner: SummonBanner?
+    @State private var pendingAmount: Int = 1
+    @State private var showSummonConfirm = false
 
     var body: some View {
 
-        VStack(spacing: 0) {
+        VStack {
 
             // MARK: HEADER
-            header
-                .padding(.horizontal, 20)
-                .padding(.top, 18)
-                .padding(.bottom, 12)
+            GameHeaderView()
+                .padding()
 
             Divider()
                 .background(.white.opacity(0.15))
@@ -33,15 +34,12 @@ struct SummonView: View {
 
             ScrollView {
 
-                VStack(spacing: 32) {
+                VStack(spacing: 20) {
 
                     ForEach(summonManager.banners) { banner in
                         summonBannerCard(banner)
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 24)
-                .padding(.bottom, 140)  // Platz für Footer
             }
             .scrollIndicators(.hidden)
         }
@@ -69,41 +67,34 @@ struct SummonView: View {
                 characters: summonManager.characters
             )
         }
-    }
-}
+        .alert("Summon bestätigen", isPresented: $showSummonConfirm) {
 
-extension SummonView {
+            Button("Abbrechen", role: .cancel) {}
 
-    @ViewBuilder var header: some View {
-
-        HStack {
-
-            VStack(alignment: .leading, spacing: 4) {
-
-                Text("Summon Gate")
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(.white)
-
-                Text("Beschwöre legendäre Kämpfer")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.7))
+            Button("Bestätigen") {
+                if let banner = pendingBanner {
+                    performSummon(for: banner, amount: pendingAmount)
+                }
             }
 
-            Spacer()
+        } message: {
 
-            HStack(spacing: 10) {
+            if let banner = pendingBanner {
 
-                Image(systemName: "diamond.fill")
-                    .foregroundStyle(.cyan)
+                let cost =
+                    pendingAmount == 1
+                    ? banner.currencyCost
+                    : (banner.multiCost ?? banner.currencyCost * pendingAmount)
 
-                Text("\(crystalManager.crystals)")
-                    .bold()
-                    .foregroundStyle(.white)
+                HStack(spacing: 6) {
+                    Text(
+                        "Möchtest du \(pendingAmount) Charakter(e) für \(cost) "
+                    )
+                    Image(systemName: "diamond.fill")
+                        .foregroundStyle(.cyan)
+                    Text(" beschwören?")
+                }
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
     }
 }
@@ -111,8 +102,6 @@ extension SummonView {
 extension SummonView {
 
     func summonBannerCard(_ banner: SummonBanner) -> some View {
-
-      
 
         return ZStack(alignment: .bottomLeading) {
 
@@ -128,31 +117,15 @@ extension SummonView {
                 endPoint: .bottom
             )
 
-            VStack(alignment: .leading, spacing: 16) {
+            HStack(spacing: 12) {
 
                 Text(banner.title)
                     .font(.title.bold())
                     .foregroundStyle(.white)
 
-                VStack(alignment: .leading, spacing: 16) {
-
-                    HStack(spacing: 16) {
-
-                        Label("\(banner.currencyCost)", systemImage: "diamond.fill")
-                            .foregroundStyle(.cyan)
-
-                        Text("Pool: \(banner.pool.count)")
-                            .font(.caption.bold())
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(.white.opacity(0.15))
-                            .clipShape(Capsule())
-                    }
-
-                    summonButtons(for: banner)
-                }
+                summonButtons(for: banner)
             }
-            .padding(20)
+            .padding()
 
             // Info Button
             VStack {
@@ -190,80 +163,97 @@ extension SummonView {
 }
 
 extension SummonView {
-    
+
     func summonButtons(for banner: SummonBanner) -> some View {
-        
+
         HStack(spacing: 12) {
-            
-            // SINGLE
-            Button {
-                performSummon(for: banner, amount: 1)
-            } label: {
-                Text("Summon x1")
-                    .font(.caption.bold())
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(
-                        LinearGradient(
-                            colors: [.purple, .blue],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .foregroundStyle(.white)
-                    .clipShape(Capsule())
-            }
-            
-            // MULTI (wenn vorhanden)
+
+            summonButton(
+                cost: banner.currencyCost,
+                amount: 1,
+                colors: [.purple, .blue],
+                banner: banner
+            )
+
             if let multiAmount = banner.multiAmount {
-                
-                Button {
-                    performSummon(for: banner, amount: multiAmount)
-                } label: {
-                    Text("Summon x\(multiAmount)")
-                        .font(.caption.bold())
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 8)
-                        .background(
-                            LinearGradient(
-                                colors: [.cyan, .purple],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .foregroundStyle(.white)
-                        .clipShape(Capsule())
-                }
+
+                let multiCost =
+                    banner.multiCost ?? banner.currencyCost * multiAmount
+
+                summonButton(
+                    cost: multiCost,
+                    amount: multiAmount,
+                    colors: [.cyan, .purple],
+                    banner: banner
+                )
             }
         }
+        .frame(maxWidth: .infinity, alignment: .center)
     }
-    
+
+    private func summonButton(
+        cost: Int,
+        amount: Int,
+        colors: [Color],
+        banner: SummonBanner
+    ) -> some View {
+
+        Button {
+            pendingBanner = banner
+            pendingAmount = amount
+            showSummonConfirm = true
+        } label: {
+
+            HStack {
+
+                Image(systemName: "diamond.fill")
+                    .font(.caption)
+
+                Text("x\(amount)")
+                    .font(.caption.bold())
+            }
+            .foregroundStyle(.cyan)
+            .padding()
+            .background(
+                LinearGradient(
+                    colors: colors,
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .clipShape(Capsule())
+        }
+    }
+}
+
+extension SummonView {
+
     private func performSummon(for banner: SummonBanner, amount: Int) {
-        
+
         let cost: Int
-        
+
         if amount == 1 {
             cost = banner.currencyCost
         } else {
             cost = banner.multiCost ?? banner.currencyCost * amount
         }
-        
+
         guard CrystalManager.shared.spend(cost) else {
             showNotEnoughCrystals = true
             return
         }
-        
+
         for _ in 0..<amount {
-            
+
             if let character = summonManager.summon(from: banner.id) {
-                
+
                 let owned = OwnedCharacter(base: character)
                 teamManager.ownedCharacters.append(owned)
-                
+
                 if teamManager.activeTeam.isEmpty {
                     teamManager.addToTeam(owned)
                 }
-                
+
                 selectedCharacter = character
             }
         }

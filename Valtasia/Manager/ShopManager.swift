@@ -12,30 +12,36 @@ class ShopManager {
     func loadShopProducts(
         shopItems: [ShopItem]
     ) async throws -> [StoreProduct] {
-
         var storeProducts: [StoreProduct] = []
 
-        // Echtgeld Items
-        let realMoneyItems = shopItems.filter {
-            $0.category == .realMoney
+        // ⭐ 1. Bereits gekaufte One-Time Items entfernen
+        let availableItems = shopItems.filter {
+            if $0.oneTimePurchase == true {
+                let bought = UserDefaults.standard.bool(
+                    forKey: "shop_bought_\($0.id)"
+                )
+                return !bought
+            }
+            return true
         }
 
-        let ids = realMoneyItems.compactMap {
-            $0.storeProductId
+        // ⭐ 2. Echtgeld Items
+        let realMoneyItems = availableItems.filter {
+            $0.category.id == "real_money"
         }
+
+        let ids = realMoneyItems.compactMap { $0.storeProductId }
 
         let products =
             try await StoreKitService
             .shared
             .fetchProducts(ids: ids)
 
-        // Echtgeld Produkte verbinden
+        // ⭐ 3. Echtgeld Produkte verbinden
         for product in products {
-
-            if let item = realMoneyItems.first(
-                where: { $0.storeProductId == product.id }
-            ) {
-
+            if let item = realMoneyItems.first(where: {
+                $0.storeProductId == product.id
+            }) {
                 storeProducts.append(
                     StoreProduct(
                         product: product,
@@ -45,13 +51,9 @@ class ShopManager {
             }
         }
 
-        // ⭐ Soft Currency Produkte (kein StoreKit nötig)
-        let softItems = shopItems.filter {
-            $0.category != .realMoney
-        }
-
+        // ⭐ 4. Soft / Free Items (kein StoreKit nötig)
+        let softItems = availableItems.filter { $0.category.id != "real_money" }
         storeProducts += softItems.map {
-
             StoreProduct(
                 product: nil,
                 shopItem: $0

@@ -6,7 +6,7 @@
 //
 
 import SpriteKit
-    
+
 class SkillButtonNode: SKNode {
 
     let skill: Skill
@@ -26,21 +26,30 @@ class SkillButtonNode: SKNode {
 
     private func buildUI() {
 
-        let circle = SKShapeNode(circleOfRadius: 18)
-        circle.fillColor = .black.withAlphaComponent(0.7)
-        circle.strokeColor = skill.color?.skColor ?? .white
-        circle.lineWidth = 2
+        let radius: CGFloat = 28
+        let color = skill.color?.skColor ?? .white
+
+        let circle = SKShapeNode(circleOfRadius: radius)
+        circle.fillColor = color.withAlphaComponent(0.25)
+        circle.strokeColor = color
+        circle.lineWidth = 3
+        circle.glowWidth = 6
 
         addChild(circle)
 
         let label = SKLabelNode(text: "★")
-        label.fontSize = 16
+        label.fontSize = 22
         label.verticalAlignmentMode = .center
-        label.fontColor = skill.color?.skColor ?? .white
+        label.fontColor = color
 
         addChild(label)
 
-        // ⭐ DAS WAR DEIN FEHLER
         self.name = "skill_\(skill.id)"
+
+        let hitbox = SKShapeNode(circleOfRadius: radius + 14)
+        hitbox.fillColor = .clear
+        hitbox.strokeColor = .clear
+        hitbox.name = self.name
+        addChild(hitbox)
     }
 }

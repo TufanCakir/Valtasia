@@ -8,10 +8,10 @@
 struct ShopItem: Codable, Identifiable {
 
     let id: String
-
     let storeProductId: String?
     let category: ShopCategory
 
-    let gems: Int?
-    let coins: Int?
+    let crystals: Int?
+
+    let oneTimePurchase: Bool?
 }

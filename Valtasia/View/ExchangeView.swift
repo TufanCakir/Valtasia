@@ -17,13 +17,11 @@ struct ExchangeView: View {
 
     var body: some View {
 
-        VStack(spacing: 0) {
+        VStack {
 
             // MARK: HEADER
-            header
-                .padding(.horizontal, 20)
-                .padding(.top, 18)
-                .padding(.bottom, 14)
+            GameHeaderView()
+                .padding()
 
             Divider()
                 .background(.white.opacity(0.15))
@@ -61,48 +59,6 @@ struct ExchangeView: View {
             isPresented: $showFail
         ) {
             Button("OK", role: .cancel) {}
-        }
-    }
-}
-
-extension ExchangeView {
-
-    var header: some View {
-
-        HStack {
-
-            VStack(alignment: .leading, spacing: 4) {
-
-                Text("Crystal Exchange")
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(.white)
-
-                Text("Tausche Coins gegen Kristalle")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.7))
-            }
-
-            Spacer()
-
-            VStack(alignment: .trailing, spacing: 8) {
-
-                HStack(spacing: 8) {
-                    Image(systemName: "circle.fill")
-                    Text("\(coins.coins)")
-                }
-
-                HStack(spacing: 8) {
-                    Image(systemName: "diamond.fill")
-                        .foregroundStyle(.cyan)
-                    Text("\(crystals.crystals)")
-                        .bold()
-                }
-            }
-            .foregroundStyle(.white)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
     }
 }
@@ -149,9 +105,9 @@ extension ExchangeView {
 
                     Label(
                         "-\(offer.coinCost)",
-                        systemImage: "circle.fill"
+                        systemImage: "bitcoinsign.circle.fill"
                     )
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.yellow)
 
                     Spacer()
 

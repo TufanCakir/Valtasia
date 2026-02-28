@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ShopCategoryBar: View {
 
-    @Binding var selected: ShopCategory
+    let categories: [ShopCategory]
+    @Binding var selected: String
 
     var body: some View {
 
@@ -17,8 +18,7 @@ struct ShopCategoryBar: View {
 
             HStack(spacing: 16) {
 
-                ForEach(ShopCategory.allCases, id: \.self) { cat in
-
+                ForEach(categories) { cat in
                     categoryButton(cat)
                 }
             }
@@ -31,33 +31,26 @@ struct ShopCategoryBar: View {
 }
 
 // MARK: BUTTON
-
 extension ShopCategoryBar {
 
     func categoryButton(_ cat: ShopCategory) -> some View {
 
-        let isSelected = selected == cat
+        let isSelected = selected == cat.id
 
         return Button {
 
-            withAnimation(
-                .spring(
-                    response: 0.35,
-                    dampingFraction: 0.8
-                )
-            ) {
-
-                selected = cat
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                selected = cat.id
             }
 
         } label: {
 
             HStack(spacing: 8) {
 
-                Image(systemName: icon(for: cat))
+                Image(systemName: cat.icon)
                     .font(.caption.bold())
 
-                Text(title(for: cat))
+                Text(cat.id.capitalized)
                     .font(.caption.bold())
             }
             .foregroundStyle(
@@ -68,12 +61,6 @@ extension ShopCategoryBar {
             .padding(.horizontal, 18)
             .padding(.vertical, 10)
             .background(buttonBackground(isSelected))
-            .shadow(
-                color: isSelected
-                    ? .cyan.opacity(0.35)
-                    : .clear,
-                radius: 8
-            )
         }
         .buttonStyle(.plain)
     }
@@ -147,24 +134,5 @@ extension ShopCategoryBar {
                         lineWidth: 1
                     )
             )
-    }
-}
-func title(for cat: ShopCategory) -> String {
-    switch cat {
-    case .realMoney: return "Crystals"
-    case .coins: return "Coins"
-    case .crystals: return "Exchange"
-    case .bundles: return "Bundles"
-    case .special: return "Special"
-    }
-}
-
-func icon(for cat: ShopCategory) -> String {
-    switch cat {
-    case .realMoney: return "diamond.fill"
-    case .coins: return "circle.fill"
-    case .crystals: return "arrow.left.arrow.right"
-    case .bundles: return "shippingbox.fill"
-    case .special: return "sparkles"
     }
 }

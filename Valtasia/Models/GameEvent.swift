@@ -13,8 +13,6 @@ struct GameEvent: Codable, Identifiable, Hashable {
 
     var description: String?
 
-    var start: String
-
     var modifiers: EventModifiers?
 
     var bossEnemy: String?
