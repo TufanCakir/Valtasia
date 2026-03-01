@@ -8,7 +8,5 @@
 struct Enemy: Codable {
 
     let id: String
-    let shape: String
-    let color: String
     let hp: Int
 }

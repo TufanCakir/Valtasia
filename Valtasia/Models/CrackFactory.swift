@@ -36,7 +36,7 @@ class CrackFactory {
         core.strokeTexture = gradientTexture(for: crack)
         container.addChild(core)
 
-        applyRarityScale(container, crack)
+        container.setScale(0.8)
 
         return container
     }
@@ -147,37 +147,19 @@ class CrackFactory {
     }
 
     // MARK: - Rarity Scale
-
     private static func applyRarityScale(
         _ node: SKNode,
         _ crack: Crack
     ) {
-
         switch crack.rarity {
-
-        case .common:
-            node.setScale(1.2)
-
-        case .uncommon:
-            node.setScale(1.35)
-
-        case .rare:
-            node.setScale(1.6)
-
-        case .epic:
-            node.setScale(1.9)
-
-        case .legendary:
-            node.setScale(2.3)
-
-        case .mythic:
-            node.setScale(2.8)
-
-        case .ancient:
-            node.setScale(3.2)
-
-        case .divine:
-            node.setScale(3.6)
+        case .common: node.setScale(0.5)
+        case .uncommon: node.setScale(0.6)
+        case .rare: node.setScale(0.7)
+        case .epic: node.setScale(0.8)
+        case .legendary: node.setScale(0.9)
+        case .mythic: node.setScale(1.0)
+        case .ancient: node.setScale(1.1)
+        case .divine: node.setScale(1.2)
         }
     }
 }

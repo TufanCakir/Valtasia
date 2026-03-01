@@ -18,14 +18,14 @@
                     {
                         "id": "level_1",
                         "enemies": [
-                            "slime_blue"
+                            "pyrothar"
                         ]
                     },
                     {
                         "id": "level_2",
                         "enemies": [
-                            "slime_blue",
-                            "crab"
+                            "pyrothar",
+                            "pyrothar"
                         ]
                     }
                 ]
