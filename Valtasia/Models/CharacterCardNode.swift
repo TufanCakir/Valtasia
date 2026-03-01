@@ -37,7 +37,7 @@ class CharacterCardNode: SKNode {
 
         // CARD BG
         let bg = SKShapeNode(
-            rectOf: CGSize(width: 90, height: 110),
+            rectOf: CGSize(width: 75, height: 95),
             cornerRadius: 12
         )
 
@@ -54,7 +54,7 @@ class CharacterCardNode: SKNode {
         )
 
         portrait.size =
-            CGSize(width: 70, height: 70)
+        CGSize(width: 60, height: 60)
 
         portrait.position =
             CGPoint(x: 0, y: 12)
@@ -64,7 +64,7 @@ class CharacterCardNode: SKNode {
         // EXP BG
 
         let expBG = SKShapeNode(
-            rectOf: CGSize(width: 70, height: 8),
+            rectOf: CGSize(width: 60, height: 8),
             cornerRadius: 3
         )
 
@@ -101,7 +101,7 @@ class CharacterCardNode: SKNode {
         let skills = owned.base.skills
         guard !skills.isEmpty else { return }
 
-        let buttonSpacing: CGFloat = 70  // Abstand zwischen Buttons
+        let buttonSpacing: CGFloat = 32
         let totalWidth = buttonSpacing * CGFloat(skills.count - 1)
 
         var startX = -totalWidth / 2
@@ -112,7 +112,7 @@ class CharacterCardNode: SKNode {
 
             button.position = CGPoint(
                 x: startX,
-                y: 95  // etwas höher über Portrait
+                y: 55
             )
 
             addChild(button)
@@ -136,3 +136,4 @@ class CharacterCardNode: SKNode {
             -(70 * (1 - expFill.xScale)) / 2
     }
 }
+

@@ -11,7 +11,7 @@ struct Character: Codable, Identifiable, Hashable {
 
     let id: String
     let name: String
-    let rarity: Rarity
+    let rarity: CharacterRarity
     let role: String
     let skills: [Skill]
     let stats: Stats

@@ -10,16 +10,16 @@ import SwiftUI
 struct HomeView: View {
 
     @EnvironmentObject var appModel: AppModel
-
     @EnvironmentObject var eventManager: EventManager
 
+    @State private var fadeToBattle = false
     @State private var selectedWorldIndex = 0
-
+    @State private var zoomToBattle = false
+    
     var body: some View {
+        ZStack {
 
-        NavigationStack {
-
-            ZStack {
+            NavigationStack {
 
                 VStack {
 
@@ -27,22 +27,41 @@ struct HomeView: View {
                         .padding()
 
                     worldMapSection
-
                     eventButton
-
                     worldBar
                 }
+                .scaleEffect(zoomToBattle ? 1.12 : 1)
+                .blur(radius: zoomToBattle ? 8 : 0)
+                .animation(.easeInOut(duration: 0.4), value: zoomToBattle)
             }
-            .ignoresSafeArea(edges: .bottom)
-            .navigationDestination(
-                item: $appModel.selectedLevelId
-            ) { levelId in
+
+            // ⭐ Fade Overlay
+            Color.black
+            .opacity(fadeToBattle ? 0.85 : 0)
+            .ignoresSafeArea()
+            .animation(.easeInOut(duration: 0.35), value: fadeToBattle)
+        }
+        .ignoresSafeArea(edges: .bottom)
+        .fullScreenCover(
+            isPresented: Binding(
+                get: {
+                    appModel.selectedLevelId != nil
+                },
+                set: { newValue in
+                    if !newValue {
+                        appModel.selectedLevelId = nil
+                        fadeToBattle = false
+                        zoomToBattle = false
+                    }
+                }
+            )
+        ) {
+            if let levelId = appModel.selectedLevelId {
                 GameContainerView(
                     teamManager: appModel.teamManager,
                     levelId: levelId
                 )
                 .environmentObject(appModel)
-                .toolbar(.hidden, for: .tabBar)
             }
         }
         .onAppear {
@@ -57,15 +76,10 @@ struct HomeView: View {
 extension HomeView {
 
     fileprivate var eventButton: some View {
-
         NavigationLink {
-
             EventView()
-
         } label: {
-
             ZStack {
-
                 Capsule()
                     .fill(
                         LinearGradient(
@@ -80,12 +94,10 @@ extension HomeView {
                     .frame(height: 50)
 
                 HStack {
-
                     Text("Event")
                         .font(.headline.bold())
 
                     if eventManager.activeEvents().count > 1 {
-
                         Text("\(eventManager.activeEvents().count)")
                             .font(.caption.bold())
                             .padding()
@@ -107,7 +119,6 @@ extension HomeView {
     fileprivate var worldMapSection: some View {
         Group {
             if let world = appModel.worlds[safe: selectedWorldIndex] {
-
                 HomeWorldMapView(world: world) { levelId in
 
                     guard !appModel.teamManager.activeTeam.isEmpty else {
@@ -115,9 +126,16 @@ extension HomeView {
                         return
                     }
 
-                    appModel.startLevel(levelId)
-                }
+                    withAnimation(.easeInOut(duration: 0.35)) {
 
+                        zoomToBattle = true
+                        fadeToBattle = true
+                    }
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                        appModel.startLevel(levelId)
+                    }
+                }
             } else {
                 Color.black.ignoresSafeArea()
             }
@@ -128,16 +146,12 @@ extension HomeView {
 extension HomeView {
 
     fileprivate var worldBar: some View {
-
         ScrollView(.horizontal, showsIndicators: false) {
-
             HStack(spacing: 16) {
-
                 ForEach(
                     Array(appModel.worlds.enumerated()),
                     id: \.element.id
                 ) { index, world in
-
                     worldButton(for: world, index: index)
                 }
             }
@@ -188,25 +202,16 @@ extension HomeView {
         index: Int
     ) -> some View {
 
-        let isSelected =
-            index == selectedWorldIndex
-
-        let isLocked =
-            !appModel.progress.isWorldUnlocked(world)
+        let isSelected = index == selectedWorldIndex
+        let isLocked = !appModel.progress.isWorldUnlocked(world)
 
         return Button {
-
             guard !isLocked else { return }
-
             withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-
                 selectedWorldIndex = index
             }
-
         } label: {
-
             ZStack {
-
                 Circle()
                     .fill(
                         LinearGradient(
@@ -243,31 +248,11 @@ extension HomeView {
                     )
                     .scaleEffect(isSelected ? 1.15 : 1)
 
-                    .overlay(
-
-                        Circle()
-                            .stroke(
-
-                                LinearGradient(
-                                    colors: [
-                                        .cyan.opacity(0.7),
-                                        .purple.opacity(0.7),
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ),
-                                lineWidth: 2
-                            )
-                    )
-
-                    .scaleEffect(isSelected ? 1.15 : 1)
-
                 Text("\(index + 1)")
                     .font(.subheadline.bold())
                     .foregroundStyle(.white)
 
                 if isLocked {
-
                     Image(systemName: "lock.fill")
                         .foregroundStyle(.white)
                         .padding()
@@ -303,7 +288,6 @@ extension HomeView {
 extension Array {
 
     fileprivate subscript(safe index: Int) -> Element? {
-
         indices.contains(index)
             ? self[index]
             : nil

@@ -40,7 +40,8 @@ class GameScene: SKScene {
 
         setupBackground()
 
-        addChild(crackLayer) // ⭐⭐⭐⭐⭐ GANZ WICHTIG
+        addChild(crackLayer)  // ⭐ FEHLT AKTUELL
+        addChild(uiLayer)
 
         loadCracks()
         spawnRandomEnemy()
@@ -63,8 +64,8 @@ class GameScene: SKScene {
 
         bg.size = size
         bg.zPosition = -100
-        bg.setScale(1.1)
-        
+        bg.setScale(1.15)
+
         addChild(bg)
     }
 
@@ -84,21 +85,12 @@ class GameScene: SKScene {
 
         // ⭐ Container
         let container = SKNode()
-        container.zPosition = 50
-        if let sprite = enemyNode.children.first as? SKSpriteNode {
+        container.zPosition = 20000  // immer über allem
 
-            let topOffset =
-            sprite.size.height * sprite.yScale * 0.42
-            
-            container.position = CGPoint(
-                x: 0,
-                y: topOffset + 1e0
-            )
-
-        } else {
-
-            container.position = CGPoint(x: 0, y: 110)
-        }
+        container.position = CGPoint(
+            x: size.width / 2,
+            y: size.height * 0.85
+        )
 
         // ⭐ Shadow
         let shadow = SKShapeNode(
@@ -137,7 +129,7 @@ class GameScene: SKScene {
 
         container.addChild(fill)
 
-        enemyNode.addChild(container)
+        uiLayer.addChild(container)
 
         hpBarBG = frame
         hpBarFill = fill
@@ -155,12 +147,12 @@ class GameScene: SKScene {
             CGFloat(enemy.hp) / CGFloat(maxHP)
 
         fill.xScale = max(0, min(1, ratio))
-        
+
         if ratio <= 0.3 {
             if fill.action(forKey: "pulse") == nil {
                 let pulse = SKAction.sequence([
                     .fadeAlpha(to: 0.5, duration: 0.4),
-                    .fadeAlpha(to: 1.0, duration: 0.4)
+                    .fadeAlpha(to: 1.0, duration: 0.4),
                 ])
                 fill.run(.repeatForever(pulse), withKey: "pulse")
             }
@@ -168,7 +160,7 @@ class GameScene: SKScene {
             fill.removeAction(forKey: "pulse")
             fill.alpha = 1.0
         }
-        
+
         if ratio > 0.6 {
             fill.fillColor = .green
         } else if ratio > 0.3 {
@@ -212,14 +204,17 @@ class GameScene: SKScene {
 
         node.position = CGPoint(
             x: size.width / 2,
-            y: size.height * 0.65
+            y: size.height * 0.7
         )
+        node.setScale(0.82)
 
         node.zPosition = 10
 
         addChild(node)
-        
-        let shadow = SKShapeNode(ellipseOf: CGSize(width: 180, height: 40))
+
+        let shadow = SKShapeNode(
+            ellipseOf: CGSize(width: 180 * 0.85, height: 40 * 0.85)
+        )
         shadow.fillColor = .black
         shadow.alpha = 0.25
         shadow.zPosition = 5
@@ -227,15 +222,15 @@ class GameScene: SKScene {
 
         let float = SKAction.sequence([
             .moveBy(x: 0, y: 10, duration: 2),
-            .moveBy(x: 0, y: -10, duration: 2)
+            .moveBy(x: 0, y: -10, duration: 2),
         ])
 
         node.run(.repeatForever(float))
-        
+
         node.addChild(shadow)
         shadow.position = CGPoint(x: 0, y: -120)
-            
-        node.alpha = 0.9
+
+        node.alpha = 0.88
         if let spriteNode = node as? SKSpriteNode {
             spriteNode.color = .black
             spriteNode.colorBlendFactor = 0.1
@@ -315,25 +310,22 @@ class GameScene: SKScene {
 
         return EnemyDatabase.shared.enemy(id: enemyId)
     }
-    
+
     func spawnPermanentConnections() {
 
-
         guard let enemyNode else { return }
-
         guard !cracks.isEmpty else { return }
 
-        let spacing: CGFloat = 60
-
-        let totalWidth =
-            spacing * CGFloat(characterCards.count - 1)
-
-        let startOffset =
-            -totalWidth / 2
+        // ⭐⭐⭐ WICHTIG: alte Verbindungen entfernen
+        crackLayer.removeAllChildren()
+        crackLayer.setScale(0.95)
+        let spacing: CGFloat = 0
+        let totalWidth = spacing * CGFloat(characterCards.count - 1)
+        let startOffset = -totalWidth / 2
 
         for (index, portrait) in characterCards.enumerated() {
 
-            let crack = weightedRandomCrack()!
+            guard let crack = weightedRandomCrack() else { continue }
 
             let portraitHeight =
                 portrait.calculateAccumulatedFrame().height
@@ -343,14 +335,11 @@ class GameScene: SKScene {
                 y: portrait.position.y + portraitHeight * 0.5 + 20
             )
 
-            // ⭐ Ziel nebeneinander unter Enemy
             let end = CGPoint(
-
                 x: enemyNode.position.x
                     + startOffset
                     + CGFloat(index) * spacing,
-
-                y: enemyNode.position.y - 40
+                y: enemyNode.position.y + 100
             )
 
             spawnConnectionCracks(
@@ -374,7 +363,7 @@ class GameScene: SKScene {
         guard count > 0 else { return }
 
         // ⭐ Scale abhängig von Teamgröße
-        let scale = max(0.75, 1.1 - CGFloat(count) * 0.1)
+        let scale = max(0.65, 1.0 - CGFloat(count) * 0.1)
 
         // ⭐ Abstand passt sich an
         let spacing: CGFloat = 110 * scale
@@ -402,7 +391,7 @@ class GameScene: SKScene {
 
             card.zPosition = 100
 
-            addChild(card)
+            uiLayer.addChild(card)
 
             characterCards.append(card)
         }
@@ -410,7 +399,7 @@ class GameScene: SKScene {
         // ⭐⭐⭐ HIER NUR EINMAL
         spawnPermanentConnections()
     }
-    
+
     func spawnConnectionCracks(
         crack: Crack,
         from start: CGPoint,
@@ -453,11 +442,11 @@ class GameScene: SKScene {
             crackLayer.addChild(node)
         }
     }
-    
+
     // MARK: Crack
     private let crackLayer: SKNode = {
         let node = SKNode()
-        node.zPosition = 500   // SEHR WICHTIG
+        node.zPosition = 100
         return node
     }()
 
@@ -518,10 +507,16 @@ class GameScene: SKScene {
         line.run(
             .sequence([
                 .fadeOut(withDuration: 0.25),
-                .removeFromParent()
+                .removeFromParent(),
             ])
         )
     }
+
+    private let uiLayer: SKNode = {
+        let node = SKNode()
+        node.zPosition = 10000
+        return node
+    }()
 
     // MARK: Touch
     override func touchesBegan(
@@ -533,52 +528,53 @@ class GameScene: SKScene {
 
         let location = touch.location(in: self)
 
-        let nodesTouched =
-            crackLayer.nodes(at: location)
+        // ⭐ PRIORITY 1 – echte SkillButtons
+        let uiNodes = uiLayer.nodes(at: location)
 
-        for node in nodesTouched {
+        for node in uiNodes {
+            if let skillButton =
+                node.firstParent(of: SkillButtonNode.self)
+            {
 
-            var target: SKNode? = node
-
-            // ⭐ Container finden
-            while target != nil {
-
-                // ⭐ SKILL BUTTON
-                if let name = target?.name,
-                    name.starts(with: "skill_")
-                {
-
-                    let skillId =
-                        name.replacingOccurrences(
-                            of: "skill_",
-                            with: ""
-                        )
-
-                    useSkill(skillId)
-                    return
-                }
-
-                // ⭐ CRACK
-                if let id = target?.name,
-                    let crack =
-                        cracks.first(where: { $0.id == id })
-                {
-
-                    attack(with: crack)
-                    return
-                }
-
-                target = target?.parent
+                skillButton.pressAnimation()
+                useSkill(skillButton.skill.id)
+                return
             }
         }
+
+        // ⭐ PRIORITY 2 – nur Crack Layer prüfen
+        let crackNodes = crackLayer.nodes(at: location)
+
+        for node in crackNodes {
+
+            if let id = node.name,
+                let crack = cracks.first(where: { $0.id == id })
+            {
+
+                attack(with: crack)
+                return
+            }
+        }
+    }
+
+    func refreshCracks() {
+
+        guard currentEnemy?.hp ?? 0 > 0 else { return }
+
+        print("🔄 Refreshing Cracks")
+
+        crackLayer.removeAllChildren()
+
+        spawnPermanentConnections()
     }
 
     // MARK: Combat
     func attack(with crack: Crack) {
 
-        guard let enemy = currentEnemy,
-              let enemyNode,
-              let team = teamManager?.activeTeam
+        guard
+            let enemy = currentEnemy,
+            let enemyNode,
+            let team = teamManager?.activeTeam
         else { return }
 
         var totalDamage = 0
@@ -589,80 +585,76 @@ class GameScene: SKScene {
 
             let portrait = characterCards[index]
 
-            // ⭐ Damage basiert auf Character Stats
-            let baseAttack = owned.base.stats.attack
-            let energyPower = owned.base.stats.energyPower
-
-            guard
-                let skill =
-                    owned.base.skills.randomElement()
-            else { continue }
-
-            let damage = Int(
-
-                Double(baseAttack) * skill.multiplier
-
-                    + Double(energyPower) * 0.4
-            )
+            let damage =
+                CombatCalculator.basicDamage(
+                    owned: owned,
+                    crack: crack
+                )
 
             totalDamage += damage
 
-            if let particle = skill.particle {
-
-                spawnSkillEffect(
-                    named: particle,
-                    color: skill.color,
-                    from: portrait.position,
-                    to: enemyNode.position
-                )
-            }
-
-            // ⭐ Energy Line pro Character
-            let start = portrait.position
-            let spread: CGFloat = 50
-
-            let offsetX =
-                CGFloat(index - team.count / 2) * spread
-
-            let end = CGPoint(
-                x: enemyNode.position.x + offsetX,
-                y: enemyNode.position.y + 20
-            )
-            
-         
-
-            spawnEnergyLine(
+            animateAttack(
+                portrait: portrait,
                 crack: crack,
-                from: start,
-                to: end
-            )
-
-            // Kleine Delay Animation für Flow
-            portrait.run(
-                .sequence([
-                    .scale(to: 1.1, duration: 0.05),
-                    .scale(to: 1.0, duration: 0.05),
-                ])
+                index: index,
+                teamCount: team.count,
+                enemyNode: enemyNode
             )
         }
 
-        // ⭐ Gesamtschaden anwenden
-        enemy.hp = max(0, enemy.hp - totalDamage)
+        applyDamage(totalDamage)
+    }
 
-        enemyNode.run(
+    private func animateAttack(
+        portrait: CharacterCardNode,
+        crack: Crack,
+        index: Int,
+        teamCount: Int,
+        enemyNode: SKNode
+    ) {
+
+        let spread: CGFloat = 50
+
+        let offsetX =
+            CGFloat(index - teamCount / 2) * spread
+
+        let end = CGPoint(
+            x: enemyNode.position.x + offsetX,
+            y: enemyNode.position.y + 20
+        )
+
+        spawnEnergyLine(
+            crack: crack,
+            from: portrait.position,
+            to: end
+        )
+
+        portrait.run(
             .sequence([
-                .moveBy(x: -10, y: 0, duration: 0.05),
-                .moveBy(x: 20, y: 0, duration: 0.05),
-                .moveBy(x: -10, y: 0, duration: 0.05),
+                .scale(to: 1.1, duration: 0.05),
+                .scale(to: 1.0, duration: 0.05),
             ])
         )
+    }
+
+    private func applyDamage(
+        _ damage: Int,
+        crack: Crack? = nil   // ⭐ Default
+    ) {
+        guard let enemy = currentEnemy else { return }
+
+        enemy.hp = max(0, enemy.hp - damage)
 
         updateHPBar()
 
-        spawnEnergyEffect(
-            crack: crack,
-            at: enemyNode.position
-        )
+        if let enemyNode, let crack {
+            spawnEnergyEffect(
+                crack: crack,
+                at: enemyNode.position
+            )
+        }
+
+        refreshCracks()
 
         if enemy.hp <= 0 {
             enemyDefeated()
@@ -715,7 +707,8 @@ class GameScene: SKScene {
 
     func useSkill(_ skillId: String) {
 
-        guard let enemy = currentEnemy,
+        guard
+            let enemy = currentEnemy,
             let enemyNode
         else { return }
 
@@ -728,13 +721,13 @@ class GameScene: SKScene {
                     )
             else { continue }
 
-            let damage = Int(
+            let damage =
+                CombatCalculator.skillDamage(
+                    owned: card.owned,
+                    skill: skill
+                )
 
-                Double(card.owned.base.stats.attack)
-                    * skill.multiplier
-            )
-
-            enemy.hp -= damage
+            applyDamage(damage, crack: nil)
 
             if let particle = skill.particle {
 
@@ -745,14 +738,14 @@ class GameScene: SKScene {
                     to: enemyNode.position
                 )
             }
-        }
 
+            break  // ⭐ STOP after first owner
+        }
         updateHPBar()
 
         if enemy.hp <= 0 {
 
             enemyDefeated()
-
         }
     }
 
@@ -858,6 +851,27 @@ class GameScene: SKScene {
                 .removeFromParent(),
             ])
         )
+    }
+}
+
+extension SKNode {
+
+    func firstParent<T: SKNode>(
+        of type: T.Type
+    ) -> T? {
+
+        var node: SKNode? = self
+
+        while let current = node {
+
+            if let match = current as? T {
+                return match
+            }
+
+            node = current.parent
+        }
+
+        return nil
     }
 }
 

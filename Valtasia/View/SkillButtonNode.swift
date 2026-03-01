@@ -7,15 +7,27 @@
 
 import SpriteKit
 
-class SkillButtonNode: SKNode {
+final class SkillButtonNode: SKNode {
+
+    // MARK: - Properties
 
     let skill: Skill
+
+    private let radius: CGFloat = 14
+
+    private var background: SKShapeNode!
+    private var iconLabel: SKLabelNode!
+    private var cooldownOverlay: SKShapeNode!
+
+    // MARK: - Init
 
     init(skill: Skill) {
 
         self.skill = skill
-
         super.init()
+
+        self.name = "skill_\(skill.id)"
+        self.zPosition = 1000   // ⭐ Immer über Combat
 
         buildUI()
     }
@@ -24,32 +36,68 @@ class SkillButtonNode: SKNode {
         fatalError()
     }
 
+    // MARK: - UI
+
     private func buildUI() {
 
-        let radius: CGFloat = 28
         let color = skill.color?.skColor ?? .white
 
-        let circle = SKShapeNode(circleOfRadius: radius)
-        circle.fillColor = color.withAlphaComponent(0.25)
-        circle.strokeColor = color
-        circle.lineWidth = 3
-        circle.glowWidth = 6
+        // ⭐ Background Circle
+        background = SKShapeNode(circleOfRadius: radius)
+        background.fillColor = color.withAlphaComponent(0.25)
+        background.strokeColor = color
+        background.lineWidth = 3
+        background.glowWidth = 6
+        background.zPosition = 0
+        background.isUserInteractionEnabled = false
 
-        addChild(circle)
+        addChild(background)
 
-        let label = SKLabelNode(text: "★")
-        label.fontSize = 22
-        label.verticalAlignmentMode = .center
-        label.fontColor = color
+        // ⭐ Icon
+        iconLabel = SKLabelNode(text: "★")
+        iconLabel.fontSize = radius
+        iconLabel.verticalAlignmentMode = .center
+        iconLabel.fontColor = color
+        iconLabel.zPosition = 1
+        iconLabel.isUserInteractionEnabled = false
 
-        addChild(label)
+        addChild(iconLabel)
 
-        self.name = "skill_\(skill.id)"
+        // ⭐ Cooldown Overlay (unsichtbar erstmal)
+        cooldownOverlay = SKShapeNode(circleOfRadius: radius)
+        cooldownOverlay.fillColor = .black
+        cooldownOverlay.alpha = 0
+        cooldownOverlay.zPosition = 2
+        cooldownOverlay.isUserInteractionEnabled = false
 
-        let hitbox = SKShapeNode(circleOfRadius: radius + 14)
-        hitbox.fillColor = .clear
-        hitbox.strokeColor = .clear
-        hitbox.name = self.name
-        addChild(hitbox)
+        addChild(cooldownOverlay)
+    }
+
+    // MARK: - Touch Feedback
+
+    func pressAnimation() {
+
+        removeAction(forKey: "press")
+
+        let press = SKAction.sequence([
+            .scale(to: 0.9, duration: 0.05),
+            .scale(to: 1.0, duration: 0.08)
+        ])
+
+        run(press, withKey: "press")
+    }
+
+    // MARK: - Cooldown Support
+
+    func startCooldown(duration: TimeInterval) {
+
+        cooldownOverlay.alpha = 0.6
+
+        cooldownOverlay.run(
+            .sequence([
+                .wait(forDuration: duration),
+                .fadeOut(withDuration: 0.2)
+            ])
+        )
     }
 }

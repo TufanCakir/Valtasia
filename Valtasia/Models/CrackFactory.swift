@@ -8,42 +8,85 @@
 import SpriteKit
 import UIKit
 
-class CrackFactory {
+final class CrackFactory {
+
+    // MARK: - Gradient Cache
+
+    private static var textureCache: [String: SKTexture] = [:]
 
     // MARK: - Public
 
     static func createNode(from crack: Crack) -> SKNode {
 
         let container = SKNode()
+        container.name = crack.id
 
         let path = buildPath(for: crack)
 
-        // ⭐ Glow Layer
-        let glow = SKShapeNode(path: path)
-        glow.lineCap = .round
-        glow.lineJoin = .round
-        glow.lineWidth = crack.shape.lineWidth * 4
-        glow.strokeColor = crack.energyColor.skColor.withAlphaComponent(0.25)
-        glow.glowWidth = 20
-        container.addChild(glow)
+        let glow = createGlowLayer(path: path, crack: crack)
+        let core = createCoreLayer(path: path, crack: crack)
 
-        // ⭐ Core Layer
-        let core = SKShapeNode(path: path)
-        core.lineCap = .round
-        core.lineJoin = .round
-        core.lineWidth = crack.shape.lineWidth * 1.6
-        core.strokeColor = .white
-        core.strokeTexture = gradientTexture(for: crack)
+        container.addChild(glow)
         container.addChild(core)
 
-        container.setScale(0.8)
+        applyRarityScale(container, crack)
 
         return container
     }
 
+    // MARK: - Glow Layer
+
+    private static func createGlowLayer(
+        path: CGPath,
+        crack: Crack
+    ) -> SKShapeNode {
+
+        let glow = SKShapeNode(path: path)
+
+        glow.lineCap = .round
+        glow.lineJoin = .round
+        glow.lineWidth = crack.shape.lineWidth * 3
+
+        glow.strokeColor =
+            crack.energyColor.skColor
+                .withAlphaComponent(0.25)
+
+        glow.glowWidth = crack.visual.glow
+        glow.blendMode = .add
+        glow.isAntialiased = true
+        glow.zPosition = 0
+
+        return glow
+    }
+
+    // MARK: - Core Layer
+
+    private static func createCoreLayer(
+        path: CGPath,
+        crack: Crack
+    ) -> SKShapeNode {
+
+        let core = SKShapeNode(path: path)
+
+        core.lineCap = .round
+        core.lineJoin = .round
+        core.lineWidth = crack.shape.lineWidth * 1.6
+
+        core.strokeColor = .white
+        core.strokeTexture = gradientTexture(for: crack)
+
+        core.blendMode = .add
+        core.isAntialiased = true
+        core.zPosition = 1
+
+        return core
+    }
+
     // MARK: - Path Builder
 
-    private static func buildPath(for crack: Crack) -> CGPath {
+    private static func buildPath(
+        for crack: Crack
+    ) -> CGPath {
 
         let path = CGMutablePath()
 
@@ -52,18 +95,19 @@ class CrackFactory {
 
         var currentX: CGFloat = -halfLength
         let segmentLength =
-            crack.shape.length / CGFloat(crack.shape.segments)
+            crack.shape.length /
+            CGFloat(crack.shape.segments)
+
+        let jaggedness =
+            CGFloat(crack.shape.jaggedness)
 
         for _ in 0..<crack.shape.segments {
 
             currentX += segmentLength
 
-            let jaggedness =
-                CGFloat(crack.shape.jaggedness)
-
             let randomY =
                 CGFloat.random(
-                    in: (-jaggedness)...jaggedness
+                    in: -jaggedness...jaggedness
                 )
 
             path.addLine(
@@ -77,38 +121,46 @@ class CrackFactory {
         return path
     }
 
-    // MARK: - Gradient
+    // MARK: - Gradient Texture
 
     private static func gradientTexture(
         for crack: Crack
     ) -> SKTexture {
 
+        // Jeder Crack eigene Textur
+        let key = crack.id
+
+        if let cached = textureCache[key] {
+            return cached
+        }
+
         let size = CGSize(width: 256, height: 8)
 
-        UIGraphicsBeginImageContext(size)
-        let ctx = UIGraphicsGetCurrentContext()!
+        let renderer =
+            UIGraphicsImageRenderer(size: size)
 
-        let colors = gradientColors(crack)
+        let image = renderer.image { ctx in
 
-        let gradient = CGGradient(
-            colorsSpace: CGColorSpaceCreateDeviceRGB(),
-            colors: colors.map { $0.cgColor } as CFArray,
-            locations: nil
-        )!
+            let colors = gradientColors(crack)
 
-        ctx.drawLinearGradient(
-            gradient,
-            start: CGPoint(x: 0, y: 0),
-            end: CGPoint(x: size.width, y: 0),
-            options: []
-        )
+            let gradient = CGGradient(
+                colorsSpace: CGColorSpaceCreateDeviceRGB(),
+                colors: colors.map { $0.cgColor } as CFArray,
+                locations: nil
+            )!
 
-        let image =
-            UIGraphicsGetImageFromCurrentImageContext()!
+            ctx.cgContext.drawLinearGradient(
+                gradient,
+                start: .zero,
+                end: CGPoint(x: size.width, y: 0),
+                options: []
+            )
+        }
 
-        UIGraphicsEndImageContext()
+        let texture = SKTexture(image: image)
+        textureCache[key] = texture
 
-        return SKTexture(image: image)
+        return texture
     }
 
     private static func gradientColors(
@@ -137,8 +189,12 @@ class CrackFactory {
 
         case .rainbow:
             return [
-                .red, .orange, .yellow,
-                .green, .blue, .purple,
+                .red,
+                .orange,
+                .yellow,
+                .green,
+                .blue,
+                .purple
             ]
 
         case .chaosBlack:
@@ -147,19 +203,26 @@ class CrackFactory {
     }
 
     // MARK: - Rarity Scale
+
     private static func applyRarityScale(
         _ node: SKNode,
         _ crack: Crack
     ) {
+
+        let scale: CGFloat
+
         switch crack.rarity {
-        case .common: node.setScale(0.5)
-        case .uncommon: node.setScale(0.6)
-        case .rare: node.setScale(0.7)
-        case .epic: node.setScale(0.8)
-        case .legendary: node.setScale(0.9)
-        case .mythic: node.setScale(1.0)
-        case .ancient: node.setScale(1.1)
-        case .divine: node.setScale(1.2)
+
+        case .common: scale = 0.55
+        case .uncommon: scale = 0.65
+        case .rare: scale = 0.75
+        case .epic: scale = 0.85
+        case .legendary: scale = 0.95
+        case .mythic: scale = 1.05
+        case .ancient: scale = 1.15
+        case .divine: scale = 1.25
         }
+
+        node.setScale(scale)
     }
 }

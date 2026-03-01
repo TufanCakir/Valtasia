@@ -26,4 +26,13 @@ extension CharacterRarity {
         case .legendary: return .orange
         }
     }
+
+    var growthRate: Double {
+        switch self {
+        case .common: return 1.06
+        case .rare: return 1.07
+        case .epic: return 1.085
+        case .legendary: return 1.10
+        }
+    }
 }

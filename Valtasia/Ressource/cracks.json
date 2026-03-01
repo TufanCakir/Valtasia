@@ -22,10 +22,10 @@
         },
 
         "shape": {
-            "length": 120,
+            "length": 70,
             "segments": 5,
             "jaggedness": 12,
-            "lineWidth": 3
+            "lineWidth": 8
         },
 
         "energyColor": "arcaneBlue",
@@ -55,10 +55,10 @@
         },
 
         "shape": {
-            "length": 180,
+            "length": 70,
             "segments": 9,
             "jaggedness": 22,
-            "lineWidth": 5
+            "lineWidth": 8
         },
 
         "energyColor": "gold",
@@ -88,10 +88,10 @@
         },
 
         "shape": {
-            "length": 200,
+            "length": 70,
             "segments": 10,
             "jaggedness": 26,
-            "lineWidth": 6
+            "lineWidth": 8
         },
 
         "energyColor": "crimson",
@@ -121,10 +121,10 @@
         },
 
         "shape": {
-            "length": 230,
+            "length": 70,
             "segments": 12,
             "jaggedness": 30,
-            "lineWidth": 7
+            "lineWidth": 8
         },
 
         "energyColor": "violet",
@@ -154,7 +154,7 @@
         },
 
         "shape": {
-            "length": 260,
+            "length": 70,
             "segments": 14,
             "jaggedness": 40,
             "lineWidth": 8
@@ -187,10 +187,10 @@
         },
 
         "shape": {
-            "length": 300,
+            "length": 70,
             "segments": 18,
             "jaggedness": 50,
-            "lineWidth": 10
+            "lineWidth": 8
         },
 
         "energyColor": "arcaneBlue",
@@ -220,10 +220,10 @@
         },
 
         "shape": {
-            "length": 340,
+            "length": 70,
             "segments": 22,
             "jaggedness": 70,
-            "lineWidth": 12
+            "lineWidth": 8
         },
 
         "energyColor": "violet",

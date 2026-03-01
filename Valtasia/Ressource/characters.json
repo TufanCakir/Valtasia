@@ -149,5 +149,48 @@
                 "color": "ice"
             }
         ]
+    },
+    {
+        "id": "hero_05",
+        "name": "Voltis",
+        "rarity": "epic",
+        "role": "dps",
+        "stats": {
+            "hp": 1150,
+            "attack": 185,
+            "energyPower": 105,
+            "attackSpeed": 1.7
+        },
+        "energyType": "lightning",
+        "summon": {
+            "rate": 0.07,
+            "banner": "voltis_banner",
+            "rateUp": false
+        },
+        "sprite": "character_voltis",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_voltis"
+            }
+        ],
+        "skills": [
+            {
+                "id": "thunder_lance",
+                "name": "Thunder Lance",
+                "type": "damage",
+                "multiplier": 2.0,
+                "particle": "LightningParticle",
+                "color": "gold"
+            },
+            {
+                "id": "storm_overload",
+                "name": "Storm Overload",
+                "type": "damage",
+                "multiplier": 2.8,
+                "particle": "ExplosionParticle",
+                "color": "arcane"
+            }
+        ]
     }
 ]

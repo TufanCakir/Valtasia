@@ -8,38 +8,25 @@
 import SpriteKit
 
 enum EnergyColor: String, Codable {
-
     case arcaneBlue
     case gold
     case crimson
     case violet
     case emerald
     case ice
-    case chaosBlack
     case rainbow
+    case chaosBlack
 
-    var skColor: SKColor {
-
+    var skColor: UIColor {
         switch self {
-
-        case .arcaneBlue: return .blue
-        case .gold: return .yellow
-        case .crimson: return .red
-        case .violet: return .purple
-        case .emerald: return .green
+        case .arcaneBlue: return .systemBlue
+        case .gold: return .systemYellow
+        case .crimson: return .systemRed
+        case .violet: return .systemPurple
+        case .emerald: return .systemGreen
         case .ice: return .cyan
-        case .chaosBlack: return .black
         case .rainbow: return .white
+        case .chaosBlack: return .black
         }
     }
-
-    var glow: CGFloat {
-
-        switch self {
-
-        case .chaosBlack: return 10
-        case .rainbow: return 12
-        default: return 6
-        }
-    }
-}
+}   

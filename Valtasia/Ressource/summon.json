@@ -50,5 +50,18 @@
         "pool": [
             "hero_04"
         ]
+    },
+    {
+        "id": "voltis_banner",
+        "title": "Voltis Summon",
+        "bannerImage": "character_voltis",
+        "currencyCost": 5,
+        "multiCost": 50,
+        "multiAmount": 10,
+        "poolLimit": 10,
+
+        "pool": [
+            "hero_05"
+        ]
     }
 ]
