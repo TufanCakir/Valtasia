@@ -114,6 +114,17 @@ extension HomeView {
                     colors: [.purple, .blue]
                 )
             }
+            NavigationLink {
+
+                FeedbackView()
+
+            } label: {
+
+                iconCapsule(
+                    icon: "bubble.left.and.bubble.right.fill",
+                    colors: [.cyan,.purple]
+                )
+            }
         }
         .padding(.horizontal)
     }
