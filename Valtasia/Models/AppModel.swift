@@ -15,6 +15,9 @@ final class AppModel: ObservableObject {
     let coinManager = CoinManager.shared
     let crystalManager = CrystalManager.shared
 
+    // ⭐ HIER
+    private let starterKey = "valtasia_starter_given"
+
     @Published var worlds: [World] = []
 
     @Published var selectedWorld: World?
@@ -36,54 +39,51 @@ final class AppModel: ObservableObject {
 
     func world(containing levelId: String) -> World? {
 
-        for world in worlds {
-            for node in world.worldNodes {
-                if node.levels.contains(where: { $0.id == levelId }) {
-                    return world
-                }
-            }
-        }
-
-        return nil
-    }
-
-    func worldForLevel(_ levelId: String) -> World? {
-
         worlds.first { world in
 
             world.worldNodes.contains { node in
 
-                node.levels.contains { level in
-                    level.id == levelId
+                node.levels.contains {
+
+                    $0.id == levelId
                 }
             }
         }
     }
 
     // MARK: Start Level
-
     func startLevel(_ levelId: String) {
+
+        guard teamManager.activeTeam.isEmpty == false else {
+
+            print("⚠️ Team empty")
+            return
+        }
 
         selectedLevelId = levelId
     }
 
     // MARK: Victory
-
     func completeLevel() {
 
         guard let levelId = selectedLevelId else { return }
 
-        progress.markLevelCleared(levelId)
+        guard let world = world(containing: levelId) else {
 
-        // ⭐ WORLD FINDEN
-        if let world = world(containing: levelId) {
-
-            progress.updateWorldClearedIfNeeded(world)
+            print("❌ World not found for level:", levelId)
+            selectedLevelId = nil
+            return
         }
+
+        // ⭐ Clear + Unlock prüfen
+        progress.markLevelCleared(
+            levelId,
+            in: world
+        )
 
         selectedLevelId = nil
     }
-    
+
     func level(for id: String) -> Level? {
 
         worlds
@@ -100,17 +100,22 @@ final class AppModel: ObservableObject {
             let baseCharacters: [Character] =
                 try JSONLoader.load("characters")
 
-            // ⭐ NUR wenn Spieler nix besitzt
-            if teamManager.ownedCharacters.isEmpty {
+            let defaults = UserDefaults.standard
 
-                if let starter = baseCharacters.first {
+            let starterGiven =
+                defaults.bool(forKey: starterKey)
 
-                    let owned =
-                        OwnedCharacter(base: starter)
+            guard !starterGiven else { return }
 
-                    teamManager.ownedCharacters.append(owned)
-                    teamManager.activeTeam = [owned]
-                }
+            if let starter = baseCharacters.first {
+
+                let owned =
+                    OwnedCharacter(base: starter)
+
+                teamManager.ownedCharacters.append(owned)
+                teamManager.activeTeam = [owned]
+
+                defaults.set(true, forKey: starterKey)
             }
 
         } catch {

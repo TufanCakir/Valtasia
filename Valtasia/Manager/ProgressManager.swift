@@ -60,9 +60,14 @@ final class ProgressManager: ObservableObject {
         }
     }
 
-    func markLevelCleared(_ levelId: String) {
+    func markLevelCleared(
+        _ levelId: String,
+        in world: World
+    ) {
 
         clearedLevels.insert(levelId)
+
+        updateWorldClearedIfNeeded(world)
 
         save()
     }

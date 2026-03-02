@@ -10,18 +10,11 @@ import SwiftUI
 struct SummonPoolView: View {
 
     let banner: SummonBanner
-    let characters: [Character]
+    let rates: [CharacterRate]  // ⭐ kommt jetzt vom Manager
 
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        let poolIDs =
-            banner.pool.prefix(banner.poolLimit)
-
-        let pool =
-            characters.filter {
-                poolIDs.contains($0.id)
-            }
 
         VStack(spacing: 0) {
 
@@ -35,7 +28,7 @@ struct SummonPoolView: View {
                         .font(.largeTitle.bold())
                         .foregroundStyle(.white)
 
-                    Text("Pool: \(pool.count) Characters")
+                    Text("Pool: \(rates.count) Characters")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.7))
                 }
@@ -63,8 +56,8 @@ struct SummonPoolView: View {
 
                 VStack(spacing: 22) {
 
-                    ForEach(pool) { character in
-                        poolRow(character)
+                    ForEach(rates) { entry in
+                        poolRow(entry)
                     }
                 }
                 .padding(.horizontal, 20)
@@ -72,11 +65,6 @@ struct SummonPoolView: View {
                 .padding(.bottom, 40)
             }
             .scrollIndicators(.hidden)
-            .onAppear {
-                print("Banner ID:", banner.id)
-                print("Pool JSON:", banner.pool)
-                print("PoolLimit:", banner.poolLimit)
-            }
         }
         .background(
             LinearGradient(
@@ -92,9 +80,15 @@ struct SummonPoolView: View {
     }
 }
 
-func poolRow(_ character: Character) -> some View {
+func poolRow(
+    _ entry: CharacterRate
+) -> some View {
 
-    HStack(spacing: 18) {
+    let character = entry.character
+
+    return HStack(spacing: 18) {
+
+        // MARK: Avatar
 
         ZStack {
 
@@ -111,7 +105,10 @@ func poolRow(_ character: Character) -> some View {
                 )
 
             Circle()
-                .stroke(character.rarity.color.opacity(0.7), lineWidth: 1.5)
+                .stroke(
+                    character.rarity.color.opacity(0.7),
+                    lineWidth: 1.5
+                )
 
             Image(character.sprite)
                 .resizable()
@@ -119,6 +116,8 @@ func poolRow(_ character: Character) -> some View {
                 .padding(10)
         }
         .frame(width: 70, height: 70)
+
+        // MARK: Info
 
         VStack(alignment: .leading, spacing: 6) {
 
@@ -130,12 +129,33 @@ func poolRow(_ character: Character) -> some View {
                 .font(.caption.bold())
                 .foregroundStyle(character.rarity.color)
 
-            Text("Rate: \(Int(character.summon.rate * 100))%")
-                .font(.caption2)
-                .foregroundStyle(.white.opacity(0.7))
+            Text(
+                String(
+                    format: "Rate: %.2f%%",
+                    entry.rate * 100
+                )
+            )
+            .font(.caption2)
+            .foregroundStyle(
+                entry.isRateUp
+                    ? .yellow
+                    : .white.opacity(0.7)
+            )
         }
 
         Spacer()
+
+        // MARK: RATE UP BADGE
+
+        if entry.isRateUp {
+
+            Text("RATE UP")
+                .font(.caption.bold())
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(.yellow)
+                .clipShape(Capsule())
+        }
     }
     .padding(18)
     .background(
@@ -158,4 +178,3 @@ func poolRow(_ character: Character) -> some View {
     )
     .shadow(color: .cyan.opacity(0.25), radius: 10)
 }
-

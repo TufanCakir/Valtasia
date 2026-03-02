@@ -9,4 +9,5 @@ struct Enemy: Codable {
 
     let id: String
     let hp: Int
+    let growthRate: Double?
 }

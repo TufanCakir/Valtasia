@@ -13,6 +13,8 @@ struct TeamView: View {
 
     @State private var selectedCharacter: OwnedCharacter?
     @State private var showTeamWarning = false
+    @State private var sellCharacter: OwnedCharacter?
+    @State private var showSellDialog = false
 
     private let columns = [
         GridItem(.adaptive(minimum: 130))
@@ -70,8 +72,30 @@ struct TeamView: View {
         } message: {
 
             Text(
-                "Du musst mindestens einen Character im Team behalten, um spielen zu können."
+                "Du musst mindestens einen Character besitzen und mindestens einen im Team behalten."
             )
+        }
+        .confirmationDialog(
+            "Character verkaufen?",
+            isPresented: $showSellDialog,
+            titleVisibility: .visible
+        ) {
+
+            if let owned = sellCharacter {
+
+                Button(
+                    "Verkaufen (+\(teamManager.sellPrice(for: owned)) Coins)",
+                    role: .destructive
+                ) {
+
+                    teamManager.sellCharacter(owned)
+                    sellCharacter = nil
+                }
+            }
+
+            Button("Abbrechen", role: .cancel) {
+                sellCharacter = nil
+            }
         }
     }
 
@@ -151,33 +175,61 @@ struct TeamView: View {
             )
             .tint(character.rarity.color)
 
-            Button(inTeam ? "Remove" : "Add") {
+            HStack(spacing: 10) {
 
-                if inTeam {
+                // SELL BUTTON
+                Button {
 
-                    teamManager.removeFromTeam(owned)
+                    if teamManager.ownedCharacters.count <= 1 {
 
-                } else {
+                        showTeamWarning = true
 
-                    teamManager.addToTeam(owned)
+                    } else {
+
+                        sellCharacter = owned
+                        showSellDialog = true
+                    }
+
+                } label: {
+
+                    Image(systemName: "dollarsign.circle.fill")
+                        .font(.title3)
+                        .frame(width: 36, height: 36)
+                        .background(.red.opacity(0.85))
+                        .clipShape(Circle())
+                        .shadow(radius: 3)
                 }
-            }
-            .font(.caption.bold())
-            .padding()
-            .background(
+                .foregroundStyle(.white)
 
-                LinearGradient(
-                    colors: [
-                        .purple,
-                        .blue,
-                    ],
-                    startPoint: .leading,
-                    endPoint: .trailing
+                // ADD / REMOVE BUTTON
+                Button(inTeam ? "Remove" : "Add") {
+
+                    if inTeam {
+
+                        teamManager.removeFromTeam(owned)
+
+                    } else {
+
+                        teamManager.addToTeam(owned)
+                    }
+                }
+                .font(.caption.bold())
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .background(
+
+                    LinearGradient(
+                        colors: [
+                            .purple,
+                            .blue,
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
                 )
-            )
-            .clipShape(Capsule())
-            .foregroundStyle(.white)
-
+                .clipShape(Capsule())
+                .foregroundStyle(.white)
+            }
         }
         .padding()
         .background(

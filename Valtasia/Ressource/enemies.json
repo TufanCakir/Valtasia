@@ -1,22 +1,42 @@
 [
     {
         "id": "pyrothar",
-        "hp": 10000
+        "hp": 10000,
+        "growthRate": 1.12
     },
     {
         "id": "nullwinter",
-        "hp": 2600
+        "hp": 10000,
+        "growthRate": 1.12
     },
     {
         "id": "ash_sovereign",
-        "hp": 3200
+        "hp": 10000,
+        "growthRate": 1.12
     },
     {
         "id": "coregon",
-        "hp": 3000
+        "hp": 10000,
+        "growthRate": 1.12
     },
     {
         "id": "frost_colossus",
-        "hp": 3000
+        "hp": 10000,
+        "growthRate": 1.12
+    },
+    {
+        "id": "stormreign",
+        "hp": 10000,
+        "growthRate": 1.12
+    },
+    {
+        "id": "zerath",
+        "hp": 10000,
+        "growthRate": 1.12
+    },
+    {
+        "id": "ignivar",
+        "hp": 10000,
+        "growthRate": 1.12
     }
 ]

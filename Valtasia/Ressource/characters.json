@@ -29,6 +29,7 @@
                 "name": "Arcane Slash",
                 "type": "damage",
                 "multiplier": 1.6,
+                "cooldown": 4,
                 "particle": "ArcaneParticle",
                 "color": "arcane"
             },
@@ -73,6 +74,7 @@
                 "name": "Shadow Strike",
                 "type": "damage",
                 "multiplier": 2.4,
+                "cooldown": 4,
                 "particle": "ShadowParticle",
                 "color": "shadow"
             }
@@ -109,6 +111,7 @@
                 "name": "Crimson Wave",
                 "type": "damage",
                 "multiplier": 1.4,
+                "cooldown": 4,
                 "particle": "CrimsonParticle",
                 "color": "crimson"
             }
@@ -145,6 +148,7 @@
                 "name": "Ice Bloom",
                 "type": "heal",
                 "multiplier": 1.5,
+                "cooldown": 4,
                 "particle": "IceParticle",
                 "color": "ice"
             }
@@ -180,6 +184,7 @@
                 "name": "Thunder Lance",
                 "type": "damage",
                 "multiplier": 2.0,
+                "cooldown": 4,
                 "particle": "LightningParticle",
                 "color": "gold"
             },

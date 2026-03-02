@@ -9,41 +9,60 @@ import Foundation
 
 enum CombatCalculator {
 
-    // MARK: - Public Damage API
+    // MARK: - Public API
 
     static func basicDamage(
         owned: OwnedCharacter,
-        crack: Crack
-    ) -> Int {
+        crack: Crack,
+        enemyDefense: Double = 0
+    ) -> DamageResult {
 
         let stats = scaledStats(for: owned)
 
         let baseDamage =
-            stats.attack
-            + stats.energy * 0.25
+            stats.attack +
+            stats.energy * 0.25
 
         let modified =
             baseDamage * crack.damageMultiplier
 
-        return finalDamage(from: modified)
+        return finalDamage(
+            from: modified,
+            owned: owned,
+            enemyDefense: enemyDefense
+        )
     }
 
     static func skillDamage(
         owned: OwnedCharacter,
-        skill: Skill
-    ) -> Int {
+        skill: Skill,
+        enemyDefense: Double = 0
+    ) -> DamageResult {
 
         let stats = scaledStats(for: owned)
 
         let baseDamage =
             stats.attack * skill.multiplier
 
-        return finalDamage(from: baseDamage)
+        return finalDamage(
+            from: baseDamage,
+            owned: owned,
+            enemyDefense: enemyDefense
+        )
     }
 }
 
 //
-// MARK: - Internal Helpers
+// MARK: - Models
+//
+
+struct DamageResult {
+    let amount: Int
+    let isCrit: Bool
+}
+
+//
+// MARK: - Internal
 //
 
 private extension CombatCalculator {
@@ -51,6 +70,8 @@ private extension CombatCalculator {
     struct ScaledStats {
         let attack: Double
         let energy: Double
+        let critChance: Double
+        let critDamage: Double
     }
 
     static func scaledStats(
@@ -71,36 +92,50 @@ private extension CombatCalculator {
             Double(owned.base.stats.energyPower)
             * multiplier
 
+        // ⭐ Future JSON Hook möglich
+        let critChance = 0.10
+        let critDamage = 1.75
+
         return ScaledStats(
             attack: attack,
-            energy: energy
+            energy: energy,
+            critChance: critChance,
+            critDamage: critDamage
         )
     }
 
     static func finalDamage(
-        from raw: Double
-    ) -> Int {
+        from raw: Double,
+        owned: OwnedCharacter,
+        enemyDefense: Double
+    ) -> DamageResult {
 
-        // 🔥 future hooks:
-        // - crit
-        // - buffs
-        // - debuffs
-        // - element counters
+        var damage = raw
 
-        let critMultiplier = rollCrit()
+        // ⭐ Damage Variation (±10%)
+        let variation =
+            Double.random(in: 0.9...1.1)
 
-        return Int(raw * critMultiplier)
-    }
+        damage *= variation
 
-    static func rollCrit() -> Double {
+        // ⭐ Defense Reduction
+        damage -= enemyDefense
+        damage = max(damage, 1)
 
-        let critChance = 0.10   // 10% default
-        let critDamage = 1.75   // 75% bonus
+        // ⭐ Crit Roll
+        let stats = scaledStats(for: owned)
 
-        if Double.random(in: 0...1) <= critChance {
-            return critDamage
+        let isCrit =
+            Double.random(in: 0...1)
+            <= stats.critChance
+
+        if isCrit {
+            damage *= stats.critDamage
         }
 
-        return 1.0
+        return DamageResult(
+            amount: Int(damage),
+            isCrit: isCrit
+        )
     }
 }

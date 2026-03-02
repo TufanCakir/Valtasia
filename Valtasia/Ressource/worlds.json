@@ -11,8 +11,7 @@
                 "positionX": 0.2,
                 "positionY": 0.4,
                 "connectsTo": [
-                    "2",
-                    "3"
+                    "4"
                 ],
                 "levels": [
                     {
@@ -24,8 +23,7 @@
                     {
                         "id": "level_2",
                         "enemies": [
-                            "pyrothar",
-                            "pyrothar"
+                            "nullwinter"
                         ]
                     }
                 ]
@@ -42,14 +40,13 @@
                     {
                         "id": "level_3",
                         "enemies": [
-                            "crab"
+                            "nullwinter"
                         ]
                     },
                     {
                         "id": "level_4",
                         "enemies": [
-                            "crab",
-                            "water_spirit"
+                            "pyrothar"
                         ]
                     }
                 ]
@@ -66,8 +63,7 @@
                     {
                         "id": "level_5",
                         "enemies": [
-                            "slime_blue",
-                            "water_spirit"
+                            "ash_sovereign"
                         ]
                     }
                 ]
@@ -77,20 +73,20 @@
                 "image": "island_earth",
                 "positionX": 0.7,
                 "positionY": 0.4,
-                "connectsTo": [],
+                "connectsTo": [
+                    "4"
+                ],
                 "levels": [
                     {
                         "id": "level_6",
                         "enemies": [
-                            "water_spirit"
+                            "nullwinter"
                         ]
                     },
                     {
                         "id": "level_7",
                         "enemies": [
-                            "slime_blue",
-                            "crab",
-                            "water_spirit"
+                            "pyrothar"
                         ]
                     }
                 ]
@@ -100,8 +96,8 @@
 
     {
         "id": "world_2",
-        "background": "water_bg",
-        "battleBackground": "water_bg",
+        "background": "epic_bg",
+        "battleBackground": "epic_bg",
         "unlockAfterWorld": "world_1",
         "worldNodes": [
 
@@ -111,20 +107,19 @@
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
-                    "2"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_8",
                         "enemies": [
-                            "slime_green"
+                            "coregon"
                         ]
                     },
                     {
                         "id": "level_9",
                         "enemies": [
-                            "slime_green",
-                            "forest_spirit"
+                            "pyrothar"
                         ]
                     }
                 ]
@@ -136,21 +131,19 @@
                 "positionX": 0.4,
                 "positionY": 0.3,
                 "connectsTo": [
-                    "3",
                     "4"
                 ],
                 "levels": [
                     {
                         "id": "level_10",
                         "enemies": [
-                            "forest_spirit"
+                            "frost_colossus"
                         ]
                     },
                     {
                         "id": "level_11",
                         "enemies": [
-                            "forest_spirit",
-                            "crab"
+                            "coregon"
                         ]
                     }
                 ]
@@ -158,18 +151,17 @@
 
             {
                 "id": "3",
-                "image": "island_computer",
+                "image": "island_void",
                 "positionX": 0.6,
                 "positionY": 0.2,
                 "connectsTo": [
-                    "5"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_12",
                         "enemies": [
-                            "slime_green",
-                            "water_spirit"
+                            "zerath"
                         ]
                     }
                 ]
@@ -181,14 +173,13 @@
                 "positionX": 0.6,
                 "positionY": 0.6,
                 "connectsTo": [
-                    "5"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_13",
                         "enemies": [
-                            "forest_spirit",
-                            "slime_blue"
+                            "coregon"
                         ]
                     }
                 ]
@@ -196,25 +187,23 @@
 
             {
                 "id": "5",
-                "image": "island_nature",
+                "image": "island_storm",
                 "positionX": 0.8,
                 "positionY": 0.4,
-                "connectsTo": [],
+                "connectsTo": [
+                    "4"
+                ],
                 "levels": [
                     {
                         "id": "level_14",
                         "enemies": [
-                            "slime_green",
-                            "forest_spirit",
-                            "water_spirit"
+                            "stormreign"
                         ]
                     },
                     {
                         "id": "level_15",
                         "enemies": [
-                            "forest_spirit",
-                            "water_spirit",
-                            "crab"
+                            "zerath"
                         ]
                     }
                 ]
@@ -234,21 +223,19 @@
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
-                    "2",
-                    "3"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_16",
                         "enemies": [
-                            "storm_sprite"
+                            "pyrothar"
                         ]
                     },
                     {
                         "id": "level_17",
                         "enemies": [
-                            "storm_sprite",
-                            "slime_green"
+                            "nullwinter"
                         ]
                     }
                 ]
@@ -266,8 +253,7 @@
                     {
                         "id": "level_18",
                         "enemies": [
-                            "storm_sprite",
-                            "forest_spirit"
+                            "ash_sovereign"
                         ]
                     }
                 ]
@@ -285,7 +271,7 @@
                     {
                         "id": "level_19",
                         "enemies": [
-                            "light_elemental"
+                            "ash_sovereign"
                         ]
                     }
                 ]
@@ -296,13 +282,14 @@
                 "image": "island_tech",
                 "positionX": 0.75,
                 "positionY": 0.5,
-                "connectsTo": [],
+                "connectsTo": [
+                    "4"
+                ],
                 "levels": [
                     {
                         "id": "level_20",
                         "enemies": [
-                            "storm_sprite",
-                            "light_elemental"
+                            "ignivar"
                         ]
                     }
                 ]
@@ -323,14 +310,13 @@
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
-                    "2",
-                    "3"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_21",
                         "enemies": [
-                            "fire_imp"
+                            "ignivar"
                         ]
                     }
                 ]
@@ -338,7 +324,7 @@
 
             {
                 "id": "2",
-                "image": "island_computer",
+                "image": "island_epic",
                 "positionX": 0.45,
                 "positionY": 0.25,
                 "connectsTo": [
@@ -348,8 +334,7 @@
                     {
                         "id": "level_22",
                         "enemies": [
-                            "fire_imp",
-                            "lava_golem"
+                            "pyrothar"
                         ]
                     }
                 ]
@@ -367,7 +352,7 @@
                     {
                         "id": "level_23",
                         "enemies": [
-                            "lava_golem"
+                            "frost_colossus"
                         ]
                     }
                 ]
@@ -378,13 +363,14 @@
                 "image": "island_computer",
                 "positionX": 0.75,
                 "positionY": 0.5,
-                "connectsTo": [],
+                "connectsTo": [
+                    "4"
+                ],
                 "levels": [
                     {
                         "id": "level_24",
                         "enemies": [
-                            "fire_imp",
-                            "lava_golem"
+                            "frost_colossus"
                         ]
                     }
                 ]
@@ -405,14 +391,13 @@
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
-                    "2",
-                    "3"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_25",
                         "enemies": [
-                            "forest_spirit"
+                            "nullwinter"
                         ]
                     }
                 ]
@@ -430,8 +415,7 @@
                     {
                         "id": "level_26",
                         "enemies": [
-                            "forest_spirit",
-                            "water_spirit"
+                            "zerath"
                         ]
                     }
                 ]
@@ -449,7 +433,7 @@
                     {
                         "id": "level_27",
                         "enemies": [
-                            "water_spirit"
+                            "ignivar"
                         ]
                     }
                 ]
@@ -457,16 +441,17 @@
 
             {
                 "id": "4",
-                "image": "island_nature",
+                "image": "island_water",
                 "positionX": 0.75,
                 "positionY": 0.5,
-                "connectsTo": [],
+                "connectsTo": [
+                    "4"
+                ],
                 "levels": [
                     {
                         "id": "level_28",
                         "enemies": [
-                            "forest_spirit",
-                            "water_spirit"
+                            "stormreign"
                         ]
                     }
                 ]
@@ -483,18 +468,17 @@
 
             {
                 "id": "1",
-                "image": "island_earth",
+                "image": "island_storm",
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
-                    "2",
-                    "3"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_29",
                         "enemies": [
-                            "lava_golem"
+                            "stormreign"
                         ]
                     }
                 ]
@@ -512,8 +496,7 @@
                     {
                         "id": "level_30",
                         "enemies": [
-                            "lava_golem",
-                            "forest_spirit"
+                            "zerath"
                         ]
                     }
                 ]
@@ -531,7 +514,7 @@
                     {
                         "id": "level_31",
                         "enemies": [
-                            "lava_golem"
+                            "pyrothar"
                         ]
                     }
                 ]
@@ -542,13 +525,14 @@
                 "image": "island_computer",
                 "positionX": 0.75,
                 "positionY": 0.5,
-                "connectsTo": [],
+                "connectsTo": [
+                    "4"
+                ],
                 "levels": [
                     {
                         "id": "level_32",
                         "enemies": [
-                            "lava_golem",
-                            "shadow_wisp"
+                            "ash_sovereign"
                         ]
                     }
                 ]
@@ -569,14 +553,13 @@
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
-                    "2",
-                    "3"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_33",
                         "enemies": [
-                            "storm_sprite"
+                            "coregon"
                         ]
                     }
                 ]
@@ -594,7 +577,7 @@
                     {
                         "id": "level_34",
                         "enemies": [
-                            "light_elemental"
+                            "frost_Colossus"
                         ]
                     }
                 ]
@@ -612,8 +595,7 @@
                     {
                         "id": "level_35",
                         "enemies": [
-                            "storm_sprite",
-                            "light_elemental"
+                            "ash_sovereign"
                         ]
                     }
                 ]
@@ -624,12 +606,14 @@
                 "image": "island_ice",
                 "positionX": 0.75,
                 "positionY": 0.5,
-                "connectsTo": [],
+                "connectsTo": [
+                    "4"
+                ],
                 "levels": [
                     {
                         "id": "level_36",
                         "enemies": [
-                            "shadow_wisp"
+                            "nullwinter"
                         ]
                     }
                 ]
@@ -646,18 +630,17 @@
 
             {
                 "id": "1",
-                "image": "island_void",
+                "image": "island_epic",
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
-                    "2",
-                    "3"
+                    "4"
                 ],
                 "levels": [
                     {
                         "id": "level_37",
                         "enemies": [
-                            "shadow_wisp"
+                            "zerath"
                         ]
                     }
                 ]
@@ -675,8 +658,7 @@
                     {
                         "id": "level_38",
                         "enemies": [
-                            "shadow_wisp",
-                            "light_elemental"
+                            "zerath"
                         ]
                     }
                 ]
@@ -684,7 +666,7 @@
 
             {
                 "id": "3",
-                "image": "island_void",
+                "image": "island_storm",
                 "positionX": 0.45,
                 "positionY": 0.7,
                 "connectsTo": [
@@ -694,7 +676,7 @@
                     {
                         "id": "level_39",
                         "enemies": [
-                            "shadow_wisp"
+                            "stormreign"
                         ]
                     }
                 ]
@@ -705,12 +687,14 @@
                 "image": "island_computer",
                 "positionX": 0.75,
                 "positionY": 0.5,
-                "connectsTo": [],
+                "connectsTo": [
+                    "4"
+                ],
                 "levels": [
                     {
                         "id": "level_40",
                         "enemies": [
-                            "void_dragon"
+                            "pyrothar"
                         ]
                     }
                 ]

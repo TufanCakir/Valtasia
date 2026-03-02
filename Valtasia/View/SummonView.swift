@@ -62,9 +62,10 @@ struct SummonView: View {
             Text("Du brauchst mehr Kristalle für diesen Summon.")
         }
         .sheet(item: $selectedBanner) { banner in
+
             SummonPoolView(
                 banner: banner,
-                characters: summonManager.characters
+                rates: summonManager.rates(for: banner.id)
             )
         }
         .alert("Summon bestätigen", isPresented: $showSummonConfirm) {

@@ -7,9 +7,12 @@
         "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
-
         "pool": [
-            "hero_01"
+            "hero_01",
+            "hero_02",
+            "hero_03",
+            "hero_04",
+            "hero_05"
         ]
     },
     {
@@ -20,9 +23,12 @@
         "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
-
         "pool": [
-            "hero_02"
+            "hero_01",
+            "hero_02",
+            "hero_03",
+            "hero_04",
+            "hero_05"
         ]
     },
     {
@@ -33,9 +39,12 @@
         "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
-
         "pool": [
-            "hero_03"
+            "hero_01",
+            "hero_02",
+            "hero_03",
+            "hero_04",
+            "hero_05"
         ]
     },
     {
@@ -46,9 +55,12 @@
         "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
-
         "pool": [
-            "hero_04"
+            "hero_01",
+            "hero_02",
+            "hero_03",
+            "hero_04",
+            "hero_05"
         ]
     },
     {
@@ -59,8 +71,11 @@
         "multiCost": 50,
         "multiAmount": 10,
         "poolLimit": 10,
-
         "pool": [
+            "hero_01",
+            "hero_02",
+            "hero_03",
+            "hero_04",
             "hero_05"
         ]
     }

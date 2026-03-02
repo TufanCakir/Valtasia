@@ -71,6 +71,51 @@ class TeamManager: ObservableObject {
         defaults.set(ids, forKey: teamKey)
     }
 
+    func sellPrice(
+        for character: OwnedCharacter
+    ) -> Int {
+
+        switch character.base.rarity {
+
+        case .common:
+            return 25
+
+        case .rare:
+            return 60
+
+        case .epic:
+            return 150
+
+        case .legendary:
+            return 400
+        }
+    }
+
+    // MARK: Sell Character
+
+    func sellCharacter(_ character: OwnedCharacter) {
+
+        // ❌ Niemals letzten Owned verkaufen
+        guard ownedCharacters.count > 1 else {
+            return
+        }
+
+        // ❌ Wenn im Team und einziger Team Member → blocken
+        if isInTeam(character),
+            activeTeam.count <= 1
+        {
+            return
+        }
+
+        // Wenn im Team → entfernen
+        activeTeam.removeAll { $0.id == character.id }
+
+        ownedCharacters.removeAll { $0.id == character.id }
+
+        let sellValue = sellPrice(for: character)
+        CoinManager.shared.add(sellValue)
+    }
+
     // MARK: Load
 
     private func load() {

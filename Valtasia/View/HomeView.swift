@@ -15,7 +15,7 @@ struct HomeView: View {
     @State private var fadeToBattle = false
     @State private var selectedWorldIndex = 0
     @State private var zoomToBattle = false
-    
+
     var body: some View {
         ZStack {
 
@@ -37,9 +37,9 @@ struct HomeView: View {
 
             // ⭐ Fade Overlay
             Color.black
-            .opacity(fadeToBattle ? 0.85 : 0)
-            .ignoresSafeArea()
-            .animation(.easeInOut(duration: 0.35), value: fadeToBattle)
+                .opacity(fadeToBattle ? 0.85 : 0)
+                .ignoresSafeArea()
+                .animation(.easeInOut(duration: 0.35), value: fadeToBattle)
         }
         .ignoresSafeArea(edges: .bottom)
         .fullScreenCover(
@@ -76,41 +76,101 @@ struct HomeView: View {
 extension HomeView {
 
     fileprivate var eventButton: some View {
-        NavigationLink {
-            EventView()
-        } label: {
-            ZStack {
-                Capsule()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                .cyan.opacity(0.8),
-                                .purple.opacity(0.7),
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(height: 50)
 
-                HStack {
-                    Text("Event")
-                        .font(.headline.bold())
+        HStack(spacing: 14) {
 
-                    if eventManager.activeEvents().count > 1 {
-                        Text("\(eventManager.activeEvents().count)")
-                            .font(.caption.bold())
-                            .padding()
-                            .background(.black.opacity(0.7))
-                            .clipShape(Circle())
-                    }
-                }
-                .foregroundStyle(.white)
+            // ⭐ LEFT — Gift
+            NavigationLink {
+                GiftView()
+            } label: {
+
+                actionCapsule(
+                    title: "Gift",
+                    colors: [.yellow, .orange]
+                )
             }
-            .padding()
+
+            // ⭐ CENTER — EVENT
+            NavigationLink {
+                EventView()
+            } label: {
+
+                ZStack {
+
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    .cyan.opacity(0.8),
+                                    .purple.opacity(0.7),
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+
+                    HStack(spacing: 8) {
+
+                        Text("Event")
+                            .font(.headline.bold())
+
+                        if eventManager.activeEvents().count > 1 {
+
+                            Text("\(eventManager.activeEvents().count)")
+                                .font(.caption.bold())
+                                .padding(6)
+                                .background(.black.opacity(0.7))
+                                .clipShape(Circle())
+                        }
+                    }
+                    .foregroundStyle(.white)
+                }
+                .frame(height: 50)
+            }
+
+            // ⭐ RIGHT — DAILY LOGIN
+            NavigationLink {
+                DailyRewardView()
+            } label: {
+
+                actionCapsule(
+                    title: "Daily",
+                    colors: [.green, .cyan]
+                )
+            }
         }
+        .padding(.horizontal)
         .transition(.move(edge: .bottom).combined(with: .opacity))
         .animation(.spring(), value: eventManager.activeEvents().count)
+    }
+}
+
+extension HomeView {
+
+    func actionCapsule(
+        title: String,
+        colors: [Color]
+    ) -> some View {
+
+        ZStack {
+
+            Capsule()
+                .fill(
+                    LinearGradient(
+                        colors: colors,
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+
+            HStack(spacing: 5) {
+
+                Text(title)
+                    .font(.headline.bold())
+            }
+            .foregroundStyle(.white)
+        }
+        .frame(height: 50)
     }
 }
 

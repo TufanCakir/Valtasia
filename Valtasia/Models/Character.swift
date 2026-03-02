@@ -39,13 +39,3 @@ struct Character: Codable, Identifiable, Hashable {
         let sprite: String
     }
 }
-
-struct Skill: Codable, Identifiable, Hashable {
-
-    let id: String
-    let name: String
-    let type: SkillType
-    let multiplier: Double
-    let particle: String?
-    let color: String?
-}

@@ -53,7 +53,7 @@ extension HomeWorldMapView {
                     if let target = world.worldNodes.first(where: {
                         $0.id == targetId
                     }),
-                        node.id < target.id
+                        node.id != target.id
                     {
                         Path { path in
                             path.move(to: point(for: node, in: geo))
@@ -134,18 +134,26 @@ extension HomeWorldMapView {
 
 extension HomeWorldMapView {
 
-    fileprivate func isNodeUnlocked(_ node: WorldNode) -> Bool {
+    fileprivate func isNodeUnlocked(
+        _ node: WorldNode
+    ) -> Bool {
+
+        // ⭐ erstes Node immer frei
         if node.id == world.worldNodes.first?.id {
             return true
         }
 
-        if let previous = world.worldNodes.first(where: {
-            $0.connectsTo.contains(node.id)
-        }) {
-            return appModel.progress
-                .clearedAllLevels(of: previous)
-        }
+        // ⭐ alle vorherigen Nodes die dahin connecten
+        let previousNodes =
+            world.worldNodes.filter {
+                $0.connectsTo.contains(node.id)
+            }
 
-        return false
+        // ⭐ mindestens EINER fertig reicht
+        return previousNodes.contains {
+
+            appModel.progress
+                .clearedAllLevels(of: $0)
+        }
     }
 }

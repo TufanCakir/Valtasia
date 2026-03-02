@@ -34,6 +34,8 @@ class GameScene: SKScene {
     var onVictory: (() -> Void)?
     private let hpBarWidth: CGFloat = 260
     var levelId: String?
+    private var crackRefreshRunning = false
+    private var attackLocked = false
 
     // MARK: Scene Start
     override func didMove(to view: SKView) {
@@ -78,35 +80,18 @@ class GameScene: SKScene {
 
         hpBarBG?.removeFromParent()
 
-        guard let enemyNode else { return }
+        guard enemyNode != nil else { return }
 
-        let width: CGFloat = 260
-        let height: CGFloat = 20
-
-        // ⭐ Container
         let container = SKNode()
-        container.zPosition = 20000  // immer über allem
+        container.zPosition = 20000
 
         container.position = CGPoint(
             x: size.width / 2,
-            y: size.height * 0.85
+            y: size.height * 0.88
         )
 
-        // ⭐ Shadow
-        let shadow = SKShapeNode(
-            rectOf: CGSize(width: width + 8, height: height + 8),
-            cornerRadius: 10
-        )
-
-        shadow.fillColor = .black
-        shadow.alpha = 0.35
-        shadow.strokeColor = .clear
-
-        container.addChild(shadow)
-
-        // ⭐ Border Frame
         let frame = SKShapeNode(
-            rectOf: CGSize(width: width, height: height),
+            rectOf: CGSize(width: hpBarWidth, height: 20),
             cornerRadius: 8
         )
 
@@ -115,17 +100,16 @@ class GameScene: SKScene {
         frame.lineWidth = 3
 
         container.addChild(frame)
-        frame.zPosition = 51
 
-        // ⭐ HP Fill
         let fill = SKShapeNode(
-            rectOf: CGSize(width: width - 6, height: height - 6),
+            rectOf: CGSize(width: hpBarWidth - 6, height: 14),
             cornerRadius: 6
         )
 
         fill.fillColor = .green
         fill.strokeColor = .clear
-        fill.zPosition = 52
+
+        fill.position.x = -(hpBarWidth / 2) + (hpBarWidth - 6) / 2
 
         container.addChild(fill)
 
@@ -141,12 +125,16 @@ class GameScene: SKScene {
             let fill = hpBarFill
         else { return }
 
-        let maxHP = max(1, enemy.base.hp)
+        let ratio = CGFloat(enemy.hp) / CGFloat(enemy.maxHP)
 
-        let ratio =
-            CGFloat(enemy.hp) / CGFloat(maxHP)
+        let action = SKAction.scaleX(
+            to: max(0, min(1, ratio)),
+            duration: 0.18
+        )
 
-        fill.xScale = max(0, min(1, ratio))
+        action.timingMode = .easeOut
+
+        fill.run(action)
 
         if ratio <= 0.3 {
             if fill.action(forKey: "pulse") == nil {
@@ -184,6 +172,21 @@ class GameScene: SKScene {
         }
     }
 
+    private func determineEnemyLevel() -> Int {
+
+        guard let world else { return 1 }
+
+        // world_1 → 1
+        // world_5 → 5
+        if let number = Int(
+            world.id.replacingOccurrences(of: "world_", with: "")
+        ) {
+            return number * 5  // ⭐ Skalierungsfaktor
+        }
+
+        return 1
+    }
+
     // MARK: Enemy
     func spawnRandomEnemy() {
 
@@ -194,8 +197,10 @@ class GameScene: SKScene {
 
         print("✅ Spawning enemy:", enemy.id)
 
-        currentEnemy =
-            EnemyInstance(base: enemy)
+        currentEnemy = EnemyInstance(
+            base: enemy,
+            level: determineEnemyLevel()
+        )
 
         enemyNode?.removeFromParent()
 
@@ -536,8 +541,17 @@ class GameScene: SKScene {
                 node.firstParent(of: SkillButtonNode.self)
             {
 
-                skillButton.pressAnimation()
-                useSkill(skillButton.skill.id)
+                if skillButton.canUse() {
+
+                    skillButton.pressAnimation()
+
+                    useSkill(skillButton.skill.id)
+
+                    if let cd = skillButton.skill.cooldown {
+
+                        skillButton.startCooldown(duration: cd)
+                    }
+                }
                 return
             }
         }
@@ -559,20 +573,96 @@ class GameScene: SKScene {
 
     func refreshCracks() {
 
-        guard currentEnemy?.hp ?? 0 > 0 else { return }
+        guard !crackRefreshRunning else { return }
 
-        print("🔄 Refreshing Cracks")
+        crackRefreshRunning = true
 
-        crackLayer.removeAllChildren()
+        run(
+            .sequence([
 
-        spawnPermanentConnections()
+                .wait(forDuration: 0.25),
+
+                .run { [weak self] in
+
+                    guard let self else { return }
+
+                    self.crackLayer.removeAllChildren()
+
+                    self.spawnPermanentConnections()
+
+                    self.crackRefreshRunning = false
+                },
+            ])
+        )
+    }
+
+    func spawnFloatingDamage(
+        _ damage: Int,
+        at position: CGPoint,
+        color: SKColor = .white
+    ) {
+
+        let label = SKLabelNode(fontNamed: "AvenirNext-Bold")
+
+        label.text = "\(damage)"
+        label.fontSize = 26
+        label.fontColor = color
+        label.zPosition = 30000
+
+        label.position = CGPoint(
+            x: position.x + CGFloat.random(in: -25...25),
+            y: position.y + 40
+        )
+
+        label.alpha = 0
+
+        addChild(label)
+
+        let appear = SKAction.fadeIn(withDuration: 0.05)
+
+        let floatUp =
+            SKAction.moveBy(
+                x: CGFloat.random(in: -15...15),
+                y: 80,
+                duration: 0.8
+            )
+
+        floatUp.timingMode = .easeOut
+
+        let scale = SKAction.sequence([
+
+            .scale(to: 1.2, duration: 0.1),
+            .scale(to: 1.0, duration: 0.2),
+        ])
+
+        let fade =
+            SKAction.fadeOut(withDuration: 0.6)
+
+        label.run(
+
+            .sequence([
+
+                appear,
+
+                .group([
+                    floatUp,
+                    scale,
+                ]),
+
+                fade,
+                .removeFromParent(),
+            ])
+        )
     }
 
     // MARK: Combat
     func attack(with crack: Crack) {
 
+        guard !attackLocked else { return }
+
+        attackLocked = true
+
         guard
-            let enemy = currentEnemy,
             let enemyNode,
             let team = teamManager?.activeTeam
         else { return }
@@ -585,13 +675,21 @@ class GameScene: SKScene {
 
             let portrait = characterCards[index]
 
-            let damage =
+            let result =
                 CombatCalculator.basicDamage(
                     owned: owned,
                     crack: crack
                 )
 
-            totalDamage += damage
+            totalDamage += result.amount
+
+            spawnFloatingDamage(
+                result.amount,
+                at: enemyNode.position,
+                color: result.isCrit
+                    ? .yellow
+                    : crack.energyColor.skColor
+            )
 
             animateAttack(
                 portrait: portrait,
@@ -603,6 +701,11 @@ class GameScene: SKScene {
         }
 
         applyDamage(totalDamage)
+
+        run(.wait(forDuration: 0.15)) {
+
+            self.attackLocked = false
+        }
     }
 
     private func animateAttack(
@@ -639,7 +742,7 @@ class GameScene: SKScene {
 
     private func applyDamage(
         _ damage: Int,
-        crack: Crack? = nil   // ⭐ Default
+        crack: Crack? = nil  // ⭐ Default
     ) {
         guard let enemy = currentEnemy else { return }
 
@@ -707,30 +810,38 @@ class GameScene: SKScene {
 
     func useSkill(_ skillId: String) {
 
+        guard !attackLocked else { return }
+        attackLocked = true
+
         guard
-            let enemy = currentEnemy,
             let enemyNode
-        else { return }
+        else {
+            attackLocked = false
+            return
+        }
 
         for card in characterCards {
 
             guard
-                let skill =
-                    card.owned.base.skills.first(
-                        where: { $0.id == skillId }
-                    )
+                let skill = card.owned.base.skills.first(
+                    where: { $0.id == skillId }
+                )
             else { continue }
 
-            let damage =
-                CombatCalculator.skillDamage(
-                    owned: card.owned,
-                    skill: skill
-                )
+            let result = CombatCalculator.skillDamage(
+                owned: card.owned,
+                skill: skill
+            )
 
-            applyDamage(damage, crack: nil)
+            applyDamage(result.amount)
+
+            spawnFloatingDamage(
+                result.amount,
+                at: enemyNode.position,
+                color: result.isCrit ? .yellow : .cyan
+            )
 
             if let particle = skill.particle {
-
                 spawnSkillEffect(
                     named: particle,
                     color: skill.color,
@@ -739,13 +850,12 @@ class GameScene: SKScene {
                 )
             }
 
-            break  // ⭐ STOP after first owner
+            break
         }
-        updateHPBar()
 
-        if enemy.hp <= 0 {
-
-            enemyDefeated()
+        // ⭐ Unlock NACH Impact
+        run(.wait(forDuration: 0.25)) {
+            self.attackLocked = false
         }
     }
 
