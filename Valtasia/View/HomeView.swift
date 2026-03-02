@@ -77,28 +77,34 @@ extension HomeView {
 
     fileprivate var eventButton: some View {
 
-        HStack(spacing: 14) {
+        HStack(spacing: 12) {
 
-            // ⭐ LEFT — Gift
+            // ⭐ Gift
             NavigationLink {
+
                 GiftView()
+
             } label: {
 
                 actionCapsule(
                     title: "Gift",
+                    icon: "gift.fill",
                     colors: [.yellow, .orange]
                 )
             }
 
-            // ⭐ CENTER — EVENT
+            // ⭐ Event
             NavigationLink {
+
                 EventView()
+
             } label: {
 
                 ZStack {
 
                     Capsule()
                         .fill(
+
                             LinearGradient(
                                 colors: [
                                     .cyan.opacity(0.8),
@@ -110,6 +116,8 @@ extension HomeView {
                         )
 
                     HStack(spacing: 8) {
+
+                        Image(systemName: "sparkles")
 
                         Text("Event")
                             .font(.headline.bold())
@@ -128,14 +136,32 @@ extension HomeView {
                 .frame(height: 50)
             }
 
-            // ⭐ RIGHT — DAILY LOGIN
+            // ⭐ Daily
             NavigationLink {
+
                 DailyRewardView()
+
             } label: {
 
                 actionCapsule(
                     title: "Daily",
+                    icon: "calendar",
                     colors: [.green, .cyan]
+                )
+            }
+
+            // ⭐ SETTINGS ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+
+            NavigationLink {
+
+                SettingsView()
+
+            } label: {
+
+                actionCapsule(
+                    title: "Settings",
+                    icon: "gearshape.fill",
+                    colors: [.purple, .blue]
                 )
             }
         }
@@ -148,14 +174,18 @@ extension HomeView {
 extension HomeView {
 
     func actionCapsule(
+
         title: String,
+        icon: String,
         colors: [Color]
+
     ) -> some View {
 
         ZStack {
 
             Capsule()
                 .fill(
+
                     LinearGradient(
                         colors: colors,
                         startPoint: .topLeading,
@@ -163,7 +193,10 @@ extension HomeView {
                     )
                 )
 
-            HStack(spacing: 5) {
+            HStack(spacing: 6) {
+
+                Image(systemName: icon)
+                    .font(.subheadline)
 
                 Text(title)
                     .font(.headline.bold())

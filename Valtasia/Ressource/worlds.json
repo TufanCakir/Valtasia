@@ -5,13 +5,14 @@
         "battleBackground": "water_bg",
         "unlockAfterWorld": null,
         "worldNodes": [
+
             {
                 "id": "1",
                 "image": "island_lava",
-                "positionX": 0.2,
-                "positionY": 0.4,
+                "positionX": 0.15,
+                "positionY": 0.5,
                 "connectsTo": [
-                    "4"
+                    "2"
                 ],
                 "levels": [
                     {
@@ -28,13 +29,14 @@
                     }
                 ]
             },
+
             {
                 "id": "2",
                 "image": "island_ice",
-                "positionX": 0.45,
-                "positionY": 0.25,
+                "positionX": 0.38,
+                "positionY": 0.28,
                 "connectsTo": [
-                    "4"
+                    "3"
                 ],
                 "levels": [
                     {
@@ -46,16 +48,17 @@
                     {
                         "id": "level_4",
                         "enemies": [
-                            "pyrothar"
+                            "frost_colossus"
                         ]
                     }
                 ]
             },
+
             {
                 "id": "3",
                 "image": "island_nature",
-                "positionX": 0.45,
-                "positionY": 0.6,
+                "positionX": 0.58,
+                "positionY": 0.62,
                 "connectsTo": [
                     "4"
                 ],
@@ -65,35 +68,40 @@
                         "enemies": [
                             "ash_sovereign"
                         ]
-                    }
-                ]
-            },
-            {
-                "id": "4",
-                "image": "island_earth",
-                "positionX": 0.7,
-                "positionY": 0.4,
-                "connectsTo": [
-                    "4"
-                ],
-                "levels": [
+                    },
                     {
                         "id": "level_6",
                         "enemies": [
-                            "nullwinter"
+                            "ash_sovereign"
                         ]
-                    },
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "image": "island_earth",
+                "positionX": 0.85,
+                "positionY": 0.48,
+                "connectsTo": [],
+                "levels": [
                     {
                         "id": "level_7",
                         "enemies": [
-                            "pyrothar"
+                            "coregon"
+                        ]
+                    },
+                    {
+                        "id": "level_8",
+                        "enemies": [
+                            "ignivar"
                         ]
                     }
                 ]
             }
+
         ]
     },
-
     {
         "id": "world_2",
         "background": "epic_bg",
@@ -104,20 +112,20 @@
             {
                 "id": "1",
                 "image": "island_void",
-                "positionX": 0.2,
-                "positionY": 0.5,
+                "positionX": 0.20,
+                "positionY": 0.50,
                 "connectsTo": [
-                    "4"
+                    "2"
                 ],
                 "levels": [
                     {
-                        "id": "level_8",
+                        "id": "level_15",
                         "enemies": [
                             "coregon"
                         ]
                     },
                     {
-                        "id": "level_9",
+                        "id": "level_16",
                         "enemies": [
                             "pyrothar"
                         ]
@@ -128,20 +136,20 @@
             {
                 "id": "2",
                 "image": "island_tech",
-                "positionX": 0.4,
-                "positionY": 0.3,
+                "positionX": 0.38,
+                "positionY": 0.32,
                 "connectsTo": [
-                    "4"
+                    "3"
                 ],
                 "levels": [
                     {
-                        "id": "level_10",
+                        "id": "level_17",
                         "enemies": [
                             "frost_colossus"
                         ]
                     },
                     {
-                        "id": "level_11",
+                        "id": "level_18",
                         "enemies": [
                             "coregon"
                         ]
@@ -152,14 +160,14 @@
             {
                 "id": "3",
                 "image": "island_void",
-                "positionX": 0.6,
-                "positionY": 0.2,
+                "positionX": 0.60,
+                "positionY": 0.22,
                 "connectsTo": [
                     "4"
                 ],
                 "levels": [
                     {
-                        "id": "level_12",
+                        "id": "level_19",
                         "enemies": [
                             "zerath"
                         ]
@@ -169,45 +177,26 @@
 
             {
                 "id": "4",
-                "image": "island_tech",
-                "positionX": 0.6,
-                "positionY": 0.6,
-                "connectsTo": [
-                    "4"
-                ],
-                "levels": [
-                    {
-                        "id": "level_13",
-                        "enemies": [
-                            "coregon"
-                        ]
-                    }
-                ]
-            },
-
-            {
-                "id": "5",
                 "image": "island_storm",
-                "positionX": 0.8,
-                "positionY": 0.4,
-                "connectsTo": [
-                    "4"
-                ],
+                "positionX": 0.80,
+                "positionY": 0.45,
+                "connectsTo": [],
                 "levels": [
                     {
-                        "id": "level_14",
+                        "id": "level_20",
                         "enemies": [
                             "stormreign"
                         ]
                     },
                     {
-                        "id": "level_15",
+                        "id": "level_21",
                         "enemies": [
                             "zerath"
                         ]
                     }
                 ]
             }
+
         ]
     },
     {
@@ -220,20 +209,20 @@
             {
                 "id": "1",
                 "image": "island_lava",
-                "positionX": 0.2,
-                "positionY": 0.5,
+                "positionX": 0.18,
+                "positionY": 0.55,
                 "connectsTo": [
-                    "4"
+                    "2"
                 ],
                 "levels": [
                     {
-                        "id": "level_16",
+                        "id": "level_22",
                         "enemies": [
                             "pyrothar"
                         ]
                     },
                     {
-                        "id": "level_17",
+                        "id": "level_23",
                         "enemies": [
                             "nullwinter"
                         ]
@@ -244,16 +233,22 @@
             {
                 "id": "2",
                 "image": "island_ice",
-                "positionX": 0.45,
-                "positionY": 0.25,
+                "positionX": 0.40,
+                "positionY": 0.28,
                 "connectsTo": [
-                    "4"
+                    "3"
                 ],
                 "levels": [
                     {
-                        "id": "level_18",
+                        "id": "level_24",
                         "enemies": [
                             "ash_sovereign"
+                        ]
+                    },
+                    {
+                        "id": "level_25",
+                        "enemies": [
+                            "frost_colossus"
                         ]
                     }
                 ]
@@ -262,16 +257,22 @@
             {
                 "id": "3",
                 "image": "island_heaven",
-                "positionX": 0.45,
-                "positionY": 0.7,
+                "positionX": 0.60,
+                "positionY": 0.70,
                 "connectsTo": [
                     "4"
                 ],
                 "levels": [
                     {
-                        "id": "level_19",
+                        "id": "level_26",
                         "enemies": [
                             "ash_sovereign"
+                        ]
+                    },
+                    {
+                        "id": "level_27",
+                        "enemies": [
+                            "zerath"
                         ]
                     }
                 ]
@@ -280,16 +281,20 @@
             {
                 "id": "4",
                 "image": "island_tech",
-                "positionX": 0.75,
-                "positionY": 0.5,
-                "connectsTo": [
-                    "4"
-                ],
+                "positionX": 0.85,
+                "positionY": 0.50,
+                "connectsTo": [],
                 "levels": [
                     {
-                        "id": "level_20",
+                        "id": "level_28",
                         "enemies": [
                             "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_29",
+                        "enemies": [
+                            "stormreign"
                         ]
                     }
                 ]
@@ -307,32 +312,20 @@
             {
                 "id": "1",
                 "image": "island_lava",
-                "positionX": 0.2,
-                "positionY": 0.5,
+                "positionX": 0.18,
+                "positionY": 0.55,
                 "connectsTo": [
-                    "4"
+                    "2"
                 ],
                 "levels": [
                     {
-                        "id": "level_21",
+                        "id": "level_30",
                         "enemies": [
                             "ignivar"
                         ]
-                    }
-                ]
-            },
-
-            {
-                "id": "2",
-                "image": "island_epic",
-                "positionX": 0.45,
-                "positionY": 0.25,
-                "connectsTo": [
-                    "4"
-                ],
-                "levels": [
+                    },
                     {
-                        "id": "level_22",
+                        "id": "level_31",
                         "enemies": [
                             "pyrothar"
                         ]
@@ -341,18 +334,48 @@
             },
 
             {
+                "id": "2",
+                "image": "island_epic",
+                "positionX": 0.40,
+                "positionY": 0.30,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_32",
+                        "enemies": [
+                            "ash_sovereign"
+                        ]
+                    },
+                    {
+                        "id": "level_33",
+                        "enemies": [
+                            "coregon"
+                        ]
+                    }
+                ]
+            },
+
+            {
                 "id": "3",
                 "image": "island_ice",
-                "positionX": 0.45,
-                "positionY": 0.7,
+                "positionX": 0.62,
+                "positionY": 0.70,
                 "connectsTo": [
                     "4"
                 ],
                 "levels": [
                     {
-                        "id": "level_23",
+                        "id": "level_34",
                         "enemies": [
                             "frost_colossus"
+                        ]
+                    },
+                    {
+                        "id": "level_35",
+                        "enemies": [
+                            "nullwinter"
                         ]
                     }
                 ]
@@ -361,16 +384,20 @@
             {
                 "id": "4",
                 "image": "island_computer",
-                "positionX": 0.75,
-                "positionY": 0.5,
-                "connectsTo": [
-                    "4"
-                ],
+                "positionX": 0.85,
+                "positionY": 0.50,
+                "connectsTo": [],
                 "levels": [
                     {
-                        "id": "level_24",
+                        "id": "level_36",
                         "enemies": [
-                            "frost_colossus"
+                            "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_37",
+                        "enemies": [
+                            "stormreign"
                         ]
                     }
                 ]
@@ -388,16 +415,22 @@
             {
                 "id": "1",
                 "image": "island_nature",
-                "positionX": 0.2,
-                "positionY": 0.5,
+                "positionX": 0.18,
+                "positionY": 0.55,
                 "connectsTo": [
-                    "4"
+                    "2"
                 ],
                 "levels": [
                     {
-                        "id": "level_25",
+                        "id": "level_38",
                         "enemies": [
                             "nullwinter"
+                        ]
+                    },
+                    {
+                        "id": "level_39",
+                        "enemies": [
+                            "ash_sovereign"
                         ]
                     }
                 ]
@@ -406,16 +439,22 @@
             {
                 "id": "2",
                 "image": "island_void",
-                "positionX": 0.45,
-                "positionY": 0.25,
+                "positionX": 0.40,
+                "positionY": 0.30,
                 "connectsTo": [
-                    "4"
+                    "3"
                 ],
                 "levels": [
                     {
-                        "id": "level_26",
+                        "id": "level_40",
                         "enemies": [
                             "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_41",
+                        "enemies": [
+                            "coregon"
                         ]
                     }
                 ]
@@ -424,16 +463,23 @@
             {
                 "id": "3",
                 "image": "island_heaven",
-                "positionX": 0.45,
-                "positionY": 0.7,
+                "positionX": 0.62,
+                "positionY": 0.70,
                 "connectsTo": [
                     "4"
                 ],
                 "levels": [
                     {
-                        "id": "level_27",
+                        "id": "level_42",
                         "enemies": [
                             "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_43",
+                        "enemies": [
+                            "ash_sovereign",
+                            "nullwinter"
                         ]
                     }
                 ]
@@ -442,16 +488,20 @@
             {
                 "id": "4",
                 "image": "island_water",
-                "positionX": 0.75,
-                "positionY": 0.5,
-                "connectsTo": [
-                    "4"
-                ],
+                "positionX": 0.85,
+                "positionY": 0.50,
+                "connectsTo": [],
                 "levels": [
                     {
-                        "id": "level_28",
+                        "id": "level_44",
                         "enemies": [
                             "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_45",
+                        "enemies": [
+                            "zerath"
                         ]
                     }
                 ]
@@ -469,16 +519,22 @@
             {
                 "id": "1",
                 "image": "island_storm",
-                "positionX": 0.2,
-                "positionY": 0.5,
+                "positionX": 0.18,
+                "positionY": 0.55,
                 "connectsTo": [
-                    "4"
+                    "2"
                 ],
                 "levels": [
                     {
-                        "id": "level_29",
+                        "id": "level_46",
                         "enemies": [
                             "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_47",
+                        "enemies": [
+                            "nullwinter"
                         ]
                     }
                 ]
@@ -487,16 +543,22 @@
             {
                 "id": "2",
                 "image": "island_space",
-                "positionX": 0.45,
-                "positionY": 0.25,
+                "positionX": 0.40,
+                "positionY": 0.30,
                 "connectsTo": [
-                    "4"
+                    "3"
                 ],
                 "levels": [
                     {
-                        "id": "level_30",
+                        "id": "level_48",
                         "enemies": [
                             "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_49",
+                        "enemies": [
+                            "coregon"
                         ]
                     }
                 ]
@@ -505,16 +567,23 @@
             {
                 "id": "3",
                 "image": "island_lava",
-                "positionX": 0.45,
-                "positionY": 0.7,
+                "positionX": 0.62,
+                "positionY": 0.70,
                 "connectsTo": [
                     "4"
                 ],
                 "levels": [
                     {
-                        "id": "level_31",
+                        "id": "level_50",
                         "enemies": [
                             "pyrothar"
+                        ]
+                    },
+                    {
+                        "id": "level_51",
+                        "enemies": [
+                            "ash_sovereign",
+                            "ignivar"
                         ]
                     }
                 ]
@@ -523,16 +592,21 @@
             {
                 "id": "4",
                 "image": "island_computer",
-                "positionX": 0.75,
-                "positionY": 0.5,
-                "connectsTo": [
-                    "4"
-                ],
+                "positionX": 0.85,
+                "positionY": 0.50,
+                "connectsTo": [],
                 "levels": [
                     {
-                        "id": "level_32",
+                        "id": "level_52",
                         "enemies": [
-                            "ash_sovereign"
+                            "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_53",
+                        "enemies": [
+                            "zerath",
+                            "stormreign"
                         ]
                     }
                 ]
@@ -550,16 +624,22 @@
             {
                 "id": "1",
                 "image": "island_space",
-                "positionX": 0.2,
-                "positionY": 0.5,
+                "positionX": 0.18,
+                "positionY": 0.55,
                 "connectsTo": [
-                    "4"
+                    "2"
                 ],
                 "levels": [
                     {
-                        "id": "level_33",
+                        "id": "level_54",
                         "enemies": [
                             "coregon"
+                        ]
+                    },
+                    {
+                        "id": "level_55",
+                        "enemies": [
+                            "frost_colossus"
                         ]
                     }
                 ]
@@ -567,17 +647,23 @@
 
             {
                 "id": "2",
-                "image": "island_tech",
-                "positionX": 0.45,
-                "positionY": 0.25,
+                "image": "island_void",
+                "positionX": 0.40,
+                "positionY": 0.28,
                 "connectsTo": [
-                    "4"
+                    "3"
                 ],
                 "levels": [
                     {
-                        "id": "level_34",
+                        "id": "level_56",
                         "enemies": [
-                            "frost_Colossus"
+                            "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_57",
+                        "enemies": [
+                            "stormreign"
                         ]
                     }
                 ]
@@ -586,16 +672,23 @@
             {
                 "id": "3",
                 "image": "island_lava",
-                "positionX": 0.45,
-                "positionY": 0.7,
+                "positionX": 0.62,
+                "positionY": 0.70,
                 "connectsTo": [
                     "4"
                 ],
                 "levels": [
                     {
-                        "id": "level_35",
+                        "id": "level_58",
                         "enemies": [
-                            "ash_sovereign"
+                            "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_59",
+                        "enemies": [
+                            "ash_sovereign",
+                            "nullwinter"
                         ]
                     }
                 ]
@@ -604,16 +697,21 @@
             {
                 "id": "4",
                 "image": "island_ice",
-                "positionX": 0.75,
-                "positionY": 0.5,
-                "connectsTo": [
-                    "4"
-                ],
+                "positionX": 0.85,
+                "positionY": 0.50,
+                "connectsTo": [],
                 "levels": [
                     {
-                        "id": "level_36",
+                        "id": "level_60",
                         "enemies": [
-                            "nullwinter"
+                            "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_61",
+                        "enemies": [
+                            "stormreign",
+                            "ignivar"
                         ]
                     }
                 ]
@@ -630,51 +728,21 @@
 
             {
                 "id": "1",
-                "image": "island_epic",
-                "positionX": 0.2,
-                "positionY": 0.5,
+                "image": "island_void",
+                "positionX": 0.18,
+                "positionY": 0.55,
                 "connectsTo": [
-                    "4"
+                    "2"
                 ],
                 "levels": [
                     {
-                        "id": "level_37",
+                        "id": "level_62",
                         "enemies": [
                             "zerath"
                         ]
-                    }
-                ]
-            },
-
-            {
-                "id": "2",
-                "image": "island_tech",
-                "positionX": 0.45,
-                "positionY": 0.25,
-                "connectsTo": [
-                    "4"
-                ],
-                "levels": [
+                    },
                     {
-                        "id": "level_38",
-                        "enemies": [
-                            "zerath"
-                        ]
-                    }
-                ]
-            },
-
-            {
-                "id": "3",
-                "image": "island_storm",
-                "positionX": 0.45,
-                "positionY": 0.7,
-                "connectsTo": [
-                    "4"
-                ],
-                "levels": [
-                    {
-                        "id": "level_39",
+                        "id": "level_63",
                         "enemies": [
                             "stormreign"
                         ]
@@ -683,18 +751,76 @@
             },
 
             {
-                "id": "4",
-                "image": "island_computer",
-                "positionX": 0.75,
-                "positionY": 0.5,
+                "id": "2",
+                "image": "island_epic",
+                "positionX": 0.40,
+                "positionY": 0.28,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_64",
+                        "enemies": [
+                            "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_65",
+                        "enemies": [
+                            "ash_sovereign",
+                            "nullwinter"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "image": "island_storm",
+                "positionX": 0.62,
+                "positionY": 0.70,
                 "connectsTo": [
                     "4"
                 ],
                 "levels": [
                     {
-                        "id": "level_40",
+                        "id": "level_66",
                         "enemies": [
-                            "pyrothar"
+                            "stormreign",
+                            "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_67",
+                        "enemies": [
+                            "frost_colossus",
+                            "coregon"
+                        ]
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "image": "island_computer",
+                "positionX": 0.85,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_68",
+                        "enemies": [
+                            "ignivar",
+                            "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_69",
+                        "enemies": [
+                            "zerath",
+                            "ash_sovereign",
+                            "ignivar"
                         ]
                     }
                 ]
