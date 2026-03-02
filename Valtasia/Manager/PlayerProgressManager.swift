@@ -18,6 +18,10 @@ final class PlayerProgressManager: ObservableObject {
     private let levelKey = "player_level"
     private let expKey = "player_exp"
 
+    // ⭐ EXP Curve Settings
+    private let expGrowth = 1.12
+    private let baseEXP = 100.0
+
     private init() {
         load()
     }
@@ -39,8 +43,9 @@ final class PlayerProgressManager: ObservableObject {
 
     var requiredEXP: Int {
 
-        // steigende EXP Curve
-        100 + (level * 25)
+        Int(
+            baseEXP * pow(expGrowth, Double(level - 1))
+        )
     }
 
     // MARK: Save

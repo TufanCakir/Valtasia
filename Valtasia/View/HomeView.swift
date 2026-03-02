@@ -77,115 +77,59 @@ extension HomeView {
 
     fileprivate var eventButton: some View {
 
-        HStack(spacing: 12) {
+        HStack(spacing: 18) {
 
-            // ⭐ Gift
             NavigationLink {
-
                 GiftView()
-
             } label: {
-
-                actionCapsule(
-                    title: "Gift",
+                iconCapsule(
                     icon: "gift.fill",
                     colors: [.yellow, .orange]
                 )
             }
 
-            // ⭐ Event
             NavigationLink {
-
                 EventView()
-
             } label: {
-
-                ZStack {
-
-                    Capsule()
-                        .fill(
-
-                            LinearGradient(
-                                colors: [
-                                    .cyan.opacity(0.8),
-                                    .purple.opacity(0.7),
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-
-                    HStack(spacing: 8) {
-
-                        Image(systemName: "sparkles")
-
-                        Text("Event")
-                            .font(.headline.bold())
-
-                        if eventManager.activeEvents().count > 1 {
-
-                            Text("\(eventManager.activeEvents().count)")
-                                .font(.caption.bold())
-                                .padding(6)
-                                .background(.black.opacity(0.7))
-                                .clipShape(Circle())
-                        }
-                    }
-                    .foregroundStyle(.white)
-                }
-                .frame(height: 50)
+                iconCapsule(
+                    icon: "sparkles",
+                    colors: [.cyan, .purple]
+                )
             }
 
-            // ⭐ Daily
             NavigationLink {
-
                 DailyRewardView()
-
             } label: {
-
-                actionCapsule(
-                    title: "Daily",
+                iconCapsule(
                     icon: "calendar",
                     colors: [.green, .cyan]
                 )
             }
 
-            // ⭐ SETTINGS ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
-
             NavigationLink {
-
                 SettingsView()
-
             } label: {
-
-                actionCapsule(
-                    title: "Settings",
+                iconCapsule(
                     icon: "gearshape.fill",
                     colors: [.purple, .blue]
                 )
             }
         }
         .padding(.horizontal)
-        .transition(.move(edge: .bottom).combined(with: .opacity))
-        .animation(.spring(), value: eventManager.activeEvents().count)
     }
 }
 
 extension HomeView {
 
-    func actionCapsule(
-
-        title: String,
+    func iconCapsule(
         icon: String,
         colors: [Color]
-
     ) -> some View {
 
         ZStack {
 
             Capsule()
                 .fill(
-
                     LinearGradient(
                         colors: colors,
                         startPoint: .topLeading,
@@ -193,17 +137,12 @@ extension HomeView {
                     )
                 )
 
-            HStack(spacing: 6) {
-
-                Image(systemName: icon)
-                    .font(.subheadline)
-
-                Text(title)
-                    .font(.headline.bold())
-            }
-            .foregroundStyle(.white)
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundStyle(.white)
         }
-        .frame(height: 50)
+        .frame(width: 70, height: 50)
+        .shadow(color: colors.first?.opacity(0.4) ?? .clear, radius: 8)
     }
 }
 

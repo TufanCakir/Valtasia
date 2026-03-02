@@ -1,11 +1,11 @@
 [
     {
-        "id": "event_clash",
+        "id": "event_boss_level_01",
         "type": "boss",
-        "title": "Clash",
-        "description": "Defeat the Monster and earn rewards.",
+        "title": "Pyrothar Clash",
+        "description": "Defeat Pyrothar and earn rewards.",
         "icon": "event_boss",
-        "bossEnemy": "circle",
+        "bossEnemy": "pyrothar",
         "bossLevelId": "event_boss_level_01",
         "rewardCurrency": "event_token",
         "rewardAmount": 100,
@@ -14,6 +14,125 @@
             "crystals": 5,
             "exp": 120,
             "eventToken": 100
+        }
+    },
+    {
+        "id": "event_boss_level_02",
+        "type": "boss",
+        "title": "Nullwinter Clash",
+        "description": "Defeat Nullwinter and earn rewards.",
+        "icon": "event_boss",
+        "bossEnemy": "nullwinter",
+        "bossLevelId": "event_boss_level_02",
+        "rewardCurrency": "event_token",
+        "rewardAmount": 120,
+        "rewards": {
+            "coins": 250,
+            "crystals": 6,
+            "exp": 140,
+            "eventToken": 120
+        }
+    },
+    {
+        "id": "event_boss_level_03",
+        "type": "boss",
+        "title": "Ash Sovereign Clash",
+        "description": "Defeat the Ash Sovereign.",
+        "icon": "event_boss",
+        "bossEnemy": "ash_sovereign",
+        "bossLevelId": "event_boss_level_03",
+        "rewardCurrency": "event_token",
+        "rewardAmount": 140,
+        "rewards": {
+            "coins": 300,
+            "crystals": 8,
+            "exp": 160,
+            "eventToken": 140
+        }
+    },
+    {
+        "id": "event_boss_level_04",
+        "type": "boss",
+        "title": "Coregon Clash",
+        "description": "Defeat Coregon.",
+        "icon": "event_boss",
+        "bossEnemy": "coregon",
+        "bossLevelId": "event_boss_level_04",
+        "rewardCurrency": "event_token",
+        "rewardAmount": 160,
+        "rewards": {
+            "coins": 350,
+            "crystals": 10,
+            "exp": 180,
+            "eventToken": 160
+        }
+    },
+    {
+        "id": "event_boss_level_05",
+        "type": "boss",
+        "title": "Frost Colossus Clash",
+        "description": "Defeat the Frost Colossus.",
+        "icon": "event_boss",
+        "bossEnemy": "frost_colossus",
+        "bossLevelId": "event_boss_level_05",
+        "rewardCurrency": "event_token",
+        "rewardAmount": 180,
+        "rewards": {
+            "coins": 400,
+            "crystals": 12,
+            "exp": 200,
+            "eventToken": 180
+        }
+    },
+    {
+        "id": "event_boss_level_06",
+        "type": "boss",
+        "title": "Stormreign Clash",
+        "description": "Defeat Stormreign.",
+        "icon": "event_boss",
+        "bossEnemy": "stormreign",
+        "bossLevelId": "event_boss_level_06",
+        "rewardCurrency": "event_token",
+        "rewardAmount": 200,
+        "rewards": {
+            "coins": 450,
+            "crystals": 15,
+            "exp": 230,
+            "eventToken": 200
+        }
+    },
+    {
+        "id": "event_boss_level_07",
+        "type": "boss",
+        "title": "Zerath Clash",
+        "description": "Defeat Zerath.",
+        "icon": "event_boss",
+        "bossEnemy": "zerath",
+        "bossLevelId": "event_boss_level_07",
+        "rewardCurrency": "event_token",
+        "rewardAmount": 220,
+        "rewards": {
+            "coins": 500,
+            "crystals": 18,
+            "exp": 260,
+            "eventToken": 220
+        }
+    },
+    {
+        "id": "event_boss_level_08",
+        "type": "boss",
+        "title": "Ignivar Clash",
+        "description": "Defeat Ignivar and survive the flames.",
+        "icon": "event_boss",
+        "bossEnemy": "ignivar",
+        "bossLevelId": "event_boss_level_08",
+        "rewardCurrency": "event_token",
+        "rewardAmount": 250,
+        "rewards": {
+            "coins": 600,
+            "crystals": 20,
+            "exp": 300,
+            "eventToken": 250
         }
     }
 ]
