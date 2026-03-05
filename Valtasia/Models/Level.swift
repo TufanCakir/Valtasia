@@ -7,6 +7,9 @@
 
 struct Level: Codable, Identifiable {
 
-    let id: String
-    let enemies: [String]
+    var id: String
+
+    var battleBackground: String?
+    
+    var enemies: [String]
 }

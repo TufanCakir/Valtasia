@@ -26,13 +26,16 @@ struct SettingsView: View {
 
             ScrollView {
 
-                VStack(spacing: 24) {
+                VStack(spacing: 20) {
 
                     accountSection
 
+                    infoSection
+
                     dangerZone
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.top, 10)
             }
             .scrollIndicators(.hidden)
         }
@@ -79,31 +82,140 @@ struct SettingsView: View {
 
 extension SettingsView {
 
+    var infoSection: some View {
+
+        VStack(alignment: .leading, spacing: 16) {
+
+            Text("Information")
+                .font(.title2.bold())
+                .foregroundStyle(.white)
+
+            VStack(spacing: 14) {
+
+                settingsRow(
+                    icon: "iphone",
+                    title: "iOS Version",
+                    value: UIDevice.current.systemVersion
+                )
+
+                Divider().background(.white.opacity(0.15))
+
+                settingsRow(
+                    icon: "app.badge",
+                    title: "App Version",
+                    value: appVersion
+                )
+
+                Divider().background(.white.opacity(0.15))
+
+                settingsRow(
+                    icon: "hammer",
+                    title: "Build",
+                    value: buildNumber
+                )
+
+                Divider().background(.white.opacity(0.15))
+
+                settingsRow(
+                    icon: "circle.fill",
+                    title: "Status",
+                    value: "Online"
+                )
+            }
+
+            Divider().background(.white.opacity(0.15))
+
+            LinkRow(
+                icon: "doc.text",
+                title: "Apple Terms of Service",
+                url:
+                    "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+            )
+        }
+        .padding()
+        .background(cardBackground)
+    }
+}
+
+struct LinkRow: View {
+
+    let icon: String
+    let title: String
+    let url: String
+
+    var body: some View {
+
+        if let link = URL(string: url) {
+
+            Link(destination: link) {
+
+                HStack {
+
+                    Image(systemName: icon)
+                        .foregroundStyle(.cyan)
+                        .frame(width: 24)
+
+                    Text(title)
+                        .foregroundStyle(.white)
+
+                    Spacer()
+
+                    Image(systemName: "arrow.up.right.square")
+                        .foregroundStyle(.white.opacity(0.6))
+                }
+            }
+        }
+    }
+}
+
+extension SettingsView {
+
+    var appVersion: String {
+
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            ?? "1.0"
+    }
+
+    var buildNumber: String {
+
+        Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+    }
+}
+
+extension SettingsView {
+
     var accountSection: some View {
 
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 16) {
 
             Text("Account")
                 .font(.title2.bold())
                 .foregroundStyle(.white)
 
-            settingsRow(
-                icon: "person.crop.circle",
-                title: "Player Level",
-                value: "\(PlayerProgressManager.shared.level)"
-            )
+            VStack(spacing: 14) {
 
-            settingsRow(
-                icon: "diamond.fill",
-                title: "Crystals",
-                value: "\(CrystalManager.shared.crystals)"
-            )
+                settingsRowAsset(
+                    icon: "icon_exp",
+                    title: "Player Level",
+                    value: "\(PlayerProgressManager.shared.level)"
+                )
 
-            settingsRow(
-                icon: "centsign.circle",
-                title: "Coins",
-                value: "\(CoinManager.shared.coins)"
-            )
+                Divider().background(.white.opacity(0.15))
+
+                settingsRowAsset(
+                    icon: "icon_crystal",
+                    title: "Crystals",
+                    value: "\(CrystalManager.shared.crystals)"
+                )
+
+                Divider().background(.white.opacity(0.15))
+
+                settingsRowAsset(
+                    icon: "icon_coin",
+                    title: "Coins",
+                    value: "\(CoinManager.shared.coins)"
+                )
+            }
         }
         .padding()
         .background(cardBackground)
@@ -114,7 +226,7 @@ extension SettingsView {
 
     var dangerZone: some View {
 
-        VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: 16) {
 
             Text("Danger Zone")
                 .font(.title2.bold())
@@ -137,24 +249,48 @@ extension SettingsView {
 
                     Text("Reset Account")
                         .bold()
+
+                    Spacer()
                 }
-                .frame(maxWidth: .infinity)
                 .padding()
                 .background(
-
                     LinearGradient(
                         colors: [.red, .orange],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
                 )
-                .clipShape(Capsule())
-                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
             }
+            .foregroundStyle(.white)
         }
         .padding()
         .background(cardBackground)
     }
+}
+
+func settingsRowAsset(
+    icon: String,
+    title: String,
+    value: String
+) -> some View {
+
+    HStack(spacing: 12) {
+
+        Image(icon)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 22, height: 22)
+
+        Text(title)
+            .foregroundStyle(.white)
+
+        Spacer()
+
+        Text(value)
+            .foregroundStyle(.white.opacity(0.7))
+    }
+    .padding()
 }
 
 extension SettingsView {
@@ -165,11 +301,11 @@ extension SettingsView {
         value: String
     ) -> some View {
 
-        HStack {
+        HStack(spacing: 12) {
 
             Image(systemName: icon)
                 .foregroundStyle(.cyan)
-                .frame(width: 24)
+                .frame(width: 26)
 
             Text(title)
                 .foregroundStyle(.white)
@@ -179,6 +315,7 @@ extension SettingsView {
             Text(value)
                 .foregroundStyle(.white.opacity(0.7))
         }
+        .padding()
     }
 }
 

@@ -10,11 +10,24 @@ struct SummonBanner: Codable, Identifiable {
     let id: String
     let title: String
     let bannerImage: String
-    let currencyCost: Int
 
-    let multiCost: Int?      // ⭐ neu
-    let multiAmount: Int?    // ⭐ neu
-
+    let summons: [SummonOption]
     let poolLimit: Int
-    let pool: [String]
+
+    let pool: [SummonPoolEntry]
+}
+
+struct SummonOption: Codable, Identifiable {
+    var id: Int { amount }
+    let amount: Int
+    let cost: Int
+}
+
+struct SummonPoolEntry: Codable, Identifiable {
+
+    var id: String { characterId }
+
+    let characterId: String
+    let rate: Double
+    let rateUp: Bool
 }

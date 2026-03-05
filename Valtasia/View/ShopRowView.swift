@@ -61,13 +61,12 @@ struct ShopRowView: View {
 }
 
 extension ShopRowView {
-
+    
     // MARK: ICON
-
     fileprivate var iconView: some View {
-
+        
         ZStack {
-
+            
             Circle()
                 .fill(
                     LinearGradient(
@@ -79,21 +78,39 @@ extension ShopRowView {
                         endPoint: .bottomTrailing
                     )
                 )
-
+            
             Circle()
                 .stroke(
                     iconColor.opacity(0.6),
                     lineWidth: 1.5
                 )
-
-            Image(systemName: iconName)
-                .font(.title2.bold())
-                .foregroundStyle(iconColor)
-
+            
+            iconImage
         }
         .frame(width: 64, height: 64)
     }
+    
+    @ViewBuilder
+    fileprivate var iconImage: some View {
 
+        if iconName == "diamond.fill" {
+
+            Image("icon_crystal")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+                .foregroundStyle(iconColor)
+
+        } else {
+
+            Image(systemName: iconName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+                .foregroundStyle(iconColor)
+        }
+    }
+    
     fileprivate var iconName: String {
         storeProduct.shopItem.category.icon
     }
@@ -178,3 +195,4 @@ extension ShopRowView {
         return "Buy"
     }
 }
+

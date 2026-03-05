@@ -28,40 +28,69 @@ class EventManager: ObservableObject {  // ⭐ hinzufügen
 
         }
     }
+    
+    func crystalMultiplier() -> Double {
 
+        activeEvents()
+            .compactMap { $0.modifiers?.crystalMultiplier }
+            .reduce(1.0, *)
+    }
+    
+    func coinMultiplier() -> Double {
+
+        activeEvents()
+            .compactMap { $0.modifiers?.coinMultiplier }
+            .reduce(1.0, *)
+    }
+
+    func expMultiplier() -> Double {
+
+        activeEvents()
+            .compactMap {
+                $0.modifiers?.expMultiplier
+            }
+            .reduce(1.0, *)
+    }
+    
     func activeEvents() -> [GameEvent] {
 
         let now = Date()
 
         return events.filter { event in
 
+            // 1️⃣ Datum Event (wenn definiert)
+            if let startString = event.startDate,
+               let endString = event.endDate {
+
+                let formatter = ISO8601DateFormatter()
+
+                guard let start = formatter.date(from: startString),
+                      let end = formatter.date(from: endString)
+                else { return false }
+
+                return now >= start && now <= end
+            }
+
+            // 2️⃣ Auto Duration Event
+            let duration = event.durationDays ?? 7
+
             let key = "event_start_\(event.id)"
 
-            // Wenn noch kein Start gespeichert → jetzt starten
             if UserDefaults.standard.object(forKey: key) == nil {
                 UserDefaults.standard.set(now, forKey: key)
             }
 
             guard let start = UserDefaults.standard.object(forKey: key) as? Date
-            else {
-                return false
-            }
+            else { return false }
 
-            guard
-                let end = Calendar.current.date(
-                    byAdding: .day,
-                    value: 7,
-                    to: start
-                )
-            else {
-                return false
-            }
+            guard let end = Calendar.current.date(
+                byAdding: .day,
+                value: duration,
+                to: start
+            )
+            else { return false }
 
-            if now > end {
-                UserDefaults.standard.set(now, forKey: key)
-                return true
-            }
-            return true
+            return now <= end
         }
     }
 }

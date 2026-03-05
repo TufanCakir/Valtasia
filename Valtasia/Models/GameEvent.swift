@@ -12,9 +12,13 @@ struct GameEvent: Codable, Identifiable, Hashable {
     var type: String
 
     var description: String?
-
-    var modifiers: EventModifiers?
-
+    
+    var icon: String?   // ⭐ HIER HINZUFÜGEN
+    var battleBackground: String?
+    var modifiers: EventModifier?
+    var startDate: String?
+    var endDate: String?
+    var durationDays: Int?
     var bossEnemy: String?
     var bossLevelId: String?
 
@@ -35,8 +39,11 @@ struct EventRewards: Codable, Hashable {
 
 }
 
-struct EventModifiers: Codable, Hashable {
+struct EventModifier: Codable, Hashable {
 
-    let crackColor: String?
+    let expMultiplier: Double?
+    let coinMultiplier: Double?
+    let crystalMultiplier: Double?
+
     let spawnMultiplier: Double?
 }

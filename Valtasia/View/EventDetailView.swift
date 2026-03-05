@@ -10,18 +10,16 @@ import SwiftUI
 struct EventDetailView: View {
 
     @State private var showEventWorld = false
-
     let event: GameEvent
 
     var body: some View {
 
         ZStack {
 
+            // MARK: Background
+
             LinearGradient(
-                colors: [
-                    .black.opacity(0.9),
-                    .purple.opacity(0.45),
-                ],
+                colors: [Color.black, Color.blue.opacity(0.25)],
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -29,74 +27,75 @@ struct EventDetailView: View {
 
             ScrollView {
 
-                VStack(spacing: 28) {
+                VStack(spacing: 24) {
 
-                    header
+                    banner
 
                     descriptionSection
 
                     rewardSection
 
                     actionButton
-
                 }
-                .padding(32)
-                .background(
-
-                    RoundedRectangle(cornerRadius: 24)
-                        .fill(.ultraThinMaterial)
-                        .overlay(
-
-                            RoundedRectangle(cornerRadius: 24)
-                                .stroke(
-
-                                    LinearGradient(
-                                        colors: [
-                                            .cyan.opacity(0.7),
-                                            .purple.opacity(0.6),
-                                        ],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ),
-                                    lineWidth: 2
-                                )
-                        )
-                )
-                .shadow(color: .cyan.opacity(0.35), radius: 20)
-                .padding(.horizontal, 32)
-
+                .padding(.horizontal,20)
+                .padding(.bottom,40)
             }
         }
-        .navigationTitle(event.title)
+        .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
 
         .navigationDestination(isPresented: $showEventWorld) {
 
             EventBossRaidView()
-
         }
     }
 }
 
 extension EventDetailView {
 
-    var header: some View {
+    var banner: some View {
 
-        VStack(spacing: 12) {
+        ZStack(alignment: .bottomLeading) {
 
-            Image(systemName: iconForEvent())
-                .font(.system(size: 60))
-                .foregroundStyle(.cyan)
+            Image(event.icon ?? "water_bg")
+                .resizable()
+                .scaledToFill()
+                .frame(height:220)
+                .clipped()
 
-            Text(event.title)
-                .font(.title.bold())
-                .foregroundStyle(.white)
+            LinearGradient(
+                colors:[.clear,.black.opacity(0.95)],
+                startPoint:.center,
+                endPoint:.bottom
+            )
 
-            Text(event.type.uppercased())
-                .font(.caption.bold())
-                .foregroundStyle(.purple)
+            VStack(alignment:.leading,spacing:6){
 
+                Text(event.title)
+                    .font(.title.bold())
+                    .foregroundStyle(.white)
+
+                Text(event.type.uppercased())
+                    .font(.caption.bold())
+                    .foregroundStyle(.cyan)
+
+            }
+            .padding()
         }
+        .clipShape(RoundedRectangle(cornerRadius:24))
+        .overlay(
+
+            RoundedRectangle(cornerRadius:24)
+                .stroke(
+                    LinearGradient(
+                        colors:[.cyan.opacity(0.7),.purple.opacity(0.6)],
+                        startPoint:.topLeading,
+                        endPoint:.bottomTrailing
+                    ),
+                    lineWidth:2
+                )
+        )
+        .shadow(color:.cyan.opacity(0.35),radius:14)
     }
 }
 
@@ -104,7 +103,7 @@ extension EventDetailView {
 
     var descriptionSection: some View {
 
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment:.leading,spacing:10){
 
             Text("Description")
                 .font(.headline)
@@ -112,13 +111,23 @@ extension EventDetailView {
 
             Text(event.description ?? "No description")
                 .foregroundStyle(.white.opacity(0.8))
-
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth:.infinity,alignment:.leading)
         .padding()
-        .background(.black.opacity(0.35))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius:20))
+        .overlay(
 
+            RoundedRectangle(cornerRadius:20)
+                .stroke(
+                    LinearGradient(
+                        colors:[.cyan.opacity(0.5),.purple.opacity(0.5)],
+                        startPoint:.topLeading,
+                        endPoint:.bottomTrailing
+                    ),
+                    lineWidth:1.5
+                )
+        )
     }
 }
 
@@ -126,7 +135,7 @@ extension EventDetailView {
 
     var rewardSection: some View {
 
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment:.leading,spacing:12){
 
             Text("Rewards")
                 .font(.headline)
@@ -135,81 +144,61 @@ extension EventDetailView {
             if let rewards = event.rewards {
 
                 if let coins = rewards.coins {
-
-                    rewardRow("Coins", "+\(coins)")
+                    rewardInfoRow("Coins","+ \(coins)")
                 }
 
                 if let crystals = rewards.crystals {
-
-                    rewardRow("Crystals", "+\(crystals)")
+                    rewardInfoRow("Crystals","+\(crystals)")
                 }
 
                 if let exp = rewards.exp {
-
-                    rewardRow("EXP", "+\(exp)")
+                    rewardInfoRow("EXP","+\(exp)")
                 }
 
                 if let token = rewards.eventToken {
-
-                    rewardRow("Event Tokens", "+\(token)")
+                    rewardInfoRow("Event Tokens","+\(token)")
                 }
-
             }
 
             if let boss = event.bossEnemy {
-
-                rewardRow("Boss", boss)
-
+                rewardInfoRow("Boss",boss)
             }
 
             if let hero = event.hero {
-
-                rewardRow("Rate Up", hero)
-
+                rewardInfoRow("Rate Up",hero)
             }
-
-            if let mod = event.modifiers {
-
-                if let color = mod.crackColor {
-
-                    rewardRow("Crack Boost", color)
-
-                }
-
-                if let multi = mod.spawnMultiplier {
-
-                    rewardRow("Spawn", "x\(multi)")
-                }
-            }
-
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth:.infinity,alignment:.leading)
         .padding()
-        .background(.black.opacity(0.35))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius:20))
+        .overlay(
 
+            RoundedRectangle(cornerRadius:20)
+                .stroke(
+                    LinearGradient(
+                        colors:[.cyan.opacity(0.5),.purple.opacity(0.5)],
+                        startPoint:.topLeading,
+                        endPoint:.bottomTrailing
+                    ),
+                    lineWidth:1.5
+                )
+        )
     }
 }
 
-extension EventDetailView {
+func rewardInfoRow(_ title:String,_ value:String) -> some View {
 
-    func rewardRow(
-        _ title: String,
-        _ value: String
-    ) -> some View {
+    HStack {
 
-        HStack {
+        Text(title)
+            .foregroundStyle(.white.opacity(0.7))
 
-            Text(title)
-                .foregroundStyle(.white.opacity(0.7))
+        Spacer()
 
-            Spacer()
-
-            Text(value)
-                .font(.caption.bold())
-                .foregroundStyle(.cyan)
-
-        }
+        Text(value)
+            .font(.caption.bold())
+            .foregroundStyle(.cyan)
     }
 }
 
@@ -225,21 +214,19 @@ extension EventDetailView {
 
             Text(buttonTitle())
                 .font(.headline.bold())
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth:.infinity)
                 .padding()
 
                 .background(
 
                     LinearGradient(
-                        colors: [.cyan, .purple],
-                        startPoint: .leading,
-                        endPoint: .trailing
+                        colors:[.cyan,.purple],
+                        startPoint:.leading,
+                        endPoint:.trailing
                     )
-
                 )
                 .foregroundStyle(.white)
                 .clipShape(Capsule())
-
         }
     }
 }

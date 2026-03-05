@@ -25,8 +25,4 @@ final class CharacterDatabase {
             print("Character load error:", error)
         }
     }
-
-    func characters(for banner: String) -> [Character] {
-        characters.filter { $0.summon.banner == banner }
-    }
 }

@@ -15,30 +15,35 @@ struct GameHeaderView: View {
 
     var body: some View {
 
-        VStack {
+        HStack(spacing: 16) {
 
-            currencySection
             levelSection
 
+            Spacer()
+
+            currencySection
         }
-        .padding()
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+
         .background(
             LinearGradient(
                 colors: [
                     Color.black.opacity(0.95),
-                    Color.blue.opacity(0.35),
+                    Color.blue.opacity(0.35)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
         )
+
         .overlay(
-            RoundedRectangle(cornerRadius: 0)
+            Rectangle()
                 .stroke(
                     LinearGradient(
                         colors: [
                             .cyan.opacity(0.6),
-                            .purple.opacity(0.6),
+                            .purple.opacity(0.6)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -53,12 +58,14 @@ extension GameHeaderView {
 
     var levelSection: some View {
 
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 6) {
 
-            HStack {
+            HStack(spacing: 6) {
 
-                Image(systemName: "star.fill")
-                    .foregroundStyle(.blue)
+                Image("icon_exp")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 18, height: 18)
 
                 Text("LV \(progress.level)")
                     .font(.headline.bold())
@@ -66,6 +73,7 @@ extension GameHeaderView {
             }
 
             expBar
+                .frame(width: 120)
         }
     }
 }
@@ -82,7 +90,7 @@ extension GameHeaderView {
             ZStack(alignment: .leading) {
 
                 Capsule()
-                    .fill(.white)
+                    .fill(Color.white.opacity(0.15))
 
                 Capsule()
                     .fill(
@@ -96,7 +104,7 @@ extension GameHeaderView {
                     .animation(.easeOut(duration: 0.25), value: ratio)
             }
         }
-        .frame(height: 16)
+        .frame(height: 10)
     }
 }
 
@@ -104,51 +112,60 @@ extension GameHeaderView {
 
     var currencySection: some View {
 
-        HStack(spacing: 12) {
+        HStack(spacing: 14) {
 
-            currencyCard(
-                icon: "diamond.fill",
-                gradient: [.cyan, .blue],
-                iconColor: .cyan,
-                value: crystals.crystals
-            )
+            currencyItem(icon: "icon_crystal", value: crystals.crystals)
 
-            currencyCard(
-                icon: "bitcoinsign.circle.fill",
-                gradient: [.yellow, .orange],
-                iconColor: .yellow,
-                value: coins.coins
-            )
+            currencyItem(icon: "icon_coin", value: coins.coins)
+        }
+    }
+    
+    func currencyItem(icon: String, value: Int) -> some View {
+
+        HStack(spacing: 6) {
+
+            Image(icon)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 18, height: 18)
+
+            Text(value.formatted())
+                .font(.subheadline.bold())
+                .foregroundStyle(.white)
         }
     }
 
     func currencyCard(
         icon: String,
         gradient: [Color],
-        iconColor: Color,
         value: Int
     ) -> some View {
 
-        HStack(spacing: 16) {
+        HStack(spacing: 10) {
 
-            Image(systemName: icon)
-                .font(.subheadline)
-                .foregroundStyle(iconColor)
+            Image(icon)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
 
             Text(value.formatted())
-                .font(.footnote.bold())
+                .font(.subheadline.bold())
                 .foregroundStyle(.white)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
+
         .background(
             LinearGradient(
                 colors: gradient,
                 startPoint: .leading,
                 endPoint: .trailing
             )
-            .opacity(0.25)
+            .opacity(0.18)
         )
+
+        .clipShape(Capsule())
+
         .overlay(
             Capsule()
                 .stroke(

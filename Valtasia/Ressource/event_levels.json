@@ -1,56 +1,56 @@
 [
     {
         "id": "event_boss_level_01",
-        "battleBackground": "ocean_bg",
+        "battleBackground": "water_bg",
         "enemies": [
             "pyrothar"
         ]
     },
     {
         "id": "event_boss_level_02",
-        "battleBackground": "ocean_bg",
+        "battleBackground": "water_bg",
         "enemies": [
             "nullwinter"
         ]
     },
     {
         "id": "event_boss_level_03",
-        "battleBackground": "ocean_bg",
+        "battleBackground": "water_bg",
         "enemies": [
             "ash_sovereign"
         ]
     },
     {
         "id": "event_boss_level_04",
-        "battleBackground": "ocean_bg",
+        "battleBackground": "water_bg",
         "enemies": [
             "coregon"
         ]
     },
     {
         "id": "event_boss_level_05",
-        "battleBackground": "ocean_bg",
+        "battleBackground": "water_bg",
         "enemies": [
             "frost_colossus"
         ]
     },
     {
         "id": "event_boss_level_06",
-        "battleBackground": "ocean_bg",
+        "battleBackground": "water_bg",
         "enemies": [
             "stormreign"
         ]
     },
     {
         "id": "event_boss_level_07",
-        "battleBackground": "ocean_bg",
+        "battleBackground": "water_bg",
         "enemies": [
             "zerath"
         ]
     },
     {
         "id": "event_boss_level_08",
-        "battleBackground": "ocean_bg",
+        "battleBackground": "water_bg",
         "enemies": [
             "ignivar"
         ]

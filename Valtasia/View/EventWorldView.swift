@@ -13,7 +13,7 @@ struct EventWorldView: View {
 
         ZStack {
 
-            Image("event_bg")
+            Image("water_bg")
                 .resizable()
                 .ignoresSafeArea()
 

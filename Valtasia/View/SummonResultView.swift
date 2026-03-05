@@ -9,14 +9,19 @@ import SwiftUI
 
 struct SummonResultView: View {
 
-    let character: Character
+    let characters: [Character]
+
     @Environment(\.dismiss) private var dismiss
+
+    let columns = [
+        GridItem(.adaptive(minimum: 120), spacing: 20)
+    ]
 
     var body: some View {
 
         VStack(spacing: 0) {
 
-            // MARK: HEADER STYLE (wie SummonView)
+            // MARK: HEADER
 
             HStack {
 
@@ -26,7 +31,7 @@ struct SummonResultView: View {
                         .font(.largeTitle.bold())
                         .foregroundStyle(.white)
 
-                    Text("Ein neuer Kämpfer ist erschienen")
+                    Text("\(characters.count) Characters Summoned")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.7))
                 }
@@ -40,123 +45,46 @@ struct SummonResultView: View {
             Divider()
                 .background(.white.opacity(0.15))
 
-            Spacer()
+            // MARK: RESULTS
 
-            // MARK: RESULT CARD
+            ScrollView {
 
-            VStack(spacing: 22) {
+                LazyVGrid(columns: columns, spacing: 24) {
 
-                Text("YOU SUMMONED")
-                    .font(.caption.bold())
-                    .tracking(2)
-                    .foregroundStyle(.white.opacity(0.8))
-
-                ZStack {
-
-                    RoundedRectangle(cornerRadius: 24)
-                        .fill(.ultraThinMaterial)
-
-                    RoundedRectangle(cornerRadius: 24)
-                        .stroke(
-                            LinearGradient(
-                                colors: [
-                                    .cyan.opacity(0.7),
-                                    .purple.opacity(0.6),
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 2
-                        )
-
-                    VStack(spacing: 18) {
-
-                        // Glow Background
-
-                        Circle()
-                            .fill(
-                                RadialGradient(
-                                    colors: [
-                                        rarityColor.opacity(0.5),
-                                        .clear,
-                                    ],
-                                    center: .center,
-                                    startRadius: 10,
-                                    endRadius: 160
-                                )
-                            )
-                            .frame(width: 220, height: 220)
-                            .overlay {
-
-                                Image(character.sprite)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 200)
-                                    .shadow(
-                                        color: rarityColor.opacity(0.7),
-                                        radius: 20
-                                    )
-                            }
-
-                        Text(character.name)
-                            .font(.title.bold())
-                            .foregroundStyle(.white)
-
-                        Text(character.rarity.rawValue.uppercased())
-                            .font(.caption.bold())
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 8)
-                            .background(
-                                rarityColor.opacity(0.2)
-                            )
-                            .foregroundStyle(rarityColor)
-                            .clipShape(Capsule())
-                            .overlay {
-
-                                Capsule()
-                                    .stroke(rarityColor, lineWidth: 1.5)
-                            }
+                    ForEach(Array(characters.enumerated()), id: \.offset) {
+                        _,
+                        character in
+                        summonCard(character)
                     }
-                    .padding(24)
                 }
-                .shadow(
-                    color: .cyan.opacity(0.35),
-                    radius: 14
-                )
-
-                Button {
-
-                    dismiss()
-
-                } label: {
-
-                    Text("Continue")
-                        .font(.caption.bold())
-                        .padding(.horizontal, 22)
-                        .padding(.vertical, 10)
-                        .background(
-                            LinearGradient(
-                                colors: [
-                                    .purple,
-                                    .blue,
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .foregroundStyle(.white)
-                        .clipShape(Capsule())
-                }
+                .padding(24)
             }
-            .padding(.horizontal, 20)
 
-            Spacer()
+            // MARK: CONTINUE BUTTON
+
+            Button {
+
+                dismiss()
+
+            } label: {
+
+                Text("Continue")
+                    .font(.headline.bold())
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 14)
+                    .background(
+                        LinearGradient(
+                            colors: [.purple, .blue],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .foregroundStyle(.white)
+                    .clipShape(Capsule())
+            }
+            .padding(.bottom, 30)
         }
-
-        // MARK: BACKGROUND = EXACT SAME STYLE
-
         .background(
-
             LinearGradient(
                 colors: [
                     Color.black,
@@ -169,22 +97,69 @@ struct SummonResultView: View {
         )
         .navigationBarBackButtonHidden(true)
     }
+}
 
-    var rarityColor: Color {
+extension SummonResultView {
 
-        switch character.rarity {
+    func summonCard(_ character: Character) -> some View {
 
-        case .common:
-            return .gray
+        let color = character.rarity.color
 
-        case .rare:
-            return .blue
+        return VStack(spacing: 12) {
 
-        case .epic:
-            return .purple
+            ZStack {
 
-        case .legendary:
-            return .yellow
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                color.opacity(0.5),
+                                .clear,
+                            ],
+                            center: .center,
+                            startRadius: 10,
+                            endRadius: 120
+                        )
+                    )
+                    .frame(width: 120, height: 120)
+
+                Image(character.sprite)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 90)
+            }
+
+            Text(character.name)
+                .font(.headline)
+                .foregroundStyle(.white)
+
+            Text(character.rarity.rawValue.uppercased())
+                .font(.caption.bold())
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(color.opacity(0.2))
+                .foregroundStyle(color)
+                .clipShape(Capsule())
         }
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    .cyan.opacity(0.6),
+                                    .purple.opacity(0.5),
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1.5
+                        )
+                )
+        )
+        .shadow(color: .cyan.opacity(0.25), radius: 10)
     }
 }

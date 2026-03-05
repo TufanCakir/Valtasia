@@ -103,11 +103,16 @@ extension ExchangeView {
                 // Exchange Row
                 HStack {
 
-                    Label(
-                        "-\(offer.coinCost)",
-                        systemImage: "bitcoinsign.circle.fill"
-                    )
-                    .foregroundStyle(.yellow)
+                    HStack(spacing: 6) {
+
+                        Image("icon_coin")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+
+                        Text("-\(offer.coinCost)")
+                            .foregroundStyle(.yellow)
+                    }
 
                     Spacer()
 
@@ -116,11 +121,16 @@ extension ExchangeView {
 
                     Spacer()
 
-                    Label(
-                        "+\(offer.crystalReward)",
-                        systemImage: "diamond.fill"
-                    )
-                    .foregroundStyle(.cyan)
+                    HStack(spacing: 6) {
+
+                        Image("icon_crystal")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+
+                        Text("+\(offer.crystalReward)")
+                            .foregroundStyle(.cyan)
+                    }
                 }
                 .font(.headline)
 

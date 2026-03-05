@@ -55,7 +55,9 @@ class GameScene: SKScene {
     private func setupBackground() {
 
         let backgroundName =
-            world?.battleBackground ?? "ocean_bg"
+        EventRuntime.shared.activeEvent?.battleBackground
+            ?? world?.battleBackground
+            ?? "ocean_bg"
 
         let bg = SKSpriteNode(imageNamed: backgroundName)
 
@@ -775,19 +777,30 @@ class GameScene: SKScene {
             }
         }
 
-        CoinManager.shared.add(50)
-        CrystalManager.shared.add(1)
+        let coins =
+        Int(Double(50) * EventManager.shared.coinMultiplier())
+
+        CoinManager.shared.add(coins)
+
+        let crystals =
+        Int(Double(1) * EventManager.shared.crystalMultiplier())
+
+        CrystalManager.shared.add(crystals)
 
         if let team = teamManager?.activeTeam {
 
+            let multiplier =
+            EventManager.shared.expMultiplier()
+
             for owned in team {
 
-                owned.addEXP(30)
+                let exp = Int(Double(30) * multiplier)
+
+                owned.addEXP(exp)
             }
         }
 
         characterCards.forEach {
-
             $0.updateEXP()
         }
 

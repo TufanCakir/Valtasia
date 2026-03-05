@@ -21,8 +21,8 @@ class EventRuntime {
 
             activeEventWorld = EventWorld(
                 id: event.id,
-                background: "event_bg",
-                bossLevelId: "event_boss_level"
+                background: event.battleBackground ?? "ocean_bg",
+                bossLevelId: event.bossLevelId ?? ""
             )
         }
 

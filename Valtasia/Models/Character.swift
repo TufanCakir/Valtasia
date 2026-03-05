@@ -17,8 +17,6 @@ struct Character: Codable, Identifiable, Hashable {
     let stats: Stats
     let energyType: String
 
-    let summon: SummonInfo
-
     let sprite: String
     let skins: [Skin]
 

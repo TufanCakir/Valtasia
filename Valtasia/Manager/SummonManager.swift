@@ -40,65 +40,62 @@ final class SummonManager: ObservableObject {
 
     func rates(for bannerId: String) -> [CharacterRate] {
 
-        guard
-            let banner =
-                banners.first(where: { $0.id == bannerId })
+        guard let banner =
+            banners.first(where: { $0.id == bannerId })
         else { return [] }
 
-        let poolIDs =
+        let entries =
             Array(banner.pool.prefix(banner.poolLimit))
 
-        let pool =
-            characters.filter { poolIDs.contains($0.id) }
+        return entries.compactMap { entry in
 
-        return
-            pool
-            .map {
-                CharacterRate(
-                    character: $0,
-                    rate: $0.summon.rate,
-                    isRateUp: $0.summon.rateUp
-                )
-            }
-            .sorted { $0.rate > $1.rate }
+            guard let character =
+                characters.first(where: {
+                    $0.id == entry.characterId
+                })
+            else { return nil }
+
+            return CharacterRate(
+                character: character,
+                rate: entry.rate,
+                isRateUp: entry.rateUp
+            )
+        }
+        .sorted { $0.rate > $1.rate }
     }
 
     func summon(from bannerId: String) -> Character? {
 
-        guard
-            let banner =
-                banners.first(where: { $0.id == bannerId })
+        guard let banner =
+            banners.first(where: { $0.id == bannerId })
         else { return nil }
 
-        // ⭐ Pool IDs aus JSON
-        let poolIDs =
+        let entries =
             Array(banner.pool.prefix(banner.poolLimit))
 
-        let pool =
-            characters.filter { char in
-                poolIDs.contains(char.id)
-            }
-
-        guard !pool.isEmpty else { return nil }
+        guard !entries.isEmpty else { return nil }
 
         let totalRate =
-            pool.reduce(0) { $0 + $1.summon.rate }
+            entries.reduce(0) { $0 + $1.rate }
 
         let roll =
-            Double.random(in: 0...totalRate)
+            Double.random(in: 0..<totalRate)
 
         var current = 0.0
 
-        for character in pool {
+        for entry in entries {
 
-            current += character.summon.rate
+            current += entry.rate
 
             if roll <= current {
-                return character
+
+                return characters.first {
+                    $0.id == entry.characterId
+                }
             }
         }
 
-        return pool.randomElement()
+        return nil
     }
 }
 
