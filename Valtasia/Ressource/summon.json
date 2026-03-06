@@ -55,6 +55,26 @@
                 "characterId": "hero_07",
                 "rate": 0.50,
                 "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
+                "rate": 0.50,
+                "rateUp": false
             }
         ]
     },
@@ -110,6 +130,26 @@
             },
             {
                 "characterId": "hero_07",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
                 "rate": 0.50,
                 "rateUp": false
             }
@@ -169,6 +209,26 @@
                 "characterId": "hero_07",
                 "rate": 0.50,
                 "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
+                "rate": 0.50,
+                "rateUp": false
             }
         ]
     },
@@ -224,6 +284,26 @@
             },
             {
                 "characterId": "hero_07",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
                 "rate": 0.50,
                 "rateUp": false
             }
@@ -283,6 +363,26 @@
                 "characterId": "hero_07",
                 "rate": 0.50,
                 "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
+                "rate": 0.50,
+                "rateUp": false
             }
         ]
     },
@@ -336,6 +436,26 @@
                 "characterId": "hero_07",
                 "rate": 0.50,
                 "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
+                "rate": 0.50,
+                "rateUp": false
             }
         ]
     },
@@ -387,6 +507,318 @@
             },
             {
                 "characterId": "hero_07",
+                "rate": 0.01,
+                "rateUp": true
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
+                "rate": 0.01,
+                "rateUp": true
+            }
+        ]
+    },
+    {
+        "id": "mireya_banner",
+        "title": "Mireya Summon",
+        "bannerImage": "character_mireya",
+        "summons": [
+            {
+                "amount": 1,
+                "cost": 5
+            },
+            {
+                "amount": 10,
+                "cost": 50
+            }
+        ],
+        "poolLimit": 10,
+        "pool": [
+            {
+                "characterId": "hero_01",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_02",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_03",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_04",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_05",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_06",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_07",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.01,
+                "rateUp": true
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
+                "rate": 0.01,
+                "rateUp": true
+            }
+        ]
+    },
+    {
+        "id": "azrael_banner",
+        "title": "Azrael Summon",
+        "bannerImage": "character_azrael",
+        "summons": [
+            {
+                "amount": 1,
+                "cost": 5
+            },
+            {
+                "amount": 10,
+                "cost": 50
+            }
+        ],
+        "poolLimit": 10,
+        "pool": [
+            {
+                "characterId": "hero_01",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_02",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_03",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_04",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_05",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_06",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_07",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.01,
+                "rateUp": true
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
+                "rate": 0.01,
+                "rateUp": true
+            }
+        ]
+    },
+    {
+        "id": "azrak_banner",
+        "title": "Azrak Summon",
+        "bannerImage": "character_azrak",
+        "summons": [
+            {
+                "amount": 1,
+                "cost": 5
+            },
+            {
+                "amount": 10,
+                "cost": 50
+            }
+        ],
+        "poolLimit": 10,
+        "pool": [
+            {
+                "characterId": "hero_01",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_02",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_03",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_04",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_05",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_06",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_07",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.01,
+                "rateUp": true
+            },
+            {
+                "characterId": "hero_11",
+                "rate": 0.01,
+                "rateUp": true
+            }
+        ]
+    },
+    {
+        "id": "stellara_banner",
+        "title": "Stellara Summon",
+        "bannerImage": "character_stellara",
+        "summons": [
+            {
+                "amount": 1,
+                "cost": 5
+            },
+            {
+                "amount": 10,
+                "cost": 50
+            }
+        ],
+        "poolLimit": 10,
+        "pool": [
+            {
+                "characterId": "hero_01",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_02",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_03",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_04",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_05",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_06",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_07",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_08",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_09",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_10",
+                "rate": 0.50,
+                "rateUp": false
+            },
+            {
+                "characterId": "hero_11",
                 "rate": 0.01,
                 "rateUp": true
             }

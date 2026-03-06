@@ -827,5 +827,385 @@
             }
 
         ]
+    },
+    {
+        "id": "world_9",
+        "background": "bg_emo",
+        "battleBackground": "bg_emo",
+        "unlockAfterWorld": "world_8",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_emo",
+                "positionX": 0.20,
+                "positionY": 0.55,
+                "connectsTo": [
+                    "2"
+                ],
+                "levels": [
+                    {
+                        "id": "level_70",
+                        "enemies": [
+                            "ash_sovereign"
+                        ]
+                    },
+                    {
+                        "id": "level_71",
+                        "enemies": [
+                            "nullwinter"
+                        ]
+                    },
+                    {
+                        "id": "level_72",
+                        "enemies": [
+                            "zerath"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_cemetery",
+                "positionX": 0.45,
+                "positionY": 0.30,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_73",
+                        "enemies": [
+                            "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_74",
+                        "enemies": [
+                            "coregon"
+                        ]
+                    },
+                    {
+                        "id": "level_75",
+                        "enemies": [
+                            "frost_colossus"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_dead",
+                "positionX": 0.75,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_76",
+                        "enemies": [
+                            "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_77",
+                        "enemies": [
+                            "ash_sovereign",
+                            "nullwinter"
+                        ]
+                    },
+                    {
+                        "id": "level_78",
+                        "enemies": [
+                            "zerath",
+                            "stormreign"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_10",
+        "background": "bg_cemetery",
+        "battleBackground": "bg_cemetery",
+        "unlockAfterWorld": "world_9",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_cemetery",
+                "positionX": 0.18,
+                "positionY": 0.55,
+                "connectsTo": [
+                    "2"
+                ],
+                "levels": [
+                    {
+                        "id": "level_79",
+                        "enemies": [
+                            "nullwinter"
+                        ]
+                    },
+                    {
+                        "id": "level_80",
+                        "enemies": [
+                            "coregon"
+                        ]
+                    },
+                    {
+                        "id": "level_81",
+                        "enemies": [
+                            "zerath"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_emo",
+                "positionX": 0.42,
+                "positionY": 0.28,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_82",
+                        "enemies": [
+                            "ash_sovereign"
+                        ]
+                    },
+                    {
+                        "id": "level_83",
+                        "enemies": [
+                            "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_84",
+                        "enemies": [
+                            "ignivar"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_dead",
+                "positionX": 0.80,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_85",
+                        "enemies": [
+                            "frost_colossus"
+                        ]
+                    },
+                    {
+                        "id": "level_86",
+                        "enemies": [
+                            "zerath",
+                            "ash_sovereign"
+                        ]
+                    },
+                    {
+                        "id": "level_87",
+                        "enemies": [
+                            "stormreign",
+                            "ignivar"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_11",
+        "background": "bg_candy",
+        "battleBackground": "bg_candy",
+        "unlockAfterWorld": "world_10",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_candy",
+                "positionX": 0.20,
+                "positionY": 0.60,
+                "connectsTo": [
+                    "2"
+                ],
+                "levels": [
+                    {
+                        "id": "level_88",
+                        "enemies": [
+                            "coregon"
+                        ]
+                    },
+                    {
+                        "id": "level_89",
+                        "enemies": [
+                            "frost_colossus"
+                        ]
+                    },
+                    {
+                        "id": "level_90",
+                        "enemies": [
+                            "ash_sovereign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_desert",
+                "positionX": 0.48,
+                "positionY": 0.30,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_91",
+                        "enemies": [
+                            "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_92",
+                        "enemies": [
+                            "nullwinter"
+                        ]
+                    },
+                    {
+                        "id": "level_93",
+                        "enemies": [
+                            "stormreign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_candy",
+                "positionX": 0.78,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_94",
+                        "enemies": [
+                            "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_95",
+                        "enemies": [
+                            "ash_sovereign",
+                            "coregon"
+                        ]
+                    },
+                    {
+                        "id": "level_96",
+                        "enemies": [
+                            "stormreign",
+                            "ignivar"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_12",
+        "background": "bg_desert",
+        "battleBackground": "bg_desert",
+        "unlockAfterWorld": "world_11",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_desert",
+                "positionX": 0.22,
+                "positionY": 0.58,
+                "connectsTo": [
+                    "2"
+                ],
+                "levels": [
+                    {
+                        "id": "level_97",
+                        "enemies": [
+                            "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_98",
+                        "enemies": [
+                            "coregon"
+                        ]
+                    },
+                    {
+                        "id": "level_99",
+                        "enemies": [
+                            "nullwinter"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_dead",
+                "positionX": 0.50,
+                "positionY": 0.28,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_100",
+                        "enemies": [
+                            "ash_sovereign"
+                        ]
+                    },
+                    {
+                        "id": "level_101",
+                        "enemies": [
+                            "frost_colossus"
+                        ]
+                    },
+                    {
+                        "id": "level_102",
+                        "enemies": [
+                            "zerath"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "floating_bg",
+                "positionX": 0.82,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_103",
+                        "enemies": [
+                            "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_104",
+                        "enemies": [
+                            "ignivar",
+                            "ash_sovereign"
+                        ]
+                    },
+                    {
+                        "id": "level_105",
+                        "enemies": [
+                            "zerath",
+                            "stormreign"
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]

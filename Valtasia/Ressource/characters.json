@@ -289,5 +289,185 @@
                 "color": "shadow"
             }
         ]
+    },
+    {
+        "id": "hero_08",
+        "name": "Mireya",
+        "rarity": "epic",
+        "role": "dps",
+        "stats": {
+            "hp": 1200,
+            "attack": 200,
+            "energyPower": 95,
+            "attackSpeed": 1.6
+        },
+        "energyType": "shadow",
+        "summon": {
+            "rate": 0.06,
+            "banner": "mireya_banner",
+            "rateUp": false
+        },
+        "sprite": "character_mireya",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_mireya"
+            }
+        ],
+        "skills": [
+            {
+                "id": "gloom_slash",
+                "name": "Gloom Slash",
+                "type": "damage",
+                "multiplier": 2.1,
+                "cooldown": 5,
+                "particle": "ShadowParticle",
+                "color": "shadow"
+            },
+            {
+                "id": "nightfall_dance",
+                "name": "Nightfall Dance",
+                "type": "damage",
+                "multiplier": 2.6,
+                "cooldown": 5,
+                "particle": "DarkParticle",
+                "color": "crimson"
+            }
+        ]
+    },
+    {
+        "id": "hero_09",
+        "name": "Azrael",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1500,
+            "attack": 230,
+            "energyPower": 140,
+            "attackSpeed": 1.5
+        },
+        "energyType": "shadow",
+        "summon": {
+            "rate": 0.015,
+            "banner": "azrael_banner",
+            "rateUp": true
+        },
+        "sprite": "character_azrael",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_azrael"
+            }
+        ],
+        "skills": [
+            {
+                "id": "reaper_strike",
+                "name": "Reaper Strike",
+                "type": "damage",
+                "multiplier": 2.5,
+                "cooldown": 5,
+                "particle": "ShadowParticle",
+                "color": "shadow"
+            },
+            {
+                "id": "soul_harvest",
+                "name": "Soul Harvest",
+                "type": "damage",
+                "multiplier": 3.2,
+                "cooldown": 5,
+                "particle": "VoidParticle",
+                "color": "void"
+            }
+        ]
+    },
+    {
+        "id": "hero_10",
+        "name": "Azrak",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1600,
+            "attack": 240,
+            "energyPower": 120,
+            "attackSpeed": 1.4
+        },
+        "energyType": "fire",
+        "summon": {
+            "rate": 0.015,
+            "banner": "azrak_banner",
+            "rateUp": true
+        },
+        "sprite": "character_azrak",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_azrak"
+            }
+        ],
+        "skills": [
+            {
+                "id": "hellfire_orb",
+                "name": "Hellfire Orb",
+                "type": "damage",
+                "multiplier": 2.4,
+                "cooldown": 5,
+                "particle": "FireParticle",
+                "color": "crimson"
+            },
+            {
+                "id": "infernal_wrath",
+                "name": "Infernal Wrath",
+                "type": "damage",
+                "multiplier": 3.4,
+                "cooldown": 5,
+                "particle": "ExplosionParticle",
+                "color": "fire"
+            }
+        ]
+    },
+    {
+        "id": "hero_11",
+        "name": "Stellara",
+        "rarity": "legendary",
+        "role": "support",
+        "stats": {
+            "hp": 1450,
+            "attack": 110,
+            "energyPower": 210,
+            "attackSpeed": 1.2
+        },
+        "energyType": "arcane",
+        "summon": {
+            "rate": 0.02,
+            "banner": "stellara_banner",
+            "rateUp": true
+        },
+        "sprite": "character_stellara",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_stellara"
+            }
+        ],
+        "skills": [
+            {
+                "id": "astral_blessing",
+                "name": "Astral Blessing",
+                "type": "heal",
+                "multiplier": 2.0,
+                "cooldown": 5,
+                "particle": "ArcaneParticle",
+                "color": "arcane"
+            },
+            {
+                "id": "cosmic_lance",
+                "name": "Cosmic Lance",
+                "type": "damage",
+                "multiplier": 2.3,
+                "cooldown": 5,
+                "particle": "ArcaneParticle",
+                "color": "gold"
+            }
+        ]
     }
 ]
