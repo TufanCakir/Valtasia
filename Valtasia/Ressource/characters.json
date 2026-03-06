@@ -465,7 +465,7 @@
                 "type": "damage",
                 "multiplier": 2.3,
                 "cooldown": 5,
-                "particle": "ArcaneParticle",
+                "particle": "ShadowParticle",
                 "color": "gold"
             }
         ]

@@ -17,90 +17,125 @@ struct GiftRow: View {
     let colors: [Color]
     let action: () -> Void
 
-    var body: some View {
-        ZStack {
-            // Background
-            LinearGradient(
-                colors: [Color.black.opacity(0.9), Color.blue.opacity(0.25)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-
-            HStack(spacing: 16) {
-                // MARK: Icon
-                ZStack {
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: colors,
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .frame(width: 48, height: 48)
-
-                    Image(systemName: icon)
-                        .foregroundStyle(iconColor)
-                        .font(.title3.bold())
-                }
-
-                // MARK: Text Area
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(title)
-                        .font(.headline)
-                        .foregroundStyle(.white)
-
-                    Text("Current: \(value)")
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.6))
-                }
-
-                Spacer()
-
-                // MARK: Button
-                let claimed = GiftClaimManager.shared.isClaimed(giftId)
-
-                Button {
-                    action()
-                    GiftClaimManager.shared.claim(giftId)
-                } label: {
-                    Text(claimed ? "CLAIMED" : "GIFT")
-                        .font(.caption.bold())
-                        .padding(.horizontal, 18)
-                        .padding(.vertical, 10)
-                        .background(
-                            LinearGradient(
-                                colors: claimed ? [.gray, .gray] : colors,
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .clipShape(Capsule())
-                }
-                .disabled(claimed)
-                .opacity(claimed ? 0.6 : 1)
-                .shadow(
-                    color: colors.first?.opacity(0.5) ?? .blue,
-                    radius: 8
-                )
-            }
-            .padding()
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 22))
-        .overlay(
-            RoundedRectangle(cornerRadius: 22)
-                .stroke(
-                    LinearGradient(
-                        colors: colors,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    lineWidth: 2
-                )
-        )
-        .shadow(
-            color: colors.first?.opacity(0.35) ?? .blue,
-            radius: 14
-        )
+    private var claimed: Bool {
+        GiftClaimManager.shared.isClaimed(giftId)
     }
+
+    var body: some View {
+        HStack(spacing: 16) {
+
+            iconView
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.white)
+
+                Text("\(value)")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(.white)
+            }
+
+            Spacer()
+
+            claimButton
+        }
+        .padding()
+        .background(cardBackground)
+        .contentShape(Rectangle())
+    }
+}
+
+extension GiftRow {
+
+    fileprivate var cardBackground: some View {
+        RoundedRectangle(cornerRadius: 18)
+            .fill(
+                LinearGradient(
+                    colors: [
+                        Color.black.opacity(0.88),
+                        Color.blue.opacity(0.18),
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+    }
+}
+
+extension GiftRow {
+
+    fileprivate var iconView: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [
+                            colors.first?.opacity(0.65) ?? .blue,
+                            .black.opacity(0.6),
+                        ],
+                        center: .topLeading,
+                        startRadius: 4,
+                        endRadius: 40
+                    )
+                )
+                .frame(width: 50, height: 50)
+
+            Image(icon)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+        }
+    }
+}
+
+extension GiftRow {
+
+    fileprivate var claimButton: some View {
+
+        let claimed = GiftClaimManager.shared.isClaimed(giftId)
+
+        return Button {
+            action()
+            GiftClaimManager.shared.claim(giftId)
+        } label: {
+            Text(claimed ? "✓" : "GIFT")
+                .font(.system(size: 10, weight: .bold))
+                .padding()
+                .background(
+                    LinearGradient(
+                        colors: claimed ? [.gray, .gray] : colors,
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .foregroundStyle(.white)
+                .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
+        .disabled(claimed)
+        .opacity(claimed ? 0.6 : 1)
+    }
+}
+
+extension GiftRow {
+
+    fileprivate var borderOverlay: some View {
+        RoundedRectangle(cornerRadius: 18)
+            .stroke(
+                LinearGradient(
+                    colors: [
+                        colors.first?.opacity(0.6) ?? .blue,
+                        .clear,
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                lineWidth: 1
+            )
+    }
+}
+
+#Preview {
+    GiftView()
 }

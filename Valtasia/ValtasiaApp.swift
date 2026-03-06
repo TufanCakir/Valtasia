@@ -25,15 +25,23 @@ struct ValtasiaApp: App {
     var body: some Scene {
 
         WindowGroup {
-
             Group {
-
                 if network.isConnected {
-
-                    RootView()
-
+                    
+                    ZStack {
+                        switch appModel.appState {
+                        case .start:
+                            StartView()
+                                .transition(.opacity)
+                            
+                        case .game:
+                            RootView()
+                                .transition(.opacity)
+                        }
+                    }
+                    .animation(.easeInOut(duration: 0.5), value: appModel.appState)
+                    
                 } else {
-
                     OfflineView()
                 }
             }

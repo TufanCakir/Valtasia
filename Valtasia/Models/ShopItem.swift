@@ -12,6 +12,7 @@ struct ShopItem: Codable, Identifiable {
     let category: ShopCategory
 
     let crystals: Int?
-
     let oneTimePurchase: Bool?
+
+    let tag: String?  // ⭐ NEU
 }

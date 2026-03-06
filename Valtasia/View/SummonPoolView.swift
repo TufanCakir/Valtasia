@@ -78,18 +78,18 @@ struct SummonPoolView: View {
             .padding(.horizontal)
             .padding(.top)
 
-            // MARK: LIST
+            // MARK: PAGER
 
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(rates) { entry in
-                        PoolRow(entry: entry)
-                    }
+            TabView {
+                ForEach(rates) { entry in
+                    PoolPage(entry: entry)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 30)
+                        .padding(.bottom, 60)
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 20)
             }
-            .scrollIndicators(.hidden)
+            .tabViewStyle(.page(indexDisplayMode: .automatic))
+            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
         }
         .background(
             LinearGradient(
@@ -99,6 +99,100 @@ struct SummonPoolView: View {
             )
             .ignoresSafeArea()
         )
+    }
+}
+
+struct PoolPage: View {
+
+    let entry: CharacterRate
+
+    var body: some View {
+
+        let character = entry.character
+
+        VStack(spacing: 28) {
+
+            Spacer()
+
+            // MARK: Big Portrait Card
+
+            ZStack {
+
+                RoundedRectangle(cornerRadius: 28)
+                    .fill(.ultraThinMaterial)
+
+                RoundedRectangle(cornerRadius: 28)
+                    .stroke(
+                        LinearGradient(
+                            colors: [.cyan.opacity(0.7), .purple.opacity(0.6)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 2
+                    )
+
+                VStack(spacing: 22) {
+
+                    // Portrait
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        character.rarity.color.opacity(0.4),
+                                        .black.opacity(0.5),
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+
+                        Image(character.sprite)
+                            .resizable()
+                            .scaledToFit()
+                            .padding(28)
+                    }
+                    .frame(width: 180, height: 180)
+
+                    // Name
+                    Text(character.name)
+                        .font(.title.bold())
+                        .foregroundStyle(.white)
+
+                    // Rarity
+                    Text(character.rarity.rawValue.capitalized)
+                        .font(.headline)
+                        .foregroundStyle(character.rarity.color)
+
+                    // Rate
+                    Text(String(format: "Drop Rate %.2f%%", entry.rate * 100))
+                        .font(.subheadline)
+                        .foregroundStyle(.white.opacity(0.75))
+
+                    // Rate Up Badge
+                    if entry.isRateUp {
+                        Text("RATE UP")
+                            .font(.caption.bold())
+                            .foregroundStyle(.black)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(
+                                LinearGradient(
+                                    colors: [.yellow, .orange],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .clipShape(Capsule())
+                            .shadow(color: .yellow.opacity(0.6), radius: 8)
+                    }
+                }
+                .padding(30)
+            }
+            .shadow(color: .cyan.opacity(0.35), radius: 18)
+
+            Spacer()
+        }
     }
 }
 

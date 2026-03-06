@@ -24,10 +24,50 @@ struct ShopView: View {
         )
     }
 
+    fileprivate var contentList: some View {
+        Group {
+            if isLoading {
+                ProgressView("Loading Shop...")
+                    .tint(.white)
+                    .padding(.top, 60)
+
+            } else if let errorMessage {
+                Text(errorMessage)
+                    .foregroundStyle(.red)
+                    .padding(.top, 60)
+
+            } else {
+                LazyVGrid(
+                    columns: gridColumns,
+                    spacing: 16  // ⭐ mehr Abstand zwischen Cards
+                ) {
+                    ForEach(filteredProducts, id: \.id) { item in
+                        ShopCardView(storeProduct: item) {
+                            Task { await purchase(item) }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var gridColumns: [GridItem] {
+        [
+            GridItem(
+                .adaptive(minimum: 120),  // ⭐ Cards minimal breiter
+                spacing: 16  // ⭐ Abstand Spalten
+            )
+        ]
+    }
+
+    fileprivate var filteredProducts: [StoreProduct] {
+        storeProducts.filter {
+            $0.shopItem.category.id == selectedCategory
+        }
+    }
+
     var body: some View {
-
         VStack {
-
             // MARK: HEADER
             GameHeaderView()
                 .padding()
@@ -40,18 +80,12 @@ struct ShopView: View {
                 categories: uniqueCategories,
                 selected: $selectedCategory
             )
-            .padding(.horizontal, 20)
-            .padding(.top, 14)
+            .padding()
 
             // MARK: CONTENT
             ScrollView {
-
-                VStack(spacing: 24) {
-                    contentList
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 24)
-                .padding(.bottom, 140)  // Platz für Footer
+                contentList
+                    .padding()
             }
             .scrollIndicators(.hidden)
         }
@@ -70,49 +104,6 @@ struct ShopView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await loadShop()
-        }
-    }
-}
-
-extension ShopView {
-
-    fileprivate var contentList: some View {
-
-        VStack(spacing: 20) {
-
-            if isLoading {
-
-                ProgressView("Loading Shop...")
-                    .tint(.white)
-                    .padding(.top, 40)
-            }
-
-            else if let errorMessage {
-
-                Text(errorMessage)
-                    .foregroundStyle(.red)
-                    .padding(.top, 40)
-            }
-
-            else {
-
-                ForEach(filteredProducts, id: \.id) { item in
-
-                    ShopRowView(storeProduct: item) {
-
-                        Task {
-                            await purchase(item)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fileprivate var filteredProducts: [StoreProduct] {
-
-        storeProducts.filter {
-            $0.shopItem.category.id == selectedCategory
         }
     }
 }
@@ -140,20 +131,16 @@ extension ShopView {
 }
 
 extension ShopView {
-
     private func purchase(_ storeProduct: StoreProduct) async {
-
         let item = storeProduct.shopItem
 
         // ⭐ GRATIS PACK
         if storeProduct.product == nil {
-
             if let crystals = item.crystals {
                 CrystalManager.shared.add(crystals)
             }
 
             if item.oneTimePurchase == true {
-
                 UserDefaults.standard.set(
                     true,
                     forKey: "shop_bought_\(item.id)"
@@ -171,21 +158,16 @@ extension ShopView {
         guard let product = storeProduct.product else { return }
 
         do {
-
             let result = try await product.purchase()
 
             switch result {
-
             case .success(let verification):
-
                 if case .verified(_) = verification {
-
                     if let crystals = item.crystals {
                         CrystalManager.shared.add(crystals)
                     }
 
                     if item.oneTimePurchase == true {
-
                         UserDefaults.standard.set(
                             true,
                             forKey: "shop_bought_\(item.id)"
@@ -205,4 +187,8 @@ extension ShopView {
             print("Purchase failed")
         }
     }
+}
+
+#Preview {
+    ShopView()
 }

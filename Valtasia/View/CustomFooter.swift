@@ -13,7 +13,7 @@ struct CustomFooter: View {
 
     var body: some View {
 
-        HStack(spacing: 14) {
+        HStack(spacing: 16) {
 
             footerButton(.home, "house.fill", "Home")
             footerButton(.team, "person.3.fill", "Team")
@@ -21,8 +21,7 @@ struct CustomFooter: View {
             footerButton(.shop, "cart.fill", "Shop")
             footerButton(.exchange, "arrow.2.circlepath", "Exchange")
         }
-        .padding(.horizontal, 18)
-        .padding(.vertical, 16)
+        .padding()
         .background(
             RoundedRectangle(cornerRadius: 32)
                 .fill(.ultraThinMaterial)
@@ -42,8 +41,7 @@ struct CustomFooter: View {
                 )
         )
         .shadow(color: .cyan.opacity(0.35), radius: 20)
-        .padding(.horizontal, 20)
-        .padding(.bottom, 8)
+        .padding()
     }
 }
 

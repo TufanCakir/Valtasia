@@ -10,127 +10,142 @@ import SwiftUI
 
 final class AppModel: ObservableObject {
 
+    // MARK: - Managers
+
     let teamManager = TeamManager()
     let progress = ProgressManager()
     let coinManager = CoinManager.shared
     let crystalManager = CrystalManager.shared
 
-    // ⭐ HIER
+    // MARK: - Persistent Keys
+
     private let starterKey = "valtasia_starter_given"
 
-    @Published var worlds: [World] = []
+    // MARK: - Published State
 
+    @Published var appState: AppState = .start
+
+    @Published var worlds: [World] = []
     @Published var selectedWorld: World?
     @Published var selectedNode: WorldNode?
     @Published var selectedLevelId: String?
 
-    init() {
-        loadCharacters()
-        loadWorlds()
+    enum AppState {
+        case start
+        case game
     }
 
-    // MARK: Start Node
+    // MARK: - Init
+
+    init() {
+        initializeGameIfNeeded()
+    }
+
+    // MARK: - Game Boot
+
+    /// Called on first app launch or after full reset
+    func initializeGameIfNeeded() {
+        loadWorlds()
+        loadStarterCharacterIfNeeded()
+        ensureValidSelections()
+    }
+
+    /// Called when player presses "Start"
+    func startGame() {
+        ensureValidSelections()
+        appState = .game
+    }
+
+    // MARK: - Reset
+
+    func fullReset() {
+        AccountResetManager.resetAll()
+
+        worlds.removeAll()
+        selectedWorld = nil
+        selectedNode = nil
+        selectedLevelId = nil
+
+        initializeGameIfNeeded()
+        appState = .start
+    }
+
+    // MARK: - World / Level Flow
 
     func startNode(_ node: WorldNode, in world: World) {
-
         selectedWorld = world
         selectedNode = node
     }
 
-    func world(containing levelId: String) -> World? {
-
-        worlds.first { world in
-
-            world.worldNodes.contains { node in
-
-                node.levels.contains {
-
-                    $0.id == levelId
-                }
-            }
-        }
-    }
-
-    // MARK: Start Level
     func startLevel(_ levelId: String) {
-
-        guard teamManager.activeTeam.isEmpty == false else {
-
+        guard !teamManager.activeTeam.isEmpty else {
             print("⚠️ Team empty")
             return
         }
-
         selectedLevelId = levelId
     }
 
-    // MARK: Victory
     func completeLevel() {
-
         guard let levelId = selectedLevelId else { return }
-
         guard let world = world(containing: levelId) else {
-
             print("❌ World not found for level:", levelId)
             selectedLevelId = nil
             return
         }
 
-        // ⭐ Clear + Unlock prüfen
-        progress.markLevelCleared(
-            levelId,
-            in: world
-        )
-
+        progress.markLevelCleared(levelId, in: world)
         selectedLevelId = nil
     }
 
-    func level(for id: String) -> Level? {
+    // MARK: - Lookup
 
+    func world(containing levelId: String) -> World? {
+        worlds.first { world in
+            world.worldNodes.contains { node in
+                node.levels.contains { $0.id == levelId }
+            }
+        }
+    }
+
+    func level(for id: String) -> Level? {
         worlds
             .flatMap { $0.worldNodes }
             .flatMap { $0.levels }
             .first { $0.id == id }
     }
 
-    // MARK: Load
-    private func loadCharacters() {
+    // MARK: - Private Loaders
 
+    private func loadWorlds() {
         do {
+            worlds = try JSONLoader.load("worlds")
+        } catch {
+            print("❌ Worlds load failed:", error)
+        }
+    }
 
-            let baseCharacters: [Character] =
-                try JSONLoader.load("characters")
-
+    private func loadStarterCharacterIfNeeded() {
+        do {
+            let baseCharacters: [Character] = try JSONLoader.load("characters")
             let defaults = UserDefaults.standard
 
-            let starterGiven =
-                defaults.bool(forKey: starterKey)
-
-            guard !starterGiven else { return }
+            guard !defaults.bool(forKey: starterKey) else { return }
 
             if let starter = baseCharacters.first {
-
-                let owned =
-                    OwnedCharacter(base: starter)
-
+                let owned = OwnedCharacter(base: starter)
                 teamManager.ownedCharacters.append(owned)
                 teamManager.activeTeam = [owned]
-
                 defaults.set(true, forKey: starterKey)
             }
 
         } catch {
-
-            print(error)
+            print("❌ Characters load failed:", error)
         }
     }
 
-    private func loadWorlds() {
-        do {
-            worlds =
-                try JSONLoader.load("worlds")
+    private func ensureValidSelections() {
+        if selectedWorld == nil {
             selectedWorld = worlds.first
-        } catch {
-            print(error)
         }
     }
 }

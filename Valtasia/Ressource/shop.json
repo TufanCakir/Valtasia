@@ -10,9 +10,10 @@
         "tag": "best_value",
         "oneTimePurchase": true
     },
+
     {
-        "id": "crystal_pack_small",
-        "storeProductId": "com.valtasia.crystal.small",
+        "id": "crystal_pack_10",
+        "storeProductId": "com.valtasia.crystal.10",
         "category": {
             "id": "real_money",
             "icon": "diamond.fill",
@@ -21,23 +22,44 @@
         "crystals": 10
     },
     {
-        "id": "crystal_pack_medium",
-        "storeProductId": "com.valtasia.crystal.medium",
+        "id": "crystal_pack_20",
+        "storeProductId": "com.valtasia.crystal.20",
         "category": {
             "id": "real_money",
             "icon": "diamond.fill",
             "color": "cyan"
         },
-        "crystals": 30
+        "crystals": 20
     },
     {
-        "id": "crystal_pack_big",
-        "storeProductId": "com.valtasia.crystal.big",
+        "id": "crystal_pack_50",
+        "storeProductId": "com.valtasia.crystal.50",
         "category": {
             "id": "real_money",
             "icon": "diamond.fill",
             "color": "cyan"
         },
         "crystals": 50
+    },
+    {
+        "id": "crystal_pack_300",
+        "storeProductId": "com.valtasia.crystal.300",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "cyan"
+        },
+        "crystals": 300
+    },
+    {
+        "id": "crystal_pack_500",
+        "storeProductId": "com.valtasia.crystals.500",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "cyan"
+        },
+        "crystals": 500,
+        "tag": "best_value"
     }
 ]

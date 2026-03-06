@@ -1,0 +1,44 @@
+[
+    {
+        "day": 1,
+        "coins": 200,
+        "crystals": 5,
+        "exp": 50
+    },
+    {
+        "day": 2,
+        "coins": 300,
+        "crystals": 5,
+        "exp": 70
+    },
+    {
+        "day": 3,
+        "coins": 400,
+        "crystals": 10,
+        "exp": 90
+    },
+    {
+        "day": 4,
+        "coins": 500,
+        "crystals": 10,
+        "exp": 120
+    },
+    {
+        "day": 5,
+        "coins": 600,
+        "crystals": 15,
+        "exp": 150
+    },
+    {
+        "day": 6,
+        "coins": 800,
+        "crystals": 20,
+        "exp": 200
+    },
+    {
+        "day": 7,
+        "coins": 1500,
+        "crystals": 50,
+        "exp": 500
+    }
+]

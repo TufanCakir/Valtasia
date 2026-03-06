@@ -352,14 +352,6 @@ extension SettingsView {
     }
 
     private func resetGame() {
-
-        AccountResetManager.resetAll()
-
-        appModel.worlds = []
-        appModel.selectedWorld = nil
-        appModel.selectedNode = nil
-        appModel.selectedLevelId = nil
-
-        exit(0)
+        appModel.fullReset()
     }
 }

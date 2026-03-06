@@ -9,18 +9,19 @@ import SwiftUI
 
 struct RootView: View {
 
-    enum Tab {
-        case home, team, summon, shop, exchange
-    }
+    enum Tab { case home, team, summon, shop, exchange }
 
     @EnvironmentObject var appModel: AppModel
     @State private var selectedTab: Tab = .home
 
     var body: some View {
 
-        currentView
+        VStack {
 
-        CustomFooter(selectedTab: $selectedTab)
+            currentView
+
+            CustomFooter(selectedTab: $selectedTab)
+        }
     }
 }
 

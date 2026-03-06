@@ -1,0 +1,38 @@
+[
+    {
+        "id": "gift_coins",
+        "title": "Coins",
+        "icon": "icon_coin",
+        "iconColor": "yellow",
+        "colors": [
+            "yellow",
+            "orange"
+        ],
+        "type": "coins",
+        "amount": 500
+    },
+    {
+        "id": "gift_crystals",
+        "title": "Crystals",
+        "icon": "icon_crystal",
+        "iconColor": "cyan",
+        "colors": [
+            "cyan",
+            "purple"
+        ],
+        "type": "crystals",
+        "amount": 50
+    },
+    {
+        "id": "gift_exp",
+        "title": "EXP Potion",
+        "icon": "icon_exp",
+        "iconColor": "blue",
+        "colors": [
+            "green",
+            "blue"
+        ],
+        "type": "exp",
+        "amount": 10
+    }
+]

@@ -18,30 +18,24 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
+            VStack {
+                GameHeaderView()
+                    .padding()
 
-            NavigationStack {
-
-                VStack {
-
-                    GameHeaderView()
-                        .padding()
-
-                    worldMapSection
-                    eventButton
-                    worldBar
-                }
-                .scaleEffect(zoomToBattle ? 1.12 : 1)
-                .blur(radius: zoomToBattle ? 8 : 0)
-                .animation(.easeInOut(duration: 0.4), value: zoomToBattle)
+                worldMapSection
+                eventButton
+                worldBar
             }
+            .scaleEffect(zoomToBattle ? 1.12 : 1)
+            .blur(radius: zoomToBattle ? 8 : 0)
+            .animation(.easeInOut(duration: 0.4), value: zoomToBattle)
 
-            // ⭐ Fade Overlay
+            // ⭐ Fade Overlay (kept inside ZStack)
             Color.black
                 .opacity(fadeToBattle ? 0.85 : 0)
                 .ignoresSafeArea()
                 .animation(.easeInOut(duration: 0.35), value: fadeToBattle)
         }
-        .ignoresSafeArea(edges: .bottom)
         .fullScreenCover(
             isPresented: Binding(
                 get: {
@@ -77,7 +71,7 @@ extension HomeView {
 
     fileprivate var eventButton: some View {
 
-        HStack(spacing: 18) {
+        HStack(spacing: 30) {
 
             NavigationLink {
                 GiftView()
@@ -122,7 +116,7 @@ extension HomeView {
 
                 iconCapsule(
                     icon: "bubble.left.and.bubble.right.fill",
-                    colors: [.cyan,.purple]
+                    colors: [.cyan, .purple]
                 )
             }
         }
@@ -152,7 +146,7 @@ extension HomeView {
                 .font(.title2)
                 .foregroundStyle(.white)
         }
-        .frame(width: 70, height: 50)
+        .frame(width: 50, height: 50)
         .shadow(color: colors.first?.opacity(0.4) ?? .clear, radius: 8)
     }
 }
@@ -179,8 +173,6 @@ extension HomeView {
                         appModel.startLevel(levelId)
                     }
                 }
-            } else {
-                Color.black.ignoresSafeArea()
             }
         }
     }
@@ -335,4 +327,9 @@ extension Array {
             ? self[index]
             : nil
     }
+}
+
+#Preview {
+    HomeView()
+        .environmentObject(AppModel())
 }
