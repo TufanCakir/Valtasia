@@ -10,6 +10,7 @@ import SwiftUI
 struct SummonView: View {
 
     @EnvironmentObject var appModel: AppModel
+    @Environment(\.dismiss) private var dismiss
 
     @ObservedObject var teamManager: TeamManager
     @StateObject private var summonManager = SummonManager()
@@ -24,6 +25,9 @@ struct SummonView: View {
     var isTutorial: Bool = false
     @State private var showResults = false
     @State private var selectedCategory: String = "standard"
+    @State private var tutorialSummonUsed = UserDefaults.standard.bool(
+        forKey: "tutorial_summon_done"
+    )
 
     var body: some View {
 
@@ -50,8 +54,15 @@ struct SummonView: View {
 
                     ForEach(
                         summonManager.banners(for: selectedCategory)
-                            .filter {
-                                !isTutorial || $0.id == "tutorial_banner"
+                            .filter { banner in
+                                if isTutorial {
+                                    return banner.id == "tutorial_banner"
+                                        && !UserDefaults.standard.bool(
+                                            forKey: "tutorial_summon_done"
+                                        )
+                                } else {
+                                    return banner.id != "tutorial_banner"
+                                }
                             }
                     ) { banner in
                         summonBannerCard(banner)
@@ -105,6 +116,12 @@ struct SummonView: View {
                     .cost ?? 0
 
                 let costText = isTutorial ? "FREE" : "\(cost) Crystals"
+
+                Text(
+                    isTutorial
+                        ? (tutorialSummonUsed ? "COMPLETED" : "FREE")
+                        : "\(cost)"
+                )
 
                 Text(
                     "Do you want to summon \(pendingAmount) character(s) for \(costText)?"
@@ -207,42 +224,47 @@ extension SummonView {
         banner: SummonBanner
     ) -> some View {
 
-        Button {
+        Button(
+            action: {
+                guard !isTutorial || !tutorialSummonUsed else { return }
+                pendingBanner = banner
+                pendingAmount = amount
+                showSummonConfirm = true
+            },
+            label: {
+                HStack(spacing: 6) {
+                    if !isTutorial {
+                        Image("icon_crystal")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18, height: 18)
+                            .shadow(color: .cyan.opacity(0.7), radius: 4)
+                    }
+                    Text(
+                        isTutorial
+                            ? (tutorialSummonUsed ? "COMPLETED" : "FREE")
+                            : "\(cost)"
+                    )
 
-            pendingBanner = banner
-            pendingAmount = amount
-            showSummonConfirm = true
-
-        } label: {
-
-            HStack(spacing: 6) {
-
-                if !isTutorial {
-                    Image("icon_crystal")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 18, height: 18)
-                        .shadow(color: .cyan.opacity(0.7), radius: 4)
-                }
-
-                Text(isTutorial ? "FREE" : "\(cost)")
                     .bold()
-            }
-            .font(.subheadline)
-            .foregroundStyle(.white)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .background(
-
-                LinearGradient(
-                    colors: [.cyan, .purple],
-                    startPoint: .leading,
-                    endPoint: .trailing
+                }
+                .font(.subheadline)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .background(
+                    LinearGradient(
+                        colors: [.cyan, .purple],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
                 )
-            )
-            .clipShape(Capsule())
-            .shadow(color: .cyan.opacity(0.35), radius: 6)
-        }
+                .clipShape(Capsule())
+                .shadow(color: .cyan.opacity(0.35), radius: 6)
+            }
+        )
+        .disabled(isTutorial && tutorialSummonUsed)
+        .opacity(isTutorial && tutorialSummonUsed ? 0.5 : 1)
     }
 }
 
@@ -307,6 +329,11 @@ extension SummonView {
         if isTutorial {
             UserDefaults.standard.set(true, forKey: "tutorial_summon_done")
             appModel.tutorialState = .done
+
+            // 🔥 Tutorial View schließen
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                dismiss()
+            }
         }
     }
 }
