@@ -11,9 +11,10 @@ struct GameEvent: Codable, Identifiable, Hashable {
     var title: String
     var type: String
 
+    var category: EventCategory  // ⭐ NEU
+
     var description: String?
-    
-    var icon: String?   // ⭐ HIER HINZUFÜGEN
+    var icon: String?
     var battleBackground: String?
     var modifiers: EventModifier?
     var startDate: String?
@@ -21,12 +22,8 @@ struct GameEvent: Codable, Identifiable, Hashable {
     var durationDays: Int?
     var bossEnemy: String?
     var bossLevelId: String?
-
     var hero: String?
     var rateUpMultiplier: Double?
-
-    // ⭐ ADD THIS
-
     var rewards: EventRewards?
 }
 
@@ -46,4 +43,12 @@ struct EventModifier: Codable, Hashable {
     let crystalMultiplier: Double?
 
     let spawnMultiplier: Double?
+}
+
+enum EventCategory: String, Codable, CaseIterable, Hashable {
+    case story = "story"
+    case original = "original"
+    case special = "special"
+    case boss = "boss"
+    case buff = "buff"
 }

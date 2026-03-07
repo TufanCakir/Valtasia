@@ -10,23 +10,23 @@ import Foundation
 
 final class EventInventory: ObservableObject {
 
-static let shared = EventInventory()
+    static let shared = EventInventory()
 
-@Published var tokens:Int = 0
+    @Published var tokens: Int = 0
 
-private let key = "event_tokens"
+    private let key = "event_tokens"
 
-init(){
+    init() {
 
-tokens = UserDefaults.standard.integer(forKey:key)
+        tokens = UserDefaults.standard.integer(forKey: key)
 
-}
+    }
 
-func addTokens(_ amount:Int){
+    func addTokens(_ amount: Int) {
 
-tokens += amount
+        tokens += amount
 
-UserDefaults.standard.set(tokens,forKey:key)
+        UserDefaults.standard.set(tokens, forKey: key)
 
-}
+    }
 }

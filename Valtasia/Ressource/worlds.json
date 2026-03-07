@@ -1,24 +1,26 @@
 [
     {
-      "id": "world_tutorial",
-      "background": "water_bg",
-      "battleBackground": "water_bg",
-      "unlockAfterWorld": null,
-      "worldNodes": [
-        {
-          "id": "tutorial_node",
-          "image": "island_nature",
-          "positionX": 0.5,
-          "positionY": 0.5,
-          "connectsTo": [],
-          "levels": [
+        "id": "world_tutorial",
+        "background": "water_bg",
+        "battleBackground": "water_bg",
+        "unlockAfterWorld": null,
+        "worldNodes": [
             {
-              "id": "tutorial_level",
-              "enemies": ["pyrothar"]
+                "id": "tutorial_node",
+                "image": "island_nature",
+                "positionX": 0.5,
+                "positionY": 0.5,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "tutorial_level",
+                        "enemies": [
+                            "pyrothar"
+                        ]
+                    }
+                ]
             }
-          ]
-        }
-      ]
+        ]
     },
     {
         "id": "world_1",
@@ -1223,6 +1225,279 @@
                         "enemies": [
                             "zerath",
                             "stormreign"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_13",
+        "background": "bg_crazy",
+        "battleBackground": "bg_crazy",
+        "unlockAfterWorld": "world_12",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_crazy",
+                "positionX": 0.22,
+                "positionY": 0.58,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_106",
+                        "enemies": [
+                            "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_107",
+                        "enemies": [
+                            "ash_sovereign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_crazy",
+                "positionX": 0.52,
+                "positionY": 0.28,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_108",
+                        "enemies": [
+                            "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_109",
+                        "enemies": [
+                            "zerath"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_crazy",
+                "positionX": 0.82,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_110",
+                        "enemies": [
+                            "solmireth"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_14",
+        "background": "bg_disco",
+        "battleBackground": "bg_disco",
+        "unlockAfterWorld": "world_13",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_disco",
+                "positionX": 0.18,
+                "positionY": 0.60,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_111",
+                        "enemies": [
+                            "nullwinter"
+                        ]
+                    },
+                    {
+                        "id": "level_112",
+                        "enemies": [
+                            "coregon"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_disco",
+                "positionX": 0.48,
+                "positionY": 0.30,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_113",
+                        "enemies": [
+                            "ignivar"
+                        ]
+                    },
+                    {
+                        "id": "level_114",
+                        "enemies": [
+                            "ash_sovereign",
+                            "stormreign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_disco",
+                "positionX": 0.78,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_115",
+                        "enemies": [
+                            "vulkrath"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_15",
+        "background": "bg_shop",
+        "battleBackground": "bg_shop",
+        "unlockAfterWorld": "world_14",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_shop",
+                "positionX": 0.20,
+                "positionY": 0.55,
+                "connectsTo": [
+                    "2"
+                ],
+                "levels": [
+                    {
+                        "id": "level_116",
+                        "enemies": [
+                            "frost_colossus"
+                        ]
+                    },
+                    {
+                        "id": "level_117",
+                        "enemies": [
+                            "coregon"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_shop",
+                "positionX": 0.50,
+                "positionY": 0.28,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_118",
+                        "enemies": [
+                            "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_119",
+                        "enemies": [
+                            "ignivar",
+                            "nullwinter"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_shop",
+                "positionX": 0.82,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_120",
+                        "enemies": [
+                            "noxarion"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_16",
+        "background": "bg_ship",
+        "battleBackground": "bg_ship",
+        "unlockAfterWorld": "world_15",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_ship",
+                "positionX": 0.18,
+                "positionY": 0.60,
+                "connectsTo": [
+                    "2"
+                ],
+                "levels": [
+                    {
+                        "id": "level_121",
+                        "enemies": [
+                            "stormreign"
+                        ]
+                    },
+                    {
+                        "id": "level_122",
+                        "enemies": [
+                            "ash_sovereign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_ship",
+                "positionX": 0.48,
+                "positionY": 0.28,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_123",
+                        "enemies": [
+                            "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_124",
+                        "enemies": [
+                            "ignivar",
+                            "coregon"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_ship",
+                "positionX": 0.78,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_125",
+                        "enemies": [
+                            "solmireth",
+                            "vulkrath",
+                            "noxarion"
                         ]
                     }
                 ]

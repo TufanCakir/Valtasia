@@ -12,19 +12,14 @@ class CharacterCardNode: SKNode {
     let owned: OwnedCharacter
 
     private var expFill: SKShapeNode!
-
-    // ⭐ Skills pro Character
-    private var skillButtons: [SkillButtonNode] = []
+    private let cardSize = CGSize(width: 86, height: 112)
 
     init(owned: OwnedCharacter) {
-
         self.owned = owned
-
         super.init()
-
         buildUI()
-        spawnSkills()  // ⭐ Skills erzeugen
-        updateEXP()
+        updateEXP(animated: false)
+        startIdleFloat()
     }
 
     required init?(coder: NSCoder) {
@@ -35,105 +30,95 @@ class CharacterCardNode: SKNode {
 
     private func buildUI() {
 
-        // CARD BG
-        let bg = SKShapeNode(
-            rectOf: CGSize(width: 75, height: 95),
-            cornerRadius: 12
-        )
+        zPosition = 100
 
-        bg.fillColor = .black.withAlphaComponent(0.6)
-        bg.strokeColor = .white
+        // ⭐ Shadow
+        let shadow = SKShapeNode(rectOf: cardSize, cornerRadius: 16)
+        shadow.fillColor = .black
+        shadow.alpha = 0.28
+        shadow.position = CGPoint(x: 0, y: -5)
+        shadow.zPosition = 0
+        addChild(shadow)
+
+        // ⭐ Card BG
+        let bg = SKShapeNode(rectOf: cardSize, cornerRadius: 16)
+        bg.fillColor = .black.withAlphaComponent(0.65)
+        bg.strokeColor = .white.withAlphaComponent(0.25)
         bg.lineWidth = 2
-
+        bg.zPosition = 1
         addChild(bg)
 
-        // Portrait
-
-        let portrait = SKSpriteNode(
-            imageNamed: owned.base.sprite
+        // ⭐ Portrait Glow Frame
+        let frame = SKShapeNode(
+            rectOf: CGSize(width: 70, height: 70),
+            cornerRadius: 12
         )
+        frame.strokeColor = .cyan
+        frame.lineWidth = 2
+        frame.glowWidth = 6
+        frame.alpha = 0.6
+        frame.position = CGPoint(x: 0, y: 18)
+        frame.zPosition = 2
+        addChild(frame)
 
-        portrait.size =
-        CGSize(width: 60, height: 60)
-
-        portrait.position =
-            CGPoint(x: 0, y: 12)
-
+        // ⭐ Portrait
+        let portrait = SKSpriteNode(imageNamed: owned.base.sprite)
+        portrait.size = CGSize(width: 64, height: 64)
+        portrait.position = CGPoint(x: 0, y: 18)
+        portrait.zPosition = 3
         addChild(portrait)
 
-        // EXP BG
-
+        // ⭐ EXP BG
         let expBG = SKShapeNode(
-            rectOf: CGSize(width: 60, height: 8),
-            cornerRadius: 3
+            rectOf: CGSize(width: 66, height: 10),
+            cornerRadius: 4
         )
-
         expBG.fillColor = .darkGray
-
-        expBG.position =
-            CGPoint(x: 0, y: -35)
-
+        expBG.strokeColor = .clear
+        expBG.position = CGPoint(x: 0, y: -40)
+        expBG.zPosition = 2
         addChild(expBG)
 
-        // EXP Fill
-
+        // ⭐ EXP Fill (anchor links)
         let fill = SKShapeNode(
-            rectOf: CGSize(width: 70, height: 8),
-            cornerRadius: 3
+            rectOf: CGSize(width: 66, height: 10),
+            cornerRadius: 4
         )
-
         fill.fillColor = .cyan
-
-        fill.position = .zero
-
+        fill.strokeColor = .clear
+        fill.position = CGPoint(x: -33, y: 0)  // linksbündig
+        fill.xScale = 0
+        fill.zPosition = 3
         expBG.addChild(fill)
 
         expFill = fill
     }
 
-    // MARK: Skills
+    // MARK: EXP
 
-    private func spawnSkills() {
+    func updateEXP(animated: Bool = true) {
 
-        skillButtons.forEach { $0.removeFromParent() }
-        skillButtons.removeAll()
+        let ratio = CGFloat(owned.exp) / CGFloat(owned.requiredEXP)
+        let clamped = max(0, min(1, ratio))
 
-        let skills = owned.base.skills
-        guard !skills.isEmpty else { return }
-
-        let buttonSpacing: CGFloat = 32
-        let totalWidth = buttonSpacing * CGFloat(skills.count - 1)
-
-        var startX = -totalWidth / 2
-
-        for skill in skills {
-
-            let button = SkillButtonNode(skill: skill)
-
-            button.position = CGPoint(
-                x: startX,
-                y: 55
-            )
-
-            addChild(button)
-            skillButtons.append(button)
-
-            startX += buttonSpacing
+        if animated {
+            let action = SKAction.scaleX(to: clamped, duration: 0.25)
+            action.timingMode = .easeOut
+            expFill.run(action)
+        } else {
+            expFill.xScale = clamped
         }
     }
 
-    // MARK: EXP
+    // MARK: Idle Animation
 
-    func updateEXP() {
+    private func startIdleFloat() {
 
-        let ratio =
-            CGFloat(owned.exp) / CGFloat(owned.requiredEXP)
+        let float = SKAction.sequence([
+            .moveBy(x: 0, y: 2, duration: 1.6),
+            .moveBy(x: 0, y: -2, duration: 1.6),
+        ])
 
-        expFill.xScale =
-            max(0, min(1, ratio))
-
-        expFill.position.x =
-            -(70 * (1 - expFill.xScale)) / 2
+        run(.repeatForever(float))
     }
 }
-

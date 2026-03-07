@@ -27,20 +27,26 @@ struct ValtasiaApp: App {
         WindowGroup {
             Group {
                 if network.isConnected {
-                    
+
                     ZStack {
+
                         switch appModel.appState {
                         case .start:
                             StartView()
-                                .transition(.opacity)
-                            
                         case .game:
                             RootView()
-                                .transition(.opacity)
+                        }
+
+                        if appModel.isTransitionLoading {
+                            TransitionLoadingView()
+                                .zIndex(999)
                         }
                     }
-                    .animation(.easeInOut(duration: 0.5), value: appModel.appState)
-                    
+                    .animation(
+                        .easeInOut(duration: 0.5),
+                        value: appModel.appState
+                    )
+
                 } else {
                     OfflineView()
                 }

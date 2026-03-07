@@ -11,7 +11,7 @@
         "id": "medium_pack",
         "title": "Medium Crystal Pack",
         "coinCost": 30,
-        "crystalReward": 3,
+        "crystalReward": 35,
         "purchaseLimit": 10
     },
 
@@ -19,7 +19,55 @@
         "id": "large_pack",
         "title": "Large Crystal Pack",
         "coinCost": 50,
-        "crystalReward": 10,
+        "crystalReward": 70,
         "purchaseLimit": 10
+    },
+
+    {
+        "id": "mega_pack",
+        "title": "Mega Crystal Pack",
+        "coinCost": 120,
+        "crystalReward": 200,
+        "purchaseLimit": 1
+    },
+
+    {
+        "id": "ultra_pack",
+        "title": "Ultra Crystal Pack",
+        "coinCost": 300,
+        "crystalReward": 300,
+        "purchaseLimit": 3
+    },
+
+    {
+        "id": "legend_pack",
+        "title": "Legendary Crystal Pack",
+        "coinCost": 800,
+        "crystalReward": 600,
+        "purchaseLimit": 1
+    },
+
+    {
+        "id": "daily_deal",
+        "title": "Daily Crystal Deal",
+        "coinCost": 15,
+        "crystalReward": 50,
+        "purchaseLimit": 1
+    },
+
+    {
+        "id": "starter_bundle",
+        "title": "Starter Bundle",
+        "coinCost": 25,
+        "crystalReward": 80,
+        "purchaseLimit": 1
+    },
+
+    {
+        "id": "whale_pack",
+        "title": "Whale Crystal Vault",
+        "coinCost": 3000,
+        "crystalReward": 500,
+        "purchaseLimit": 1
     }
 ]

@@ -7,28 +7,28 @@
 
 class EventDatabase {
 
-static let shared = EventDatabase()
+    static let shared = EventDatabase()
 
-private(set) var levels:[EventLevel] = []
+    private(set) var levels: [EventLevel] = []
 
-init(){
+    init() {
 
-do{
+        do {
 
-levels = try JSONLoader.load("event_levels")
+            levels = try JSONLoader.load("event_levels")
 
-}catch{
+        } catch {
 
-print(error)
+            print(error)
 
-}
+        }
 
-}
+    }
 
-func level(id:String)->EventLevel?{
+    func level(id: String) -> EventLevel? {
 
-levels.first{$0.id == id}
+        levels.first { $0.id == id }
 
-}
+    }
 
 }

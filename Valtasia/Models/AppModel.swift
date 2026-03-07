@@ -43,6 +43,37 @@ final class AppModel: ObservableObject {
     @Published var selectedWorld: World?
     @Published var selectedNode: WorldNode?
     @Published var selectedLevelId: String?
+    // MARK: - Loading Overlay
+    @Published var isTransitionLoading: Bool = false
+    @Published var currentLoadingImage: String = "loading1"
+
+    func pickLoadingImage() {
+        currentLoadingImage = loadingImages.randomElement() ?? "epic_bg"
+    }
+
+    /// Zufälliges Loading Bild
+    let loadingImages = [
+        "water_bg",
+        "epic_bg",
+        "sky_bg",
+        "lava_bg",
+        "nature_bg",
+        "earth_bg",
+        "space_bg",
+        "void_bg",
+        "bg_emo",
+        "bg_cemetery",
+        "bg_candy",
+        "bg_desert",
+        "bg_crazy",
+        "bg_disco",
+        "bg_shop",
+        "bg_ship",
+    ]
+
+    var randomLoadingImage: String {
+        loadingImages.randomElement() ?? "loading1"
+    }
 
     enum AppState {
         case start
@@ -76,12 +107,39 @@ final class AppModel: ObservableObject {
     func initializeGameIfNeeded() {
         loadWorlds()
         loadStarterCharacterIfNeeded()
-        ensureValidSelections()
+        determineInitialWorld()
+    }
+
+    // MARK: - Navigation mit Loading
+
+    func switchToGame() {
+        pickLoadingImage()
+        isTransitionLoading = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            self.appState = .game
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                self.isTransitionLoading = false
+            }
+        }
+    }
+
+    func navigateWithLoading(_ action: @escaping () -> Void) {
+        pickLoadingImage()
+        isTransitionLoading = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            action()
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                self.isTransitionLoading = false
+            }
+        }
     }
 
     /// Called when player presses "Start"
     func startGame() {
-        ensureValidSelections()
         appState = .game
     }
 
@@ -117,10 +175,16 @@ final class AppModel: ObservableObject {
     func completeLevel() {
         guard let levelId = selectedLevelId else { return }
 
-        // ⭐ Tutorial Fight abgeschlossen?
+        // ⭐ Tutorial abgeschlossen
         if levelId == tutorialLevelId {
             UserDefaults.standard.set(true, forKey: tutorialFightKey)
-            tutorialState = .summon   // ⭐⭐⭐ HIER IST DER FIX
+            tutorialState = .summon
+
+            // ⭐➡️ AUF WORLD 1 WECHSELN
+            selectedWorld = worlds.first(where: { $0.id == "world_1" })
+
+            selectedLevelId = nil
+            return
         }
 
         guard let world = world(containing: levelId) else {
@@ -151,13 +215,37 @@ final class AppModel: ObservableObject {
     }
 
     // MARK: - Private Loaders
-
     private func loadWorlds() {
         do {
-            worlds = try JSONLoader.load("worlds")
+            let loaded: [World] = try JSONLoader.load("worlds")
+            worlds = loaded
+            print("🌍 Worlds loaded:", worlds.count)
         } catch {
             print("❌ Worlds load failed:", error)
         }
+    }
+
+    private func determineInitialWorld() {
+        guard !worlds.isEmpty else { return }
+
+        switch tutorialState {
+
+        case .fight:
+            selectedWorld = worlds.first(where: { $0.id == "world_tutorial" })
+
+        case .summon, .done:
+            selectedWorld = worlds.first(where: { $0.id == "world_1" })
+
+        case .none:
+            selectedWorld = progress.lastUnlockedWorld(from: worlds)
+        }
+
+        // Fallback
+        if selectedWorld == nil {
+            selectedWorld = worlds.first
+        }
+
+        print("🌍 Selected world:", selectedWorld?.id ?? "none")
     }
 
     private func loadStarterCharacterIfNeeded() {
@@ -176,12 +264,6 @@ final class AppModel: ObservableObject {
 
         } catch {
             print("❌ Characters load failed:", error)
-        }
-    }
-
-    private func ensureValidSelections() {
-        if selectedWorld == nil {
-            selectedWorld = worlds.first
         }
     }
 }

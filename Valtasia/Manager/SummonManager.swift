@@ -10,17 +10,28 @@ import Foundation
 
 final class SummonManager: ObservableObject {
 
-    @Published var characters: [Character] = []
-    @Published var banners: [SummonBanner] = []
+    // MARK: - Published
+
+    @Published private(set) var characters: [Character] = []
+    @Published private(set) var banners: [SummonBanner] = []
+    @Published private(set) var categories: [SummonCategory] = []
+
+    // MARK: - Private
 
     private var characterMap: [String: Character] = [:]
 
+    // MARK: - Init
+
     init() {
-        loadCharacters()
-        loadBanners()
+        loadAll()
     }
 
     // MARK: - Loading
+
+    private func loadAll() {
+        loadCharacters()
+        loadSummonData()
+    }
 
     private func loadCharacters() {
         do {
@@ -29,108 +40,110 @@ final class SummonManager: ObservableObject {
                 uniqueKeysWithValues:
                     characters.map { ($0.id, $0) }
             )
-            print("Loaded Characters:", characters.count)
+            print("✅ Characters loaded:", characters.count)
         } catch {
-            print(error)
+            print("❌ Character load failed:", error)
         }
     }
 
-    private func loadBanners() {
+    private func loadSummonData() {
         do {
-            banners = try JSONLoader.load("summon")
+            let root: SummonRoot = try JSONLoader.load("summons")
+            banners = root.banners
+            categories = root.categories
+            print("🎴 Banners loaded:", banners.count)
         } catch {
-            print(error)
+            print("❌ Summon load failed:", error)
         }
     }
 
-    // MARK: - Pool Entries
+    // MARK: - Category Filter
 
-    private func entries(
+    func banners(for categoryId: String) -> [SummonBanner] {
+        banners.filter { $0.category == categoryId }
+    }
+}
+
+// MARK: - Pool Handling
+
+extension SummonManager {
+
+    private func poolEntries(
         for banner: SummonBanner,
         applyLimit: Bool
     ) -> [SummonPoolEntry] {
 
-        if applyLimit, banner.poolLimit > 0 {
-            return Array(banner.pool.prefix(banner.poolLimit))
-        } else {
+        guard applyLimit, banner.poolLimit > 0 else {
             return banner.pool
         }
+
+        return Array(banner.pool.prefix(banner.poolLimit))
     }
+}
 
-    // MARK: - Rates (Info Sheet)
+// MARK: - Rates (Info Screen)
 
-    /// Shows FULL pool unless poolLimit > 0
+extension SummonManager {
+
+    /// Shows FULL pool in info screen
     func rates(for bannerId: String) -> [CharacterRate] {
 
-        guard
-            let banner =
-                banners.first(where: { $0.id == bannerId })
-        else { return [] }
-
-        let entries = entries(
-            for: banner,
-            applyLimit: false  // ⭐ alle anzeigen
-        )
-
-        return entries.compactMap { entry in
-            guard
-                let character =
-                    characterMap[entry.characterId]
-            else { return nil }
-
-            return CharacterRate(
-                character: character,
-                rate: entry.rate,
-                isRateUp: entry.rateUp
-            )
+        guard let banner = banners.first(where: { $0.id == bannerId }) else {
+            return []
         }
-        .sorted { $0.rate > $1.rate }
+
+        return poolEntries(for: banner, applyLimit: false)
+            .compactMap { entry in
+                guard let character = characterMap[entry.characterId] else {
+                    return nil
+                }
+
+                return CharacterRate(
+                    character: character,
+                    rate: entry.rate,
+                    isRateUp: entry.rateUp
+                )
+            }
+            .sorted { $0.rate > $1.rate }
     }
+}
 
-    // MARK: - Summon Logic
+// MARK: - Summon Logic
 
-    /// Uses poolLimit if set
+extension SummonManager {
+
+    /// Uses poolLimit for actual pulls
     func summon(from bannerId: String) -> Character? {
 
-        guard
-            let banner =
-                banners.first(where: { $0.id == bannerId })
-        else { return nil }
+        guard let banner = banners.first(where: { $0.id == bannerId }) else {
+            return nil
+        }
 
-        let entries = entries(
-            for: banner,
-            applyLimit: true  // ⭐ Limit gilt nur fürs Ziehen
-        )
-
+        let entries = poolEntries(for: banner, applyLimit: true)
         guard !entries.isEmpty else { return nil }
 
-        let totalRate =
-            entries.reduce(0.0) { $0 + max(0, $1.rate) }
-
+        let totalRate = entries.reduce(0.0) { $0 + max(0, $1.rate) }
         guard totalRate > 0 else { return nil }
 
-        let roll =
-            Double.random(in: 0..<totalRate)
+        let roll = Double.random(in: 0..<totalRate)
 
-        var current = 0.0
+        var cumulative = 0.0
 
         for entry in entries {
-            current += max(0, entry.rate)
-
-            if roll <= current {
+            cumulative += max(0, entry.rate)
+            if roll <= cumulative {
                 return characterMap[entry.characterId]
             }
         }
 
-        // Fallback (Floating point safety)
+        // Floating point fallback
         return characterMap[entries.last!.characterId]
     }
 }
 
-// MARK: - View Model
+// MARK: - View Models
 
 struct CharacterRate: Identifiable {
-
     let id = UUID()
     let character: Character
     let rate: Double

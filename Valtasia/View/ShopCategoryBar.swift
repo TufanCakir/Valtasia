@@ -16,30 +16,31 @@ struct ShopCategoryBar: View {
 
         ScrollView(.horizontal, showsIndicators: false) {
 
-            HStack(spacing: 16) {
+            HStack(spacing: 14) {
 
                 ForEach(categories) { cat in
                     categoryButton(cat)
                 }
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
+            .padding(.horizontal, 18)
+            .padding(.vertical, 12)
         }
         .background(backgroundContainer)
-        .shadow(color: .black.opacity(0.4), radius: 10)
+        .shadow(color: .black.opacity(0.45), radius: 12, y: 6)
     }
 }
 
-// MARK: BUTTON
+// MARK: - BUTTON
 extension ShopCategoryBar {
 
     func categoryButton(_ cat: ShopCategory) -> some View {
 
         let isSelected = selected == cat.id
+        let color = cat.color.themeColor
 
         return Button {
 
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+            withAnimation(.spring(response: 0.32, dampingFraction: 0.78)) {
                 selected = cat.id
             }
 
@@ -48,91 +49,84 @@ extension ShopCategoryBar {
             HStack(spacing: 8) {
 
                 Image(systemName: cat.icon)
-                    .font(.caption.bold())
+                    .font(.caption.weight(.bold))
 
                 Text(cat.id.capitalized)
-                    .font(.caption.bold())
+                    .font(.caption.weight(.semibold))
             }
             .foregroundStyle(
-                isSelected
-                    ? Color.white
-                    : Color.white.opacity(0.7)
+                isSelected ? .white : .white.opacity(0.65)
             )
-            .padding(.horizontal, 18)
+            .padding(.horizontal, 16)
             .padding(.vertical, 10)
-            .background(buttonBackground(isSelected))
+            .background(buttonBackground(isSelected, color))
+            .scaleEffect(isSelected ? 1.06 : 1.0)
+            .shadow(
+                color: isSelected ? color.opacity(0.45) : .clear,
+                radius: isSelected ? 10 : 0
+            )
         }
         .buttonStyle(.plain)
     }
 }
 
-// MARK: BACKGROUND BUTTON
-
+// MARK: - BUTTON BG
 extension ShopCategoryBar {
 
     @ViewBuilder
-    func buttonBackground(_ selected: Bool) -> some View {
+    func buttonBackground(
+        _ selected: Bool,
+        _ color: Color
+    ) -> some View {
 
         Capsule()
             .fill(
                 selected
                     ? AnyShapeStyle(
                         LinearGradient(
-                            colors: [.purple, .blue],
-                            startPoint: .leading,
-                            endPoint: .trailing
+                            colors: [
+                                color.opacity(0.95),
+                                color.opacity(0.55),
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
                         )
                     )
-                    : AnyShapeStyle(.ultraThinMaterial)
+                    : AnyShapeStyle(Color.white.opacity(0.05))
             )
             .overlay(
-
                 Capsule()
                     .stroke(
                         selected
-                            ? LinearGradient(
-                                colors: [
-                                    .cyan.opacity(0.8),
-                                    .purple.opacity(0.7),
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                            : LinearGradient(
-                                colors: [.white.opacity(0.15)],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ),
-                        lineWidth: 1
+                            ? color.opacity(0.9)
+                            : Color.white.opacity(0.12),
+                        lineWidth: selected ? 2 : 1
                     )
             )
     }
 }
 
-// MARK: CONTAINER BG
-
+// MARK: - CONTAINER BG
 extension ShopCategoryBar {
 
     var backgroundContainer: some View {
 
-        RoundedRectangle(cornerRadius: 24)
+        RoundedRectangle(cornerRadius: 26)
             .fill(.ultraThinMaterial)
             .overlay(
-
-                RoundedRectangle(cornerRadius: 24)
+                RoundedRectangle(cornerRadius: 26)
                     .stroke(
-
                         LinearGradient(
                             colors: [
-                                .cyan.opacity(0.5),
-                                .purple.opacity(0.4),
+                                .cyan.opacity(0.4),
+                                .purple.opacity(0.35),
                             ],
                             startPoint: .leading,
                             endPoint: .trailing
                         ),
-
                         lineWidth: 1
                     )
             )
+            .padding(.horizontal, 6)
     }
 }

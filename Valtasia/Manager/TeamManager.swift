@@ -91,6 +91,47 @@ class TeamManager: ObservableObject {
         }
     }
 
+    func addOwnedCharacter(_ newChar: OwnedCharacter) {
+
+        // ⭐ Prüfen ob gleicher Base Character existiert
+        if let index = ownedCharacters.firstIndex(where: {
+            $0.baseId == newChar.baseId
+        }) {
+            ownedCharacters[index].addStars(1)
+            return
+        }
+
+        // ⭐ Neu hinzufügen
+        ownedCharacters.append(newChar)
+
+        // ⭐ Auto ins Team wenn leer
+        if activeTeam.isEmpty {
+            activeTeam.append(newChar)
+        }
+    }
+
+    // MARK: - Add Character (Dupe Handling)
+
+    func obtainCharacter(_ character: Character) {
+
+        // ⭐ Prüfen ob schon vorhanden
+        if let index = ownedCharacters.firstIndex(where: {
+            $0.baseId == character.id
+        }) {
+            ownedCharacters[index].addStars(1)
+            return
+        }
+
+        // ⭐ Neuer Charakter
+        let owned = OwnedCharacter(base: character)
+        ownedCharacters.append(owned)
+
+        // Auto Team wenn leer
+        if activeTeam.isEmpty {
+            activeTeam = [owned]
+        }
+    }
+
     // MARK: Sell Character
 
     func sellCharacter(_ character: OwnedCharacter) {

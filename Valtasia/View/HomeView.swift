@@ -8,20 +8,26 @@
 import SwiftUI
 
 struct HomeView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
     @EnvironmentObject var eventManager: EventManager
-    
+
     @State private var fadeToBattle = false
     @State private var selectedWorldIndex = 0
     @State private var zoomToBattle = false
-    
+
+    private var visibleWorlds: [World] {
+        appModel.tutorialState == .done
+            ? appModel.worlds.filter { $0.id != "world_tutorial" }
+            : appModel.worlds
+    }
+
     var body: some View {
         ZStack {
             VStack {
                 GameHeaderView()
                     .padding()
-                
+
                 worldMapSection
                 eventButton
                 worldBar
@@ -29,7 +35,7 @@ struct HomeView: View {
             .scaleEffect(zoomToBattle ? 1.12 : 1)
             .blur(radius: zoomToBattle ? 8 : 0)
             .animation(.easeInOut(duration: 0.4), value: zoomToBattle)
-            
+
             // ⭐ Fade Overlay (kept inside ZStack)
             Color.black
                 .opacity(fadeToBattle ? 0.85 : 0)
@@ -60,18 +66,38 @@ struct HomeView: View {
         }
         .onAppear {
             validateSelectedIndex()
-        }
-        .onChange(of: appModel.worlds.count) {
-            validateSelectedIndex()
-        }
-        .onAppear {
-            validateSelectedIndex()
-            
-            if appModel.tutorialState == .fight {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    appModel.startLevel("tutorial_level")
+
+            // Tutorial fertig → World 1 anzeigen
+            if appModel.tutorialState == .summon
+                || appModel.tutorialState == .done
+            {
+                if let index = visibleWorlds.firstIndex(where: {
+                    $0.id == "world_1"
+                }) {
+                    selectedWorldIndex = index
                 }
             }
+
+            if appModel.tutorialState == .fight {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    appModel.navigateWithLoading {
+                        appModel.startLevel("tutorial_level")
+                    }
+                }
+            }
+        }
+        .onChange(of: visibleWorlds.count) { _, _ in
+            validateSelectedIndex()
+            if appModel.tutorialState == .done {
+                if let index = visibleWorlds.firstIndex(where: {
+                    $0.id == "world_1"
+                }) {
+                    selectedWorldIndex = index
+                }
+            }
+        }
+        .onChange(of: appModel.worlds.count) { _, _ in
+            validateSelectedIndex()
         }
         .fullScreenCover(
             isPresented: Binding(
@@ -175,7 +201,7 @@ extension HomeView {
 
     fileprivate var worldMapSection: some View {
         Group {
-            if let world = appModel.worlds[safe: selectedWorldIndex] {
+            if let world = visibleWorlds[safe: selectedWorldIndex] {
                 HomeWorldMapView(world: world) { levelId in
 
                     guard !appModel.teamManager.activeTeam.isEmpty else {
@@ -184,12 +210,11 @@ extension HomeView {
                     }
 
                     withAnimation(.easeInOut(duration: 0.35)) {
-
                         zoomToBattle = true
                         fadeToBattle = true
                     }
 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                    appModel.navigateWithLoading {
                         appModel.startLevel(levelId)
                     }
                 }
@@ -204,7 +229,7 @@ extension HomeView {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 ForEach(
-                    Array(appModel.worlds.enumerated()),
+                    Array(visibleWorlds.enumerated()),
                     id: \.element.id
                 ) { index, world in
                     worldButton(for: world, index: index)
@@ -332,8 +357,8 @@ extension HomeView {
 extension HomeView {
 
     fileprivate func validateSelectedIndex() {
-        if selectedWorldIndex >= appModel.worlds.count {
-            selectedWorldIndex = max(0, appModel.worlds.count - 1)
+        if selectedWorldIndex >= visibleWorlds.count {
+            selectedWorldIndex = max(0, visibleWorlds.count - 1)
         }
     }
 }

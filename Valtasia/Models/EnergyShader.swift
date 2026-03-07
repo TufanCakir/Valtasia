@@ -17,4 +17,9 @@ enum EnergyShader: String, Codable {
     case void_flow
     case legend_flow
     case chaos_flow
+    case lava_flow
+    case toxic_bubble
+    case star_flow
+    case shadow_pulse
+    case plasma_arc
 }

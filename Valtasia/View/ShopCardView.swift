@@ -17,20 +17,131 @@ struct ShopCardView: View {
 
     var body: some View {
 
-        ZStack(alignment: .topTrailing) {
+        ZStack {
 
-            VStack(spacing: 20) {
+            // MARK: Banner Gradient Overlay (wie Summon)
+            LinearGradient(
+                colors: [.clear, .black.opacity(0.9)],
+                startPoint: .center,
+                endPoint: .bottom
+            )
+
+            VStack(spacing: 16) {
+                badgeView
 
                 iconView
 
                 titleView
 
                 buyButton
+
             }
             .padding()
-            .background(cardBackground)
-            .shadow(color: iconColor.opacity(0.25), radius: 10, y: 6)
-            badgeView
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 24))
+        .overlay(glowStroke)
+        .shadow(color: iconColor.opacity(0.35), radius: 14)
+    }
+}
+
+extension ShopCardView {
+
+    fileprivate var glowStroke: some View {
+        RoundedRectangle(cornerRadius: 24)
+            .stroke(
+                LinearGradient(
+                    colors: [.cyan.opacity(0.7), .purple.opacity(0.6)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                lineWidth: 2
+            )
+    }
+}
+
+extension ShopCardView {
+
+    fileprivate var iconView: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            iconColor.opacity(0.45),
+                            .black.opacity(0.6),
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+
+            Circle()
+                .stroke(iconColor.opacity(0.7), lineWidth: 1.5)
+
+            iconImage
+        }
+    }
+}
+
+extension ShopCardView {
+
+    fileprivate var titleView: some View {
+        Group {
+            if let crystals = storeProduct.shopItem.crystals {
+                Text("\(crystals) Kristalle")
+                    .font(.title3.bold())
+                    .foregroundStyle(.white)
+            }
+        }
+    }
+}
+
+extension ShopCardView {
+
+    fileprivate var buyButton: some View {
+        Button(action: onBuy) {
+            HStack(spacing: 8) {
+
+                Text(buttonTitle)
+                    .bold()
+            }
+            .font(.title3.bold())
+            .foregroundStyle(.white)
+            .padding()
+            .background(
+                LinearGradient(
+                    colors: [.cyan, .purple],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .clipShape(Capsule())
+            .shadow(color: .cyan.opacity(0.35), radius: 6)
+            .scaleEffect(isPressed ? 0.97 : 1)
+            .animation(.easeOut(duration: 0.12), value: isPressed)
+        }
+        .buttonStyle(.plain)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in isPressed = true }
+                .onEnded { _ in isPressed = false }
+        )
+    }
+}
+
+extension ShopCardView {
+
+    fileprivate var badgeView: some View {
+        Group {
+            if let tag = storeProduct.shopItem.tag {
+                Text(badgeTitle(for: tag))
+                    .font(.caption2.bold())
+                    .padding()
+                    .background(badgeColor(for: tag))
+                    .foregroundStyle(.white)
+                    .clipShape(Capsule())
+                    .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
+            }
         }
     }
 }
@@ -52,30 +163,13 @@ extension ShopCardView {
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
-                        lineWidth: 1.5
+                        lineWidth: 1
                     )
             )
     }
 }
 
 extension ShopCardView {
-
-    // MARK: BADGE
-    fileprivate var badgeView: some View {
-        Group {
-            if let tag = storeProduct.shopItem.tag {
-                Text(badgeTitle(for: tag))
-                    .font(.system(size: 10, weight: .black))
-                    .tracking(0.5)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(badgeColor(for: tag))
-                    .foregroundStyle(.white)
-                    .clipShape(Capsule())
-                    .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
-            }
-        }
-    }
 
     fileprivate func badgeTitle(for tag: String) -> String {
         switch tag {
@@ -116,30 +210,6 @@ extension ShopCardView {
         }
     }
 
-    // MARK: ICON
-    fileprivate var iconView: some View {
-        ZStack {
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            iconColor.opacity(0.45),
-                            .black.opacity(0.5),
-                        ],
-                        center: .topLeading,
-                        startRadius: 5,
-                        endRadius: 60
-                    )
-                )
-
-            Circle()
-                .stroke(iconColor.opacity(0.7), lineWidth: 1.5)
-
-            iconImage
-        }
-        .padding()
-    }
-
     @ViewBuilder
     fileprivate var iconImage: some View {
 
@@ -164,44 +234,6 @@ extension ShopCardView {
 
     fileprivate var iconColor: Color {
         storeProduct.shopItem.category.uiColor
-    }
-
-    // MARK: TITLE
-    fileprivate var titleView: some View {
-        Group {
-            if let crystals = storeProduct.shopItem.crystals {
-                Text("\(crystals) Kristalle")
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundStyle(.white)
-            }
-        }
-    }
-
-    // MARK: BUY BUTTON
-    fileprivate var buyButton: some View {
-        Button(action: onBuy) {
-            Text(buttonTitle)
-                .font(.system(size: 13, weight: .heavy))
-                .padding()
-                .background(
-                    LinearGradient(
-                        colors: [.purple, iconColor],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .foregroundStyle(.white)
-                .clipShape(Capsule())
-                .shadow(color: iconColor.opacity(0.4), radius: 6, y: 3)
-                .buttonStyle(.plain)
-                .simultaneousGesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { _ in isPressed = true }
-                        .onEnded { _ in isPressed = false }
-                )
-                .scaleEffect(isPressed ? 0.97 : 1)
-                .animation(.easeOut(duration: 0.12), value: isPressed)
-        }
     }
 
     fileprivate var buttonTitle: String {

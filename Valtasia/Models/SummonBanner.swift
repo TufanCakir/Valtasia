@@ -6,14 +6,13 @@
 //
 
 struct SummonBanner: Codable, Identifiable {
-
     let id: String
     let title: String
+    let category: String
+    let currency: String  // ⭐️ DAS FEHLT BEI DIR
     let bannerImage: String
-
     let summons: [SummonOption]
     let poolLimit: Int
-
     let pool: [SummonPoolEntry]
 }
 

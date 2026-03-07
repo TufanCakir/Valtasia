@@ -10,38 +10,33 @@ import SwiftUI
 struct EventView: View {
 
     @EnvironmentObject var eventManager: EventManager
-    @State private var selectedEvent: GameEvent?
-    
-    @State private var startBoss = false
-    @State private var openSummon = false
+
+    // Existing category selection
+    @State private var selectedCategory: EventCategory = .boss
+
+    // State used by navigation in the lower snippet
+    @State private var startBoss: Bool = false
+    @State private var openSummon: Bool = false
+    @State private var selectedEvent: GameEvent? = nil
 
     var body: some View {
+        VStack(spacing: 18) {
 
-        NavigationStack {
+            EventCategoryTabs(selected: $selectedCategory)
 
-            ZStack {
-
-                LinearGradient(
-                    colors: [.black, .purple.opacity(0.6)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-
+            // Content area: show empty state when there are no active events,
+            // otherwise list events for the selected category.
+            Group {
                 if eventManager.activeEvents().isEmpty {
-
                     emptyState
-
                 } else {
-
                     ScrollView {
-
                         VStack(spacing: 20) {
-
-                            ForEach(eventManager.activeEvents()) { event in
-                                
+                            ForEach(eventManager.events(for: selectedCategory))
+                            { event in
                                 EventCardView(event: event) {
-                                    selectedEvent = event   // ⭐ NAVIGATION TRIGGER
+                                    // Navigation trigger to details
+                                    selectedEvent = event
                                 }
                             }
                         }
@@ -49,21 +44,25 @@ struct EventView: View {
                     }
                 }
             }
-            .navigationTitle("Events")
-            .navigationDestination(isPresented: $startBoss) {
-
-                Text("Boss Fight Scene") // später GameContainerView
-            }
-
-            .navigationDestination(isPresented: $openSummon) {
-
-                Text("Summon Banner")
-            }
-
-            // ⭐ HIER passiert die Navigation
-            .navigationDestination(item: $selectedEvent) { event in
-                EventDetailView(event: event)
-            }
+        }
+        .background(
+            LinearGradient(
+                colors: [.black, .blue.opacity(0.25)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+        )
+        // Navigation destinations consolidated here
+        .navigationTitle("Events")
+        .navigationDestination(isPresented: $startBoss) {
+            Text("Boss Fight Scene")
+        }
+        .navigationDestination(isPresented: $openSummon) {
+            Text("Summon Banner")
+        }
+        .navigationDestination(item: $selectedEvent) { event in
+            EventDetailView(event: event)
         }
     }
 }
@@ -71,9 +70,7 @@ struct EventView: View {
 extension EventView {
 
     fileprivate var emptyState: some View {
-
         VStack(spacing: 16) {
-
             Image(systemName: "calendar.badge.exclamationmark")
                 .font(.system(size: 50))
                 .foregroundStyle(.purple)

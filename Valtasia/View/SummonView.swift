@@ -23,6 +23,7 @@ struct SummonView: View {
     @State private var summonResults: [Character] = []
     var isTutorial: Bool = false
     @State private var showResults = false
+    @State private var selectedCategory: String = "standard"
 
     var body: some View {
 
@@ -31,6 +32,12 @@ struct SummonView: View {
             // MARK: HEADER
             GameHeaderView()
                 .padding()
+
+            SummonCategoryTabs(
+                categories: summonManager.categories,
+                selected: $selectedCategory
+            )
+            .padding(.top, 8)
 
             Divider()
                 .background(.white.opacity(0.15))
@@ -42,9 +49,10 @@ struct SummonView: View {
                 VStack(spacing: 20) {
 
                     ForEach(
-                        summonManager.banners.filter {
-                            !isTutorial || $0.id == "tutorial_banner"
-                        }
+                        summonManager.banners(for: selectedCategory)
+                            .filter {
+                                !isTutorial || $0.id == "tutorial_banner"
+                            }
                     ) { banner in
                         summonBannerCard(banner)
                     }
@@ -254,9 +262,23 @@ extension SummonView {
 
         // ⭐ Nur zahlen wenn NICHT Tutorial
         if !isTutorial {
-            guard CrystalManager.shared.spend(cost) else {
-                showNotEnoughCrystals = true
-                return
+            switch banner.currency {
+
+            case "crystal":
+                guard CrystalManager.shared.spend(cost) else {
+                    showNotEnoughCrystals = true
+                    return
+                }
+
+            case "event_token":
+                guard EventInventory.shared.tokens >= cost else {
+                    showNotEnoughCrystals = true
+                    return
+                }
+                EventInventory.shared.tokens -= cost
+
+            default:
+                break
             }
         }
 
@@ -267,22 +289,24 @@ extension SummonView {
 
             if let character = summonManager.summon(from: banner.id) {
 
+                // ✅ Owned erstellen
                 let owned = OwnedCharacter(base: character)
 
-                teamManager.ownedCharacters.append(owned)
-                summonResults.append(character)
+                // ✅ Dupe-System (Stars ↑ statt Kopie)
+                teamManager.addOwnedCharacter(owned)
 
-                if teamManager.activeTeam.isEmpty {
-                    teamManager.addToTeam(owned)
-                }
+                // ✅ Für Result Screen
+                summonResults.append(character)
             }
         }
 
-        // ⭐ Tutorial abschließen
+        // ⭐ Ergebnis anzeigen (IMMER)
+        showResults = true
+
+        // ⭐ Tutorial-Extras
         if isTutorial {
             UserDefaults.standard.set(true, forKey: "tutorial_summon_done")
             appModel.tutorialState = .done
-            showResults = true
         }
     }
 }

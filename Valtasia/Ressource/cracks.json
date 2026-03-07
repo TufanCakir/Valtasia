@@ -228,5 +228,135 @@
 
         "energyColor": "violet",
         "energyShader": "chaos_flow"
+    },
+    {
+        "id": "crack_molten",
+        "rarity": "epic",
+        "damageMultiplier": 4.5,
+        "energy": {
+            "speed": 1.8,
+            "tapReward": 32,
+            "critChance": 0.22
+        },
+        "spawn": {
+            "weight": 9
+        },
+        "visual": {
+            "gradientSpeed": 1.3,
+            "glow": 14,
+            "particleChance": 0.55
+        },
+        "shape": {
+            "length": 70,
+            "segments": 13,
+            "jaggedness": 36,
+            "lineWidth": 8
+        },
+        "energyColor": "molten",
+        "energyShader": "lava_flow"
+    },
+    {
+        "id": "crack_toxic",
+        "rarity": "rare",
+        "damageMultiplier": 2.8,
+        "energy": {
+            "speed": 1.4,
+            "tapReward": 22,
+            "critChance": 0.12
+        },
+        "spawn": {
+            "weight": 16
+        },
+        "visual": {
+            "gradientSpeed": 0.9,
+            "glow": 10,
+            "particleChance": 0.35
+        },
+        "shape": {
+            "length": 70,
+            "segments": 11,
+            "jaggedness": 28,
+            "lineWidth": 8
+        },
+        "energyColor": "toxic",
+        "energyShader": "toxic_bubble"
+    },
+    {
+        "id": "crack_celestial",
+        "rarity": "legendary",
+        "damageMultiplier": 8.5,
+        "energy": {
+            "speed": 3.0,
+            "tapReward": 55,
+            "critChance": 0.42
+        },
+        "spawn": {
+            "weight": 2
+        },
+        "visual": {
+            "gradientSpeed": 2.2,
+            "glow": 20,
+            "particleChance": 0.9
+        },
+        "shape": {
+            "length": 70,
+            "segments": 20,
+            "jaggedness": 55,
+            "lineWidth": 9
+        },
+        "energyColor": "celestial",
+        "energyShader": "star_flow"
+    },
+    {
+        "id": "crack_shadow",
+        "rarity": "epic",
+        "damageMultiplier": 5.2,
+        "energy": {
+            "speed": 2.1,
+            "tapReward": 38,
+            "critChance": 0.27
+        },
+        "spawn": {
+            "weight": 7
+        },
+        "visual": {
+            "gradientSpeed": 1.6,
+            "glow": 16,
+            "particleChance": 0.6
+        },
+        "shape": {
+            "length": 70,
+            "segments": 16,
+            "jaggedness": 44,
+            "lineWidth": 8
+        },
+        "energyColor": "shadow",
+        "energyShader": "shadow_pulse"
+    },
+    {
+        "id": "crack_plasma",
+        "rarity": "mythic",
+        "damageMultiplier": 11.0,
+        "energy": {
+            "speed": 3.8,
+            "tapReward": 85,
+            "critChance": 0.65
+        },
+        "spawn": {
+            "weight": 1
+        },
+        "visual": {
+            "gradientSpeed": 3.2,
+            "glow": 26,
+            "particleChance": 1.0
+        },
+        "shape": {
+            "length": 70,
+            "segments": 24,
+            "jaggedness": 80,
+            "lineWidth": 9
+        },
+        "energyColor": "plasma",
+        "energyShader": "plasma_arc"
     }
 ]

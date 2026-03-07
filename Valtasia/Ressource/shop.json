@@ -3,7 +3,7 @@
         "id": "starter_pack",
         "category": {
             "id": "starter",
-            "icon": "sparkles",
+            "icon": "diamond.fill",
             "color": "purple"
         },
         "crystals": 100,
@@ -22,16 +22,6 @@
         "crystals": 10
     },
     {
-        "id": "crystal_pack_20",
-        "storeProductId": "com.valtasia.crystal.20",
-        "category": {
-            "id": "real_money",
-            "icon": "diamond.fill",
-            "color": "cyan"
-        },
-        "crystals": 20
-    },
-    {
         "id": "crystal_pack_50",
         "storeProductId": "com.valtasia.crystal.50",
         "category": {
@@ -40,6 +30,16 @@
             "color": "cyan"
         },
         "crystals": 50
+    },
+    {
+        "id": "crystal_pack_100",
+        "storeProductId": "com.valtasia.crystal.100",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "cyan"
+        },
+        "crystals": 100
     },
     {
         "id": "crystal_pack_300",
@@ -60,6 +60,28 @@
             "color": "cyan"
         },
         "crystals": 500,
+        "tag": "best_value"
+    },
+    {
+        "id": "crystal_pack_2500",
+        "storeProductId": "com.valtasia.crystal.2500",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "cyan"
+        },
+        "crystals": 2500,
+        "tag": "popular"
+    },
+    {
+        "id": "crystal_pack_6500",
+        "storeProductId": "com.valtasia.crystal.6500",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "cyan"
+        },
+        "crystals": 6500,
         "tag": "best_value"
     }
 ]

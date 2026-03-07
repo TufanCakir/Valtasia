@@ -5,9 +5,9 @@
 //  Created by Tufan Cakir on 28.02.26.
 //
 
+import Combine
 import Network
 import SwiftUI
-import Combine
 
 final class NetworkMonitor: ObservableObject {
 
@@ -17,19 +17,26 @@ final class NetworkMonitor: ObservableObject {
     private let queue = DispatchQueue(label: "NetworkMonitor")
 
     @Published var isConnected: Bool = true
+    @Published var isChecking: Bool = false  // ⭐ NEU
 
     private init() {
 
-        monitor.pathUpdateHandler = { path in
-
+        monitor.pathUpdateHandler = { [weak self] path in
             DispatchQueue.main.async {
-
-                self.isConnected = path.status == .satisfied
-
-                print("Internet:", self.isConnected)
+                self?.isConnected = path.status == .satisfied
+                print("🌐 Internet:", self?.isConnected ?? false)
             }
         }
 
         monitor.start(queue: queue)
+    }
+
+    // ⭐ Manuelle Prüfung (für Button)
+    func checkConnection() {
+        isChecking = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            self.isChecking = false
+        }
     }
 }

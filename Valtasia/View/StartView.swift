@@ -35,7 +35,7 @@ struct StartView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            appModel.startGame()
+            appModel.switchToGame()
         }
     }
 }

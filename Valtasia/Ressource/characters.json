@@ -13,7 +13,7 @@
         "energyType": "arcane",
         "summon": {
             "rate": 0.08,
-            "banner": "riven_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": false
         },
         "sprite": "character_riven",
@@ -59,7 +59,7 @@
         "energyType": "shadow",
         "summon": {
             "rate": 0.06,
-            "banner": "nyra_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": false
         },
         "sprite": "character_nyra",
@@ -96,7 +96,7 @@
         "energyType": "crimson",
         "summon": {
             "rate": 0.12,
-            "banner": "vex_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": false
         },
         "sprite": "character_vex",
@@ -133,7 +133,7 @@
         "energyType": "ice",
         "summon": {
             "rate": 0.03,
-            "banner": "selyn_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": true
         },
         "sprite": "character_selyn",
@@ -169,7 +169,7 @@
         "energyType": "lightning",
         "summon": {
             "rate": 0.07,
-            "banner": "voltis_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": false
         },
         "sprite": "character_voltis",
@@ -214,7 +214,7 @@
         "energyType": "nature",
         "summon": {
             "rate": 0.07,
-            "banner": "nerika_banner",
+            "banner": "standard_banner",
             "rateUp": false
         },
         "sprite": "character_nerika",
@@ -259,7 +259,7 @@
         "energyType": "void",
         "summon": {
             "rate": 0.02,
-            "banner": "zareth_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": true
         },
         "sprite": "character_zareth",
@@ -304,7 +304,7 @@
         "energyType": "shadow",
         "summon": {
             "rate": 0.06,
-            "banner": "mireya_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": false
         },
         "sprite": "character_mireya",
@@ -349,7 +349,7 @@
         "energyType": "shadow",
         "summon": {
             "rate": 0.015,
-            "banner": "azrael_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": true
         },
         "sprite": "character_azrael",
@@ -394,7 +394,7 @@
         "energyType": "fire",
         "summon": {
             "rate": 0.015,
-            "banner": "azrak_banner",
+            "banner": "broken_hearts_banner",
             "rateUp": true
         },
         "sprite": "character_azrak",
@@ -439,7 +439,7 @@
         "energyType": "arcane",
         "summon": {
             "rate": 0.02,
-            "banner": "stellara_banner",
+            "banner": "standard_banner",
             "rateUp": true
         },
         "sprite": "character_stellara",
@@ -467,6 +467,186 @@
                 "cooldown": 5,
                 "particle": "ShadowParticle",
                 "color": "gold"
+            }
+        ]
+    },
+    {
+        "id": "hero_12",
+        "name": "Virex",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1550,
+            "attack": 260,
+            "energyPower": 130,
+            "attackSpeed": 1.6
+        },
+        "energyType": "void",
+        "summon": {
+            "rate": 0.012,
+            "banner": "broken_hearts_banner",
+            "rateUp": true
+        },
+        "sprite": "character_virex",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_virex"
+            }
+        ],
+        "skills": [
+            {
+                "id": "void_rend",
+                "name": "Void Rend",
+                "type": "damage",
+                "multiplier": 2.6,
+                "cooldown": 5,
+                "particle": "VoidParticle",
+                "color": "void"
+            },
+            {
+                "id": "singularity_break",
+                "name": "Singularity Break",
+                "type": "damage",
+                "multiplier": 3.6,
+                "cooldown": 5,
+                "particle": "ExplosionParticle",
+                "color": "shadow"
+            }
+        ]
+    },
+    {
+        "id": "hero_13",
+        "name": "Cassiel",
+        "rarity": "legendary",
+        "role": "support",
+        "stats": {
+            "hp": 1650,
+            "attack": 120,
+            "energyPower": 240,
+            "attackSpeed": 1.1
+        },
+        "energyType": "light",
+        "summon": {
+            "rate": 0.012,
+            "banner": "standard_banner",
+            "rateUp": true
+        },
+        "sprite": "character_cassiel",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_cassiel"
+            }
+        ],
+        "skills": [
+            {
+                "id": "divine_grace",
+                "name": "Divine Grace",
+                "type": "heal",
+                "multiplier": 2.4,
+                "cooldown": 5,
+                "particle": "LightParticle",
+                "color": "gold"
+            },
+            {
+                "id": "radiant_surge",
+                "name": "Radiant Surge",
+                "type": "damage",
+                "multiplier": 2.1,
+                "cooldown": 5,
+                "particle": "ExplosionParticle",
+                "color": "light"
+            }
+        ]
+    },
+    {
+        "id": "hero_14",
+        "name": "Lunara",
+        "rarity": "epic",
+        "role": "support",
+        "stats": {
+            "hp": 1350,
+            "attack": 125,
+            "energyPower": 190,
+            "attackSpeed": 1.3
+        },
+        "energyType": "arcane",
+        "summon": {
+            "rate": 0.05,
+            "banner": "standard_banner",
+            "rateUp": false
+        },
+        "sprite": "character_lunara",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_lunara"
+            }
+        ],
+        "skills": [
+            {
+                "id": "moonlight_heal",
+                "name": "Moonlight Heal",
+                "type": "heal",
+                "multiplier": 1.8,
+                "cooldown": 5,
+                "particle": "ArcaneParticle",
+                "color": "arcane"
+            },
+            {
+                "id": "crescent_arc",
+                "name": "Crescent Arc",
+                "type": "damage",
+                "multiplier": 1.9,
+                "cooldown": 5,
+                "particle": "ExplosionParticle",
+                "color": "ice"
+            }
+        ]
+    },
+    {
+        "id": "hero_15",
+        "name": "Seraphina",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1400,
+            "attack": 225,
+            "energyPower": 200,
+            "attackSpeed": 1.4
+        },
+        "energyType": "light",
+        "summon": {
+            "rate": 0.015,
+            "banner": "standard_banner",
+            "rateUp": true
+        },
+        "sprite": "character_seraphina",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_seraphina"
+            }
+        ],
+        "skills": [
+            {
+                "id": "heavenfall_blade",
+                "name": "Heavenfall Blade",
+                "type": "damage",
+                "multiplier": 2.7,
+                "cooldown": 5,
+                "particle": "LightParticle",
+                "color": "gold"
+            },
+            {
+                "id": "celestial_judgment",
+                "name": "Celestial Judgment",
+                "type": "damage",
+                "multiplier": 3.5,
+                "cooldown": 5,
+                "particle": "ExplosionParticle",
+                "color": "light"
             }
         ]
     }

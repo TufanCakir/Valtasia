@@ -60,6 +60,10 @@ final class ProgressManager: ObservableObject {
         }
     }
 
+    func lastUnlockedWorld(from worlds: [World]) -> World? {
+        worlds.last { isWorldUnlocked($0) }
+    }
+
     func markLevelCleared(
         _ levelId: String,
         in world: World

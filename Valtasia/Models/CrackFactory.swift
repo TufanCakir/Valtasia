@@ -49,7 +49,7 @@ final class CrackFactory {
 
         glow.strokeColor =
             crack.energyColor.skColor
-                .withAlphaComponent(0.25)
+            .withAlphaComponent(0.25)
 
         glow.glowWidth = crack.visual.glow
         glow.blendMode = .add
@@ -95,8 +95,7 @@ final class CrackFactory {
 
         var currentX: CGFloat = -halfLength
         let segmentLength =
-            crack.shape.length /
-            CGFloat(crack.shape.segments)
+            crack.shape.length / CGFloat(crack.shape.segments)
 
         let jaggedness =
             CGFloat(crack.shape.jaggedness)
@@ -163,9 +162,7 @@ final class CrackFactory {
         return texture
     }
 
-    private static func gradientColors(
-        _ crack: Crack
-    ) -> [UIColor] {
+    private static func gradientColors(_ crack: Crack) -> [UIColor] {
 
         switch crack.energyColor {
 
@@ -188,17 +185,27 @@ final class CrackFactory {
             return [.white, .systemTeal]
 
         case .rainbow:
-            return [
-                .red,
-                .orange,
-                .yellow,
-                .green,
-                .blue,
-                .purple
-            ]
+            return [.red, .orange, .yellow, .green, .blue, .purple]
 
         case .chaosBlack:
             return [.darkGray, .black]
+
+        // ⭐ NEW ONES
+
+        case .molten:
+            return [.red, .orange, .yellow]
+
+        case .toxic:
+            return [.green, .systemGreen, .yellow]
+
+        case .celestial:
+            return [.white, .cyan, .systemBlue]
+
+        case .shadow:
+            return [.black, .purple]
+
+        case .plasma:
+            return [.magenta, .cyan]
         }
     }
 

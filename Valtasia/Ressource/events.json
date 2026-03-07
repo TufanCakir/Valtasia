@@ -1,187 +1,223 @@
-[
-    {
-        "id": "event_boss_level_01",
-        "type": "boss",
-        "battleBackground": "epic_bg",
-        "title": "Pyrothar Clash",
-        "description": "Defeat Pyrothar and earn rewards.",
-        "icon": "epic_bg",
-        "bossEnemy": "pyrothar",
-        "durationDays": 7,
-        "bossLevelId": "event_boss_level_01",
-        "rewardCurrency": "event_token",
-        "rewardAmount": 100,
-        "rewards": {
-            "coins": 200,
-            "crystals": 5,
-            "exp": 120,
-            "eventToken": 100
+{
+    "categories": [
+        {
+            "id": "story",
+            "title": "Story"
+        },
+        {
+            "id": "original",
+            "title": "Original Saga"
+        },
+        {
+            "id": "special",
+            "title": "Special Events"
+        },
+        {
+            "id": "boss",
+            "title": "Boss Raids"
+        },
+        {
+            "id": "buff",
+            "title": "Boost Events"
         }
-    },
-    {
-        "id": "event_boss_level_02",
-        "type": "boss",
-        "battleBackground": "void_bg",
-        "title": "Nullwinter Clash",
-        "description": "Defeat Nullwinter and earn rewards.",
-        "icon": "void_bg",
-        "bossEnemy": "nullwinter",
-        "durationDays": 7,
-        "bossLevelId": "event_boss_level_02",
-        "rewardCurrency": "event_token",
-        "rewardAmount": 120,
-        "rewards": {
-            "coins": 250,
-            "crystals": 6,
-            "exp": 140,
-            "eventToken": 120
-        }
-    },
-    {
-        "id": "event_boss_level_03",
-        "type": "boss",
-        "battleBackground": "space_bg",
-        "title": "Ash Sovereign Clash",
-        "description": "Defeat the Ash Sovereign.",
-        "icon": "space_bg",
-        "bossEnemy": "ash_sovereign",
-        "durationDays": 7,
-        "bossLevelId": "event_boss_level_03",
-        "rewardCurrency": "event_token",
-        "rewardAmount": 140,
-        "rewards": {
-            "coins": 300,
-            "crystals": 8,
-            "exp": 160,
-            "eventToken": 140
-        }
-    },
-    {
-        "id": "event_boss_level_04",
-        "type": "boss",
-        "battleBackground": "nature_bg",
-        "title": "Coregon Clash",
-        "description": "Defeat Coregon.",
-        "icon": "nature_bg",
-        "bossEnemy": "coregon",
-        "durationDays": 7,
-        "bossLevelId": "event_boss_level_04",
-        "rewardCurrency": "event_token",
-        "rewardAmount": 160,
-        "rewards": {
-            "coins": 350,
-            "crystals": 10,
-            "exp": 180,
-            "eventToken": 160
-        }
-    },
-    {
-        "id": "event_boss_level_05",
-        "type": "boss",
-        "battleBackground": "sky_bg",
-        "title": "Frost Colossus Clash",
-        "description": "Defeat the Frost Colossus.",
-        "icon": "sky_bg",
-        "bossEnemy": "frost_colossus",
-        "durationDays": 7,
-        "bossLevelId": "event_boss_level_05",
-        "rewardCurrency": "event_token",
-        "rewardAmount": 180,
-        "rewards": {
-            "coins": 400,
-            "crystals": 12,
-            "exp": 200,
-            "eventToken": 180
-        }
-    },
-    {
-        "id": "event_boss_level_06",
-        "type": "boss",
-        "battleBackground": "lava_bg",
-        "title": "Stormreign Clash",
-        "description": "Defeat Stormreign.",
-        "icon": "lava_bg",
-        "bossEnemy": "stormreign",
-        "durationDays": 7,
-        "bossLevelId": "event_boss_level_06",
-        "rewardCurrency": "event_token",
-        "rewardAmount": 200,
-        "rewards": {
-            "coins": 450,
-            "crystals": 15,
-            "exp": 230,
-            "eventToken": 200
-        }
-    },
-    {
-        "id": "event_boss_level_07",
-        "type": "boss",
-        "battleBackground": "earth_bg",
-        "title": "Zerath Clash",
-        "description": "Defeat Zerath.",
-        "icon": "earth_bg",
-        "bossEnemy": "zerath",
-        "durationDays": 7,
-        "bossLevelId": "event_boss_level_07",
-        "rewardCurrency": "event_token",
-        "rewardAmount": 220,
-        "rewards": {
-            "coins": 500,
-            "crystals": 18,
-            "exp": 260,
-            "eventToken": 220
-        }
-    },
-    {
-        "id": "event_boss_level_08",
-        "type": "boss",
-        "battleBackground": "water_bg",
-        "title": "Ignivar Clash",
-        "description": "Defeat Ignivar and survive the flames.",
-        "icon": "water_bg",
-        "bossEnemy": "ignivar",
-        "durationDays": 7,
-        "bossLevelId": "event_boss_level_08",
-        "rewardCurrency": "event_token",
-        "rewardAmount": 250,
-        "rewards": {
-            "coins": 600,
-            "crystals": 20,
-            "exp": 300,
-            "eventToken": 250
-        }
-    },
-    {
-        "id": "double_exp_weekend",
+    ],
 
-        "type": "buff",
-        "icon": "icon_exp",
-        "title": "Double EXP Event",
+    "events": [
+        {
+            "id": "event_boss_level_01",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "epic_bg",
+            "title": "Pyrothar Clash",
+            "description": "Defeat Pyrothar and earn rewards.",
+            "icon": "epic_bg",
+            "bossEnemy": "pyrothar",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_level_01",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 100,
+            "rewards": {
+                "coins": 200,
+                "crystals": 5,
+                "exp": 120,
+                "eventToken": 100
+            }
+        },
+        {
+            "id": "event_boss_level_02",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "void_bg",
+            "title": "Nullwinter Clash",
+            "description": "Defeat Nullwinter and earn rewards.",
+            "icon": "void_bg",
+            "bossEnemy": "nullwinter",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_level_02",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 120,
+            "rewards": {
+                "coins": 250,
+                "crystals": 6,
+                "exp": 140,
+                "eventToken": 120
+            }
+        },
+        {
+            "id": "event_boss_level_03",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "space_bg",
+            "title": "Ash Sovereign Clash",
+            "description": "Defeat the Ash Sovereign.",
+            "icon": "space_bg",
+            "bossEnemy": "ash_sovereign",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_level_03",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 140,
+            "rewards": {
+                "coins": 300,
+                "crystals": 8,
+                "exp": 160,
+                "eventToken": 140
+            }
+        },
+        {
+            "id": "event_boss_level_04",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "nature_bg",
+            "title": "Coregon Clash",
+            "description": "Defeat Coregon.",
+            "icon": "nature_bg",
+            "bossEnemy": "coregon",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_level_04",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 160,
+            "rewards": {
+                "coins": 350,
+                "crystals": 10,
+                "exp": 180,
+                "eventToken": 160
+            }
+        },
+        {
+            "id": "event_boss_level_05",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "sky_bg",
+            "title": "Frost Colossus Clash",
+            "description": "Defeat the Frost Colossus.",
+            "icon": "sky_bg",
+            "bossEnemy": "frost_colossus",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_level_05",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 180,
+            "rewards": {
+                "coins": 400,
+                "crystals": 12,
+                "exp": 200,
+                "eventToken": 180
+            }
+        },
+        {
+            "id": "event_boss_level_06",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "lava_bg",
+            "title": "Stormreign Clash",
+            "description": "Defeat Stormreign.",
+            "icon": "lava_bg",
+            "bossEnemy": "stormreign",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_level_06",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 200,
+            "rewards": {
+                "coins": 450,
+                "crystals": 15,
+                "exp": 230,
+                "eventToken": 200
+            }
+        },
+        {
+            "id": "event_boss_level_07",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "earth_bg",
+            "title": "Zerath Clash",
+            "description": "Defeat Zerath.",
+            "icon": "earth_bg",
+            "bossEnemy": "zerath",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_level_07",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 220,
+            "rewards": {
+                "coins": 500,
+                "crystals": 18,
+                "exp": 260,
+                "eventToken": 220
+            }
+        },
+        {
+            "id": "event_boss_level_08",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "water_bg",
+            "title": "Ignivar Clash",
+            "description": "Defeat Ignivar and survive the flames.",
+            "icon": "water_bg",
+            "bossEnemy": "ignivar",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_level_08",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 250,
+            "rewards": {
+                "coins": 600,
+                "crystals": 20,
+                "exp": 300,
+                "eventToken": 250
+            }
+        },
+        {
+            "id": "double_exp_weekend",
 
-        "durationDays": 7,
+            "type": "buff",
+            "category": "buff",
+            "icon": "icon_exp",
+            "title": "Double EXP Event",
 
-        "modifiers": {
+            "durationDays": 7,
 
-            "expMultiplier": 2.0,
-            "coinMultiplier": 1.0,
-            "crystalMultiplier": 1.0
+            "modifiers": {
+
+                "expMultiplier": 2.0,
+                "coinMultiplier": 1.0,
+                "crystalMultiplier": 1.0
+            }
+        },
+
+        {
+            "id": "new_player_boost",
+
+            "type": "buff",
+            "category": "buff",
+            "icon": "icon_exp",
+            "title": "New Player Boost",
+
+            "durationDays": 7,
+
+            "modifiers": {
+
+                "expMultiplier": 2.0,
+                "coinMultiplier": 2.0,
+                "crystalMultiplier": 2.0
+            }
         }
-    },
 
-    {
-        "id": "new_player_boost",
-
-        "type": "buff",
-        "icon": "icon_exp",
-        "title": "New Player Boost",
-
-        "durationDays": 7,
-
-        "modifiers": {
-
-            "expMultiplier": 2.0,
-            "coinMultiplier": 2.0,
-            "crystalMultiplier": 2.0
-        }
-    }
-]
+    ]
+}

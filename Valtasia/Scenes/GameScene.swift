@@ -24,6 +24,7 @@ class GameScene: SKScene {
 
     var enemyNode: SKNode?
     var currentEnemy: EnemyInstance?
+    private var skillButtons: [SkillButtonNode] = []
 
     var characterCards: [CharacterCardNode] = []
     var hpBarBG: SKShapeNode?
@@ -36,6 +37,7 @@ class GameScene: SKScene {
     var levelId: String?
     private var crackRefreshRunning = false
     private var attackLocked = false
+    private var skillBarNode = SKNode()
 
     // MARK: Scene Start
     override func didMove(to view: SKView) {
@@ -44,6 +46,9 @@ class GameScene: SKScene {
 
         addChild(crackLayer)  // ⭐ FEHLT AKTUELL
         addChild(uiLayer)
+        addChild(footerLayer)
+        setupSkillBar()
+        spawnFooterSkills()
 
         loadCracks()
         spawnRandomEnemy()
@@ -56,8 +61,8 @@ class GameScene: SKScene {
 
     @objc private func tutorialTapEnemy() {
         guard let crackNode = crackLayer.children.randomElement(),
-              let id = crackNode.name,
-              let crack = cracks.first(where: { $0.id == id })
+            let id = crackNode.name,
+            let crack = cracks.first(where: { $0.id == id })
         else { return }
 
         attack(with: crack)
@@ -92,6 +97,72 @@ class GameScene: SKScene {
             name: .tutorialUseSkill,
             object: nil
         )
+    }
+
+    func setupSkillBar() {
+
+        let barHeight: CGFloat = 110
+        let sidePadding: CGFloat = 20
+        let bottomPadding: CGFloat = 28
+
+        let barWidth = size.width - sidePadding * 2
+
+        skillBarNode.removeFromParent()
+        skillBarNode = SKNode()
+        skillBarNode.zPosition = 1
+
+        let bg = SKShapeNode(
+            rectOf: CGSize(width: barWidth, height: barHeight),
+            cornerRadius: 22
+        )
+
+        bg.fillColor = .black.withAlphaComponent(0.55)
+        bg.strokeColor = .white.withAlphaComponent(0.12)
+        bg.lineWidth = 2
+
+        bg.position = .zero
+        skillBarNode.addChild(bg)
+
+        skillBarNode.position = CGPoint(
+            x: size.width / 2,
+            y: barHeight / 2 + bottomPadding
+        )
+
+        footerLayer.addChild(skillBarNode)
+    }
+
+    func spawnFooterSkills() {
+
+        skillButtons.forEach { $0.removeFromParent() }
+        skillButtons.removeAll()
+
+        guard let team = teamManager?.activeTeam else { return }
+        let skills = team.flatMap { $0.base.skills }
+        guard !skills.isEmpty else { return }
+
+        let columns = 4
+        let spacingX: CGFloat = 46
+        let spacingY: CGFloat = 40
+
+        let startX = -spacingX * 1.5
+        let startY: CGFloat = 22
+
+        for (i, skill) in skills.enumerated() {
+
+            let col = i % columns
+            let row = i / columns
+
+            let button = SkillButtonNode(skill: skill)
+            button.setScale(1)
+
+            let x = startX + CGFloat(col) * spacingX
+            let y = startY - CGFloat(row) * spacingY
+
+            button.position = CGPoint(x: x, y: y)
+
+            skillBarNode.addChild(button)
+            skillButtons.append(button)
+        }
     }
 
     private func setupBackground() {
@@ -131,7 +202,7 @@ class GameScene: SKScene {
 
         container.position = CGPoint(
             x: size.width / 2,
-            y: size.height * 0.88
+            y: size.height * 0.90  // vorher 0.88
         )
 
         let frame = SKShapeNode(
@@ -253,9 +324,10 @@ class GameScene: SKScene {
 
         node.position = CGPoint(
             x: size.width / 2,
-            y: size.height * 0.7
+            y: size.height * 0.78  // vorher 0.7
         )
-        node.setScale(0.82)
+
+        node.setScale(0.85)  // minimal größer wirkt näher an Kamera
 
         node.zPosition = 10
 
@@ -432,11 +504,10 @@ class GameScene: SKScene {
             let x =
                 startX + CGFloat(index) * spacing
 
-            card.position =
-                CGPoint(
-                    x: x,
-                    y: size.height * 0.12
-                )
+            card.position = CGPoint(
+                x: x,
+                y: size.height * 0.22  // vorher 0.12
+            )
 
             card.zPosition = 100
 
@@ -578,7 +649,8 @@ class GameScene: SKScene {
         let location = touch.location(in: self)
 
         // ⭐ PRIORITY 1 – echte SkillButtons
-        let uiNodes = uiLayer.nodes(at: location)
+        let uiNodes =
+            uiLayer.nodes(at: location) + footerLayer.nodes(at: location)
 
         for node in uiNodes {
             if let skillButton =
@@ -701,7 +773,7 @@ class GameScene: SKScene {
 
     // MARK: Combat
     func attack(with crack: Crack) {
-        
+
         if isTutorialMode {
             NotificationCenter.default.post(
                 name: .tutorialPlayerDidAttack,
@@ -870,8 +942,14 @@ class GameScene: SKScene {
         )
     }
 
+    private let footerLayer: SKNode = {
+        let node = SKNode()
+        node.zPosition = 20000
+        return node
+    }()
+
     func useSkill(_ skillId: String) {
-        
+
         if isTutorialMode {
             NotificationCenter.default.post(
                 name: .tutorialPlayerDidUseSkill,

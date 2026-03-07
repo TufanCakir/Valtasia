@@ -53,10 +53,8 @@ struct ShopView: View {
 
     private var gridColumns: [GridItem] {
         [
-            GridItem(
-                .adaptive(minimum: 120),  // ⭐ Cards minimal breiter
-                spacing: 16  // ⭐ Abstand Spalten
-            )
+            GridItem(.flexible(), spacing: 18),
+            GridItem(.flexible(), spacing: 18),
         ]
     }
 
@@ -66,45 +64,75 @@ struct ShopView: View {
         }
     }
 
+    private var loadingState: some View {
+        VStack(spacing: 16) {
+            ProgressView()
+                .scaleEffect(1.3)
+                .tint(.cyan)
+
+            Text("Shop wird geladen...")
+                .foregroundStyle(.white.opacity(0.7))
+                .font(.subheadline)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 80)
+    }
+
+    private func errorState(_ message: String) -> some View {
+        VStack(spacing: 12) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.largeTitle)
+                .foregroundStyle(.red)
+
+            Text(message)
+                .foregroundStyle(.white.opacity(0.85))
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 80)
+    }
+
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+
             // MARK: HEADER
             GameHeaderView()
-                .padding()
-
-            Divider()
-                .background(.white.opacity(0.15))
+                .padding(.horizontal)
+                .padding(.top)
 
             // MARK: CATEGORY BAR
             ShopCategoryBar(
                 categories: uniqueCategories,
                 selected: $selectedCategory
             )
-            .padding()
+            .padding(.top, 10)
+            .padding(.bottom, 14)
+
+            Divider()
+                .background(.white.opacity(0.15))
 
             // MARK: CONTENT
             ScrollView {
-                contentList
-                    .padding()
+                VStack(spacing: 22) {
+
+                    if isLoading {
+                        loadingState
+                    } else if let errorMessage {
+                        errorState(errorMessage)
+                    } else {
+                        shopGrid
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.top, 18)
+                .padding(.bottom, 40)
             }
             .scrollIndicators(.hidden)
         }
-        .background(
-            LinearGradient(
-                colors: [
-                    Color.black,
-                    Color.blue.opacity(0.25),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-        )
+        .background { backgroundStyle }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .task {
-            await loadShop()
-        }
+        .task { await loadShop() }
     }
 }
 
@@ -185,6 +213,30 @@ extension ShopView {
 
         } catch {
             print("Purchase failed")
+        }
+    }
+}
+
+extension ShopView {
+    private var backgroundStyle: some View {
+        LinearGradient(
+            colors: [Color.black, Color.blue.opacity(0.25)],
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .ignoresSafeArea()
+    }
+
+    private var shopGrid: some View {
+        LazyVGrid(
+            columns: gridColumns,
+            spacing: 18
+        ) {
+            ForEach(filteredProducts, id: \.id) { item in
+                ShopCardView(storeProduct: item) {
+                    Task { await purchase(item) }
+                }
+            }
         }
     }
 }

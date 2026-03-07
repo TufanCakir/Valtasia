@@ -38,5 +38,20 @@
         "id": "ignivar",
         "hp": 10000,
         "growthRate": 1.12
+    },
+    {
+        "id": "noxarion",
+        "hp": 10000,
+        "growthRate": 1.12
+    },
+    {
+        "id": "solmireth",
+        "hp": 10000,
+        "growthRate": 1.12
+    },
+    {
+        "id": "vulkrath",
+        "hp": 10000,
+        "growthRate": 1.12
     }
 ]

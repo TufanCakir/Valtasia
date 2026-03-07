@@ -20,8 +20,7 @@ enum CombatCalculator {
         let stats = scaledStats(for: owned)
 
         let baseDamage =
-            stats.attack +
-            stats.energy * 0.25
+            stats.attack + stats.energy * 0.25
 
         let modified =
             baseDamage * crack.damageMultiplier
@@ -40,9 +39,22 @@ enum CombatCalculator {
     ) -> DamageResult {
 
         let stats = scaledStats(for: owned)
+        let level = owned.level
+
+        // ⭐ Skill Curve (stärker als Basic)
+        let skillCurve: Double = 1.18
+
+        let levelMultiplier =
+            pow(Double(level), skillCurve * 0.35)
+
+        // ⭐ Energy macht Skills stärker
+        let energyBonus =
+            stats.energy * 0.35
 
         let baseDamage =
-            stats.attack * skill.multiplier
+            (stats.attack + energyBonus)
+            * skill.multiplier
+            * levelMultiplier
 
         return finalDamage(
             from: baseDamage,
@@ -65,21 +77,22 @@ struct DamageResult {
 // MARK: - Internal
 //
 
-private extension CombatCalculator {
+extension CombatCalculator {
 
-    struct ScaledStats {
+    fileprivate struct ScaledStats {
         let attack: Double
         let energy: Double
         let critChance: Double
         let critDamage: Double
     }
 
-    static func scaledStats(
+    fileprivate static func scaledStats(
         for owned: OwnedCharacter
     ) -> ScaledStats {
 
         let level = owned.level
         let growth = owned.base.rarity.growthRate
+        let starMulti = owned.starMultiplier  // ⭐⭐⭐
 
         let multiplier =
             pow(growth, Double(level - 1))
@@ -87,12 +100,13 @@ private extension CombatCalculator {
         let attack =
             Double(owned.base.stats.attack)
             * multiplier
+            * starMulti  // ⭐ Sterne buff
 
         let energy =
             Double(owned.base.stats.energyPower)
             * multiplier
+            * starMulti  // ⭐ Sterne buff
 
-        // ⭐ Future JSON Hook möglich
         let critChance = 0.10
         let critDamage = 1.75
 
@@ -104,7 +118,7 @@ private extension CombatCalculator {
         )
     }
 
-    static func finalDamage(
+    fileprivate static func finalDamage(
         from raw: Double,
         owned: OwnedCharacter,
         enemyDefense: Double

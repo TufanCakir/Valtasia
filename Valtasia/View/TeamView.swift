@@ -169,6 +169,14 @@ struct TeamView: View {
                 .font(.caption2)
                 .foregroundStyle(.white.opacity(0.7))
 
+            HStack(spacing: 2) {
+                ForEach(0..<owned.stars, id: \.self) { _ in
+                    Image(systemName: "star.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.yellow)
+                }
+            }
+
             ProgressView(
                 value: Double(owned.exp),
                 total: Double(owned.requiredEXP)
@@ -239,7 +247,7 @@ struct TeamView: View {
                 .overlay(
 
                     RoundedRectangle(cornerRadius: 18)
-                        .stroke(.white.opacity(0.15))
+                        .stroke(Color.white.opacity(0.15))
                 )
         )
         .shadow(

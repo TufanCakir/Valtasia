@@ -13,11 +13,12 @@ final class SkillButtonNode: SKNode {
 
     let skill: Skill
 
-    private let radius: CGFloat = 20
+    private let radius: CGFloat = 13  // statt 16
 
     private var background: SKShapeNode!
     private var iconSprite: SKSpriteNode!
     private var border: SKShapeNode!
+    private var gloss: SKShapeNode!
     private var cooldownMask: SKShapeNode!
     private var cooldownLabel: SKLabelNode!
 
@@ -35,14 +36,9 @@ final class SkillButtonNode: SKNode {
         buildUI()
     }
 
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
+    required init?(coder: NSCoder) { fatalError() }
 
-    func canUse() -> Bool {
-
-        return !isOnCooldown
-    }
+    func canUse() -> Bool { !isOnCooldown }
 
     // MARK: - UI
 
@@ -50,42 +46,59 @@ final class SkillButtonNode: SKNode {
 
         let color = skill.color?.skColor ?? .white
 
-        // Background
+        // ⭐ Background Base
         background = SKShapeNode(circleOfRadius: radius)
-        background.fillColor = color.withAlphaComponent(0.15)
+        background.fillColor = .black.withAlphaComponent(0.65)
         background.strokeColor = .clear
+        background.zPosition = 0
         addChild(background)
 
-        // Border Glow
+        // ⭐ Soft Inner Tint
+        let tint = SKShapeNode(circleOfRadius: radius - 3)
+        tint.fillColor = color.withAlphaComponent(0.18)
+        tint.strokeColor = .clear
+        tint.zPosition = 1
+        addChild(tint)
+
+        // ⭐ Border Glow
         border = SKShapeNode(circleOfRadius: radius)
         border.strokeColor = color
-        border.lineWidth = 4
-        border.glowWidth = 5
-        border.alpha = 0.8
+        border.lineWidth = 3
+        border.glowWidth = 6
+        border.alpha = 0.9
+        border.zPosition = 3
         addChild(border)
 
-        // Icon (falls du später echte Skill Icons willst -> texture)
+        // ⭐ Icon (zentriert & klar)
         iconSprite = SKSpriteNode(
             color: color,
-            size: CGSize(width: 20, height: 20)
+            size: CGSize(width: 16, height: 16)
         )
-        iconSprite.alpha = 0.9
-        iconSprite.zPosition = 2
+        iconSprite.alpha = 0.95
+        iconSprite.zPosition = 4
         addChild(iconSprite)
 
-        // Cooldown radial mask
-        cooldownMask = SKShapeNode(circleOfRadius: radius)
+        // ⭐ Gloss Highlight (MMO Look)
+        gloss = SKShapeNode(circleOfRadius: radius)
+        gloss.fillColor = .white
+        gloss.alpha = 0.06
+        gloss.zPosition = 5
+        gloss.setScale(1.02)
+        addChild(gloss)
+
+        // ⭐ Cooldown Mask (nur Icon abdunkeln)
+        cooldownMask = SKShapeNode(circleOfRadius: radius - 2)
         cooldownMask.fillColor = .black
         cooldownMask.alpha = 0
-        cooldownMask.zPosition = 5
+        cooldownMask.zPosition = 6
         addChild(cooldownMask)
 
-        // Cooldown label
+        // ⭐ Cooldown Label
         cooldownLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
-        cooldownLabel.fontSize = 14
+        cooldownLabel.fontSize = 13
         cooldownLabel.fontColor = .white
         cooldownLabel.verticalAlignmentMode = .center
-        cooldownLabel.zPosition = 6
+        cooldownLabel.zPosition = 7
         cooldownLabel.alpha = 0
         addChild(cooldownLabel)
 
@@ -97,8 +110,8 @@ final class SkillButtonNode: SKNode {
     private func startIdlePulse() {
 
         let pulse = SKAction.sequence([
-            .fadeAlpha(to: 1.0, duration: 0.8),
-            .fadeAlpha(to: 0.6, duration: 0.8),
+            .fadeAlpha(to: 1.0, duration: 1.0),
+            .fadeAlpha(to: 0.7, duration: 1.0),
         ])
 
         border.run(.repeatForever(pulse))
@@ -110,15 +123,21 @@ final class SkillButtonNode: SKNode {
 
         guard !isOnCooldown else { return }
 
-        removeAction(forKey: "press")
+        removeAllActions()
 
         let press = SKAction.sequence([
-            .scale(to: 0.85, duration: 0.05),
-            .scale(to: 1.05, duration: 0.08),
-            .scale(to: 1.0, duration: 0.05),
+            .scale(to: 0.82, duration: 0.05),
+            .scale(to: 1.08, duration: 0.08),
+            .scale(to: 1.0, duration: 0.06),
         ])
 
-        run(press, withKey: "press")
+        let flash = SKAction.sequence([
+            .fadeAlpha(to: 1.0, duration: 0.06),
+            .fadeAlpha(to: 0.9, duration: 0.12),
+        ])
+
+        run(press)
+        border.run(flash)
     }
 
     // MARK: - Cooldown
@@ -129,25 +148,23 @@ final class SkillButtonNode: SKNode {
 
         isOnCooldown = true
 
-        cooldownMask.alpha = 0.65
+        cooldownMask.alpha = 0.7
         cooldownLabel.alpha = 1
 
         let total = Int(duration)
         var remaining = total
-
         cooldownLabel.text = "\(remaining)"
 
-        let countdown = SKAction.repeat(
-            SKAction.sequence([
-                .wait(forDuration: 1),
-                .run { [weak self] in
-                    guard let self else { return }
-                    remaining -= 1
-                    self.cooldownLabel.text = "\(max(remaining, 0))"
-                },
-            ]),
-            count: total
-        )
+        let tick = SKAction.sequence([
+            .wait(forDuration: 1),
+            .run { [weak self] in
+                guard let self else { return }
+                remaining -= 1
+                self.cooldownLabel.text = "\(max(remaining, 0))"
+            },
+        ])
+
+        let countdown = SKAction.repeat(tick, count: total)
 
         let finish = SKAction.run { [weak self] in
             self?.resetCooldown()
@@ -171,12 +188,12 @@ final class SkillButtonNode: SKNode {
         if locked {
             background.fillColor = .darkGray
             border.strokeColor = .gray
-            iconSprite.alpha = 0.3
+            iconSprite.alpha = 0.25
         } else {
             let color = skill.color?.skColor ?? .white
-            background.fillColor = color.withAlphaComponent(0.15)
+            background.fillColor = .black.withAlphaComponent(0.65)
             border.strokeColor = color
-            iconSprite.alpha = 0.9
+            iconSprite.alpha = 0.95
         }
     }
 }
