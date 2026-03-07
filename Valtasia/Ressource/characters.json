@@ -248,7 +248,7 @@
     {
         "id": "hero_07",
         "name": "Zareth",
-        "rarity": "epic",
+        "rarity": "legendary",
         "role": "dps",
         "stats": {
             "hp": 1400,
@@ -518,7 +518,7 @@
     {
         "id": "hero_13",
         "name": "Cassiel",
-        "rarity": "legendary",
+        "rarity": "epic",
         "role": "support",
         "stats": {
             "hp": 1650,
@@ -608,7 +608,7 @@
     {
         "id": "hero_15",
         "name": "Seraphina",
-        "rarity": "legendary",
+        "rarity": "epic",
         "role": "dps",
         "stats": {
             "hp": 1400,

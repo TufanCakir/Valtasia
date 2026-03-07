@@ -5,6 +5,7 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
+import AVFAudio
 import SwiftUI
 
 @main
@@ -20,6 +21,7 @@ struct ValtasiaApp: App {
 
     init() {
         configureApp()
+        MusicManager.shared.play()
     }
 
     var body: some Scene {
@@ -59,20 +61,29 @@ struct ValtasiaApp: App {
             .preferredColorScheme(.dark)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
-
             switch newPhase {
 
             case .active:
                 EventManager.shared.load()
+                MusicManager.shared.resume()
 
             case .inactive:
-                print("App inactive")
+                MusicManager.shared.pause()
 
             case .background:
                 saveGameState()
+                MusicManager.shared.pause()
 
             @unknown default:
                 break
+            }
+        }
+        .onChange(of: appModel.appState) { _, state in
+            switch state {
+            case .game:
+                MusicManager.shared.play()
+            case .start:
+                MusicManager.shared.stop()
             }
         }
     }
@@ -81,14 +92,17 @@ struct ValtasiaApp: App {
 extension ValtasiaApp {
 
     fileprivate func configureApp() {
-
-        // Future:
-        // - Analytics setup
-        // - StoreKit listener
-        // - Audio engine boot
-        // - Remote config
-
         print("Valtasia Booting...")
+
+        // 🎵 Audio Session
+        try? AVAudioSession.sharedInstance().setCategory(
+            .ambient,
+            mode: .default
+        )
+        try? AVAudioSession.sharedInstance().setActive(true)
+
+        // 🎵 Manager initialisieren
+        _ = MusicManager.shared
     }
 
     fileprivate func saveGameState() {

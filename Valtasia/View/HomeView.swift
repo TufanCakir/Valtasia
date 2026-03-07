@@ -15,6 +15,7 @@ struct HomeView: View {
     @State private var fadeToBattle = false
     @State private var selectedWorldIndex = 0
     @State private var zoomToBattle = false
+    @State private var showTutorialSummon = false
 
     private var visibleWorlds: [World] {
         appModel.tutorialState == .done
@@ -67,14 +68,9 @@ struct HomeView: View {
         .onAppear {
             validateSelectedIndex()
 
-            // Tutorial fertig → World 1 anzeigen
-            if appModel.tutorialState == .summon
-                || appModel.tutorialState == .done
-            {
-                if let index = visibleWorlds.firstIndex(where: {
-                    $0.id == "world_1"
-                }) {
-                    selectedWorldIndex = index
+            if appModel.tutorialState == .summon {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    showTutorialSummon = true
                 }
             }
 
@@ -83,6 +79,13 @@ struct HomeView: View {
                     appModel.navigateWithLoading {
                         appModel.startLevel("tutorial_level")
                     }
+                }
+            }
+        }
+        .onChange(of: appModel.tutorialState) { _, newState in
+            if newState == .summon {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    showTutorialSummon = true
                 }
             }
         }
@@ -99,12 +102,7 @@ struct HomeView: View {
         .onChange(of: appModel.worlds.count) { _, _ in
             validateSelectedIndex()
         }
-        .fullScreenCover(
-            isPresented: Binding(
-                get: { appModel.tutorialState == .summon },
-                set: { _ in }
-            )
-        ) {
+        .fullScreenCover(isPresented: $showTutorialSummon) {
             SummonView(
                 teamManager: appModel.teamManager,
                 isTutorial: true

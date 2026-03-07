@@ -29,6 +29,8 @@ struct SettingsView: View {
                 VStack(spacing: 20) {
 
                     accountSection
+                    
+                    musicSection
 
                     infoSection
 
@@ -77,6 +79,68 @@ struct SettingsView: View {
                 "All characters, coins and progress will be deleted permanently."
             )
         }
+    }
+}
+
+extension SettingsView {
+
+    var musicSection: some View {
+
+        VStack(alignment: .leading, spacing: 16) {
+
+            Text("Audio")
+                .font(.title2.bold())
+                .foregroundStyle(.white)
+
+            VStack(spacing: 18) {
+
+                // MARK: MUTE TOGGLE
+                HStack {
+
+                    Image(systemName: "music.note")
+                        .foregroundStyle(.cyan)
+                        .frame(width: 26)
+
+                    Text("Music")
+                        .foregroundStyle(.white)
+
+                    Spacer()
+
+                    Toggle(
+                        "",
+                        isOn: Binding(
+                            get: { !MusicManager.shared.isMuted },
+                            set: { _ in MusicManager.shared.toggleMute() }
+                        )
+                    )
+                    .tint(.cyan)
+                }
+
+                Divider().background(.white.opacity(0.15))
+
+                // MARK: VOLUME SLIDER
+                HStack {
+
+                    Image(systemName: "speaker.wave.2.fill")
+                        .foregroundStyle(.cyan)
+                        .frame(width: 26)
+
+                    Text("Volume")
+                        .foregroundStyle(.white)
+
+                    Slider(
+                        value: Binding(
+                            get: { Double(MusicManager.shared.volume) },
+                            set: { MusicManager.shared.setVolume(Float($0)) }
+                        ),
+                        in: 0...1
+                    )
+                    .tint(.cyan)
+                }
+            }
+        }
+        .padding()
+        .background(cardBackground)
     }
 }
 
