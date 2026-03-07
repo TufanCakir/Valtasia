@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct HomeView: View {
-
+    
     @EnvironmentObject var appModel: AppModel
     @EnvironmentObject var eventManager: EventManager
-
+    
     @State private var fadeToBattle = false
     @State private var selectedWorldIndex = 0
     @State private var zoomToBattle = false
-
+    
     var body: some View {
         ZStack {
             VStack {
                 GameHeaderView()
                     .padding()
-
+                
                 worldMapSection
                 eventButton
                 worldBar
@@ -29,7 +29,7 @@ struct HomeView: View {
             .scaleEffect(zoomToBattle ? 1.12 : 1)
             .blur(radius: zoomToBattle ? 8 : 0)
             .animation(.easeInOut(duration: 0.4), value: zoomToBattle)
-
+            
             // ⭐ Fade Overlay (kept inside ZStack)
             Color.black
                 .opacity(fadeToBattle ? 0.85 : 0)
@@ -63,6 +63,26 @@ struct HomeView: View {
         }
         .onChange(of: appModel.worlds.count) {
             validateSelectedIndex()
+        }
+        .onAppear {
+            validateSelectedIndex()
+            
+            if appModel.tutorialState == .fight {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    appModel.startLevel("tutorial_level")
+                }
+            }
+        }
+        .fullScreenCover(
+            isPresented: Binding(
+                get: { appModel.tutorialState == .summon },
+                set: { _ in }
+            )
+        ) {
+            SummonView(
+                teamManager: appModel.teamManager,
+                isTutorial: true
+            )
         }
     }
 }
@@ -315,17 +335,6 @@ extension HomeView {
         if selectedWorldIndex >= appModel.worlds.count {
             selectedWorldIndex = max(0, appModel.worlds.count - 1)
         }
-    }
-}
-
-// MARK: Safe Array Access
-
-extension Array {
-
-    fileprivate subscript(safe index: Int) -> Element? {
-        indices.contains(index)
-            ? self[index]
-            : nil
     }
 }
 

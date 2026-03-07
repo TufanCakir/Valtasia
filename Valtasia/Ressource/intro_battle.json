@@ -1,0 +1,12 @@
+{
+  "id": "intro_battle",
+  "steps": [
+    { "type": "dialog", "speaker": "Mentor", "text": "Willkommen, Held. Ich zeige dir den Kampf." },
+    { "type": "dialog", "speaker": "Mentor", "text": "Tippe auf einen Gegner, um anzugreifen." },
+    { "type": "action", "action": "tap_enemy" },
+    { "type": "dialog", "speaker": "Mentor", "text": "Sehr gut! Skills sind stärker." },
+    { "type": "action", "action": "use_skill" },
+    { "type": "dialog", "speaker": "Mentor", "text": "Perfekt. Du bist bereit." },
+    { "type": "finish" }
+  ]
+}

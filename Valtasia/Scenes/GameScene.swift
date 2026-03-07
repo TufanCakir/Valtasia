@@ -10,7 +10,7 @@ import SpriteKit
 class GameScene: SKScene {
 
     var world: World?
-
+    var isTutorialMode: Bool = false
     var appModel: AppModel?  // ⭐ HIER
 
     // MARK: Managers
@@ -50,12 +50,54 @@ class GameScene: SKScene {
 
         setupUI()
         spawnTeamPortraits()
+
+        setupTutorialListeners()  // ⭐ NEU
+    }
+
+    @objc private func tutorialTapEnemy() {
+        guard let crackNode = crackLayer.children.randomElement(),
+              let id = crackNode.name,
+              let crack = cracks.first(where: { $0.id == id })
+        else { return }
+
+        attack(with: crack)
+    }
+
+    @objc private func tutorialUseSkill() {
+        guard
+            let skillId = teamManager?
+                .activeTeam
+                .first?
+                .base
+                .skills
+                .first?
+                .id
+        else { return }
+
+        useSkill(skillId)
+    }
+
+    private func setupTutorialListeners() {
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(tutorialTapEnemy),
+            name: .tutorialTapEnemy,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(tutorialUseSkill),
+            name: .tutorialUseSkill,
+            object: nil
+        )
     }
 
     private func setupBackground() {
 
         let backgroundName =
-        EventRuntime.shared.activeEvent?.battleBackground
+            EventRuntime.shared.activeEvent?.battleBackground
             ?? world?.battleBackground
             ?? "ocean_bg"
 
@@ -659,6 +701,13 @@ class GameScene: SKScene {
 
     // MARK: Combat
     func attack(with crack: Crack) {
+        
+        if isTutorialMode {
+            NotificationCenter.default.post(
+                name: .tutorialPlayerDidAttack,
+                object: nil
+            )
+        }
 
         guard !attackLocked else { return }
 
@@ -778,19 +827,19 @@ class GameScene: SKScene {
         }
 
         let coins =
-        Int(Double(50) * EventManager.shared.coinMultiplier())
+            Int(Double(50) * EventManager.shared.coinMultiplier())
 
         CoinManager.shared.add(coins)
 
         let crystals =
-        Int(Double(1) * EventManager.shared.crystalMultiplier())
+            Int(Double(1) * EventManager.shared.crystalMultiplier())
 
         CrystalManager.shared.add(crystals)
 
         if let team = teamManager?.activeTeam {
 
             let multiplier =
-            EventManager.shared.expMultiplier()
+                EventManager.shared.expMultiplier()
 
             for owned in team {
 
@@ -822,6 +871,13 @@ class GameScene: SKScene {
     }
 
     func useSkill(_ skillId: String) {
+        
+        if isTutorialMode {
+            NotificationCenter.default.post(
+                name: .tutorialPlayerDidUseSkill,
+                object: nil
+            )
+        }
 
         guard !attackLocked else { return }
         attackLocked = true
@@ -1001,4 +1057,17 @@ extension SKNode {
 extension Notification.Name {
     static let eventBossCleared =
         Notification.Name("eventBossCleared")
+}
+
+extension Notification.Name {
+    static let tutorialTapEnemy = Notification.Name("tutorialTapEnemy")
+    static let tutorialUseSkill = Notification.Name("tutorialUseSkill")
+}
+
+extension Notification.Name {
+    static let tutorialPlayerDidAttack =
+        Notification.Name("tutorialPlayerDidAttack")
+
+    static let tutorialPlayerDidUseSkill =
+        Notification.Name("tutorialPlayerDidUseSkill")
 }

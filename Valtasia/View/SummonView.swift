@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SummonView: View {
 
+    @EnvironmentObject var appModel: AppModel
+
     @ObservedObject var teamManager: TeamManager
     @StateObject private var summonManager = SummonManager()
     @StateObject private var crystalManager = CrystalManager.shared  // ✅ live updates
@@ -19,6 +21,8 @@ struct SummonView: View {
     @State private var pendingAmount: Int = 1
     @State private var showSummonConfirm = false
     @State private var summonResults: [Character] = []
+    var isTutorial: Bool = false
+    @State private var showResults = false
 
     var body: some View {
 
@@ -37,7 +41,11 @@ struct SummonView: View {
 
                 VStack(spacing: 20) {
 
-                    ForEach(summonManager.banners) { banner in
+                    ForEach(
+                        summonManager.banners.filter {
+                            !isTutorial || $0.id == "tutorial_banner"
+                        }
+                    ) { banner in
                         summonBannerCard(banner)
                     }
                 }
@@ -54,7 +62,7 @@ struct SummonView: View {
         )
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(isPresented: .constant(!summonResults.isEmpty)) {
+        .fullScreenCover(isPresented: $showResults) {
             SummonResultView(characters: summonResults)
         }
         .alert("Nicht genug Kristalle", isPresented: $showNotEnoughCrystals) {
@@ -88,19 +96,21 @@ struct SummonView: View {
                     .first(where: { $0.amount == pendingAmount })?
                     .cost ?? 0
 
-                Text("Do you want to summon \(pendingAmount) character(s) for \(cost) Crystals?")
+                let costText = isTutorial ? "FREE" : "\(cost) Crystals"
+
+                Text(
+                    "Do you want to summon \(pendingAmount) character(s) for \(costText)?"
+                )
             }
         }
     }
 }
 
 extension SummonView {
-    
+
     func summonBannerCard(_ banner: SummonBanner) -> some View {
 
         ZStack {
-
-          
 
             LinearGradient(
                 colors: [.clear, .black.opacity(0.9)],
@@ -151,13 +161,13 @@ extension SummonView {
         )
         .shadow(color: .cyan.opacity(0.35), radius: 14)
     }
-    
+
     func infoButton(_ banner: SummonBanner) -> some View {
-        
+
         Button {
             selectedBanner = banner
         } label: {
-            
+
             Image(systemName: "info.circle.fill")
                 .font(.title3)
                 .foregroundStyle(.white)
@@ -166,7 +176,7 @@ extension SummonView {
                 .clipShape(Circle())
         }
     }
-    
+
     func summonButtons(for banner: SummonBanner) -> some View {
 
         HStack(spacing: 16) {
@@ -182,30 +192,32 @@ extension SummonView {
         }
         .frame(maxWidth: .infinity)
     }
-    
+
     private func summonButton(
         cost: Int,
         amount: Int,
         banner: SummonBanner
     ) -> some View {
-        
+
         Button {
-            
+
             pendingBanner = banner
             pendingAmount = amount
             showSummonConfirm = true
-            
+
         } label: {
-            
+
             HStack(spacing: 6) {
-                
-                Image("icon_crystal")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 18, height: 18)
-                    .shadow(color: .cyan.opacity(0.7), radius: 4)
-                
-                Text("\(cost)")
+
+                if !isTutorial {
+                    Image("icon_crystal")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 18, height: 18)
+                        .shadow(color: .cyan.opacity(0.7), radius: 4)
+                }
+
+                Text(isTutorial ? "FREE" : "\(cost)")
                     .bold()
             }
             .font(.subheadline)
@@ -213,7 +225,7 @@ extension SummonView {
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
             .background(
-                
+
                 LinearGradient(
                     colors: [.cyan, .purple],
                     startPoint: .leading,
@@ -240,27 +252,24 @@ extension SummonView {
 
         let cost = option.cost
 
-        guard CrystalManager.shared.spend(cost)
-        else {
-            showNotEnoughCrystals = true
-            return
+        // ⭐ Nur zahlen wenn NICHT Tutorial
+        if !isTutorial {
+            guard CrystalManager.shared.spend(cost) else {
+                showNotEnoughCrystals = true
+                return
+            }
         }
 
         summonResults.removeAll()
 
+        // ⭐ Charaktere erzeugen
         for _ in 0..<amount {
 
-            if let character =
-                summonManager.summon(from: banner.id)
-            {
+            if let character = summonManager.summon(from: banner.id) {
 
-                let owned =
-                    OwnedCharacter(base: character)
+                let owned = OwnedCharacter(base: character)
 
-                teamManager
-                    .ownedCharacters
-                    .append(owned)
-
+                teamManager.ownedCharacters.append(owned)
                 summonResults.append(character)
 
                 if teamManager.activeTeam.isEmpty {
@@ -268,6 +277,12 @@ extension SummonView {
                 }
             }
         }
+
+        // ⭐ Tutorial abschließen
+        if isTutorial {
+            UserDefaults.standard.set(true, forKey: "tutorial_summon_done")
+            appModel.tutorialState = .done
+            showResults = true
+        }
     }
 }
-

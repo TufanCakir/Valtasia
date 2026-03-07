@@ -10,6 +10,20 @@ import SwiftUI
 
 final class AppModel: ObservableObject {
 
+    // MARK: - Persistent Keys
+    private let tutorialFightKey = "tutorial_fight_done"
+    private let tutorialSummonKey = "tutorial_summon_done"
+    let tutorialLevelId = "tutorial_level"
+
+    @Published var tutorialState: TutorialState = .none
+
+    enum TutorialState {
+        case none
+        case fight
+        case summon
+        case done
+    }
+
     // MARK: - Managers
 
     let teamManager = TeamManager()
@@ -36,9 +50,24 @@ final class AppModel: ObservableObject {
     }
 
     // MARK: - Init
-
     init() {
         initializeGameIfNeeded()
+        determineTutorialState()
+    }
+
+    private func determineTutorialState() {
+        let d = UserDefaults.standard
+
+        let fightDone = d.bool(forKey: tutorialFightKey)
+        let summonDone = d.bool(forKey: tutorialSummonKey)
+
+        if !fightDone {
+            tutorialState = .fight
+        } else if !summonDone {
+            tutorialState = .summon
+        } else {
+            tutorialState = .done
+        }
     }
 
     // MARK: - Game Boot
@@ -87,6 +116,13 @@ final class AppModel: ObservableObject {
 
     func completeLevel() {
         guard let levelId = selectedLevelId else { return }
+
+        // ⭐ Tutorial Fight abgeschlossen?
+        if levelId == tutorialLevelId {
+            UserDefaults.standard.set(true, forKey: tutorialFightKey)
+            tutorialState = .summon   // ⭐⭐⭐ HIER IST DER FIX
+        }
+
         guard let world = world(containing: levelId) else {
             print("❌ World not found for level:", levelId)
             selectedLevelId = nil
