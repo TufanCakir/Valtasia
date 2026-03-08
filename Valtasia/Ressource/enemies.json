@@ -53,5 +53,10 @@
         "id": "vulkrath",
         "hp": 10000,
         "growthRate": 1.12
+    },
+    {
+        "id": "character_riven",
+        "hp": 10000,
+        "growthRate": 1.12
     }
 ]

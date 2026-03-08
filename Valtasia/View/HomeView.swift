@@ -130,8 +130,8 @@ extension HomeView {
                 EventView()
             } label: {
                 iconCapsule(
-                    icon: "sparkles",
-                    colors: [.cyan, .purple]
+                    icon: "gamecontroller.fill",
+                    colors: [.blue, .red]
                 )
             }
 
@@ -150,17 +150,6 @@ extension HomeView {
                 iconCapsule(
                     icon: "gearshape.fill",
                     colors: [.purple, .blue]
-                )
-            }
-            NavigationLink {
-
-                FeedbackView()
-
-            } label: {
-
-                iconCapsule(
-                    icon: "bubble.left.and.bubble.right.fill",
-                    colors: [.cyan, .purple]
                 )
             }
         }

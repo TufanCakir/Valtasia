@@ -1503,5 +1503,147 @@
                 ]
             }
         ]
+    },
+    {
+        "id": "world_17",
+        "background": "bg_dark",
+        "battleBackground": "bg_dark",
+        "unlockAfterWorld": "world_16",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_dark",
+                "positionX": 0.20,
+                "positionY": 0.55,
+                "connectsTo": [
+                    "2"
+                ],
+                "levels": [
+                    {
+                        "id": "level_126",
+                        "enemies": [
+                            "nullwinter"
+                        ]
+                    },
+                    {
+                        "id": "level_127",
+                        "enemies": [
+                            "ash_sovereign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_dark",
+                "positionX": 0.50,
+                "positionY": 0.30,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_128",
+                        "enemies": [
+                            "zerath"
+                        ]
+                    },
+                    {
+                        "id": "level_129",
+                        "enemies": [
+                            "stormreign",
+                            "coregon"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_dark",
+                "positionX": 0.82,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_130",
+                        "enemies": [
+                            "noxarion"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_18",
+        "background": "bg_rainbow",
+        "battleBackground": "bg_rainbow",
+        "unlockAfterWorld": "world_17",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_rainbow",
+                "positionX": 0.18,
+                "positionY": 0.60,
+                "connectsTo": [
+                    "2"
+                ],
+                "levels": [
+                    {
+                        "id": "level_131",
+                        "enemies": [
+                            "frost_colossus"
+                        ]
+                    },
+                    {
+                        "id": "level_132",
+                        "enemies": [
+                            "ignivar"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_rainbow",
+                "positionX": 0.48,
+                "positionY": 0.28,
+                "connectsTo": [
+                    "3"
+                ],
+                "levels": [
+                    {
+                        "id": "level_133",
+                        "enemies": [
+                            "ash_sovereign",
+                            "nullwinter"
+                        ]
+                    },
+                    {
+                        "id": "level_134",
+                        "enemies": [
+                            "stormreign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_rainbow",
+                "positionX": 0.78,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_135",
+                        "enemies": [
+                            "solmireth",
+                            "vulkrath",
+                            "noxarion"
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]

@@ -649,5 +649,95 @@
                 "color": "light"
             }
         ]
+    },
+    {
+        "id": "hero_16",
+        "name": "Velistra",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1420,
+            "attack": 235,
+            "energyPower": 150,
+            "attackSpeed": 1.5
+        },
+        "energyType": "shadow",
+        "summon": {
+            "rate": 0.012,
+            "banner": "broken_hearts_banner",
+            "rateUp": true
+        },
+        "sprite": "character_velistra",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_velistra"
+            }
+        ],
+        "skills": [
+            {
+                "id": "abyss_flare",
+                "name": "Abyss Flare",
+                "type": "damage",
+                "multiplier": 2.5,
+                "cooldown": 5,
+                "particle": "ShadowParticle",
+                "color": "shadow"
+            },
+            {
+                "id": "crimson_eclipse",
+                "name": "Crimson Eclipse",
+                "type": "damage",
+                "multiplier": 3.3,
+                "cooldown": 5,
+                "particle": "ExplosionParticle",
+                "color": "crimson"
+            }
+        ]
+    },
+    {
+        "id": "hero_17",
+        "name": "Eryndor",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1580,
+            "attack": 245,
+            "energyPower": 135,
+            "attackSpeed": 1.4
+        },
+        "energyType": "ice",
+        "summon": {
+            "rate": 0.012,
+            "banner": "standard_banner",
+            "rateUp": true
+        },
+        "sprite": "character_eryndor",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_eryndor"
+            }
+        ],
+        "skills": [
+            {
+                "id": "glacial_edge",
+                "name": "Glacial Edge",
+                "type": "damage",
+                "multiplier": 2.6,
+                "cooldown": 5,
+                "particle": "IceParticle",
+                "color": "ice"
+            },
+            {
+                "id": "absolute_zero",
+                "name": "Absolute Zero",
+                "type": "damage",
+                "multiplier": 3.5,
+                "cooldown": 5,
+                "particle": "IceExplosionParticle",
+                "color": "ice"
+            }
+        ]
     }
 ]

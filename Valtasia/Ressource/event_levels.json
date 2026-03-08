@@ -54,5 +54,26 @@
         "enemies": [
             "ignivar"
         ]
+    },
+    {
+        "id": "event_boss_level_09",
+        "battleBackground": "bg_emo",
+        "enemies": [
+            "character_riven"
+        ]
+    },
+    {
+        "id": "event_boss_level_10",
+        "battleBackground": "void_bg",
+        "enemies": [
+            "zerath"
+        ]
+    },
+    {
+        "id": "event_boss_level_11",
+        "battleBackground": "heaven_bg",
+        "enemies": [
+            "solmireth"
+        ]
     }
 ]

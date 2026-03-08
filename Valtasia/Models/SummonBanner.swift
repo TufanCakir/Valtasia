@@ -9,11 +9,14 @@ struct SummonBanner: Codable, Identifiable {
     let id: String
     let title: String
     let category: String
-    let currency: String  // ⭐️ DAS FEHLT BEI DIR
+    let currency: String
     let bannerImage: String
     let summons: [SummonOption]
     let poolLimit: Int
     let pool: [SummonPoolEntry]
+
+    let pity: PitySystem?
+    let stepUp: StepUpSystem?
 }
 
 struct SummonOption: Codable, Identifiable {

@@ -239,7 +239,7 @@ extension ShopCardView {
 
     fileprivate var buttonTitle: String {
         guard let p = storeProduct.product else { return "…" }
-        return p.price.formatted(p.priceFormatStyle)
+        return p.displayPrice
     }
 }
 

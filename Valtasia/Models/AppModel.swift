@@ -69,6 +69,8 @@ final class AppModel: ObservableObject {
         "bg_disco",
         "bg_shop",
         "bg_ship",
+        "bg_dark",
+        "bg_rainbow",
     ]
 
     var randomLoadingImage: String {

@@ -125,7 +125,7 @@ class GameScene: SKScene {
 
         skillBarNode.position = CGPoint(
             x: size.width / 2,
-            y: barHeight / 2 + bottomPadding
+            y: barHeight / 3.5 + bottomPadding
         )
 
         footerLayer.addChild(skillBarNode)
@@ -324,7 +324,7 @@ class GameScene: SKScene {
 
         node.position = CGPoint(
             x: size.width / 2,
-            y: size.height * 0.78  // vorher 0.7
+            y: size.height * 0.70  // vorher 0.7
         )
 
         node.setScale(0.85)  // minimal größer wirkt näher an Kamera

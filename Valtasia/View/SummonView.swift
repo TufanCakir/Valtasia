@@ -143,18 +143,52 @@ extension SummonView {
                 endPoint: .bottom
             )
 
-            HStack {
+            HStack(alignment: .center) {
 
-                // CHARACTER SIDE
-                Image(banner.bannerImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 180)
+                // ⭐ LINKS: Charakter + Banner Infos
+                VStack(alignment: .leading, spacing: 10) {
+
+                    Image(banner.bannerImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 150)
+
+                    // STEP
+                    if let stepUp = banner.stepUp, stepUp.enabled,
+                        let stepData = summonManager.currentStepData(
+                            for: banner
+                        )
+                    {
+
+                        Text("STEP \(stepData.step) / \(stepUp.steps.count)")
+                            .font(.caption.bold())
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                            .background(
+                                LinearGradient(
+                                    colors: [.yellow, .orange],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .foregroundStyle(.black)
+                            .clipShape(Capsule())
+                    }
+
+                    // PITY
+                    if let pity = banner.pity, pity.enabled {
+                        let pulls = PityManager.shared.pulls(for: banner.id)
+
+                        Text("PITY \(pulls) / \(pity.requiredPulls)")
+                            .font(.caption2.bold())
+                            .foregroundStyle(.orange)
+                    }
+                }
 
                 Spacer()
 
-                // CENTER CONTENT
-                VStack(spacing: 12) {
+                // ⭐ MITTE: Titel + Buttons
+                VStack(spacing: 14) {
 
                     Text(banner.title)
                         .font(.title.bold())
@@ -163,15 +197,14 @@ extension SummonView {
 
                     summonButtons(for: banner)
                 }
-                .frame(maxWidth: .infinity)
 
                 Spacer()
 
+                // ⭐ RECHTS: Info Button
                 infoButton(banner)
             }
-            .padding(18)
+            .padding()
         }
-        .frame(height: 220)
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .overlay(
             RoundedRectangle(cornerRadius: 24)
@@ -204,10 +237,11 @@ extension SummonView {
 
     func summonButtons(for banner: SummonBanner) -> some View {
 
-        HStack(spacing: 16) {
+        let stepData = summonManager.currentStepData(for: banner)
+        let options = stepData?.costs ?? banner.summons
 
-            ForEach(banner.summons) { option in
-
+        return HStack(spacing: 16) {
+            ForEach(options) { option in
                 summonButton(
                     cost: option.cost,
                     amount: option.amount,
@@ -275,10 +309,12 @@ extension SummonView {
         amount: Int
     ) {
 
-        guard
-            let option =
-                banner.summons.first(where: { $0.amount == amount })
-        else { return }
+        let stepData = summonManager.currentStepData(for: banner)
+        let options = stepData?.costs ?? banner.summons
+
+        guard let option = options.first(where: { $0.amount == amount }) else {
+            return
+        }
 
         let cost = option.cost
 
@@ -309,15 +345,10 @@ extension SummonView {
         // ⭐ Charaktere erzeugen
         for _ in 0..<amount {
 
-            if let character = summonManager.summon(from: banner.id) {
+            if let character = summonManager.smartSummon(from: banner) {
 
-                // ✅ Owned erstellen
                 let owned = OwnedCharacter(base: character)
-
-                // ✅ Dupe-System (Stars ↑ statt Kopie)
                 teamManager.addOwnedCharacter(owned)
-
-                // ✅ Für Result Screen
                 summonResults.append(character)
             }
         }
