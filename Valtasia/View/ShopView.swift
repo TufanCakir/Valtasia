@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ShopView: View {
 
+    @StateObject private var storeKit = StoreKitService.shared
+
     @State private var storeProducts: [StoreProduct] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
@@ -140,19 +142,34 @@ extension ShopView {
     fileprivate func loadShop() async {
         do {
             let shopItems: [ShopItem] = try JSONLoader.load("shop")
-            let manager = ShopManager()
-            let products = try await manager.loadShopProducts(
-                shopItems: shopItems
-            )
-            storeProducts = products
 
-            if let first = uniqueCategories.first {
-                selectedCategory = first.id
+            let ids = shopItems.compactMap { $0.storeProductId }
+
+            print("🆔 Angefragte IDs:", ids)
+
+            try await StoreKitService.shared.loadProducts(ids: ids)
+
+            print(
+                "📦 Geladene StoreKit Produkte:",
+                StoreKitService.shared.products.map { $0.id }
+            )
+
+            if let sf = await Storefront.current {
+                print("🛒 Storefront Country:", sf.countryCode)
+            } else {
+                print("🛒 Storefront Country: unavailable")
             }
 
+            let manager = ShopManager()
+            storeProducts = manager.buildStoreProducts(shopItems: shopItems)
+
+            print("🛒 Finale Produkte:", storeProducts.count)
+
             isLoading = false
+
         } catch {
-            errorMessage = "Failed to load shop."
+            print("❌ Shop Fehler:", error)
+            errorMessage = "Shop konnte nicht geladen werden."
             isLoading = false
         }
     }
@@ -162,57 +179,40 @@ extension ShopView {
     private func purchase(_ storeProduct: StoreProduct) async {
         let item = storeProduct.shopItem
 
-        // ⭐ GRATIS PACK
+        // GRATIS
         if storeProduct.product == nil {
-            if let crystals = item.crystals {
-                CrystalManager.shared.add(crystals)
-            }
-
-            if item.oneTimePurchase == true {
-                UserDefaults.standard.set(
-                    true,
-                    forKey: "shop_bought_\(item.id)"
-                )
-
-                storeProducts.removeAll {
-                    $0.shopItem.id == item.id
-                }
-            }
-
+            grantItem(item)
             return
         }
 
-        // ⭐ Echtgeld
         guard let product = storeProduct.product else { return }
 
         do {
-            let result = try await product.purchase()
+            let success = try await StoreKitService.shared.purchase(product)
 
-            switch result {
-            case .success(let verification):
-                if case .verified(_) = verification {
-                    if let crystals = item.crystals {
-                        CrystalManager.shared.add(crystals)
-                    }
-
-                    if item.oneTimePurchase == true {
-                        UserDefaults.standard.set(
-                            true,
-                            forKey: "shop_bought_\(item.id)"
-                        )
-
-                        storeProducts.removeAll {
-                            $0.shopItem.id == item.id
-                        }
-                    }
-                }
-
-            default:
-                break
+            if success {
+                grantItem(item)
             }
 
         } catch {
-            print("Purchase failed")
+            print("❌ Purchase error:", error)
+        }
+    }
+
+    private func grantItem(_ item: ShopItem) {
+        if let crystals = item.crystals {
+            CrystalManager.shared.add(crystals)
+        }
+
+        if item.oneTimePurchase == true {
+            UserDefaults.standard.set(
+                true,
+                forKey: "shop_bought_\(item.id)"
+            )
+
+            storeProducts.removeAll {
+                $0.shopItem.id == item.id
+            }
         }
     }
 }

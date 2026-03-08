@@ -48,9 +48,6 @@ extension ShopCategoryBar {
 
             HStack(spacing: 8) {
 
-                Image(systemName: cat.icon)
-                    .font(.caption.weight(.bold))
-
                 Text(cat.id.capitalized)
                     .font(.caption.weight(.semibold))
             }

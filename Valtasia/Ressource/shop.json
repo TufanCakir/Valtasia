@@ -32,16 +32,6 @@
         "crystals": 50
     },
     {
-        "id": "crystal_pack_100",
-        "storeProductId": "com.valtasia.crystal.100",
-        "category": {
-            "id": "real_money",
-            "icon": "diamond.fill",
-            "color": "cyan"
-        },
-        "crystals": 100
-    },
-    {
         "id": "crystal_pack_300",
         "storeProductId": "com.valtasia.crystal.300",
         "category": {

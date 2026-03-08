@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ShopCardView: View {
 
+    @StateObject private var storeKit = StoreKitService.shared
     @State private var isPressed = false
 
     let storeProduct: StoreProduct
@@ -237,15 +238,8 @@ extension ShopCardView {
     }
 
     fileprivate var buttonTitle: String {
-
-        if let product =
-            storeProduct.product
-        {
-
-            return product.displayPrice
-        }
-
-        return "Buy"
+        guard let p = storeProduct.product else { return "…" }
+        return p.price.formatted(p.priceFormatStyle)
     }
 }
 
