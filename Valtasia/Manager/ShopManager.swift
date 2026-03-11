@@ -43,7 +43,7 @@ class ShopManager {
         }
 
         return storeProducts.sorted {
-            ($0.shopItem.crystals ?? 0) < ($1.shopItem.crystals ?? 0)
+            ($0.shopItem.gems ?? 0) < ($1.shopItem.gems ?? 0)
         }
     }
 }

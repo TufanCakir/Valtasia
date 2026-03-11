@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 28.02.26.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 final class ExchangeManager: ObservableObject {
 
@@ -15,12 +15,12 @@ final class ExchangeManager: ObservableObject {
     @Published var offers: [ExchangeOffer] = []
 
     @Published private(set)
-    var purchased: [String:Int] = [:]
+        var purchased: [String: Int] = [:]
 
     private let purchaseKey =
-    "exchange_purchases"
+        "exchange_purchases"
 
-    private init(){
+    private init() {
 
         loadOffers()
         loadPurchases()
@@ -28,14 +28,14 @@ final class ExchangeManager: ObservableObject {
 
     // MARK: Load JSON
 
-    private func loadOffers(){
+    private func loadOffers() {
 
-        do{
+        do {
 
             offers =
-            try JSONLoader.load("exchange")
+                try JSONLoader.load("exchange")
 
-        }catch{
+        } catch {
 
             print(error)
         }
@@ -45,25 +45,26 @@ final class ExchangeManager: ObservableObject {
 
     func buy(
         offer: ExchangeOffer
-    )-> Bool {
+    ) -> Bool {
 
         let bought =
-        purchased[offer.id] ?? 0
+            purchased[offer.id] ?? 0
 
         guard bought < offer.purchaseLimit
         else { return false }
 
         // coins spend
-        guard CoinManager.shared
-            .spend(offer.coinCost)
+        guard
+            CoinManager.shared
+                .spend(offer.coinCost)
         else { return false }
 
-        // crystals add
-        CrystalManager.shared
-            .add(offer.crystalReward)
+        // gems add
+        GemManager.shared
+            .add(offer.gemReward)
 
         purchased[offer.id] =
-        bought + 1
+            bought + 1
 
         save()
 
@@ -72,10 +73,10 @@ final class ExchangeManager: ObservableObject {
 
     func remaining(
         _ offer: ExchangeOffer
-    )-> Int {
+    ) -> Int {
 
         let bought =
-        purchased[offer.id] ?? 0
+            purchased[offer.id] ?? 0
 
         return max(
             0,
@@ -85,7 +86,7 @@ final class ExchangeManager: ObservableObject {
 
     // MARK: Save
 
-    private func save(){
+    private func save() {
 
         UserDefaults.standard.set(
             purchased,
@@ -93,13 +94,13 @@ final class ExchangeManager: ObservableObject {
         )
     }
 
-    private func loadPurchases(){
+    private func loadPurchases() {
 
         purchased =
-        UserDefaults.standard
+            UserDefaults.standard
             .dictionary(
                 forKey: purchaseKey
-            ) as? [String:Int]
-        ?? [:]
+            ) as? [String: Int]
+            ?? [:]
     }
 }

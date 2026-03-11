@@ -14,7 +14,6 @@ struct TutorialBattleView: View {
 
     @StateObject private var vm = TutorialBattleViewModel()
 
-
     var body: some View {
         ZStack {
             Color.clear.ignoresSafeArea()
@@ -44,6 +43,18 @@ struct TutorialBattleView: View {
         }
         .onChange(of: vm.isFinished) { oldValue, newValue in
             if newValue { onFinished() }
+        }
+        .overlay(alignment: .topTrailing) {
+            Button {
+                vm.finishImmediately()
+            } label: {
+                Text("Skip")
+                    .font(.caption.bold())
+                    .foregroundStyle(.white)
+                    .padding()
+                    .background(.black)
+                    .clipShape(Capsule())
+            }
         }
     }
 }
@@ -91,24 +102,30 @@ extension TutorialBattleView {
             Text("Führe die Aktion im Kampf aus…")
                 .font(.subheadline)
                 .foregroundStyle(.yellow)
-            .padding(.horizontal, 24)
-            .padding(.vertical, 10)
-            .background(.yellow)
-            .clipShape(Capsule())
+                .padding(.horizontal, 24)
+                .padding(.vertical, 10)
+                .background(.yellow)
+                .clipShape(Capsule())
         }
         .padding()
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
-    
+
     func triggerTutorialAction(_ action: String?) {
 
         switch action {
         case "tap_enemy":
-            NotificationCenter.default.post(name: .tutorialTapEnemy, object: nil)
+            NotificationCenter.default.post(
+                name: .tutorialTapEnemy,
+                object: nil
+            )
 
         case "use_skill":
-            NotificationCenter.default.post(name: .tutorialUseSkill, object: nil)
+            NotificationCenter.default.post(
+                name: .tutorialUseSkill,
+                object: nil
+            )
 
         default:
             break

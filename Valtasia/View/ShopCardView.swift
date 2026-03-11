@@ -20,14 +20,9 @@ struct ShopCardView: View {
 
         ZStack {
 
-            // MARK: Banner Gradient Overlay (wie Summon)
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.9)],
-                startPoint: .center,
-                endPoint: .bottom
-            )
+            cardBackground
 
-            VStack(spacing: 16) {
+            VStack(spacing: 12) {
                 badgeView
 
                 iconView
@@ -35,13 +30,10 @@ struct ShopCardView: View {
                 titleView
 
                 buyButton
-
             }
             .padding()
         }
-        .clipShape(RoundedRectangle(cornerRadius: 24))
         .overlay(glowStroke)
-        .shadow(color: iconColor.opacity(0.35), radius: 14)
     }
 }
 
@@ -55,7 +47,7 @@ extension ShopCardView {
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
-                lineWidth: 2
+                lineWidth: 3
             )
     }
 }
@@ -68,17 +60,13 @@ extension ShopCardView {
                 .fill(
                     LinearGradient(
                         colors: [
-                            iconColor.opacity(0.45),
-                            .black.opacity(0.6),
+                            iconColor.opacity(0.35),
+                            .black.opacity(0.7),
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
-
-            Circle()
-                .stroke(iconColor.opacity(0.7), lineWidth: 1.5)
-
             iconImage
         }
     }
@@ -88,9 +76,9 @@ extension ShopCardView {
 
     fileprivate var titleView: some View {
         Group {
-            if let crystals = storeProduct.shopItem.crystals {
-                Text("\(crystals) Kristalle")
-                    .font(.title3.bold())
+            if let gems = storeProduct.shopItem.gems {
+                Text("\(gems) Gems")
+                    .font(.headline.bold())
                     .foregroundStyle(.white)
             }
         }
@@ -106,12 +94,14 @@ extension ShopCardView {
                 Text(buttonTitle)
                     .bold()
             }
-            .font(.title3.bold())
+            .font(.subheadline.bold())
             .foregroundStyle(.white)
             .padding()
             .background(
                 LinearGradient(
-                    colors: [.cyan, .purple],
+                    colors: storeProduct.shopItem.oneTimePurchase == true
+                        ? [.green, .mint]
+                        : [.cyan, .purple],
                     startPoint: .leading,
                     endPoint: .trailing
                 )
@@ -152,13 +142,24 @@ extension ShopCardView {
     fileprivate var cardBackground: some View {
         RoundedRectangle(cornerRadius: 24)
             .fill(.ultraThinMaterial)
+            .background(
+                LinearGradient(
+                    colors: [
+                        Color.black.opacity(0.9),
+                        iconColor.opacity(0.15),
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 24))
+            )
             .overlay(
                 RoundedRectangle(cornerRadius: 24)
                     .stroke(
                         LinearGradient(
                             colors: [
-                                iconColor.opacity(0.7),
-                                .purple.opacity(0.45),
+                                iconColor.opacity(0.6),
+                                .purple.opacity(0.4),
                                 .clear,
                             ],
                             startPoint: .topLeading,
@@ -166,6 +167,10 @@ extension ShopCardView {
                         ),
                         lineWidth: 1
                     )
+            )
+            .shadow(
+                color: iconColor.opacity(isPressed ? 0.6 : 0.25),
+                radius: isPressed ? 18 : 10
             )
     }
 }
@@ -216,7 +221,7 @@ extension ShopCardView {
 
         if iconName == "diamond.fill" {
 
-            Image("icon_crystal")
+            Image("icon_gem")
                 .resizable()
                 .scaledToFit()
                 .foregroundStyle(iconColor)
@@ -238,6 +243,11 @@ extension ShopCardView {
     }
 
     fileprivate var buttonTitle: String {
+        // ⭐ Starter Pack = Kostenlos
+        if storeProduct.shopItem.oneTimePurchase == true {
+            return "FREE"
+        }
+
         guard let p = storeProduct.product else { return "…" }
         return p.displayPrice
     }

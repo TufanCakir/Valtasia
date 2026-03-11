@@ -14,7 +14,7 @@ final class TutorialBattleViewModel: ObservableObject {
     @Published private(set) var stepIndex: Int = 0
 
     init() {
-        loadTutorial()   // ⭐ DAS FEHLT
+        loadTutorial()  // ⭐ DAS FEHLT
 
         NotificationCenter.default.addObserver(
             self,
@@ -30,7 +30,12 @@ final class TutorialBattleViewModel: ObservableObject {
             object: nil
         )
     }
-    
+
+    func finishImmediately() {
+        guard let steps = battle?.steps else { return }
+        stepIndex = steps.count - 1
+    }
+
     private func loadTutorial() {
         do {
             battle = try JSONLoader.load("intro_battle")
@@ -39,7 +44,7 @@ final class TutorialBattleViewModel: ObservableObject {
             print("❌ Tutorial JSON Fehler:", error.localizedDescription)
         }
     }
-    
+
     @objc private func playerDidAttack() {
         guard currentStep?.action == "tap_enemy" else { return }
         next()

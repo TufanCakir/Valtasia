@@ -34,7 +34,7 @@ final class DailyRewardManager: ObservableObject {
         }
 
         CoinManager.shared.add(reward.coins)
-        CrystalManager.shared.add(reward.crystals)
+        GemManager.shared.add(reward.gems)
         PlayerProgressManager.shared.addEXP(reward.exp)
 
         saveClaimDate()

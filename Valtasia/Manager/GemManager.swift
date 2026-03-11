@@ -1,5 +1,5 @@
 //
-//  CrystalManager.swift
+//  GemManager.swift
 //  Valtasia
 //
 //  Created by Tufan Cakir on 27.02.26.
@@ -8,13 +8,13 @@
 import Combine
 import Foundation
 
-final class CrystalManager: ObservableObject {
+final class GemManager: ObservableObject {
 
-    static let shared = CrystalManager()
+    static let shared = GemManager()
 
-    @Published private(set) var crystals: Int = 0
+    @Published private(set) var gems: Int = 0
 
-    private let key = "valtasia_crystals"
+    private let key = "valtasia_gems"
 
     private init() {
         load()
@@ -26,7 +26,7 @@ final class CrystalManager: ObservableObject {
 
         guard amount > 0 else { return }
 
-        crystals += amount
+        gems += amount
 
         save()
     }
@@ -36,11 +36,11 @@ final class CrystalManager: ObservableObject {
     @discardableResult
     func spend(_ amount: Int) -> Bool {
 
-        guard crystals >= amount else {
+        guard gems >= amount else {
             return false
         }
 
-        crystals -= amount
+        gems -= amount
 
         save()
 
@@ -50,14 +50,14 @@ final class CrystalManager: ObservableObject {
     private func save() {
 
         UserDefaults.standard.set(
-            crystals,
+            gems,
             forKey: key
         )
     }
 
     private func load() {
 
-        crystals =
+        gems =
             UserDefaults.standard.integer(
                 forKey: key
             )

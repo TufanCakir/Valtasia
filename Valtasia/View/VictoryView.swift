@@ -60,7 +60,7 @@ struct VictoryView: View {
                         .clipShape(Capsule())
                 }
             }
-            .padding(32)
+            .padding()
             .background(
                 RoundedRectangle(cornerRadius: 24)
                     .fill(.ultraThinMaterial)

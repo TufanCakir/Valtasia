@@ -14,10 +14,10 @@ struct SummonView: View {
 
     @ObservedObject var teamManager: TeamManager
     @StateObject private var summonManager = SummonManager()
-    @StateObject private var crystalManager = CrystalManager.shared  // ✅ live updates
+    @StateObject private var crystalManager = GemManager.shared  // ✅ live updates
     @State private var selectedBanner: SummonBanner?
     @State private var selectedCharacter: Character?
-    @State private var showNotEnoughCrystals = false
+    @State private var showNotEnoughGems = false
     @State private var pendingBanner: SummonBanner?
     @State private var pendingAmount: Int = 1
     @State private var showSummonConfirm = false
@@ -84,10 +84,10 @@ struct SummonView: View {
         .fullScreenCover(isPresented: $showResults) {
             SummonResultView(characters: summonResults)
         }
-        .alert("Nicht genug Kristalle", isPresented: $showNotEnoughCrystals) {
+        .alert("Nicht genug Gems", isPresented: $showNotEnoughGems) {
             Button("OK", role: .cancel) {}
         } message: {
-            Text("Du brauchst mehr Kristalle für diesen Summon.")
+            Text("Du brauchst mehr Gems für diesen Summon.")
         }
         .sheet(item: $selectedBanner) { banner in
 
@@ -115,7 +115,7 @@ struct SummonView: View {
                     .first(where: { $0.amount == pendingAmount })?
                     .cost ?? 0
 
-                let costText = isTutorial ? "FREE" : "\(cost) Crystals"
+                let costText = isTutorial ? "FREE" : "\(cost) Gems"
 
                 Text(
                     isTutorial
@@ -126,6 +126,31 @@ struct SummonView: View {
                 Text(
                     "Do you want to summon \(pendingAmount) character(s) for \(costText)?"
                 )
+            }
+        }
+        .onAppear {
+            syncCategoryWithTutorial()
+        }
+        .onChange(of: appModel.tutorialState) { _, _ in
+            syncCategoryWithTutorial()
+        }
+    }
+}
+
+extension SummonView {
+
+    func syncCategoryWithTutorial() {
+        switch appModel.tutorialState {
+        case .fight, .summon:
+            withAnimation(.spring()) {
+                selectedCategory = "tutorial"
+            }
+
+        case .done, .none:
+            if selectedCategory == "tutorial" {
+                withAnimation(.spring()) {
+                    selectedCategory = "standard"
+                }
             }
         }
     }
@@ -268,7 +293,7 @@ extension SummonView {
             label: {
                 HStack(spacing: 6) {
                     if !isTutorial {
-                        Image("icon_crystal")
+                        Image("icon_gem")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 18, height: 18)
@@ -322,15 +347,15 @@ extension SummonView {
         if !isTutorial {
             switch banner.currency {
 
-            case "crystal":
-                guard CrystalManager.shared.spend(cost) else {
-                    showNotEnoughCrystals = true
+            case "gem":
+                guard GemManager.shared.spend(cost) else {
+                    showNotEnoughGems = true
                     return
                 }
 
             case "event_token":
                 guard EventInventory.shared.tokens >= cost else {
-                    showNotEnoughCrystals = true
+                    showNotEnoughGems = true
                     return
                 }
                 EventInventory.shared.tokens -= cost

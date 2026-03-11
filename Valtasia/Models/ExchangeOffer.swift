@@ -13,7 +13,7 @@ struct ExchangeOffer: Codable, Identifiable {
 
     let coinCost: Int
 
-    let crystalReward: Int
+    let gemReward: Int
 
     let purchaseLimit: Int
 }

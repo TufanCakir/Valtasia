@@ -27,15 +27,15 @@ struct EventView: View {
             // Content area: show empty state when there are no active events,
             // otherwise list events for the selected category.
             Group {
-                if eventManager.activeEvents().isEmpty {
-                    emptyState
+                let events = eventManager.events(for: selectedCategory)
+
+                if events.isEmpty {
+                    emptyCategoryState
                 } else {
                     ScrollView {
                         VStack(spacing: 20) {
-                            ForEach(eventManager.events(for: selectedCategory))
-                            { event in
+                            ForEach(events) { event in
                                 EventCardView(event: event) {
-                                    // Navigation trigger to details
                                     selectedEvent = event
                                 }
                             }
@@ -65,6 +65,26 @@ struct EventView: View {
             EventDetailView(event: event)
         }
     }
+}
+
+private var emptyCategoryState: some View {
+    VStack(spacing: 16) {
+        Image(systemName: "calendar")
+            .font(.system(size: 48))
+            .foregroundStyle(.cyan.opacity(0.8))
+
+        Text("Keine Events verfügbar")
+            .font(.title3.bold())
+            .foregroundStyle(.white)
+
+        Text("Schau später wieder vorbei für neue Events und Belohnungen.")
+            .font(.subheadline)
+            .foregroundStyle(.white.opacity(0.7))
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 24)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .padding(.top, 60)
 }
 
 extension EventView {

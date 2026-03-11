@@ -55,7 +55,7 @@ struct ValtasiaApp: App {
             }
             .environmentObject(appModel)
             .environmentObject(CoinManager.shared)
-            .environmentObject(CrystalManager.shared)
+            .environmentObject(GemManager.shared)
             .environmentObject(PlayerProgressManager.shared)
             .environmentObject(eventManager)
             .preferredColorScheme(.dark)

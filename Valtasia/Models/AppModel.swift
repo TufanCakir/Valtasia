@@ -29,7 +29,7 @@ final class AppModel: ObservableObject {
     let teamManager = TeamManager()
     let progress = ProgressManager()
     let coinManager = CoinManager.shared
-    let crystalManager = CrystalManager.shared
+    let crystalManager = GemManager.shared
 
     // MARK: - Persistent Keys
 
@@ -71,6 +71,9 @@ final class AppModel: ObservableObject {
         "bg_ship",
         "bg_dark",
         "bg_rainbow",
+        "bg_exp",
+        "bg_coin",
+        "bg_tutorial",
     ]
 
     var randomLoadingImage: String {

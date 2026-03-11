@@ -30,7 +30,7 @@ struct GameEvent: Codable, Identifiable, Hashable {
 struct EventRewards: Codable, Hashable {
 
     var coins: Int?
-    var crystals: Int?
+    var gems: Int?
     var exp: Int?
     var eventToken: Int?
 

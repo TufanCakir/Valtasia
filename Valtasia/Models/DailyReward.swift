@@ -10,7 +10,7 @@ import Foundation
 struct DailyReward: Codable, Identifiable {
     let day: Int
     let coins: Int
-    let crystals: Int
+    let gems: Int
     let exp: Int
 
     var id: Int { day }

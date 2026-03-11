@@ -98,7 +98,7 @@ extension DailyRewardView {
                     HStack(spacing: 12) {
 
                         rewardStat(icon: "icon_coin", value: reward.coins)
-                        rewardStat(icon: "icon_crystal", value: reward.crystals)
+                        rewardStat(icon: "icon_gem", value: reward.gems)
                         rewardStat(icon: "icon_exp", value: reward.exp)
                     }
                 }

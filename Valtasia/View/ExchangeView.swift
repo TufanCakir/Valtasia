@@ -11,7 +11,7 @@ struct ExchangeView: View {
 
     @StateObject private var exchange = ExchangeManager.shared
     @StateObject private var coins = CoinManager.shared
-    @StateObject private var crystals = CrystalManager.shared
+    @StateObject private var gems = GemManager.shared
 
     @State private var showFail = false
 
@@ -123,12 +123,12 @@ extension ExchangeView {
 
                     HStack(spacing: 6) {
 
-                        Image("icon_crystal")
+                        Image("icon_gem")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
 
-                        Text("+\(offer.crystalReward)")
+                        Text("+\(offer.gemReward)")
                             .foregroundStyle(.cyan)
                     }
                 }
@@ -160,7 +160,7 @@ extension ExchangeView {
                 .disabled(remaining == 0)
                 .opacity(remaining == 0 ? 0.4 : 1)
             }
-            .padding(22)
+            .padding()
         }
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .overlay(

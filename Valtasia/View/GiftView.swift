@@ -61,8 +61,8 @@ extension GiftView {
         case .coins:
             CoinManager.shared.add(gift.amount)
 
-        case .crystals:
-            CrystalManager.shared.add(gift.amount)
+        case .gems:
+            GemManager.shared.add(gift.amount)
 
         case .exp:
             PlayerProgressManager.shared.addEXP(gift.amount)

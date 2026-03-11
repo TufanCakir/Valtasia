@@ -73,14 +73,6 @@ struct HomeView: View {
                     showTutorialSummon = true
                 }
             }
-
-            if appModel.tutorialState == .fight {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    appModel.navigateWithLoading {
-                        appModel.startLevel("tutorial_level")
-                    }
-                }
-            }
         }
         .onChange(of: appModel.tutorialState) { _, newState in
             if newState == .summon {
@@ -271,6 +263,7 @@ extension HomeView {
 
         let isSelected = index == selectedWorldIndex
         let isLocked = !appModel.progress.isWorldUnlocked(world)
+        let isTutorialWorld = world.id == "world_tutorial"
 
         return Button {
             guard !isLocked else { return }
@@ -292,7 +285,7 @@ extension HomeView {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 30, height: 30)
+                    .frame(width: 34, height: 34)
                     .overlay(
                         Circle()
                             .stroke(
@@ -315,9 +308,17 @@ extension HomeView {
                     )
                     .scaleEffect(isSelected ? 1.15 : 1)
 
-                Text("\(index + 1)")
-                    .font(.subheadline.bold())
-                    .foregroundStyle(.white)
+                VStack(spacing: 2) {
+                    Text("\(index + 1)")
+                        .font(.subheadline.bold())
+                        .foregroundStyle(.white)
+
+                    if isTutorialWorld {
+                        Text("TUTORIAL")
+                            .font(.system(size: 6, weight: .bold))
+                            .foregroundStyle(.yellow)
+                    }
+                }
 
                 if isLocked {
                     Image(systemName: "lock.fill")
@@ -329,6 +330,14 @@ extension HomeView {
             }
         }
         .buttonStyle(.plain)
+        .shadow(
+            color: isTutorialWorld
+                ? .yellow.opacity(0.9)
+                : isSelected
+                    ? .cyan.opacity(0.7)
+                    : .black.opacity(0.4),
+            radius: isTutorialWorld ? 18 : (isSelected ? 14 : 8)
+        )
     }
 
     fileprivate var lockOverlay: some View {

@@ -10,7 +10,7 @@ import SwiftUI
 struct GameHeaderView: View {
 
     @ObservedObject var coins = CoinManager.shared
-    @ObservedObject var crystals = CrystalManager.shared
+    @ObservedObject var gems = GemManager.shared
     @ObservedObject var progress = PlayerProgressManager.shared
 
     var body: some View {
@@ -30,7 +30,7 @@ struct GameHeaderView: View {
             LinearGradient(
                 colors: [
                     Color.black.opacity(0.95),
-                    Color.blue.opacity(0.35)
+                    Color.blue.opacity(0.35),
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -43,7 +43,7 @@ struct GameHeaderView: View {
                     LinearGradient(
                         colors: [
                             .cyan.opacity(0.6),
-                            .purple.opacity(0.6)
+                            .purple.opacity(0.6),
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -114,12 +114,12 @@ extension GameHeaderView {
 
         HStack(spacing: 14) {
 
-            currencyItem(icon: "icon_crystal", value: crystals.crystals)
+            currencyItem(icon: "icon_gem", value: gems.gems)
 
             currencyItem(icon: "icon_coin", value: coins.coins)
         }
     }
-    
+
     func currencyItem(icon: String, value: Int) -> some View {
 
         HStack(spacing: 6) {

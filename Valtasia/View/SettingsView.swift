@@ -29,7 +29,7 @@ struct SettingsView: View {
                 VStack(spacing: 20) {
 
                     accountSection
-                    
+
                     musicSection
 
                     infoSection
@@ -267,9 +267,9 @@ extension SettingsView {
                 Divider().background(.white.opacity(0.15))
 
                 settingsRowAsset(
-                    icon: "icon_crystal",
-                    title: "Crystals",
-                    value: "\(CrystalManager.shared.crystals)"
+                    icon: "icon_gem",
+                    title: "gems",
+                    value: "\(GemManager.shared.gems)"
                 )
 
                 Divider().background(.white.opacity(0.15))
@@ -418,4 +418,8 @@ extension SettingsView {
     private func resetGame() {
         appModel.fullReset()
     }
+}
+
+#Preview {
+    SettingsView()
 }

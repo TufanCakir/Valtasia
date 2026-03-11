@@ -9,17 +9,32 @@ import SwiftUI
 
 struct SummonCategoryTabs: View {
 
+    @EnvironmentObject var appModel: AppModel  // 👈 neu
+
     let categories: [SummonCategory]
     @Binding var selected: String
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 14) {
-                ForEach(categories) { cat in
+                ForEach(visibleCategories) { cat in
                     tab(cat)
                 }
             }
             .padding(.horizontal)
+        }
+    }
+
+    private var visibleCategories: [SummonCategory] {
+        switch appModel.tutorialState {
+
+        case .fight, .summon:
+            // Nur Tutorial anzeigen
+            return categories.filter { $0.id == "tutorial" }
+
+        case .done, .none:
+            // Tutorial ausblenden
+            return categories.filter { $0.id != "tutorial" }
         }
     }
 

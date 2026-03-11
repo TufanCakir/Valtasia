@@ -75,5 +75,19 @@
         "enemies": [
             "solmireth"
         ]
+    },
+    {
+        "id": "coin_battle_event",
+        "battleBackground": "bg_coin",
+        "enemies": [
+            "goblin_coin"
+        ]
+    },
+    {
+        "id": "exp_battle_event",
+        "battleBackground": "bg_exp",
+        "enemies": [
+            "goblin_exp"
+        ]
     }
 ]

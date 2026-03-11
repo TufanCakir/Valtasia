@@ -105,8 +105,8 @@ extension EventRewardView {
                 rewardIconRow("icon_coin", "+\(coins)")
             }
 
-            if let crystals = event.rewards?.crystals {
-                rewardIconRow("icon_crystal", "+\(crystals)")
+            if let gems = event.rewards?.gems {
+                rewardIconRow("icon_gem", "+\(gems)")
             }
 
             if let exp = event.rewards?.exp {
@@ -181,8 +181,8 @@ extension EventRewardView {
             CoinManager.shared.add(coins)
         }
 
-        if let crystals = reward.crystals {
-            CrystalManager.shared.add(crystals)
+        if let gems = reward.gems {
+            GemManager.shared.add(gems)
         }
 
         if let exp = reward.exp {

@@ -37,8 +37,8 @@ struct EventDetailView: View {
 
                     actionButton
                 }
-                .padding(.horizontal,20)
-                .padding(.bottom,40)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 40)
             }
         }
         .navigationTitle("")
@@ -60,16 +60,16 @@ extension EventDetailView {
             Image(event.icon ?? "water_bg")
                 .resizable()
                 .scaledToFill()
-                .frame(height:220)
+                .frame(height: 220)
                 .clipped()
 
             LinearGradient(
-                colors:[.clear,.black.opacity(0.95)],
-                startPoint:.center,
-                endPoint:.bottom
+                colors: [.clear, .black.opacity(0.95)],
+                startPoint: .center,
+                endPoint: .bottom
             )
 
-            VStack(alignment:.leading,spacing:6){
+            VStack(alignment: .leading, spacing: 6) {
 
                 Text(event.title)
                     .font(.title.bold())
@@ -82,20 +82,20 @@ extension EventDetailView {
             }
             .padding()
         }
-        .clipShape(RoundedRectangle(cornerRadius:24))
+        .clipShape(RoundedRectangle(cornerRadius: 24))
         .overlay(
 
-            RoundedRectangle(cornerRadius:24)
+            RoundedRectangle(cornerRadius: 24)
                 .stroke(
                     LinearGradient(
-                        colors:[.cyan.opacity(0.7),.purple.opacity(0.6)],
-                        startPoint:.topLeading,
-                        endPoint:.bottomTrailing
+                        colors: [.cyan.opacity(0.7), .purple.opacity(0.6)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     ),
-                    lineWidth:2
+                    lineWidth: 2
                 )
         )
-        .shadow(color:.cyan.opacity(0.35),radius:14)
+        .shadow(color: .cyan.opacity(0.35), radius: 14)
     }
 }
 
@@ -103,7 +103,7 @@ extension EventDetailView {
 
     var descriptionSection: some View {
 
-        VStack(alignment:.leading,spacing:10){
+        VStack(alignment: .leading, spacing: 10) {
 
             Text("Description")
                 .font(.headline)
@@ -112,20 +112,20 @@ extension EventDetailView {
             Text(event.description ?? "No description")
                 .foregroundStyle(.white.opacity(0.8))
         }
-        .frame(maxWidth:.infinity,alignment:.leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius:20))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(
 
-            RoundedRectangle(cornerRadius:20)
+            RoundedRectangle(cornerRadius: 20)
                 .stroke(
                     LinearGradient(
-                        colors:[.cyan.opacity(0.5),.purple.opacity(0.5)],
-                        startPoint:.topLeading,
-                        endPoint:.bottomTrailing
+                        colors: [.cyan.opacity(0.5), .purple.opacity(0.5)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     ),
-                    lineWidth:1.5
+                    lineWidth: 1.5
                 )
         )
     }
@@ -135,7 +135,7 @@ extension EventDetailView {
 
     var rewardSection: some View {
 
-        VStack(alignment:.leading,spacing:12){
+        VStack(alignment: .leading, spacing: 12) {
 
             Text("Rewards")
                 .font(.headline)
@@ -144,50 +144,50 @@ extension EventDetailView {
             if let rewards = event.rewards {
 
                 if let coins = rewards.coins {
-                    rewardInfoRow("Coins","+ \(coins)")
+                    rewardInfoRow("Coins", "+ \(coins)")
                 }
 
-                if let crystals = rewards.crystals {
-                    rewardInfoRow("Crystals","+\(crystals)")
+                if let gems = rewards.gems {
+                    rewardInfoRow("Gems", "+\(gems)")
                 }
 
                 if let exp = rewards.exp {
-                    rewardInfoRow("EXP","+\(exp)")
+                    rewardInfoRow("EXP", "+\(exp)")
                 }
 
                 if let token = rewards.eventToken {
-                    rewardInfoRow("Event Tokens","+\(token)")
+                    rewardInfoRow("Event Tokens", "+\(token)")
                 }
             }
 
             if let boss = event.bossEnemy {
-                rewardInfoRow("Boss",boss)
+                rewardInfoRow("Boss", boss)
             }
 
             if let hero = event.hero {
-                rewardInfoRow("Rate Up",hero)
+                rewardInfoRow("Rate Up", hero)
             }
         }
-        .frame(maxWidth:.infinity,alignment:.leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius:20))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(
 
-            RoundedRectangle(cornerRadius:20)
+            RoundedRectangle(cornerRadius: 20)
                 .stroke(
                     LinearGradient(
-                        colors:[.cyan.opacity(0.5),.purple.opacity(0.5)],
-                        startPoint:.topLeading,
-                        endPoint:.bottomTrailing
+                        colors: [.cyan.opacity(0.5), .purple.opacity(0.5)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     ),
-                    lineWidth:1.5
+                    lineWidth: 1.5
                 )
         )
     }
 }
 
-func rewardInfoRow(_ title:String,_ value:String) -> some View {
+func rewardInfoRow(_ title: String, _ value: String) -> some View {
 
     HStack {
 
@@ -214,15 +214,15 @@ extension EventDetailView {
 
             Text(buttonTitle())
                 .font(.headline.bold())
-                .frame(maxWidth:.infinity)
+                .frame(maxWidth: .infinity)
                 .padding()
 
                 .background(
 
                     LinearGradient(
-                        colors:[.cyan,.purple],
-                        startPoint:.leading,
-                        endPoint:.trailing
+                        colors: [.cyan, .purple],
+                        startPoint: .leading,
+                        endPoint: .trailing
                     )
                 )
                 .foregroundStyle(.white)

@@ -19,7 +19,7 @@ struct Gift: Codable, Identifiable {
 
 enum GiftType: String, Codable {
     case coins
-    case crystals
+    case gems
     case exp
 }
 

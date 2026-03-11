@@ -903,10 +903,10 @@ class GameScene: SKScene {
 
         CoinManager.shared.add(coins)
 
-        let crystals =
+        let gems =
             Int(Double(1) * EventManager.shared.crystalMultiplier())
 
-        CrystalManager.shared.add(crystals)
+        GemManager.shared.add(gems)
 
         if let team = teamManager?.activeTeam {
 

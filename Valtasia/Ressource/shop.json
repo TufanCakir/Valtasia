@@ -6,72 +6,38 @@
             "icon": "diamond.fill",
             "color": "purple"
         },
-        "crystals": 100,
+        "gems": 100,
         "tag": "best_value",
         "oneTimePurchase": true
     },
-
     {
-        "id": "crystal_pack_10",
-        "storeProductId": "com.valtasia.crystal.10",
+        "id": "gems_pack_50",
+        "storeProductId": "com.valtasia.gems.50",
         "category": {
             "id": "real_money",
             "icon": "diamond.fill",
             "color": "cyan"
         },
-        "crystals": 10
+        "gems": 50
     },
     {
-        "id": "crystal_pack_50",
-        "storeProductId": "com.valtasia.crystal.50",
+        "id": "gems_pack_100",
+        "storeProductId": "com.valtasia.gems.100",
         "category": {
             "id": "real_money",
             "icon": "diamond.fill",
             "color": "cyan"
         },
-        "crystals": 50
+        "gems": 100,
     },
     {
-        "id": "crystal_pack_300",
-        "storeProductId": "com.valtasia.crystal.300",
+        "id": "gems_pack_300",
+        "storeProductId": "com.valtasia.gems.300",
         "category": {
             "id": "real_money",
             "icon": "diamond.fill",
             "color": "cyan"
         },
-        "crystals": 300
-    },
-    {
-        "id": "crystal_pack_500",
-        "storeProductId": "com.valtasia.crystals.500",
-        "category": {
-            "id": "real_money",
-            "icon": "diamond.fill",
-            "color": "cyan"
-        },
-        "crystals": 500,
-        "tag": "best_value"
-    },
-    {
-        "id": "crystal_pack_2500",
-        "storeProductId": "com.valtasia.crystal.2500",
-        "category": {
-            "id": "real_money",
-            "icon": "diamond.fill",
-            "color": "cyan"
-        },
-        "crystals": 2500,
-        "tag": "popular"
-    },
-    {
-        "id": "crystal_pack_6500",
-        "storeProductId": "com.valtasia.crystal.6500",
-        "category": {
-            "id": "real_money",
-            "icon": "diamond.fill",
-            "color": "cyan"
-        },
-        "crystals": 6500,
-        "tag": "best_value"
+        "gems": 300
     }
 ]

@@ -200,8 +200,8 @@ extension ShopView {
     }
 
     private func grantItem(_ item: ShopItem) {
-        if let crystals = item.crystals {
-            CrystalManager.shared.add(crystals)
+        if let gems = item.gems {
+            GemManager.shared.add(gems)
         }
 
         if item.oneTimePurchase == true {

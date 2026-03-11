@@ -9,10 +9,6 @@
             "title": "Event"
         },
         {
-            "id": "step_up",
-            "title": "Step Up"
-        },
-        {
             "id": "limited",
             "title": "Limited"
         },
@@ -28,7 +24,7 @@
             "id": "tutorial_banner",
             "title": "Tutorial Summon",
             "category": "tutorial",
-            "currency": "crystal",
+            "currency": "gem",
             "bannerImage": "character_riven",
             "summons": [
                 {
@@ -115,12 +111,12 @@
                 },
                 {
                     "characterId": "hero_16",
-                    "rate": 0.5,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_17",
-                    "rate": 0.5,
+                    "rate": 0.01,
                     "rateUp": false
                 }
             ]
@@ -130,8 +126,8 @@
             "id": "standard_banner",
             "title": "Standard Summon",
             "category": "standard",
-            "currency": "crystal",
-            "bannerImage": "character_voltis",
+            "currency": "gem",
+            "bannerImage": "character_riven",
             "summons": [
                 {
                     "amount": 1,
@@ -235,8 +231,8 @@
         {
             "id": "broken_hearts_banner",
             "title": "The Broken Hearts",
-            "category": "step_up",
-            "currency": "crystal",
+            "category": "limited",
+            "currency": "gem",
             "bannerImage": "character_riven",
 
             "summons": [
@@ -366,7 +362,6 @@
                             }
                         ]
                     },
-
                     {
                         "step": 2,
 
@@ -384,32 +379,31 @@
                         "pool": [
                             {
                                 "characterId": "hero_01",
-                                "rate": 0.03,
+                                "rate": 0.01,
                                 "rateUp": true
                             },
                             {
                                 "characterId": "hero_02",
-                                "rate": 0.45,
+                                "rate": 0.50,
                                 "rateUp": false
                             },
                             {
                                 "characterId": "hero_03",
-                                "rate": 0.45,
+                                "rate": 0.50,
                                 "rateUp": false
                             },
                             {
                                 "characterId": "hero_07",
-                                "rate": 0.03,
+                                "rate": 0.01,
                                 "rateUp": true
                             },
                             {
                                 "characterId": "hero_09",
-                                "rate": 0.02,
+                                "rate": 0.01,
                                 "rateUp": true
                             }
                         ]
                     },
-
                     {
                         "step": 3,
 

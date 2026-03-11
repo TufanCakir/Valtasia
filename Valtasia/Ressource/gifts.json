@@ -9,18 +9,18 @@
             "orange"
         ],
         "type": "coins",
-        "amount": 500
+        "amount": 300
     },
     {
-        "id": "gift_crystals",
-        "title": "Crystals",
-        "icon": "icon_crystal",
+        "id": "gift_gems",
+        "title": "Gems",
+        "icon": "icon_gem",
         "iconColor": "cyan",
         "colors": [
             "cyan",
             "purple"
         ],
-        "type": "crystals",
+        "type": "gems",
         "amount": 50
     },
     {
@@ -33,6 +33,6 @@
             "blue"
         ],
         "type": "exp",
-        "amount": 10
+        "amount": 3
     }
 ]

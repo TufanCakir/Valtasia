@@ -2,11 +2,7 @@
     "categories": [
         {
             "id": "story",
-            "title": "Story"
-        },
-        {
-            "id": "original",
-            "title": "Original Saga"
+            "title": "Event Story"
         },
         {
             "id": "special",
@@ -15,10 +11,6 @@
         {
             "id": "boss",
             "title": "Boss"
-        },
-        {
-            "id": "buff",
-            "title": "Boost"
         }
     ],
 
@@ -37,9 +29,9 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 100,
             "rewards": {
-                "coins": 200,
-                "crystals": 1,
-                "exp": 120,
+                "coins": 130,
+                "gems": 1,
+                "exp": 130,
                 "eventToken": 100
             }
         },
@@ -57,9 +49,9 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 120,
             "rewards": {
-                "coins": 250,
-                "crystals": 1,
-                "exp": 140,
+                "coins": 70,
+                "gems": 1,
+                "exp": 70,
                 "eventToken": 120
             }
         },
@@ -77,9 +69,9 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 140,
             "rewards": {
-                "coins": 300,
-                "crystals": 1,
-                "exp": 160,
+                "coins": 55,
+                "gems": 1,
+                "exp": 55,
                 "eventToken": 140
             }
         },
@@ -97,9 +89,9 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 160,
             "rewards": {
-                "coins": 350,
-                "crystals": 1,
-                "exp": 180,
+                "coins": 80,
+                "gems": 1,
+                "exp": 80,
                 "eventToken": 160
             }
         },
@@ -117,9 +109,9 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 180,
             "rewards": {
-                "coins": 400,
-                "crystals": 1,
-                "exp": 200,
+                "coins": 150,
+                "gems": 1,
+                "exp": 150,
                 "eventToken": 180
             }
         },
@@ -137,8 +129,8 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 200,
             "rewards": {
-                "coins": 450,
-                "crystals": 1,
+                "coins": 250,
+                "gems": 1,
                 "exp": 230,
                 "eventToken": 200
             }
@@ -157,9 +149,9 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 220,
             "rewards": {
-                "coins": 500,
-                "crystals": 1,
-                "exp": 260,
+                "coins": 35,
+                "gems": 1,
+                "exp": 350,
                 "eventToken": 220
             }
         },
@@ -177,8 +169,8 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 250,
             "rewards": {
-                "coins": 600,
-                "crystals": 1,
+                "coins": 30,
+                "gems": 1,
                 "exp": 300,
                 "eventToken": 250
             }
@@ -197,9 +189,9 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 250,
             "rewards": {
-                "coins": 1200,
-                "crystals": 1,
-                "exp": 600,
+                "coins": 20,
+                "gems": 1,
+                "exp": 200,
                 "eventToken": 350
             }
         },
@@ -217,9 +209,9 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 250,
             "rewards": {
-                "coins": 2000,
-                "crystals": 1,
-                "exp": 1000,
+                "coins": 100,
+                "gems": 1,
+                "exp": 10,
                 "eventToken": 650
             }
         },
@@ -237,47 +229,49 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 250,
             "rewards": {
-                "coins": 3000,
-                "crystals": 1,
-                "exp": 1000,
+                "coins": 50,
+                "gems": 1,
+                "exp": 5,
                 "eventToken": 650
             }
         },
         {
-            "id": "double_exp_weekend",
-
-            "type": "buff",
-            "category": "buff",
-            "icon": "icon_exp",
-            "title": "Double EXP Event",
-
-            "durationDays": 7,
-
-            "modifiers": {
-
-                "expMultiplier": 2.0,
-                "coinMultiplier": 1.0,
-                "crystalMultiplier": 1.0
-            }
+          "id": "exp_battle_event",
+          "type": "boss",
+          "category": "special",
+          "battleBackground": "bg_exp",
+          "title": "EXP Training Grounds",
+          "description": "Fight powerful enemies and earn massive EXP.",
+          "icon": "bg_exp",
+          "durationDays": 7,
+          "bossLevelId": "exp_battle_event",
+          "rewardCurrency": "none",
+          "rewardAmount": 0,
+          "rewards": {
+            "coins": 0,
+            "gems": 0,
+            "exp": 300,
+            "eventToken": 0
+          }
         },
-
         {
-            "id": "new_player_boost",
-
-            "type": "buff",
-            "category": "buff",
-            "icon": "icon_exp",
-            "title": "New Player Boost",
-
-            "durationDays": 7,
-
-            "modifiers": {
-
-                "expMultiplier": 2.0,
-                "coinMultiplier": 2.0,
-                "crystalMultiplier": 2.0
-            }
+          "id": "coin_battle_event",
+          "type": "boss",
+          "category": "special",
+          "battleBackground": "bg_coin",
+          "title": "Golden Coin Rush",
+          "description": "Defeat enemies and farm huge amounts of coins.",
+          "icon": "bg_coin",
+          "durationDays": 7,
+          "bossLevelId": "coin_battle_event",
+          "rewardCurrency": "none",
+          "rewardAmount": 0,
+          "rewards": {
+            "coins": 300,
+            "gems": 0,
+            "exp": 0,
+            "eventToken": 0
+          }
         }
-
     ]
 }

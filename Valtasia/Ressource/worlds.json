@@ -1,13 +1,13 @@
 [
     {
         "id": "world_tutorial",
-        "background": "water_bg",
-        "battleBackground": "water_bg",
+        "background": "bg_tutorial",
+        "battleBackground": "bg_tutorial",
         "unlockAfterWorld": null,
         "worldNodes": [
             {
                 "id": "tutorial_node",
-                "image": "island_nature",
+                "image": "island_tutorial",
                 "positionX": 0.5,
                 "positionY": 0.5,
                 "connectsTo": [],
