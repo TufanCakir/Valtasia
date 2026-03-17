@@ -24,6 +24,14 @@ final class DailyRewardManager: ObservableObject {
         load()
         checkAvailability()
     }
+    
+    func reset() {
+        currentDay = 1
+        canClaimToday = true
+
+        UserDefaults.standard.removeObject(forKey: lastClaimKey)
+        UserDefaults.standard.set(1, forKey: dayKey)
+    }
 
     // MARK: - Claim Logic
 

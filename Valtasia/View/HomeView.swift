@@ -8,19 +8,79 @@
 import SwiftUI
 
 struct HomeView: View {
-
+    
     @EnvironmentObject var appModel: AppModel
     @EnvironmentObject var eventManager: EventManager
-
+    
     @State private var fadeToBattle = false
     @State private var selectedWorldIndex = 0
     @State private var zoomToBattle = false
     @State private var showTutorialSummon = false
-
+    
     private var visibleWorlds: [World] {
         appModel.tutorialState == .done
-            ? appModel.worlds.filter { $0.id != "world_tutorial" }
-            : appModel.worlds
+        ? appModel.worlds.filter { $0.id != "world_tutorial" }
+        : appModel.worlds
+    }
+    
+    func startLevelFlow(_ levelId: String) {
+        guard !appModel.teamManager.activeTeam.isEmpty else { return }
+        
+        withAnimation(.easeInOut(duration: 0.35)) {
+            zoomToBattle = true
+            fadeToBattle = true
+        }
+        
+        appModel.navigateWithLoading {
+            appModel.startLevel(levelId)
+        }
+    }
+    
+    private var modeSwitch: some View {
+        HStack {
+            modeButton("ISLAND", .island)
+            modeButton("PORTAL", .portal)
+        }
+        .padding(10)
+        .background(
+            LinearGradient(
+                colors: [
+                    .cyan,
+                    .purple,
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            ),
+        )
+        .clipShape(Capsule())
+    }
+
+    func modeButton(_ title: String, _ mode: HomeMode) -> some View {
+        let active = appModel.homeMode == mode
+
+        return Button {
+            withAnimation(.spring()) {
+                appModel.homeMode = mode
+            }
+        } label: {
+            Text(title)
+                .font(.caption.bold())
+                .foregroundStyle(active ? .white : .black.opacity(0.6))
+                .padding(.horizontal, 14)
+                .padding(.vertical, 6)
+                .background(
+                    active
+                    ? LinearGradient(
+                        colors: [.cyan, .purple],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    : LinearGradient(colors: [.clear, .clear],
+                                     startPoint: .topLeading,
+                                     endPoint: .bottomTrailing)
+                )
+                .clipShape(Capsule())
+        }
     }
 
     var body: some View {
@@ -31,7 +91,12 @@ struct HomeView: View {
 
                 worldMapSection
                 eventButton
-                worldBar
+                modeSwitch
+                if appModel.homeMode == .island {
+                    worldBar
+                } else {
+                    portalBar
+                }
             }
             .scaleEffect(zoomToBattle ? 1.12 : 1)
             .blur(radius: zoomToBattle ? 8 : 0)
@@ -181,24 +246,124 @@ extension HomeView {
     fileprivate var worldMapSection: some View {
         Group {
             if let world = visibleWorlds[safe: selectedWorldIndex] {
-                HomeWorldMapView(world: world) { levelId in
 
-                    guard !appModel.teamManager.activeTeam.isEmpty else {
-                        print("⚠️ Team ist leer")
-                        return
+                if appModel.homeMode == .island {
+
+                    HomeWorldMapView(world: world) { levelId in
+                        startLevelFlow(levelId)
                     }
 
-                    withAnimation(.easeInOut(duration: 0.35)) {
-                        zoomToBattle = true
-                        fadeToBattle = true
-                    }
+                } else {
 
-                    appModel.navigateWithLoading {
-                        appModel.startLevel(levelId)
+                    // ⭐ PORTAL JSON verwenden!
+                    if let portalWorld = appModel.portalWorlds.first(where: {
+                        $0.id == world.id
+                    }) {
+                        HomeWorldPortalView(world: portalWorld) { levelId in
+                            startLevelFlow(levelId)
+                        }
+                    } else {
+                        Text("⚠️ No portal data")
                     }
                 }
             }
         }
+    }
+}
+
+extension HomeView {
+
+    func portalWorldButton(for world: World, index: Int) -> some View {
+
+        let isSelected = index == selectedWorldIndex
+        let isLocked = !appModel.progress.isWorldUnlocked(world)
+
+        return Button {
+            guard !isLocked else { return }  // ❗ verhindert Klick
+
+            withAnimation(.spring()) {
+                selectedWorldIndex = index
+            }
+
+        } label: {
+
+            ZStack {
+
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors:
+                                isLocked
+                                ? [.gray.opacity(0.5), .black]
+                                : isSelected
+                                    ? [.cyan, .purple]
+                                    : [.blue.opacity(0.6), .black],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 44, height: 44)
+                    .shadow(
+                        color: isSelected
+                            ? .cyan.opacity(0.9)
+                            : .clear,
+                        radius: 14
+                    )
+
+                Text("\(index + 1)")
+                    .foregroundStyle(.white)
+                    .font(.caption.bold())
+
+                // 🔒 LOCK ICON
+                if isLocked {
+                    Image(systemName: "lock.fill")
+                        .foregroundStyle(.white)
+                        .padding(6)
+                        .background(.black.opacity(0.7))
+                        .clipShape(Circle())
+                        .opacity(isLocked ? 0.6 : 1)
+                }
+            }
+        }
+    }
+
+    var portalBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 18) {
+                ForEach(Array(visibleWorlds.enumerated()), id: \.element.id) {
+                    index,
+                    world in
+                    portalWorldButton(for: world, index: index)
+                }
+            }
+            .padding()
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color.orange,
+                            Color.red,
+                            Color.orange,
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(
+                            LinearGradient(
+                                colors: [.red, .red, .red],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 3
+                        )
+                )
+        )
+        .padding()
     }
 }
 
@@ -217,12 +382,28 @@ extension HomeView {
             .padding()
         }
         .background(
-            RoundedRectangle(cornerRadius: 18)
-                .fill(.ultraThinMaterial)
-                .background(
-                    worldBarBackground.clipShape(
-                        RoundedRectangle(cornerRadius: 28)
+            RoundedRectangle(cornerRadius: 20)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color.indigo,
+                            Color.purple,
+                            Color.indigo,
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     )
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(
+                            LinearGradient(
+                                colors: [.purple, .purple, .purple],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 3
+                        )
                 )
         )
         .padding()
@@ -326,6 +507,7 @@ extension HomeView {
                         .padding()
                         .background(.black.opacity(0.6))
                         .clipShape(Circle())
+                        .opacity(isLocked ? 0.6 : 1)
                 }
             }
         }

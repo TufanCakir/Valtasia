@@ -32,6 +32,14 @@ class TeamManager: ObservableObject {
     init() {
         load()
     }
+    
+    func reset() {
+        ownedCharacters = []
+        activeTeam = []
+
+        UserDefaults.standard.removeObject(forKey: ownedKey)
+        UserDefaults.standard.removeObject(forKey: teamKey)
+    }
 
     // MARK: Add
 

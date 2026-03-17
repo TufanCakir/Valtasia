@@ -9,7 +9,13 @@ import SwiftUI
 
 struct CustomFooter: View {
 
+    @EnvironmentObject var appModel: AppModel
+
     @Binding var selectedTab: RootView.Tab
+
+    var theme: UITheme {
+        appModel.homeMode == .portal ? .portal : .island
+    }
 
     var body: some View {
 
@@ -24,20 +30,26 @@ struct CustomFooter: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 32)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 32)
-                        .stroke(
-                            LinearGradient(
-                                colors: [
-                                    .cyan.opacity(0.7),
-                                    .purple.opacity(0.6),
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ),
-                            lineWidth: 1.5
-                        )
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            theme.footerGradient.first!.opacity(0.2),
+                            .black,
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 32)
+                .stroke(
+                    LinearGradient(
+                        colors: theme.footerGradient,
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    lineWidth: 1.5
                 )
         )
         .shadow(color: .cyan.opacity(0.35), radius: 20)

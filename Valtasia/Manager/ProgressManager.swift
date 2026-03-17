@@ -23,6 +23,12 @@ final class ProgressManager: ObservableObject {
 
         load()
     }
+    
+    func reset() {
+        clearedLevels = []
+        clearedWorlds = []
+        save()
+    }
 
     private func save() {
 
@@ -75,6 +81,17 @@ final class ProgressManager: ObservableObject {
 
         save()
     }
+    
+    func clearedAllLevels(ofId nodeId: String, in worlds: [World]) -> Bool {
+        
+        guard let node = worlds
+            .flatMap({ $0.worldNodes })
+            .first(where: { $0.id == nodeId }) else {
+            return false
+        }
+
+        return node.levels.allSatisfy { clearedLevels.contains($0.id) }
+    }
 
     func clearedAllLevels(of node: WorldNode) -> Bool {
         node.levels.allSatisfy { clearedLevels.contains($0.id) }
@@ -89,7 +106,7 @@ final class ProgressManager: ObservableObject {
         if clearedAllNodes(in: world) {
 
             clearedWorlds.insert(world.id)
-
+            
             save()
         }
     }

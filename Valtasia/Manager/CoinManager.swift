@@ -19,6 +19,11 @@ final class CoinManager: ObservableObject {
     private init() {
         load()
     }
+    
+    func reset() {
+        coins = 0
+        save()
+    }
 
     // MARK: Add
 

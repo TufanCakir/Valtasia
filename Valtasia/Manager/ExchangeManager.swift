@@ -25,6 +25,11 @@ final class ExchangeManager: ObservableObject {
         loadOffers()
         loadPurchases()
     }
+    
+    func reset() {
+        purchased = [:]
+        save()
+    }
 
     // MARK: Load JSON
 

@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct GameHeaderView: View {
+    
+    @EnvironmentObject var appModel: AppModel   
 
     @ObservedObject var coins = CoinManager.shared
     @ObservedObject var gems = GemManager.shared
+    @ObservedObject var corruptedCoins = CorruptedCoinManager.shared
+    @ObservedObject var corruptedGems = CorruptedGemManager.shared
+
+    @State private var showCurrencySheet = false
     @ObservedObject var progress = PlayerProgressManager.shared
 
+    
+    var theme: UITheme {
+        appModel.homeMode == .portal ? .portal : .island
+    }
+    
     var body: some View {
 
         HStack(spacing: 16) {
@@ -28,10 +39,7 @@ struct GameHeaderView: View {
 
         .background(
             LinearGradient(
-                colors: [
-                    Color.black.opacity(0.95),
-                    Color.blue.opacity(0.35),
-                ],
+                colors: theme.headerGradient,
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -41,10 +49,7 @@ struct GameHeaderView: View {
             Rectangle()
                 .stroke(
                     LinearGradient(
-                        colors: [
-                            .cyan.opacity(0.6),
-                            .purple.opacity(0.6),
-                        ],
+                        colors: theme.borderGradient,
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
@@ -111,12 +116,37 @@ extension GameHeaderView {
 extension GameHeaderView {
 
     var currencySection: some View {
-
+        
         HStack(spacing: 14) {
-
+            
+            // ⭐ Normale
             currencyItem(icon: "icon_gem", value: gems.gems)
-
             currencyItem(icon: "icon_coin", value: coins.coins)
+            
+            // ⭐ Corrupted (leicht anders stylen)
+            currencyCard(
+                icon: "icon_c_coin",
+                gradient: [.purple, .pink],
+                value: corruptedCoins.coins
+            )
+
+            currencyCard(
+                icon: "icon_c_gem",
+                gradient: [.purple, .blue],
+                value: corruptedGems.gems
+            )
+            
+            // ⭐ Info Button
+            Button {
+                showCurrencySheet = true
+            } label: {
+                Image(systemName: "info.circle")
+                    .foregroundStyle(.white)
+                    .font(.title3)
+            }
+        }
+        .sheet(isPresented: $showCurrencySheet) {
+            CurrencyOverviewSheet()
         }
     }
 

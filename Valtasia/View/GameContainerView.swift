@@ -77,11 +77,19 @@ struct GameContainerView: View {
         scene.levelId = levelId
         scene.appModel = appModel
         
-        // ⭐⭐⭐ DAS FEHLT
+        // ⭐ TUTORIAL
         scene.isTutorialMode = (levelId == "tutorial_level")
         
+        // ⭐ WORLD (normal)
         if let world = appModel.world(containing: levelId) {
             scene.world = world
+            scene.gameMode = .normal
+        }
+        
+        // 🔥🔥🔥 PORTAL FIX (DAS IST DEIN KEY)
+        if let portalLevel = appModel.portalLevel(for: levelId) {
+            scene.currentLevel = portalLevel
+            scene.gameMode = .portal
         }
         
         scene.onVictory = {

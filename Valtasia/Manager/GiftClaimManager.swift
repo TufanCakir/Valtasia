@@ -19,6 +19,11 @@ final class GiftClaimManager: ObservableObject {
     private init() {
         load()
     }
+    
+    func reset() {
+        claimed = []
+        save()
+    }
 
     func isClaimed(_ id: String) -> Bool {
         claimed.contains(id)

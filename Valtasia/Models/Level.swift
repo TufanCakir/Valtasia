@@ -12,4 +12,7 @@ struct Level: Codable, Identifiable {
     var battleBackground: String?
     
     var enemies: [String]
+    
+    let portalHPMultiplier: Double?
+    let portalReward: PortalReward?
 }

@@ -11,6 +11,13 @@ final class PityManager {
 
     static let shared = PityManager()
     private let prefix = "pity_"
+    
+    func resetAll() {
+        let defaults = UserDefaults.standard
+        defaults.dictionaryRepresentation().keys
+            .filter { $0.starts(with: "pity_") }
+            .forEach { defaults.removeObject(forKey: $0) }
+    }
 
     func pulls(for bannerId: String) -> Int {
         UserDefaults.standard.integer(forKey: prefix + bannerId)

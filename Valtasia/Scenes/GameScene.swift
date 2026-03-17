@@ -24,6 +24,8 @@ class GameScene: SKScene {
 
     var enemyNode: SKNode?
     var currentEnemy: EnemyInstance?
+    var gameMode: GameMode = .normal
+    
     private var skillButtons: [SkillButtonNode] = []
 
     var characterCards: [CharacterCardNode] = []
@@ -38,7 +40,8 @@ class GameScene: SKScene {
     private var crackRefreshRunning = false
     private var attackLocked = false
     private var skillBarNode = SKNode()
-
+    var currentLevel: Level?
+    
     // MARK: Scene Start
     override func didMove(to view: SKView) {
 
@@ -301,6 +304,16 @@ class GameScene: SKScene {
 
         return 1
     }
+    
+    func portalDifficultyLevel() -> Int {
+        guard let currentLevel else { return 1 }
+
+        if let number = Int(currentLevel.id.replacingOccurrences(of: "level_", with: "")) {
+            return number
+        }
+
+        return 1
+    }
 
     // MARK: Enemy
     func spawnRandomEnemy() {
@@ -312,9 +325,18 @@ class GameScene: SKScene {
 
         print("✅ Spawning enemy:", enemy.id)
 
+        let multiplier = (gameMode == .portal)
+            ? (currentLevel?.portalHPMultiplier ?? 1.0)
+            : 1.0
+        
+        print("MODE:", gameMode)
+        print("CURRENT LEVEL:", currentLevel?.id ?? "nil")
+        print("MULTI:", multiplier)
+
         currentEnemy = EnemyInstance(
             base: enemy,
-            level: determineEnemyLevel()
+            level: determineEnemyLevel(),
+            hpMultiplier: multiplier
         )
 
         enemyNode?.removeFromParent()
@@ -901,12 +923,19 @@ class GameScene: SKScene {
         let coins =
             Int(Double(50) * EventManager.shared.coinMultiplier())
 
-        CoinManager.shared.add(coins)
-
         let gems =
             Int(Double(1) * EventManager.shared.crystalMultiplier())
+        
+        if gameMode == .portal {
 
-        GemManager.shared.add(gems)
+            CorruptedCoinManager.shared.add(coins)
+            CorruptedGemManager.shared.add(gems)
+
+        } else {
+
+            CoinManager.shared.add(coins)
+            GemManager.shared.add(gems)
+        }
 
         if let team = teamManager?.activeTeam {
 

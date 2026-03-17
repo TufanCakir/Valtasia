@@ -40,13 +40,15 @@ final class AppModel: ObservableObject {
     @Published var appState: AppState = .start
 
     @Published var worlds: [World] = []
+    @Published var portalWorlds: [PortalWorld] = []
     @Published var selectedWorld: World?
     @Published var selectedNode: WorldNode?
     @Published var selectedLevelId: String?
     // MARK: - Loading Overlay
     @Published var isTransitionLoading: Bool = false
     @Published var currentLoadingImage: String = "loading1"
-
+    @Published var homeMode: HomeMode = .island
+    
     func pickLoadingImage() {
         currentLoadingImage = loadingImages.randomElement() ?? "epic_bg"
     }
@@ -111,6 +113,7 @@ final class AppModel: ObservableObject {
     /// Called on first app launch or after full reset
     func initializeGameIfNeeded() {
         loadWorlds()
+        loadPortalWorlds() // ⭐ DAS FEHLT BEI DIR
         loadStarterCharacterIfNeeded()
         determineInitialWorld()
     }
@@ -149,19 +152,41 @@ final class AppModel: ObservableObject {
     }
 
     // MARK: - Reset
-
     func fullReset() {
         AccountResetManager.resetAll()
 
+        // ⭐ RESET SINGLETONS
+        CoinManager.shared.reset()
+        GemManager.shared.reset()
+        DailyRewardManager.shared.reset()
+        GiftClaimManager.shared.reset()
+        ExchangeManager.shared.reset()
+        PlayerProgressManager.shared.reset()
+        PityManager.shared.resetAll()
+
+        teamManager.reset()
+        progress.reset()
+
+        // ⭐ UI STATE RESET
         worlds.removeAll()
+        portalWorlds.removeAll()
+
         selectedWorld = nil
         selectedNode = nil
         selectedLevelId = nil
 
         initializeGameIfNeeded()
+
         appState = .start
     }
 
+    func portalLevel(for id: String) -> Level? {
+        portalWorlds
+            .flatMap { $0.worldNodes }
+            .flatMap { $0.levels }
+            .first { $0.id == id }
+    }
+    
     // MARK: - World / Level Flow
 
     func startNode(_ node: WorldNode, in world: World) {
@@ -217,6 +242,19 @@ final class AppModel: ObservableObject {
             .flatMap { $0.worldNodes }
             .flatMap { $0.levels }
             .first { $0.id == id }
+    }
+    
+    func loadPortalWorlds() {
+        do {
+            let loaded: [PortalWorld] = try JSONLoader.load("portals")
+            portalWorlds = loaded
+
+            print("🌀 Portals loaded:", portalWorlds.count)
+            print("🌀 Portal IDs:", portalWorlds.map { $0.id })
+
+        } catch {
+            print("❌ Portal load failed:", error)
+        }
     }
 
     // MARK: - Private Loaders

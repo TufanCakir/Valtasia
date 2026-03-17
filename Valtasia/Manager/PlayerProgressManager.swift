@@ -25,6 +25,12 @@ final class PlayerProgressManager: ObservableObject {
     private init() {
         load()
     }
+    
+    func reset() {
+        level = 1
+        exp = 0
+        save()
+    }   
 
     // MARK: EXP System
 
