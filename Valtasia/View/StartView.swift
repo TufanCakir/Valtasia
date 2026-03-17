@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StartView: View {
 
-    @EnvironmentObject var appModel: AppModel  // ← wichtig
+    @EnvironmentObject var appModel: AppModel  
 
     var body: some View {
         ZStack {
@@ -22,16 +22,10 @@ struct StartView: View {
             VStack(spacing: 16) {
 
                 Text("Valtasia")
-                    .font(.system(size: 42, weight: .heavy))
-                    .foregroundStyle(.white)
-                    .shadow(radius: 10)
-
-                Text("Tap anywhere to start")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.white.opacity(0.7))
-                    .padding()
+                    .font(.system(size: 50, weight: .heavy))
+                    .foregroundStyle(.indigo)
+                    .shadow(color: .black, radius: 10)
             }
-            .padding()
         }
         .contentShape(Rectangle())
         .onTapGesture {

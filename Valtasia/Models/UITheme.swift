@@ -15,31 +15,31 @@ struct UITheme {
 }
 
 extension UITheme {
-    
+
     static let island = UITheme(
         headerGradient: [
-            Color.black.opacity(0.95),
-            Color.blue.opacity(0.35)
+            Color.blue.opacity(0.35),
+            Color.purple.opacity(0.35),
         ],
         borderGradient: [.cyan, .purple],
-        footerGradient: [.cyan, .purple]
+        footerGradient: [
+            Color.blue.opacity(0.35),
+            Color.purple.opacity(0.35),
+        ]
     )
-    
+
     static let portal = UITheme(
         headerGradient: [
-            Color.black,
-            Color.green,
-            Color.black
+            Color.green.opacity(0.35),
+            Color.purple.opacity(0.35),
         ],
         borderGradient: [
             Color.green,
-            Color.green.opacity(0.7),
-            Color.purple
+            Color.purple,
         ],
         footerGradient: [
-            Color.black,
-            Color.green,
-            Color.black
+            Color.green.opacity(0.35),
+            Color.purple.opacity(0.35),
         ]
     )
 }

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct GameHeaderView: View {
-    
-    @EnvironmentObject var appModel: AppModel   
+
+    @EnvironmentObject var appModel: AppModel
 
     @ObservedObject var coins = CoinManager.shared
     @ObservedObject var gems = GemManager.shared
@@ -19,11 +19,10 @@ struct GameHeaderView: View {
     @State private var showCurrencySheet = false
     @ObservedObject var progress = PlayerProgressManager.shared
 
-    
     var theme: UITheme {
         appModel.homeMode == .portal ? .portal : .island
     }
-    
+
     var body: some View {
 
         HStack(spacing: 16) {
@@ -116,26 +115,13 @@ extension GameHeaderView {
 extension GameHeaderView {
 
     var currencySection: some View {
-        
+
         HStack(spacing: 14) {
-            
+
             // ⭐ Normale
             currencyItem(icon: "icon_gem", value: gems.gems)
             currencyItem(icon: "icon_coin", value: coins.coins)
-            
-            // ⭐ Corrupted (leicht anders stylen)
-            currencyCard(
-                icon: "icon_c_coin",
-                gradient: [.purple, .pink],
-                value: corruptedCoins.coins
-            )
 
-            currencyCard(
-                icon: "icon_c_gem",
-                gradient: [.purple, .blue],
-                value: corruptedGems.gems
-            )
-            
             // ⭐ Info Button
             Button {
                 showCurrencySheet = true
@@ -147,6 +133,7 @@ extension GameHeaderView {
         }
         .sheet(isPresented: $showCurrencySheet) {
             CurrencyOverviewSheet()
+                .environmentObject(appModel)  // ⭐ NICHT VERGESSEN
         }
     }
 

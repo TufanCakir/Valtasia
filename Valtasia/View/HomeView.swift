@@ -8,51 +8,59 @@
 import SwiftUI
 
 struct HomeView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
     @EnvironmentObject var eventManager: EventManager
-    
+
     @State private var fadeToBattle = false
     @State private var selectedWorldIndex = 0
     @State private var zoomToBattle = false
     @State private var showTutorialSummon = false
-    
+
     private var visibleWorlds: [World] {
         appModel.tutorialState == .done
-        ? appModel.worlds.filter { $0.id != "world_tutorial" }
-        : appModel.worlds
+            ? appModel.worlds.filter { $0.id != "world_tutorial" }
+            : appModel.worlds
     }
-    
+
     func startLevelFlow(_ levelId: String) {
         guard !appModel.teamManager.activeTeam.isEmpty else { return }
-        
+
         withAnimation(.easeInOut(duration: 0.35)) {
             zoomToBattle = true
             fadeToBattle = true
         }
-        
+
         appModel.navigateWithLoading {
             appModel.startLevel(levelId)
         }
     }
-    
+
     private var modeSwitch: some View {
         HStack {
-            modeButton("ISLAND", .island)
-            modeButton("PORTAL", .portal)
+            modeButton("Island", .island)
+            modeButton("Portal", .portal)
         }
-        .padding(10)
+        .padding()
         .background(
             LinearGradient(
-                colors: [
-                    .cyan,
-                    .purple,
-                ],
+                colors: theme.borderGradient,  // ⭐ statt cyan/purple
                 startPoint: .leading,
                 endPoint: .trailing
-            ),
+            )
         )
         .clipShape(Capsule())
+        .overlay(
+            Capsule()
+                .stroke(
+                    LinearGradient(
+                        colors: theme.borderGradient,
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    lineWidth: 2
+                )
+        )
     }
 
     func modeButton(_ title: String, _ mode: HomeMode) -> some View {
@@ -65,22 +73,24 @@ struct HomeView: View {
         } label: {
             Text(title)
                 .font(.caption.bold())
-                .foregroundStyle(active ? .white : .black.opacity(0.6))
+                .foregroundStyle(active ? .white : .white.opacity(0.6))
                 .padding(.horizontal, 14)
                 .padding(.vertical, 6)
                 .background(
-                    active
-                    ? LinearGradient(
-                        colors: [.cyan, .purple],
+                    LinearGradient(
+                        colors: active
+                            ? theme.borderGradient
+                            : [.clear, .clear],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
-                    : LinearGradient(colors: [.clear, .clear],
-                                     startPoint: .topLeading,
-                                     endPoint: .bottomTrailing)
                 )
                 .clipShape(Capsule())
         }
+    }
+
+    var theme: UITheme {
+        appModel.homeMode == .portal ? .portal : .island
     }
 
     var body: some View {
@@ -90,8 +100,8 @@ struct HomeView: View {
                     .padding()
 
                 worldMapSection
-                eventButton
                 modeSwitch
+                eventButton
                 if appModel.homeMode == .island {
                     worldBar
                 } else {
@@ -343,19 +353,19 @@ extension HomeView {
                 .fill(
                     LinearGradient(
                         colors: [
-                            Color.orange,
-                            Color.red,
-                            Color.orange,
+                            Color.green,
+                            Color.purple,
                         ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+                        startPoint: .leading,
+                        endPoint: .trailing
                     )
                 )
+                .opacity(0.8)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(
                             LinearGradient(
-                                colors: [.red, .red, .red],
+                                colors: [.green, .purple],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             ),
@@ -386,19 +396,22 @@ extension HomeView {
                 .fill(
                     LinearGradient(
                         colors: [
-                            Color.indigo,
+                            Color.blue,
                             Color.purple,
-                            Color.indigo,
                         ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+                        startPoint: .leading,
+                        endPoint: .trailing
                     )
                 )
+                .opacity(0.8)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(
                             LinearGradient(
-                                colors: [.purple, .purple, .purple],
+                                colors: [
+                                    Color.black.opacity(0.95),
+                                    Color.blue.opacity(0.35),
+                                ],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             ),
