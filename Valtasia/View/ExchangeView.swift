@@ -8,23 +8,24 @@
 import SwiftUI
 
 struct ExchangeView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     @StateObject private var exchange = ExchangeManager.shared
     @StateObject private var coins = CoinManager.shared
     @StateObject private var gems = GemManager.shared
 
     @State private var showFail = false
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
         VStack {
 
-            // MARK: HEADER
             GameHeaderView()
-                .padding()
-
-            Divider()
-                .background(.white.opacity(0.15))
 
             // MARK: SCROLL AREA
             ScrollView {
@@ -43,10 +44,7 @@ struct ExchangeView: View {
         }
         .background(
             LinearGradient(
-                colors: [
-                    Color.black,
-                    Color.blue.opacity(0.25),
-                ],
+                colors: theme.headerGradient,
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -73,10 +71,7 @@ extension ExchangeView {
 
             // Soft Background
             LinearGradient(
-                colors: [
-                    .purple.opacity(0.25),
-                    .blue.opacity(0.2),
-                ],
+                colors: theme.headerGradient,
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -149,7 +144,7 @@ extension ExchangeView {
                         .padding(.vertical, 10)
                         .background(
                             LinearGradient(
-                                colors: [.purple, .blue],
+                                colors: theme.headerGradient,
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -167,10 +162,7 @@ extension ExchangeView {
             RoundedRectangle(cornerRadius: 24)
                 .stroke(
                     LinearGradient(
-                        colors: [
-                            .cyan.opacity(0.7),
-                            .purple.opacity(0.6),
-                        ],
+                        colors: theme.headerGradient,
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),

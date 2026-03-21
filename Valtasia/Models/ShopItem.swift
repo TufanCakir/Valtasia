@@ -12,7 +12,8 @@ struct ShopItem: Codable, Identifiable {
     let category: ShopCategory
 
     let gems: Int?
-    let oneTimePurchase: Bool?
+    let corruptedGems: Int?  // 👈 NEU
 
-    let tag: String?  // ⭐ NEU
+    let oneTimePurchase: Bool?
+    let tag: String?
 }

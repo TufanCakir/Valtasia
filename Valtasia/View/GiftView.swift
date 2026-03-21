@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GiftView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     @ObservedObject private var claimManager = GiftClaimManager.shared
 
@@ -16,23 +18,20 @@ struct GiftView: View {
     private var availableGifts: [Gift] {
         gifts.filter { !GiftClaimManager.shared.isClaimed($0.id) }
     }
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
         VStack {
+            
             GameHeaderView()
-                .padding()
 
             ScrollView {
                 VStack(spacing: 16) {
                     ForEach(availableGifts) { gift in
-                        GiftRow(
-                            giftId: gift.id,
-                            title: gift.title,
-                            value: gift.amount,
-                            icon: gift.icon,
-                            iconColor: .from(gift.iconColor),
-                            colors: gift.colors.map { .from($0) }
-                        ) {
+                        GiftRow(gift: gift) {
                             claim(gift)
                         }
                     }
@@ -43,7 +42,7 @@ struct GiftView: View {
         }
         .background(
             LinearGradient(
-                colors: [Color.black, Color.blue.opacity(0.25)],
+                colors: theme.headerGradient,
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -55,17 +54,27 @@ struct GiftView: View {
 }
 
 extension GiftView {
-
+    
     private func claim(_ gift: Gift) {
+        
+        guard let amount = gift.amount else { return }
+        
         switch gift.type {
+            
         case .coins:
-            CoinManager.shared.add(gift.amount)
-
+            CoinManager.shared.add(amount)
+            
         case .gems:
-            GemManager.shared.add(gift.amount)
-
+            GemManager.shared.add(amount)
+            
         case .exp:
-            PlayerProgressManager.shared.addEXP(gift.amount)
+            PlayerProgressManager.shared.addEXP(amount)
+            
+        case .corruptedCoins:
+            CorruptedCoinManager.shared.add(amount)
+            
+        case .corruptedGems:
+            CorruptedGemManager.shared.add(amount)
         }
     }
 }

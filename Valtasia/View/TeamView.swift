@@ -8,21 +8,25 @@
 import SwiftUI
 
 struct TeamView: View {
-
+    
+    @EnvironmentObject var appModel: AppModel
+    
     @ObservedObject var teamManager: TeamManager
-
+    
     @State private var selectedCharacter: OwnedCharacter?
     @State private var showTeamWarning = false
-    @State private var sellCharacter: OwnedCharacter?
-    @State private var showSellDialog = false
-
+    
     private let columns = [
         GridItem(.adaptive(minimum: 130))
     ]
-
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
+    
     var body: some View {
         VStack {
-
+            
             teamSection
                 .padding()
                 .background(.ultraThinMaterial)
@@ -33,91 +37,72 @@ struct TeamView: View {
                     RoundedRectangle(cornerRadius: 22)
                         .stroke(.white.opacity(0.15))
                 )
-
+            
             // MARK: SCROLL AREA
-
+            
             ScrollView {
-
+                
                 charactersSection
-
+                
             }
             .padding()
             .scrollIndicators(.hidden)
         }
-
+        
         .background(
             LinearGradient(
-                colors: [
-                    .black,
-                    .blue.opacity(0.25),
-                ],
+                colors: theme.headerGradient,
                 startPoint: .top,
                 endPoint: .bottom
             )
             .ignoresSafeArea()
         )
-
+        
         .sheet(item: $selectedCharacter) {
-
+            
             CharacterDetailView(owned: $0)
         }
-
+        
         .alert(
             "Team benötigt mindestens 1 Character",
             isPresented: $showTeamWarning
         ) {
-
+            
             Button("OK", role: .cancel) {}
-
+            
         } message: {
-
+            
             Text(
                 "Du musst mindestens einen Character besitzen und mindestens einen im Team behalten."
             )
         }
-        .confirmationDialog(
-            "Character verkaufen?",
-            isPresented: $showSellDialog,
-            titleVisibility: .visible
-        ) {
-
-            if let owned = sellCharacter {
-
-                Button(
-                    "Verkaufen (+\(teamManager.sellPrice(for: owned)) Coins)",
-                    role: .destructive
-                ) {
-
-                    teamManager.sellCharacter(owned)
-                    sellCharacter = nil
-                }
-            }
-
-            Button("Abbrechen", role: .cancel) {
-                sellCharacter = nil
-            }
-        }
     }
-
+    
     var charactersSection: some View {
-
+        
         VStack {
-
+            
             LazyVGrid(columns: columns, spacing: 30) {
-
+                
                 ForEach(teamManager.ownedCharacters) {
-
+                    
                     characterCard($0)
                 }
             }
-
+            
         }
         .clipShape(
             RoundedRectangle(cornerRadius: 22)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 22)
-                .stroke(.white.opacity(0.12))
+                .stroke(
+                    LinearGradient(
+                        colors: theme.borderGradient,
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
         )
     }
 
@@ -139,19 +124,18 @@ struct TeamView: View {
             ZStack {
 
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(.black.opacity(0.35))
+                    .fill(
+                        LinearGradient(
+                            colors: theme.headerGradient,
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
 
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(
-                        LinearGradient(
-                            colors: [
-                                character.rarity.color,
-                                .purple,
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 2
+                        character.rarity.color,
+                        lineWidth: owned.isCorrupted ? 3 : 2
                     )
 
                 Image(character.sprite)
@@ -160,6 +144,12 @@ struct TeamView: View {
                     .padding()
             }
             .frame(height: 100)
+            .shadow(
+                color: owned.isCorrupted
+                    ? .red.opacity(0.7)
+                    : character.rarity.color.opacity(0.35),
+                radius: owned.isCorrupted ? 20 : 10
+            )
 
             Text(character.name)
                 .font(.caption.bold())
@@ -169,13 +159,15 @@ struct TeamView: View {
                 .font(.caption2)
                 .foregroundStyle(.white.opacity(0.7))
 
-            HStack(spacing: 2) {
+            HStack(spacing: 4) {
                 ForEach(0..<owned.stars, id: \.self) { _ in
                     Image(systemName: "star.fill")
                         .font(.caption2)
-                        .foregroundStyle(.yellow)
+                        .foregroundStyle(owned.starGradient)
+                        .shadow(color: owned.starColor.opacity(0.7), radius: 5)
                 }
             }
+            .padding(.top, 2)
 
             ProgressView(
                 value: Double(owned.exp),
@@ -183,41 +175,13 @@ struct TeamView: View {
             )
             .tint(character.rarity.color)
 
-            HStack(spacing: 10) {
+            HStack {
 
-                // SELL BUTTON
-                Button {
-
-                    if teamManager.ownedCharacters.count <= 1 {
-
-                        showTeamWarning = true
-
-                    } else {
-
-                        sellCharacter = owned
-                        showSellDialog = true
-                    }
-
-                } label: {
-
-                    Image(systemName: "dollarsign.circle.fill")
-                        .font(.title3)
-                        .frame(width: 36, height: 36)
-                        .background(.red.opacity(0.85))
-                        .clipShape(Circle())
-                        .shadow(radius: 3)
-                }
-                .foregroundStyle(.white)
-
-                // ADD / REMOVE BUTTON
                 Button(inTeam ? "Remove" : "Add") {
 
                     if inTeam {
-
                         teamManager.removeFromTeam(owned)
-
                     } else {
-
                         teamManager.addToTeam(owned)
                     }
                 }
@@ -225,14 +189,10 @@ struct TeamView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
                 .background(
-
                     LinearGradient(
-                        colors: [
-                            .purple,
-                            .blue,
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
+                        colors: theme.headerGradient,
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
                 )
                 .clipShape(Capsule())
@@ -247,7 +207,11 @@ struct TeamView: View {
                 .overlay(
 
                     RoundedRectangle(cornerRadius: 18)
-                        .stroke(Color.white.opacity(0.15))
+                        .stroke(     LinearGradient(
+                            colors: theme.borderGradient,
+                            startPoint: .top,
+                            endPoint: .bottom
+                        ))
                 )
         )
         .shadow(
@@ -259,7 +223,7 @@ struct TeamView: View {
             selectedCharacter = owned
         }
     }
-
+    
     var teamSlots: some View {
 
         HStack {
@@ -274,14 +238,10 @@ struct TeamView: View {
 
                     RoundedRectangle(cornerRadius: 18)
                         .stroke(
-
                             LinearGradient(
-                                colors: [
-                                    .cyan.opacity(0.7),
-                                    .purple.opacity(0.6),
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                                colors: theme.borderGradient,
+                                startPoint: .top,
+                                endPoint: .bottom
                             ),
                             lineWidth: 2
                         )
@@ -295,31 +255,13 @@ struct TeamView: View {
                             .resizable()
                             .scaledToFit()
                             .padding()
-
-                        VStack {
-
-                            HStack {
-
-                                Button {
-
-                                    if teamManager.activeTeam.count <= 1 {
-
-                                        showTeamWarning = true
-
-                                    } else {
-
-                                        teamManager.removeFromTeam(owned)
-                                    }
-
-                                } label: {
-
-                                    Image(systemName: "xmark.circle.fill")
-                                        .font(.title3)
-                                        .foregroundStyle(.red)
-                                        .shadow(radius: 4)
+                            .onTapGesture {
+                                if teamManager.activeTeam.count <= 1 {
+                                    showTeamWarning = true
+                                } else {
+                                    teamManager.removeFromTeam(owned)
                                 }
                             }
-                        }
 
                     } else {
 

@@ -10,7 +10,7 @@ import SwiftUI
 struct StartView: View {
 
     @EnvironmentObject var appModel: AppModel  
-
+    
     var body: some View {
         ZStack {
 
@@ -29,7 +29,9 @@ struct StartView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            appModel.switchToGame()
+            withAnimation {
+                appModel.appState = .story
+            }
         }
     }
 }

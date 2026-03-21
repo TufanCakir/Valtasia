@@ -8,53 +8,55 @@
 import SwiftUI
 
 struct GameHeaderView: View {
-
+    
     @EnvironmentObject var appModel: AppModel
-
+    
     @ObservedObject var coins = CoinManager.shared
     @ObservedObject var gems = GemManager.shared
     @ObservedObject var corruptedCoins = CorruptedCoinManager.shared
     @ObservedObject var corruptedGems = CorruptedGemManager.shared
-
+    
     @State private var showCurrencySheet = false
     @ObservedObject var progress = PlayerProgressManager.shared
-
+    
     var theme: UITheme {
-        appModel.homeMode == .portal ? .portal : .island
+        appModel.homeMode == .corrupted ? .corrupted : .island
     }
-
+    
     var body: some View {
-
-        HStack(spacing: 16) {
-
-            levelSection
-
-            Spacer()
-
-            currencySection
-        }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 14)
-
-        .background(
-            LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+        
+        ZStack {
+            
+            Image(appModel.homeMode == .corrupted
+                  ? "header_green_bg"
+                  : "header_purple_bg")
+            .resizable()
+            .scaledToFill()
+            .frame(height: 100)
+            .clipped()
+            
+            .overlay(
+                Rectangle()
+                    .stroke(
+                        LinearGradient(
+                            colors: appModel.homeMode == .corrupted ? [.green] : [.indigo],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ),
+                        lineWidth: 3
+                    )
             )
-        )
-
-        .overlay(
-            Rectangle()
-                .stroke(
-                    LinearGradient(
-                        colors: theme.borderGradient,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    lineWidth: 1.5
-                )
-        )
+            
+            HStack {
+                levelSection
+                Spacer()
+                currencySection
+            }
+            .padding()
+        }
+        .frame(height: 100)
+        .animation(.easeInOut(duration: 0.4), value: appModel.homeMode)
+        .padding()
     }
 }
 
@@ -99,7 +101,7 @@ extension GameHeaderView {
                 Capsule()
                     .fill(
                         LinearGradient(
-                            colors: [.cyan, .purple],
+                            colors: theme.headerGradient,
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -196,3 +198,4 @@ extension GameHeaderView {
         )
     }
 }
+

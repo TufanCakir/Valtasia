@@ -13,6 +13,6 @@ struct Level: Codable, Identifiable {
     
     var enemies: [String]
     
-    let portalHPMultiplier: Double?
-    let portalReward: PortalReward?
+    let corruptedHPMultiplier: Double?
+    let portalReward: CorruptedReward?
 }

@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct ShopCategoryBar: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     let categories: [ShopCategory]
     @Binding var selected: String
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
@@ -81,10 +87,7 @@ extension ShopCategoryBar {
                 selected
                     ? AnyShapeStyle(
                         LinearGradient(
-                            colors: [
-                                color.opacity(0.95),
-                                color.opacity(0.55),
-                            ],
+                            colors: theme.headerGradient,
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -95,8 +98,8 @@ extension ShopCategoryBar {
                 Capsule()
                     .stroke(
                         selected
-                            ? color.opacity(0.9)
-                            : Color.white.opacity(0.12),
+                            ? color
+                            : Color.white,
                         lineWidth: selected ? 2 : 1
                     )
             )
@@ -114,14 +117,11 @@ extension ShopCategoryBar {
                 RoundedRectangle(cornerRadius: 26)
                     .stroke(
                         LinearGradient(
-                            colors: [
-                                .cyan.opacity(0.4),
-                                .purple.opacity(0.35),
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
+                            colors: theme.headerGradient,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
                         ),
-                        lineWidth: 1
+                        lineWidth: 3
                     )
             )
             .padding(.horizontal, 6)

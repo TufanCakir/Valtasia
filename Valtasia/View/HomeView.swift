@@ -16,6 +16,8 @@ struct HomeView: View {
     @State private var selectedWorldIndex = 0
     @State private var zoomToBattle = false
     @State private var showTutorialSummon = false
+    
+    private let worldNodeSize: CGFloat = 30
 
     private var visibleWorlds: [World] {
         appModel.tutorialState == .done
@@ -39,12 +41,12 @@ struct HomeView: View {
     private var modeSwitch: some View {
         HStack {
             modeButton("Island", .island)
-            modeButton("Portal", .portal)
+            modeButton("Corrupted", .corrupted)
         }
         .padding()
         .background(
             LinearGradient(
-                colors: theme.borderGradient,  // ⭐ statt cyan/purple
+                colors: theme.borderGradient,
                 startPoint: .leading,
                 endPoint: .trailing
             )
@@ -90,18 +92,38 @@ struct HomeView: View {
     }
 
     var theme: UITheme {
-        appModel.homeMode == .portal ? .portal : .island
+        appModel.homeMode == .corrupted ? .corrupted : .island
     }
 
     var body: some View {
+        
         ZStack {
+
+            // ⭐ BACKGROUND FULLSCREEN
+            if appModel.homeMode == .corrupted {
+                if let selected = visibleWorlds[safe: selectedWorldIndex],
+                   let world = appModel.corruptedWorlds.first(where: { $0.id == selected.id }) {
+
+                    Image(world.background)
+                        .resizable()
+                        .scaledToFill()
+                }
+            } else {
+                if let world = visibleWorlds[safe: selectedWorldIndex] {
+                    Image(world.background)
+                        .resizable()
+                        .scaledToFill()
+                }
+            }
+
+            // ⭐ CONTENT (SAFE AREA!)
             VStack {
                 GameHeaderView()
-                    .padding()
 
                 worldMapSection
                 modeSwitch
                 eventButton
+
                 if appModel.homeMode == .island {
                     worldBar
                 } else {
@@ -142,6 +164,7 @@ struct HomeView: View {
         }
         .onAppear {
             validateSelectedIndex()
+            syncSelectedWorld()
 
             if appModel.tutorialState == .summon {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -169,6 +192,9 @@ struct HomeView: View {
         .onChange(of: appModel.worlds.count) { _, _ in
             validateSelectedIndex()
         }
+        .onChange(of: appModel.selectedWorld?.id) { _, _ in
+            syncSelectedWorld()   // 👈 NEU
+        }
         .fullScreenCover(isPresented: $showTutorialSummon) {
             SummonView(
                 teamManager: appModel.teamManager,
@@ -180,16 +206,38 @@ struct HomeView: View {
 
 extension HomeView {
 
+    func syncSelectedWorld() {
+        guard let selected = appModel.selectedWorld else { return }
+
+        let worlds = visibleWorlds
+
+        if let index = worlds.firstIndex(where: { $0.id == selected.id }) {
+            withAnimation(.spring()) {
+                selectedWorldIndex = index
+            }
+        }
+    }
+}
+
+extension HomeView {
+
     fileprivate var eventButton: some View {
 
-        HStack(spacing: 30) {
+        HStack(spacing: 16) {
+            
+            Button {
+                appModel.appState = .story
+            } label: {
+                iconCapsule(
+                    icon: "book",
+                )
+            }
 
             NavigationLink {
                 GiftView()
             } label: {
                 iconCapsule(
                     icon: "gift.fill",
-                    colors: [.yellow, .orange]
                 )
             }
 
@@ -198,7 +246,6 @@ extension HomeView {
             } label: {
                 iconCapsule(
                     icon: "gamecontroller.fill",
-                    colors: [.blue, .red]
                 )
             }
 
@@ -207,7 +254,6 @@ extension HomeView {
             } label: {
                 iconCapsule(
                     icon: "calendar",
-                    colors: [.green, .cyan]
                 )
             }
 
@@ -216,38 +262,35 @@ extension HomeView {
             } label: {
                 iconCapsule(
                     icon: "gearshape.fill",
-                    colors: [.purple, .blue]
                 )
             }
         }
-        .padding(.horizontal)
     }
 }
 
 extension HomeView {
-
-    func iconCapsule(
-        icon: String,
-        colors: [Color]
-    ) -> some View {
-
+    
+    func iconCapsule(icon: String) -> some View {
+        
         ZStack {
-
             Capsule()
                 .fill(
                     LinearGradient(
-                        colors: colors,
+                        colors: theme.headerGradient,
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
-
+            
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundStyle(.white)
         }
         .frame(width: 50, height: 50)
-        .shadow(color: colors.first?.opacity(0.4) ?? .clear, radius: 8)
+        .shadow(
+            color: (theme.borderGradient.last ?? .white).opacity(0.4),
+            radius: 8
+        )
     }
 }
 
@@ -266,14 +309,14 @@ extension HomeView {
                 } else {
 
                     // ⭐ PORTAL JSON verwenden!
-                    if let portalWorld = appModel.portalWorlds.first(where: {
+                    if let corruptedWorld = appModel.corruptedWorlds.first(where: {
                         $0.id == world.id
                     }) {
-                        HomeWorldPortalView(world: portalWorld) { levelId in
+                        CorruptedWorldMapView(world: corruptedWorld) { levelId in
                             startLevelFlow(levelId)
                         }
                     } else {
-                        Text("⚠️ No portal data")
+                        Text("⚠️ No corrupted data")
                     }
                 }
             }
@@ -306,19 +349,28 @@ extension HomeView {
                                 isLocked
                                 ? [.gray.opacity(0.5), .black]
                                 : isSelected
-                                    ? [.cyan, .purple]
-                                    : [.blue.opacity(0.6), .black],
+                                    ? [.black, .green]
+                                    : [.black, .green],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 44, height: 44)
-                    .shadow(
-                        color: isSelected
-                            ? .cyan.opacity(0.9)
-                            : .clear,
-                        radius: 14
+                    .frame(width: worldNodeSize, height: worldNodeSize)
+                    .overlay(
+                        Circle()
+                            .stroke(
+                                LinearGradient(
+                                    colors: [
+                                        .green,
+                                        .green,
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: isSelected ? 2 : 1
+                            )
                     )
+                    .scaleEffect(isSelected ? 1.15 : 1)
 
                 Text("\(index + 1)")
                     .foregroundStyle(.white)
@@ -339,7 +391,7 @@ extension HomeView {
 
     var portalBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 18) {
+            HStack(spacing: 16) {
                 ForEach(Array(visibleWorlds.enumerated()), id: \.element.id) {
                     index,
                     world in
@@ -353,19 +405,21 @@ extension HomeView {
                 .fill(
                     LinearGradient(
                         colors: [
+                            Color.black,
                             Color.green,
-                            Color.purple,
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
                 )
-                .opacity(0.8)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(
                             LinearGradient(
-                                colors: [.green, .purple],
+                                colors: [
+                                    Color.black,
+                                    Color.green,
+                                ],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             ),
@@ -374,6 +428,7 @@ extension HomeView {
                 )
         )
         .padding()
+        .padding(.bottom)
     }
 }
 
@@ -396,21 +451,20 @@ extension HomeView {
                 .fill(
                     LinearGradient(
                         colors: [
-                            Color.blue,
-                            Color.purple,
+                            Color.black,
+                            Color.indigo,
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
                 )
-                .opacity(0.8)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(
                             LinearGradient(
                                 colors: [
-                                    Color.black.opacity(0.95),
-                                    Color.blue.opacity(0.35),
+                                    Color.black,
+                                    Color.indigo,
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -420,14 +474,15 @@ extension HomeView {
                 )
         )
         .padding()
+        .padding(.bottom)
     }
 
     private var worldBarBackground: some View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color.black.opacity(0.95),
-                    Color.blue.opacity(0.35),
+                    Color.black,
+                    Color.indigo,
                 ],
                 startPoint: .top,
                 endPoint: .bottom
@@ -436,8 +491,8 @@ extension HomeView {
                 .stroke(
                     LinearGradient(
                         colors: [
-                            .cyan.opacity(0.7),
-                            .purple.opacity(0.6),
+                            Color.black,
+                            Color.indigo,
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
@@ -457,15 +512,18 @@ extension HomeView {
 
         let isSelected = index == selectedWorldIndex
         let isLocked = !appModel.progress.isWorldUnlocked(world)
-        let isTutorialWorld = world.id == "world_tutorial"
 
         return Button {
             guard !isLocked else { return }
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+
+            withAnimation(.spring()) {
                 selectedWorldIndex = index
             }
+
         } label: {
+
             ZStack {
+
                 Circle()
                     .fill(
                         LinearGradient(
@@ -473,66 +531,40 @@ extension HomeView {
                                 isLocked
                                 ? [.gray.opacity(0.5), .black]
                                 : isSelected
-                                    ? [.cyan, .purple]
-                                    : [.blue.opacity(0.6), .black],
+                                    ? [.black, .indigo]
+                                    : [.black, .indigo],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 34, height: 34)
+                    .frame(width: worldNodeSize, height: worldNodeSize)
+
                     .overlay(
                         Circle()
                             .stroke(
                                 LinearGradient(
-                                    colors: [
-                                        .cyan.opacity(0.8),
-                                        .purple.opacity(0.7),
-                                    ],
+                                    colors: [.indigo, .indigo],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ),
-                                lineWidth: isSelected ? 2 : 1
+                                lineWidth: isSelected ? 3 : 3
                             )
                     )
-                    .shadow(
-                        color: isSelected
-                            ? .cyan.opacity(0.7)
-                            : .black.opacity(0.4),
-                        radius: isSelected ? 14 : 8
-                    )
+
                     .scaleEffect(isSelected ? 1.15 : 1)
 
-                VStack(spacing: 2) {
-                    Text("\(index + 1)")
-                        .font(.subheadline.bold())
-                        .foregroundStyle(.white)
-
-                    if isTutorialWorld {
-                        Text("TUTORIAL")
-                            .font(.system(size: 6, weight: .bold))
-                            .foregroundStyle(.yellow)
-                    }
-                }
+                Text("\(index + 1)")
+                    .foregroundStyle(.white)
+                    .font(.caption.bold())
 
                 if isLocked {
                     Image(systemName: "lock.fill")
                         .foregroundStyle(.white)
-                        .padding()
-                        .background(.black.opacity(0.6))
                         .clipShape(Circle())
-                        .opacity(isLocked ? 0.6 : 1)
                 }
             }
         }
         .buttonStyle(.plain)
-        .shadow(
-            color: isTutorialWorld
-                ? .yellow.opacity(0.9)
-                : isSelected
-                    ? .cyan.opacity(0.7)
-                    : .black.opacity(0.4),
-            radius: isTutorialWorld ? 18 : (isSelected ? 14 : 8)
-        )
     }
 
     fileprivate var lockOverlay: some View {

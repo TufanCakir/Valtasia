@@ -708,7 +708,7 @@
         },
         "energyType": "ice",
         "summon": {
-            "rate": 0.012,
+            "rate": 0.001,
             "banner": "standard_banner",
             "rateUp": true
         },
@@ -737,6 +737,51 @@
                 "cooldown": 5,
                 "particle": "IceExplosionParticle",
                 "color": "ice"
+            }
+        ]
+    },
+    {
+        "id": "hero_18",
+        "name": "Corrupted Riven",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1350,
+            "attack": 185,
+            "energyPower": 110,
+            "attackSpeed": 1.4
+        },
+        "energyType": "void",
+        "summon": {
+            "rate": 0.02,
+            "banner": "corrupted_riven_banner",
+            "rateUp": true
+        },
+        "sprite": "c_riven",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "c_riven"
+            }
+        ],
+        "skills": [
+            {
+                "id": "corrupt_slash",
+                "name": "Corrupt Slash",
+                "type": "damage",
+                "multiplier": 2.0,
+                "cooldown": 5,
+                "particle": "VoidParticle",
+                "color": "void"
+            },
+            {
+                "id": "dark_overload",
+                "name": "Dark Overload",
+                "type": "damage",
+                "multiplier": 3.0,
+                "cooldown": 5,
+                "particle": "ShadowParticle",
+                "color": "shadow"
             }
         ]
     }

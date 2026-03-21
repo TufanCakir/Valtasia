@@ -1,5 +1,5 @@
 //
-//  PortalWorld.swift
+//  CorruptedWorld.swift
 //  Valtasia
 //
 //  Created by Tufan Cakir on 17.03.26.
@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct PortalWorld: Codable, Identifiable {
+struct CorruptedWorld: Codable, Identifiable {
     let id: String
     let background: String
     let battleBackground: String
     let unlockAfterWorld: String?
-    let worldNodes: [PortalNode]
+    let worldNodes: [CorruptedNode]
 }
 
-struct PortalReward: Codable {
+struct CorruptedReward: Codable {
     let coins: Int
     let gems: Int
 }

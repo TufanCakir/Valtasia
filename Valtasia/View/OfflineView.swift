@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct OfflineView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     @ObservedObject private var network = NetworkMonitor.shared
     @Environment(\.dismiss) private var dismiss
 
     @State private var animate = false
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
@@ -20,17 +26,9 @@ struct OfflineView: View {
 
             // MARK: Background
             LinearGradient(
-                colors: [.black, .blue.opacity(0.4)],
+                colors: theme.headerGradient,
                 startPoint: .top,
                 endPoint: .bottom
-            )
-            .ignoresSafeArea()
-
-            RadialGradient(
-                colors: [.purple.opacity(0.35), .clear],
-                center: .topTrailing,
-                startRadius: 50,
-                endRadius: 500
             )
             .ignoresSafeArea()
 

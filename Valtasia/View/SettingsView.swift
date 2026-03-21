@@ -12,17 +12,14 @@ struct SettingsView: View {
     @EnvironmentObject var appModel: AppModel
 
     @State private var showConfirm = false
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
         VStack {
-
-            // MARK: HEADER
-            GameHeaderView()
-                .padding()
-
-            Divider()
-                .background(.white.opacity(0.15))
 
             ScrollView {
 
@@ -44,10 +41,7 @@ struct SettingsView: View {
         .background(
 
             LinearGradient(
-                colors: [
-                    Color.black,
-                    Color.purple.opacity(0.25),
-                ],
+                colors: theme.headerGradient,
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -260,7 +254,7 @@ extension SettingsView {
 
                 settingsRowAsset(
                     icon: "icon_exp",
-                    title: "Player Level",
+                    title: "Acccount Level",
                     value: "\(PlayerProgressManager.shared.level)"
                 )
 
@@ -268,15 +262,29 @@ extension SettingsView {
 
                 settingsRowAsset(
                     icon: "icon_gem",
-                    title: "gems",
+                    title: "Gems",
+                    value: "\(GemManager.shared.gems)"
+                )
+                
+                settingsRowAsset(
+                    icon: "icon_coin",
+                    title: "Coins",
+                    value: "\(PlayerProgressManager.shared.level)"
+                )
+
+                Divider().background(.white.opacity(0.15))
+
+                settingsRowAsset(
+                    icon: "c_gem",
+                    title: "Corrupted Gems",
                     value: "\(GemManager.shared.gems)"
                 )
 
                 Divider().background(.white.opacity(0.15))
 
                 settingsRowAsset(
-                    icon: "icon_coin",
-                    title: "Coins",
+                    icon: "c_coin",
+                    title: "Corrupted Coins",
                     value: "\(CoinManager.shared.coins)"
                 )
             }
@@ -399,12 +407,9 @@ extension SettingsView {
             .stroke(
 
                 LinearGradient(
-                    colors: [
-                        .cyan.opacity(0.7),
-                        .purple.opacity(0.6),
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+                    colors: theme.headerGradient,
+                    startPoint: .top,
+                    endPoint: .bottom
                 ),
                 lineWidth: 2
             )
@@ -422,4 +427,5 @@ extension SettingsView {
 
 #Preview {
     SettingsView()
+        .environmentObject(AppModel())
 }

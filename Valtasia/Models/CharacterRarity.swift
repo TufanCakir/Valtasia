@@ -13,7 +13,7 @@ enum CharacterRarity: String, Codable {
     case rare
     case epic
     case legendary
-
+    case corrupted   // 🔥 NEU
 }
 
 extension CharacterRarity {
@@ -23,7 +23,8 @@ extension CharacterRarity {
         case .common: return .gray
         case .rare: return .blue
         case .epic: return .purple
-        case .legendary: return .orange
+        case .legendary: return .yellow
+        case .corrupted: return .green   // 🔥 EVIL LOOK
         }
     }
 
@@ -33,6 +34,7 @@ extension CharacterRarity {
         case .rare: return 1.07
         case .epic: return 1.085
         case .legendary: return 1.10
+        case .corrupted: return 1.15   // 🔥 STRONGER scaling
         }
     }
 }

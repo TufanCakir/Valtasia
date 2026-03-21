@@ -7,5 +7,5 @@
 
 enum GameMode {
     case normal
-    case portal
+    case corrupted
 }

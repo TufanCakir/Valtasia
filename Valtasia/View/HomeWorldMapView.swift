@@ -20,7 +20,6 @@ struct HomeWorldMapView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                backgroundView
                 connectionLines(in: geo)
                 nodesView(in: geo)
             }
@@ -35,17 +34,6 @@ struct HomeWorldMapView: View {
 
 extension HomeWorldMapView {
 
-    fileprivate var backgroundView: some View {
-
-        Image(world.background)
-            .resizable()
-            .scaledToFill()
-            .ignoresSafeArea()
-    }
-}
-
-extension HomeWorldMapView {
-
     fileprivate func connectionLines(in geo: GeometryProxy) -> some View {
         ZStack {
             ForEach(world.worldNodes) { node in
@@ -53,7 +41,7 @@ extension HomeWorldMapView {
                     if let target = world.worldNodes.first(where: {
                         $0.id == targetId
                     }),
-                        node.id != target.id
+                       node.id != target.id
                     {
                         Path { path in
                             path.move(to: point(for: node, in: geo))
@@ -61,19 +49,20 @@ extension HomeWorldMapView {
                         }
                         .stroke(
                             LinearGradient(
-                                colors: [
-                                    .cyan.opacity(0.8),
-                                    .purple.opacity(0.7),
-                                ],
+                                colors: [.black, .indigo],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             ),
-                            style: StrokeStyle(
-                                lineWidth: 4,
-                                lineCap: .round
-                            )
+                            style: StrokeStyle(lineWidth: 4, lineCap: .round)
                         )
-                        .shadow(color: .cyan.opacity(0.6), radius: 6)
+                        .overlay(
+                            Path { path in
+                                path.move(to: point(for: node, in: geo))
+                                path.addLine(to: point(for: target, in: geo))
+                            }
+                                .stroke(.white.opacity(0.2), lineWidth: 1)
+                        )
+                        .shadow(color: .cyan.opacity(0.9), radius: 12)
                     }
                 }
             }
@@ -89,7 +78,7 @@ extension HomeWorldMapView {
         let usableWidth = geo.size.width - (horizontalPadding * 2)
 
         return CGPoint(
-            x: horizontalPadding + (usableWidth * node.positionX),
+            x: horizontalPadding + usableWidth * node.positionX,
             y: geo.size.height * node.positionY
         )
     }

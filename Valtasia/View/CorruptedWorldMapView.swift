@@ -1,5 +1,5 @@
 //
-//  HomeWorldPortalView.swift
+//  CorruptedWorldMapView.swift
 //  Valtasia
 //
 //  Created by Tufan Cakir on 17.03.26.
@@ -7,20 +7,19 @@
 
 import SwiftUI
 
-struct HomeWorldPortalView: View {
+struct CorruptedWorldMapView: View {
     
     @EnvironmentObject var appModel: AppModel
     
-    let world: PortalWorld
+    let world: CorruptedWorld
     let onSelectLevel: (String) -> Void
     
-    @State private var focusedNode: PortalNode?
+    @State private var focusedNode: CorruptedNode?
     @State private var pulse = false
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                backgroundView
                 connectionLines(in: geo)
                 nodesView(in: geo)
             }
@@ -31,17 +30,7 @@ struct HomeWorldPortalView: View {
             }
         }
     }
-}
 
-extension HomeWorldPortalView {
-    
-    fileprivate var backgroundView: some View {
-        Image(world.background)
-            .resizable()
-            .scaledToFill()
-            .ignoresSafeArea()
-    }
-    
     fileprivate func connectionLines(in geo: GeometryProxy) -> some View {
         ZStack {
             ForEach(world.worldNodes) { node in
@@ -55,20 +44,27 @@ extension HomeWorldPortalView {
                         }
                         .stroke(
                             LinearGradient(
-                                colors: [.cyan, .purple],
+                                colors: [.black, .green],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             ),
-                            style: StrokeStyle(lineWidth: 3, lineCap: .round)
+                            style: StrokeStyle(lineWidth: 4, lineCap: .round)
                         )
-                        .shadow(color: .cyan.opacity(0.8), radius: 10)
+                        .overlay(
+                            Path { path in
+                                path.move(to: point(for: node, in: geo))
+                                path.addLine(to: point(for: target, in: geo))
+                            }
+                            .stroke(.white.opacity(0.2), lineWidth: 1)
+                        )
+                        .shadow(color: .cyan.opacity(0.9), radius: 12)
                     }
                 }
             }
         }
     }
     
-    fileprivate func point(for node: PortalNode, in geo: GeometryProxy) -> CGPoint {
+    fileprivate func point(for node: CorruptedNode, in geo: GeometryProxy) -> CGPoint {
         let padding: CGFloat = 60
         let width = geo.size.width - (padding * 2)
         
@@ -104,10 +100,27 @@ extension HomeWorldPortalView {
                         .frame(width: 160, height: 160)
                 }
                 
-                Image(node.image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 90, height: 90)
+                ZStack {
+                    
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [
+                                    .cyan.opacity(isFocused ? 0.6 : 0.3),
+                                    .clear
+                                ],
+                                center: .center,
+                                startRadius: 10,
+                                endRadius: 60
+                            )
+                        )
+                        .frame(width: 100, height: 100)
+                    
+                    Image(node.image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                }
                     .opacity(isUnlocked ? 1 : 0.35)
                     .overlay {
                         ZStack {
@@ -127,7 +140,7 @@ extension HomeWorldPortalView {
             .onTapGesture {
                 guard isUnlocked else { return }
                 
-                withAnimation(.spring()) {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                     focusedNode = isFocused ? nil : node
                 }
             }
@@ -141,7 +154,7 @@ extension HomeWorldPortalView {
             .background(Circle().fill(.black.opacity(0.7)))
     }
     
-    private func levelButtons(_ node: PortalNode) -> some View {
+    private func levelButtons(_ node: CorruptedNode) -> some View {
         
         HStack(spacing: 16) {
             
@@ -157,7 +170,7 @@ extension HomeWorldPortalView {
                     Circle()
                         .fill(
                             unlocked
-                            ? LinearGradient(colors: [.cyan, .purple], startPoint: .topLeading, endPoint: .bottomTrailing)
+                            ? LinearGradient(colors: [.green, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing)
                             : LinearGradient(colors: [.gray, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
                         )
                         .frame(width: 34, height: 34)
@@ -171,7 +184,7 @@ extension HomeWorldPortalView {
         }
     }
     
-    fileprivate func isNodeUnlocked(_ node: PortalNode) -> Bool {
+    fileprivate func isNodeUnlocked(_ node: CorruptedNode) -> Bool {
         
         if node.id == world.worldNodes.first?.id {
             return true
@@ -182,11 +195,11 @@ extension HomeWorldPortalView {
         }
         
         return previous.contains {
-            appModel.progress.clearedAllLevels(ofId: $0.id, in: appModel.worlds)
+            appModel.progress.clearedAllLevels(of: $0)
         }
     }
     
-    private func isLevelUnlocked(_ level: Level, in node: PortalNode) -> Bool {
+    private func isLevelUnlocked(_ level: Level, in node: CorruptedNode) -> Bool {
         
         guard let index = node.levels.firstIndex(where: { $0.id == level.id }) else {
             return false

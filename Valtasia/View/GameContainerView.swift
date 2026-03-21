@@ -80,16 +80,13 @@ struct GameContainerView: View {
         // ⭐ TUTORIAL
         scene.isTutorialMode = (levelId == "tutorial_level")
         
-        // ⭐ WORLD (normal)
-        if let world = appModel.world(containing: levelId) {
+        // CORRUPTED FIRST (höhere Priorität)
+        if let corruptedLevel = appModel.corruptedLevel(for: levelId) {
+            scene.currentLevel = corruptedLevel
+            scene.gameMode = .corrupted
+        } else if let world = appModel.world(containing: levelId) {
             scene.world = world
             scene.gameMode = .normal
-        }
-        
-        // 🔥🔥🔥 PORTAL FIX (DAS IST DEIN KEY)
-        if let portalLevel = appModel.portalLevel(for: levelId) {
-            scene.currentLevel = portalLevel
-            scene.gameMode = .portal
         }
         
         scene.onVictory = {

@@ -1,5 +1,5 @@
 //
-//  PortalNode.swift
+//  CorruptedNode.swift
 //  Valtasia
 //
 //  Created by Tufan Cakir on 17.03.26.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PortalNode: Codable, Identifiable {
+struct CorruptedNode: Codable, Identifiable {
     let id: String
     let image: String
     let positionX: CGFloat

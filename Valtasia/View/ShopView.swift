@@ -9,6 +9,8 @@ import StoreKit
 import SwiftUI
 
 struct ShopView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     @StateObject private var storeKit = StoreKitService.shared
 
@@ -93,14 +95,15 @@ struct ShopView: View {
         .frame(maxWidth: .infinity)
         .padding(.top, 80)
     }
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack {
 
-            // MARK: HEADER
             GameHeaderView()
-                .padding(.horizontal)
-                .padding(.top)
 
             // MARK: CATEGORY BAR
             ShopCategoryBar(
@@ -200,8 +203,13 @@ extension ShopView {
     }
 
     private func grantItem(_ item: ShopItem) {
+
         if let gems = item.gems {
             GemManager.shared.add(gems)
+        }
+
+        if let corrupted = item.corruptedGems {
+            CorruptedGemManager.shared.add(corrupted)
         }
 
         if item.oneTimePurchase == true {
@@ -220,7 +228,7 @@ extension ShopView {
 extension ShopView {
     private var backgroundStyle: some View {
         LinearGradient(
-            colors: [Color.black, Color.blue.opacity(0.25)],
+            colors: theme.headerGradient,
             startPoint: .top,
             endPoint: .bottom
         )

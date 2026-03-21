@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EventView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     @EnvironmentObject var eventManager: EventManager
 
@@ -19,6 +21,10 @@ struct EventView: View {
     @State private var openSummon: Bool = false
     @State private var selectedEvent: GameEvent? = nil
 
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
+    
     var body: some View {
         VStack(spacing: 18) {
 
@@ -47,11 +53,10 @@ struct EventView: View {
         }
         .background(
             LinearGradient(
-                colors: [.black, .blue.opacity(0.25)],
+                colors: theme.headerGradient,
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .ignoresSafeArea()
         )
         // Navigation destinations consolidated here
         .navigationTitle("Events")

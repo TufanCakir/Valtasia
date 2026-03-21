@@ -58,9 +58,27 @@ struct WorldNodeView: View {
                         .frame(width: 140, height: 140)
                     }
 
-                    Image(node.image)
-                        .resizable()
-                        .scaledToFit()
+                    ZStack {
+                        
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    colors: [
+                                        .cyan.opacity(isFocused ? 0.6 : 0.3),
+                                        .clear
+                                    ],
+                                    center: .center,
+                                    startRadius: 10,
+                                    endRadius: 60
+                                )
+                            )
+                            .frame(width: 100, height: 100)
+                        
+                        Image(node.image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                    }
                         .frame(
                             width: min(geo.size.width * 0.22, 110),
                             height: min(geo.size.width * 0.22, 110)
@@ -132,29 +150,9 @@ struct WorldNodeView: View {
 
                         Circle()
                             .fill(
-
                                 unlocked
-                                    ?
-
-                                    LinearGradient(
-                                        colors: [
-                                            .cyan,
-                                            .purple,
-                                        ],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-
-                                    :
-
-                                    LinearGradient(
-                                        colors: [
-                                            .gray.opacity(0.5),
-                                            .black,
-                                        ],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
+                                ? LinearGradient(colors: [.purple, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing)
+                                : LinearGradient(colors: [.gray, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
                             )
 
                             .frame(width: 36, height: 36)

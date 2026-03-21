@@ -9,12 +9,18 @@ import StoreKit
 import SwiftUI
 
 struct ShopCardView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     @StateObject private var storeKit = StoreKitService.shared
     @State private var isPressed = false
 
     let storeProduct: StoreProduct
     let onBuy: () -> Void
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
@@ -43,7 +49,7 @@ extension ShopCardView {
         RoundedRectangle(cornerRadius: 24)
             .stroke(
                 LinearGradient(
-                    colors: [.cyan.opacity(0.7), .purple.opacity(0.6)],
+                    colors: theme.headerGradient,
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
@@ -59,10 +65,7 @@ extension ShopCardView {
             Circle()
                 .fill(
                     LinearGradient(
-                        colors: [
-                            iconColor.opacity(0.35),
-                            .black.opacity(0.7),
-                        ],
+                        colors: theme.headerGradient,
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -76,10 +79,14 @@ extension ShopCardView {
 
     fileprivate var titleView: some View {
         Group {
-            if let gems = storeProduct.shopItem.gems {
-                Text("\(gems) Gems")
-                    .font(.headline.bold())
-                    .foregroundStyle(.white)
+            VStack {
+                if let gems = storeProduct.shopItem.gems {
+                    Text("\(gems) Gems")
+                }
+                
+                if let cGems = storeProduct.shopItem.corruptedGems {
+                    Text("\(cGems) Corrupted Gems")
+                }
             }
         }
     }
@@ -99,11 +106,9 @@ extension ShopCardView {
             .padding()
             .background(
                 LinearGradient(
-                    colors: storeProduct.shopItem.oneTimePurchase == true
-                        ? [.green, .mint]
-                        : [.cyan, .purple],
-                    startPoint: .leading,
-                    endPoint: .trailing
+                    colors: theme.headerGradient,
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
                 )
             )
             .clipShape(Capsule())
@@ -144,10 +149,7 @@ extension ShopCardView {
             .fill(.ultraThinMaterial)
             .background(
                 LinearGradient(
-                    colors: [
-                        Color.black.opacity(0.9),
-                        iconColor.opacity(0.15),
-                    ],
+                    colors: theme.headerGradient,
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -157,15 +159,11 @@ extension ShopCardView {
                 RoundedRectangle(cornerRadius: 24)
                     .stroke(
                         LinearGradient(
-                            colors: [
-                                iconColor.opacity(0.6),
-                                .purple.opacity(0.4),
-                                .clear,
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
+                                colors: theme.headerGradient,
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                         ),
-                        lineWidth: 1
+                        lineWidth: 3
                     )
             )
             .shadow(
@@ -190,28 +188,28 @@ extension ShopCardView {
     fileprivate func badgeColor(for tag: String) -> LinearGradient {
         switch tag {
         case "best_value":
-            return LinearGradient(
-                colors: [.yellow, .orange],
-                startPoint: .leading,
-                endPoint: .trailing
+            return       LinearGradient(
+                colors: theme.headerGradient,
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
         case "sale":
-            return LinearGradient(
-                colors: [.red, .pink],
-                startPoint: .leading,
-                endPoint: .trailing
+            return       LinearGradient(
+                colors: theme.headerGradient,
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
         case "popular":
-            return LinearGradient(
-                colors: [.blue, .cyan],
-                startPoint: .leading,
-                endPoint: .trailing
+            return       LinearGradient(
+                colors: theme.headerGradient,
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
         default:
-            return LinearGradient(
-                colors: [.gray, .black],
-                startPoint: .leading,
-                endPoint: .trailing
+            return       LinearGradient(
+                colors: theme.headerGradient,
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
         }
     }
@@ -219,12 +217,19 @@ extension ShopCardView {
     @ViewBuilder
     fileprivate var iconImage: some View {
 
-        if iconName == "diamond.fill" {
+        // 👇 NEU: Currency check
+        if storeProduct.shopItem.corruptedGems != nil {
 
-            Image("icon_gem")
+            Image("c_gem")   // 🔴 dein corrupted icon
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(iconColor)
+
+        } else if storeProduct.shopItem.gems != nil {
+
+            Image("icon_gem")     // 🔵 normales icon
+                .resizable()
+                .scaledToFit()
+
         } else {
 
             Image(systemName: iconName)

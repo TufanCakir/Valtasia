@@ -9,9 +9,13 @@ import Foundation
 
 struct DailyReward: Codable, Identifiable {
     let day: Int
-    let coins: Int
-    let gems: Int
-    let exp: Int
+
+    let coins: Int?
+    let gems: Int?
+    let exp: Int?
+
+    let corruptedCoins: Int?
+    let corruptedGems: Int?
 
     var id: Int { day }
 }

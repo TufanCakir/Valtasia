@@ -8,103 +8,68 @@
 import SwiftUI
 
 struct GiftRow: View {
-
-    let giftId: String
-    let title: String
-    let value: Int
-    let icon: String
-    let iconColor: Color
-    let colors: [Color]
+    
+    @EnvironmentObject var appModel: AppModel
+    
+    let gift: Gift
     let action: () -> Void
-
+    
     private var claimed: Bool {
-        GiftClaimManager.shared.isClaimed(giftId)
+        GiftClaimManager.shared.isClaimed(gift.id)
     }
-
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
+    
     var body: some View {
         HStack(spacing: 16) {
-
+            
             iconView
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.system(size: 12, weight: .semibold))
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(gift.title ?? "Unknown")
+                    .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(.white)
-
-                Text("\(value)")
-                    .font(.system(size: 12, weight: .medium))
+                
+                Text("\(gift.amount ?? 0)")
+                    .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(.white)
             }
-
+            
             Spacer()
-
+            
             claimButton
         }
         .padding()
         .background(cardBackground)
+        .overlay(borderOverlay)
         .contentShape(Rectangle())
     }
-}
-
-extension GiftRow {
-
-    fileprivate var cardBackground: some View {
-        RoundedRectangle(cornerRadius: 18)
-            .fill(
-                LinearGradient(
-                    colors: [
-                        Color.black.opacity(0.88),
-                        Color.blue.opacity(0.18),
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-    }
-}
-
-extension GiftRow {
-
-    fileprivate var iconView: some View {
+    
+    private var iconView: some View {
         ZStack {
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            colors.first?.opacity(0.65) ?? .blue,
-                            .black.opacity(0.6),
-                        ],
-                        center: .topLeading,
-                        startRadius: 4,
-                        endRadius: 40
-                    )
-                )
-                .frame(width: 50, height: 50)
-
-            Image(icon)
+            
+            Image(gift.icon ?? "icon_gem")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50, height: 50)
         }
     }
-}
-
-extension GiftRow {
-
-    fileprivate var claimButton: some View {
-
-        let claimed = GiftClaimManager.shared.isClaimed(giftId)
-
-        return Button {
+    
+    private var claimButton: some View {
+        
+        Button {
             action()
-            GiftClaimManager.shared.claim(giftId)
+            GiftClaimManager.shared.claim(gift.id)
         } label: {
-            Text(claimed ? "✓" : "GIFT")
+            Text(claimed ? "✓" : "CLAIM")
                 .font(.system(size: 10, weight: .bold))
-                .padding()
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
                 .background(
                     LinearGradient(
-                        colors: claimed ? [.gray, .gray] : colors,
+                        colors: theme.headerGradient,
                         startPoint: .leading,
                         endPoint: .trailing
                     )
@@ -114,24 +79,29 @@ extension GiftRow {
         }
         .buttonStyle(.plain)
         .disabled(claimed)
-        .opacity(claimed ? 0.6 : 1)
+        .opacity(claimed ? 0.5 : 1)
     }
-}
-
-extension GiftRow {
-
-    fileprivate var borderOverlay: some View {
+    
+    private var cardBackground: some View {
+        RoundedRectangle(cornerRadius: 18)
+            .fill(
+                LinearGradient(
+                    colors: theme.headerGradient,
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+    }
+    
+    private var borderOverlay: some View {
         RoundedRectangle(cornerRadius: 18)
             .stroke(
                 LinearGradient(
-                    colors: [
-                        colors.first?.opacity(0.6) ?? .blue,
-                        .clear,
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+                    colors: theme.headerGradient,
+                    startPoint: .leading,
+                    endPoint: .trailing
                 ),
-                lineWidth: 1
+                lineWidth: 3
             )
     }
 }

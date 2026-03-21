@@ -28,7 +28,7 @@
             "icon": "diamond.fill",
             "color": "cyan"
         },
-        "gems": 100,
+        "gems": 100
     },
     {
         "id": "gems_pack_300",
@@ -39,5 +39,46 @@
             "color": "cyan"
         },
         "gems": 300
+    },
+    {
+        "id": "starter_pack",
+        "category": {
+            "id": "starter",
+            "icon": "diamond.fill",
+            "color": "green"
+        },
+        "corruptedGems": 50,
+        "tag": "best_value",
+        "oneTimePurchase": true
+    },
+    {
+        "id": "corrupted_pack_50",
+        "storeProductId": "com.valtasia.cgems.50",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "green"
+        },
+        "corruptedGems": 50
+    },
+    {
+        "id": "corrupted_pack_100",
+        "storeProductId": "com.valtasia.cgems.100",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "green"
+        },
+        "corruptedGems": 100,
+    },
+    {
+        "id": "corrupted_pack_300",
+        "storeProductId": "com.valtasia.cgems.300",
+        "category": {
+            "id": "real_money",
+            "icon": "diamond.fill",
+            "color": "green"
+        },
+        "corruptedGems": 300,
     }
 ]

@@ -32,7 +32,7 @@ final class AppModel: ObservableObject {
     let crystalManager = GemManager.shared
 
     // MARK: - Persistent Keys
-
+    private let homeModeKey = "homeMode"
     private let starterKey = "valtasia_starter_given"
 
     // MARK: - Published State
@@ -40,14 +40,19 @@ final class AppModel: ObservableObject {
     @Published var appState: AppState = .start
 
     @Published var worlds: [World] = []
-    @Published var portalWorlds: [PortalWorld] = []
+    @Published var corruptedWorlds: [CorruptedWorld] = []
+    @Published var storyChapters: [StoryChapter] = []
     @Published var selectedWorld: World?
     @Published var selectedNode: WorldNode?
     @Published var selectedLevelId: String?
     // MARK: - Loading Overlay
     @Published var isTransitionLoading: Bool = false
     @Published var currentLoadingImage: String = "loading1"
-    @Published var homeMode: HomeMode = .island
+    @Published var homeMode: HomeMode = .island {
+        didSet {
+            UserDefaults.standard.set(homeMode.rawValue, forKey: homeModeKey)
+        }
+    }
     
     func pickLoadingImage() {
         currentLoadingImage = loadingImages.randomElement() ?? "epic_bg"
@@ -84,13 +89,15 @@ final class AppModel: ObservableObject {
 
     enum AppState {
         case start
+        case home   // ✅ NEU
+        case story
         case game
     }
 
     // MARK: - Init
     init() {
+        determineTutorialState()   // 👈 ZUERST!
         initializeGameIfNeeded()
-        determineTutorialState()
     }
 
     private func determineTutorialState() {
@@ -113,11 +120,20 @@ final class AppModel: ObservableObject {
     /// Called on first app launch or after full reset
     func initializeGameIfNeeded() {
         loadWorlds()
-        loadPortalWorlds() // ⭐ DAS FEHLT BEI DIR
+        loadCorruptedWorlds()
+        loadHomeMode()
+        loadStory()
         loadStarterCharacterIfNeeded()
         determineInitialWorld()
     }
 
+    func loadHomeMode() {
+        if let saved = UserDefaults.standard.string(forKey: homeModeKey),
+           let mode = HomeMode(rawValue: saved) {
+            homeMode = mode
+        }
+    }
+    
     // MARK: - Navigation mit Loading
 
     func switchToGame() {
@@ -150,10 +166,53 @@ final class AppModel: ObservableObject {
     func startGame() {
         appState = .game
     }
+    
+    func resetTutorial() {
+        let d = UserDefaults.standard
+        d.removeObject(forKey: tutorialFightKey)
+        d.removeObject(forKey: tutorialSummonKey)
+        tutorialState = .none
+    }
+    
+    func completeLevel() {
+        guard let levelId = selectedLevelId else { return }
+
+        if levelId == tutorialLevelId {
+            completeTutorial()
+            return
+        }
+
+        completeNormalLevel(levelId)
+    }
+    
+    private func completeTutorial() {
+        UserDefaults.standard.set(true, forKey: tutorialFightKey)
+        tutorialState = .summon
+
+        selectedWorld = worlds.first { $0.id == "world_1" }
+        selectedLevelId = nil
+    }
+    
+    private func completeNormalLevel(_ levelId: String) {
+        guard let world = world(containing: levelId) else {
+            print("❌ World not found:", levelId)
+            selectedLevelId = nil
+            return
+        }
+
+        progress.markLevelCleared(levelId, in: world)
+        selectedLevelId = nil
+    }
 
     // MARK: - Reset
     func fullReset() {
         AccountResetManager.resetAll()
+
+        // ⭐ RESET USERDEFAULTS (WICHTIG)
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: tutorialFightKey)
+        defaults.removeObject(forKey: tutorialSummonKey)
+        defaults.removeObject(forKey: starterKey)
 
         // ⭐ RESET SINGLETONS
         CoinManager.shared.reset()
@@ -164,24 +223,29 @@ final class AppModel: ObservableObject {
         PlayerProgressManager.shared.reset()
         PityManager.shared.resetAll()
 
+        // ⭐ RESET LOCAL STATE
         teamManager.reset()
         progress.reset()
 
-        // ⭐ UI STATE RESET
         worlds.removeAll()
-        portalWorlds.removeAll()
+        corruptedWorlds.removeAll()
+        storyChapters.removeAll()
 
         selectedWorld = nil
         selectedNode = nil
         selectedLevelId = nil
 
+        tutorialState = .none
+
+        // ⭐ RELOAD
+        determineTutorialState()
         initializeGameIfNeeded()
 
         appState = .start
     }
 
-    func portalLevel(for id: String) -> Level? {
-        portalWorlds
+    func corruptedLevel(for id: String) -> Level? {
+        corruptedWorlds
             .flatMap { $0.worldNodes }
             .flatMap { $0.levels }
             .first { $0.id == id }
@@ -202,31 +266,6 @@ final class AppModel: ObservableObject {
         selectedLevelId = levelId
     }
 
-    func completeLevel() {
-        guard let levelId = selectedLevelId else { return }
-
-        // ⭐ Tutorial abgeschlossen
-        if levelId == tutorialLevelId {
-            UserDefaults.standard.set(true, forKey: tutorialFightKey)
-            tutorialState = .summon
-
-            // ⭐➡️ AUF WORLD 1 WECHSELN
-            selectedWorld = worlds.first(where: { $0.id == "world_1" })
-
-            selectedLevelId = nil
-            return
-        }
-
-        guard let world = world(containing: levelId) else {
-            print("❌ World not found for level:", levelId)
-            selectedLevelId = nil
-            return
-        }
-
-        progress.markLevelCleared(levelId, in: world)
-        selectedLevelId = nil
-    }
-
     // MARK: - Lookup
 
     func world(containing levelId: String) -> World? {
@@ -237,23 +276,43 @@ final class AppModel: ObservableObject {
         }
     }
 
-    func level(for id: String) -> Level? {
-        worlds
-            .flatMap { $0.worldNodes }
-            .flatMap { $0.levels }
-            .first { $0.id == id }
+    func level(for id: String, mode: HomeMode) -> Level? {
+
+        switch mode {
+
+        case .island:
+            return worlds
+                .flatMap { $0.worldNodes }
+                .flatMap { $0.levels }
+                .first { $0.id == id }
+
+        case .corrupted:
+            return corruptedWorlds
+                .flatMap { $0.worldNodes }
+                .flatMap { $0.levels }
+                .first { $0.id == id }
+        }
     }
     
-    func loadPortalWorlds() {
+    func loadStory() {
         do {
-            let loaded: [PortalWorld] = try JSONLoader.load("portals")
-            portalWorlds = loaded
+            storyChapters = try JSONLoader.load("story")
+        } catch {
+            storyChapters = []
+            print("❌ Story load failed:", error)
+        }
+    }
+    
+    func loadCorruptedWorlds() {
+        do {
+            let loaded: [CorruptedWorld] = try JSONLoader.load("corrupted")
+            corruptedWorlds = loaded
 
-            print("🌀 Portals loaded:", portalWorlds.count)
-            print("🌀 Portal IDs:", portalWorlds.map { $0.id })
+            print("🌀 Corrupted loaded:", corruptedWorlds.count)
+            print("🌀 IDs:", corruptedWorlds.map { $0.id })
 
         } catch {
-            print("❌ Portal load failed:", error)
+            print("❌ Corrupted load failed:", error)
         }
     }
 
@@ -272,21 +331,17 @@ final class AppModel: ObservableObject {
         guard !worlds.isEmpty else { return }
 
         switch tutorialState {
-
         case .fight:
-            selectedWorld = worlds.first(where: { $0.id == "world_tutorial" })
+            selectedWorld = worlds.first { $0.id == "world_tutorial" }
 
         case .summon, .done:
-            selectedWorld = worlds.first(where: { $0.id == "world_1" })
+            selectedWorld = worlds.first { $0.id == "world_1" }
 
         case .none:
             selectedWorld = progress.lastUnlockedWorld(from: worlds)
         }
 
-        // Fallback
-        if selectedWorld == nil {
-            selectedWorld = worlds.first
-        }
+        selectedWorld = selectedWorld ?? worlds.first
 
         print("🌍 Selected world:", selectedWorld?.id ?? "none")
     }

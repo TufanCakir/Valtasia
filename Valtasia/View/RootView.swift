@@ -8,63 +8,40 @@
 import SwiftUI
 
 struct RootView: View {
-
+    
+    
     enum Tab { case home, team, summon, shop, exchange }
-
+    
     @EnvironmentObject var appModel: AppModel
     @State private var selectedTab: Tab = .home
-
+    
     var body: some View {
-
-        VStack {
-
-            currentView
-
-            CustomFooter(selectedTab: $selectedTab)
+        NavigationStack {
+            ZStack {
+                                
+                currentView
+            }
+            
+                CustomFooter(selectedTab: $selectedTab)
         }
     }
 }
 
 extension RootView {
-
+    
     @ViewBuilder
     var currentView: some View {
-
         switch selectedTab {
-
         case .home:
-
-            NavigationStack {
-                HomeView()
-            }
-
+            HomeView()
         case .team:
-
-            NavigationStack {
-                TeamView(
-                    teamManager: appModel.teamManager
-                )
-            }
-
+            TeamView(teamManager: appModel.teamManager)
         case .summon:
-
-            NavigationStack {
-                SummonView(
-                    teamManager: appModel.teamManager
-                )
-            }
-
+            SummonView(teamManager: appModel.teamManager)
         case .shop:
-
-            NavigationStack {
-                ShopView()
-            }
-
+            ShopView()
         case .exchange:
-
-            NavigationStack {
-                ExchangeView()
-            }
+            ExchangeView()
         }
     }
 }

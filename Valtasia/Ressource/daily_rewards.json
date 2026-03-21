@@ -1,44 +1,22 @@
 [
-    {
-        "day": 1,
-        "coins": 200,
-        "gems": 5,
-        "exp": 50
-    },
-    {
-        "day": 2,
-        "coins": 300,
-        "gems": 5,
-        "exp": 70
-    },
-    {
-        "day": 3,
-        "coins": 400,
-        "gems": 10,
-        "exp": 90
-    },
-    {
-        "day": 4,
-        "coins": 500,
-        "gems": 10,
-        "exp": 120
-    },
-    {
-        "day": 5,
-        "coins": 600,
-        "gems": 15,
-        "exp": 150
-    },
-    {
-        "day": 6,
-        "coins": 800,
-        "gems": 20,
-        "exp": 200
-    },
-    {
-        "day": 7,
-        "coins": 1500,
-        "gems": 50,
-        "exp": 500
-    }
+    { "day": 1, "coins": 200, "gems": 5, "exp": 50 },
+    { "day": 2, "coins": 300, "gems": 5, "exp": 70 },
+    { "day": 3, "coins": 400, "gems": 10, "exp": 90 },
+    { "day": 4, "coins": 500, "gems": 10, "exp": 120 },
+    { "day": 5, "coins": 600, "gems": 15, "exp": 150 },
+    { "day": 6, "coins": 750, "gems": 20, "exp": 200 },
+    { "day": 7, "coins": 1200, "gems": 80, "exp": 400 },
+    { "day": 8, "corruptedCoins": 200, "corruptedGems": 5, "exp": 80 },
+    { "day": 9, "coins": 900, "gems": 25, "exp": 250 },
+    { "day": 10, "corruptedCoins": 300, "exp": 120 },
+    { "day": 11, "coins": 1200, "gems": 30, "exp": 300 },
+    { "day": 12, "corruptedGems": 10, "exp": 150 },
+    { "day": 13, "coins": 1500, "gems": 40, "exp": 350 },
+    { "day": 14, "corruptedCoins": 600, "corruptedGems": 25, "exp": 400 },
+    { "day": 15, "coins": 1600, "gems": 50, "exp": 400 },
+    { "day": 16, "coins": 1800, "gems": 60, "exp": 450 },
+    { "day": 17, "corruptedCoins": 800, "exp": 300 },
+    { "day": 18, "corruptedGems": 30, "exp": 200 },
+    { "day": 19, "coins": 2000, "gems": 70, "exp": 500 },
+    { "day": 20, "coins": 3000, "gems": 150, "corruptedCoins": 1000, "corruptedGems": 50, "exp": 800 }
 ]

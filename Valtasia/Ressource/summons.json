@@ -5,8 +5,8 @@
             "title": "Standard"
         },
         {
-            "id": "event",
-            "title": "Event"
+            "id": "corrupted",
+            "title": "Corrupted"
         },
         {
             "id": "limited",
@@ -17,9 +17,7 @@
             "title": "Tutorial"
         }
     ],
-
     "banners": [
-
         {
             "id": "tutorial_banner",
             "title": "Tutorial Summon",
@@ -36,7 +34,7 @@
             "pool": [
                 {
                     "characterId": "hero_01",
-                    "rate": 0.5,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
@@ -66,7 +64,7 @@
                 },
                 {
                     "characterId": "hero_07",
-                    "rate": 0.5,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
@@ -76,17 +74,17 @@
                 },
                 {
                     "characterId": "hero_09",
-                    "rate": 0.5,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_10",
-                    "rate": 0.5,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_11",
-                    "rate": 0.5,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
@@ -96,7 +94,7 @@
                 },
                 {
                     "characterId": "hero_13",
-                    "rate": 0.5,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
@@ -111,17 +109,21 @@
                 },
                 {
                     "characterId": "hero_16",
-                    "rate": 0.01,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_17",
-                    "rate": 0.01,
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_18",
+                    "rate": 0.0001,
                     "rateUp": false
                 }
             ]
         },
-
         {
             "id": "standard_banner",
             "title": "Standard Summon",
@@ -142,99 +144,111 @@
             "pool": [
                 {
                     "characterId": "hero_01",
-                    "rate": 0.001,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_02",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_03",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_04",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_05",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_06",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_07",
-                    "rate": 0.001,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_08",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_09",
-                    "rate": 0.001,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_10",
-                    "rate": 0.001,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_11",
-                    "rate": 0.001,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_12",
-                    "rate": 0.001,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_13",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_14",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_15",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_16",
-                    "rate": 0.01,
+                    "rate": 0.0001,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_17",
-                    "rate": 0.5,
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_18",
+                    "rate": 0.0001,
                     "rateUp": false
                 }
-            ]
+            ],
+            "pity": {
+                "enabled": true,
+                "requiredPulls": 300,
+                "guaranteedPool": [
+                    {
+                        "characterId": "hero_01"
+                    }
+                ]
+            }
         },
-
         {
             "id": "broken_hearts_banner",
             "title": "The Broken Hearts",
             "category": "limited",
             "currency": "gem",
             "bannerImage": "character_riven",
-
             "summons": [
                 {
                     "amount": 1,
@@ -245,9 +259,7 @@
                     "cost": 50
                 }
             ],
-
             "poolLimit": 100,
-
             "pool": [
                 {
                     "characterId": "hero_01",
@@ -256,17 +268,17 @@
                 },
                 {
                     "characterId": "hero_02",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_03",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_04",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
@@ -276,7 +288,7 @@
                 },
                 {
                     "characterId": "hero_08",
-                    "rate": 0.50,
+                    "rate": 0.5,
                     "rateUp": false
                 },
                 {
@@ -300,7 +312,6 @@
                     "rateUp": true
                 }
             ],
-
             "pity": {
                 "enabled": true,
                 "requiredPulls": 300,
@@ -316,13 +327,11 @@
                     }
                 ]
             },
-
             "stepUp": {
                 "enabled": true,
                 "steps": [
                     {
                         "step": 1,
-
                         "costs": [
                             {
                                 "amount": 1,
@@ -333,7 +342,6 @@
                                 "cost": 30
                             }
                         ],
-
                         "pool": [
                             {
                                 "characterId": "hero_01",
@@ -342,17 +350,17 @@
                             },
                             {
                                 "characterId": "hero_02",
-                                "rate": 0.50,
+                                "rate": 0.5,
                                 "rateUp": false
                             },
                             {
                                 "characterId": "hero_03",
-                                "rate": 0.50,
+                                "rate": 0.5,
                                 "rateUp": false
                             },
                             {
                                 "characterId": "hero_04",
-                                "rate": 0.50,
+                                "rate": 0.5,
                                 "rateUp": false
                             },
                             {
@@ -364,7 +372,6 @@
                     },
                     {
                         "step": 2,
-
                         "costs": [
                             {
                                 "amount": 1,
@@ -375,7 +382,6 @@
                                 "cost": 50
                             }
                         ],
-
                         "pool": [
                             {
                                 "characterId": "hero_01",
@@ -384,12 +390,12 @@
                             },
                             {
                                 "characterId": "hero_02",
-                                "rate": 0.50,
+                                "rate": 0.5,
                                 "rateUp": false
                             },
                             {
                                 "characterId": "hero_03",
-                                "rate": 0.50,
+                                "rate": 0.5,
                                 "rateUp": false
                             },
                             {
@@ -406,7 +412,6 @@
                     },
                     {
                         "step": 3,
-
                         "costs": [
                             {
                                 "amount": 1,
@@ -417,10 +422,128 @@
                                 "cost": 0
                             }
                         ],
-
                         "guaranteed": {
                             "characterId": "hero_01"
                         }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "corrupted_riven_banner",
+            "title": "Corrupted Summon",
+            "category": "corrupted",
+            "currency": "c_gem",
+            "bannerImage": "c_riven",
+            "summons": [
+                {
+                    "amount": 1,
+                    "cost": 5
+                },
+                {
+                    "amount": 10,
+                    "cost": 50
+                }
+            ],
+            "poolLimit": 100,
+            "pool": [
+                {
+                    "characterId": "hero_01",
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_02",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_03",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_04",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_05",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_06",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_07",
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_08",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_09",
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_10",
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_11",
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_12",
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_13",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_14",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_15",
+                    "rate": 0.5,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_16",
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_17",
+                    "rate": 0.0001,
+                    "rateUp": false
+                },
+                {
+                    "characterId": "hero_18",
+                    "rate": 0.01,
+                    "rateUp": true
+                }
+            ],
+            "pity": {
+                "enabled": true,
+                "requiredPulls": 300,
+                "guaranteedPool": [
+                    {
+                        "characterId": "hero_18"
                     }
                 ]
             }

@@ -1,0 +1,187 @@
+[
+  {
+    "id": "chapter_tutorial",
+    "title": "Der Anfang",
+    "description": "Deine Reise beginnt in einer unbekannten Welt voller Gefahren.",
+    "worldId": "world_tutorial",
+    "image": "bg_tutorial",
+    "type": "island"
+  },
+  {
+    "id": "chapter_tutorial_corrupted",
+    "title": "Das verdorbene Erwachen",
+    "description": "Die ersten Portale zeigen ihre wahre, dunkle Natur.",
+    "worldId": "world_tutorial",
+    "image": "c_corrupted_bg",
+    "type": "corrupted"
+  },
+  {
+    "id": "chapter_1",
+    "title": "Die erste Insel",
+    "description": "Elemente erwachen – Feuer, Eis und Natur stehen im Konflikt.",
+    "worldId": "world_1",
+    "image": "water_bg",
+    "type": "island"
+  },
+  {
+    "id": "chapter_1_corrupted",
+    "title": "Flammen der Verderbnis",
+    "description": "Die Portale verzerren die Elemente und entfesseln Chaos.",
+    "worldId": "world_1",
+    "image": "c_hell_bg",
+    "type": "corrupted"
+  },
+  {
+    "id": "chapter_2",
+    "title": "Die Portale öffnen sich",
+    "description": "Neue Dimensionen erscheinen und dunkle Kräfte werden stärker.",
+    "worldId": "world_2",
+    "image": "epic_bg",
+    "type": "island"
+  },
+  {
+    "id": "chapter_2_corrupted",
+    "title": "Dämonische Risse",
+    "description": "Die Portale reißen die Realität auf und Dämonen strömen hervor.",
+    "worldId": "world_2",
+    "image": "c_demon_bg",
+    "type": "corrupted"
+  },
+  {
+    "id": "chapter_3",
+    "title": "Himmel und Chaos",
+    "description": "Die Balance der Welt beginnt zu zerbrechen.",
+    "worldId": "world_3",
+    "image": "sky_bg",
+    "type": "island"
+  },
+  {
+    "id": "chapter_3_corrupted",
+    "title": "Zerfallene Realität",
+    "description": "Die Welt wird von korrumpierten Kräften verschlungen.",
+    "worldId": "world_3",
+    "image": "c_corrupted_bg",
+    "type": "corrupted"
+  },
+
+  {
+    "id": "chapter_4",
+    "title": "Die Lavawelt",
+    "description": "Glühende Lava und uralte Mächte bedrohen alles.",
+    "worldId": "world_4",
+    "image": "lava_bg",
+    "type": "island"
+  },
+  {
+    "id": "chapter_5",
+    "title": "Natur vs. Void",
+    "description": "Die Natur kämpft gegen die Dunkelheit.",
+    "worldId": "world_5",
+    "image": "nature_bg",
+    "type": "island"
+  },
+  {
+    "id": "chapter_6",
+    "title": "Erde & Sturm",
+    "description": "Elementare Kräfte kollidieren.",
+    "worldId": "world_6",
+    "image": "earth_bg",
+    "type": "island"
+  },
+  {
+    "id": "chapter_7",
+    "title": "Im All verloren",
+    "description": "Eine Reise durch Raum und Leere beginnt.",
+    "worldId": "world_7",
+    "image": "space_bg",
+    "type": "island"
+  },
+  {
+    "id": "chapter_8",
+    "title": "Das Void erwacht",
+    "description": "Die Dunkelheit wird lebendig.",
+    "worldId": "world_8",
+    "image": "void_bg",
+    "type": "island"
+  },
+  {
+    "id": "chapter_9",
+    "title": "Die verlorenen Seelen",
+    "description": "Eine düstere Welt voller Geheimnisse.",
+    "worldId": "world_9",
+    "image": "bg_emo",
+    "type": "island"
+  },
+  {
+    "id": "chapter_10",
+    "title": "Friedhof der Helden",
+    "description": "Gefallene Krieger ruhen hier… oder doch nicht?",
+    "worldId": "world_10",
+    "image": "bg_cemetery",
+    "type": "island"
+  },
+  {
+    "id": "chapter_11",
+    "title": "Süße Illusion",
+    "description": "Eine täuschend friedliche Welt.",
+    "worldId": "world_11",
+    "image": "bg_candy",
+    "type": "island"
+  },
+  {
+    "id": "chapter_12",
+    "title": "Die Wüste ruft",
+    "description": "Hitze, Sand und uralte Geheimnisse.",
+    "worldId": "world_12",
+    "image": "bg_desert",
+    "type": "island"
+  },
+  {
+    "id": "chapter_13",
+    "title": "Der Wahnsinn beginnt",
+    "description": "Realität und Chaos verschwimmen.",
+    "worldId": "world_13",
+    "image": "bg_crazy",
+    "type": "island"
+  },
+  {
+    "id": "chapter_14",
+    "title": "Disco Dimension",
+    "description": "Eine verrückte Welt voller Energie.",
+    "worldId": "world_14",
+    "image": "bg_disco",
+    "type": "island"
+  },
+  {
+    "id": "chapter_15",
+    "title": "Der Händler",
+    "description": "Ein Ort voller Reichtum… und Gefahren.",
+    "worldId": "world_15",
+    "image": "bg_shop",
+    "type": "island"
+  },
+  {
+    "id": "chapter_16",
+    "title": "Die Reise beginnt erneut",
+    "description": "Auf hoher See wartet dein Schicksal.",
+    "worldId": "world_16",
+    "image": "bg_ship",
+    "type": "island"
+  },
+  {
+    "id": "chapter_17",
+    "title": "Die Dunkelheit",
+    "description": "Alles wird von Schatten verschlungen.",
+    "worldId": "world_17",
+    "image": "bg_dark",
+    "type": "island"
+  },
+  {
+    "id": "chapter_18",
+    "title": "Finale Realität",
+    "description": "Alle Welten kollidieren im finalen Kampf.",
+    "worldId": "world_18",
+    "image": "bg_rainbow",
+    "type": "island"
+  }
+]

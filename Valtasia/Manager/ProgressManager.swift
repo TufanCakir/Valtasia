@@ -10,87 +10,75 @@ import Foundation
 
 final class ProgressManager: ObservableObject {
 
+    // MARK: - Keys
+
     private let clearedLevelsKey = "clearedLevels"
     private let clearedWorldsKey = "clearedWorlds"
+    private let clearedCorruptedLevelsKey = "clearedCorruptedLevels"
 
-    // welche Level sind geschafft
+    // MARK: - State
+
     @Published var clearedLevels: Set<String> = []
-
-    // welche Worlds sind komplett geschafft (optional, kann man auch berechnen)
     @Published var clearedWorlds: Set<String> = []
+    @Published var clearedCorruptedLevels: Set<String> = []
+
+    // MARK: - Init
 
     init() {
-
         load()
     }
-    
+
+    // MARK: - Reset
+
     func reset() {
         clearedLevels = []
         clearedWorlds = []
+        clearedCorruptedLevels = []
         save()
     }
 
+    // MARK: - Save / Load
+
     private func save() {
 
-        UserDefaults.standard.set(
-            Array(clearedLevels),
-            forKey: clearedLevelsKey
-        )
+        let defaults = UserDefaults.standard
 
-        UserDefaults.standard.set(
-            Array(clearedWorlds),
-            forKey: clearedWorldsKey
+        defaults.set(Array(clearedLevels), forKey: clearedLevelsKey)
+        defaults.set(Array(clearedWorlds), forKey: clearedWorldsKey)
+        defaults.set(
+            Array(clearedCorruptedLevels),
+            forKey: clearedCorruptedLevelsKey
         )
     }
 
     private func load() {
 
-        if let levels =
-            UserDefaults.standard.array(
-                forKey: clearedLevelsKey
-            ) as? [String]
-        {
+        let defaults = UserDefaults.standard
 
-            clearedLevels =
-                Set(levels)
+        if let levels = defaults.array(forKey: clearedLevelsKey) as? [String] {
+            clearedLevels = Set(levels)
         }
 
-        if let worlds =
-            UserDefaults.standard.array(
-                forKey: clearedWorldsKey
-            ) as? [String]
-        {
+        if let worlds = defaults.array(forKey: clearedWorldsKey) as? [String] {
+            clearedWorlds = Set(worlds)
+        }
 
-            clearedWorlds =
-                Set(worlds)
+        if let corrupted = defaults.array(forKey: clearedCorruptedLevelsKey)
+            as? [String]
+        {
+            clearedCorruptedLevels = Set(corrupted)
         }
     }
 
-    func lastUnlockedWorld(from worlds: [World]) -> World? {
-        worlds.last { isWorldUnlocked($0) }
-    }
+    // MARK: - Normal Progress
 
-    func markLevelCleared(
-        _ levelId: String,
-        in world: World
-    ) {
+    func markLevelCleared(_ levelId: String, in world: World) {
 
         clearedLevels.insert(levelId)
 
         updateWorldClearedIfNeeded(world)
 
         save()
-    }
-    
-    func clearedAllLevels(ofId nodeId: String, in worlds: [World]) -> Bool {
-        
-        guard let node = worlds
-            .flatMap({ $0.worldNodes })
-            .first(where: { $0.id == nodeId }) else {
-            return false
-        }
-
-        return node.levels.allSatisfy { clearedLevels.contains($0.id) }
     }
 
     func clearedAllLevels(of node: WorldNode) -> Bool {
@@ -104,9 +92,7 @@ final class ProgressManager: ObservableObject {
     func updateWorldClearedIfNeeded(_ world: World) {
 
         if clearedAllNodes(in: world) {
-
             clearedWorlds.insert(world.id)
-            
             save()
         }
     }
@@ -118,5 +104,39 @@ final class ProgressManager: ObservableObject {
         }
 
         return clearedWorlds.contains(required)
+    }
+
+    func lastUnlockedWorld(from worlds: [World]) -> World? {
+        worlds.last(where: { isWorldUnlocked($0) }) ?? worlds.first
+    }
+
+    // MARK: - Corrupted Progress
+
+    func markCorruptedLevelCleared(_ levelId: String) {
+        clearedCorruptedLevels.insert(levelId)
+        save()
+    }
+
+    func clearedAllLevels(of node: CorruptedNode) -> Bool {
+        node.levels.allSatisfy { clearedCorruptedLevels.contains($0.id) }
+    }
+
+    func isCorruptedWorldUnlocked(_ world: CorruptedWorld) -> Bool {
+
+        guard let required = world.unlockAfterWorld else {
+            return true
+        }
+
+        return clearedWorlds.contains(required)
+    }
+
+    // MARK: - Progress Helpers
+
+    func progress(for node: CorruptedNode) -> Double {
+        let cleared = node.levels.filter {
+            clearedCorruptedLevels.contains($0.id)
+        }.count
+
+        return Double(cleared) / Double(node.levels.count)
     }
 }

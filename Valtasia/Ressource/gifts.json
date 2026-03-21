@@ -1,38 +1,132 @@
 [
     {
-        "id": "gift_coins",
+        "id": "gift_coins_small",
         "title": "Coins",
         "icon": "icon_coin",
         "iconColor": "yellow",
-        "colors": [
-            "yellow",
-            "orange"
-        ],
+        "colors": ["yellow", "orange"],
         "type": "coins",
-        "amount": 300
+        "amount": 200
     },
     {
-        "id": "gift_gems",
+        "id": "gift_coins_medium",
+        "title": "Coins",
+        "icon": "icon_coin",
+        "iconColor": "yellow",
+        "colors": ["yellow", "orange"],
+        "type": "coins",
+        "amount": 500
+    },
+    {
+        "id": "gift_coins_big",
+        "title": "Coins",
+        "icon": "icon_coin",
+        "iconColor": "yellow",
+        "colors": ["yellow", "orange"],
+        "type": "coins",
+        "amount": 1200
+    },
+
+    {
+        "id": "gift_gems_small",
         "title": "Gems",
         "icon": "icon_gem",
         "iconColor": "cyan",
-        "colors": [
-            "cyan",
-            "purple"
-        ],
+        "colors": ["cyan", "purple"],
         "type": "gems",
         "amount": 50
     },
     {
-        "id": "gift_exp",
+        "id": "gift_gems_medium",
+        "title": "Gems",
+        "icon": "icon_gem",
+        "iconColor": "cyan",
+        "colors": ["cyan", "purple"],
+        "type": "gems",
+        "amount": 100
+    },
+    {
+        "id": "gift_gems_big",
+        "title": "Gems",
+        "icon": "icon_gem",
+        "iconColor": "cyan",
+        "colors": ["cyan", "purple"],
+        "type": "gems",
+        "amount": 250
+    },
+
+    {
+        "id": "gift_exp_small",
         "title": "EXP Potion",
         "icon": "icon_exp",
         "iconColor": "blue",
-        "colors": [
-            "green",
-            "blue"
-        ],
+        "colors": ["green", "blue"],
         "type": "exp",
-        "amount": 3
+        "amount": 2
+    },
+    {
+        "id": "gift_exp_medium",
+        "title": "EXP Potion",
+        "icon": "icon_exp",
+        "iconColor": "blue",
+        "colors": ["green", "blue"],
+        "type": "exp",
+        "amount": 5
+    },
+    {
+        "id": "gift_exp_big",
+        "title": "EXP Potion",
+        "icon": "icon_exp",
+        "iconColor": "blue",
+        "colors": ["green", "blue"],
+        "type": "exp",
+        "amount": 10
+    },
+
+    {
+        "id": "gift_corrupted_coins_small",
+        "title": "Corrupted Coins",
+        "icon": "c_coin",
+        "iconColor": "green",
+        "colors": ["green", "black"],
+        "type": "corruptedCoins",
+        "amount": 150
+    },
+    {
+        "id": "gift_corrupted_coins_big",
+        "title": "Corrupted Coins",
+        "icon": "c_coin",
+        "iconColor": "green",
+        "colors": ["green", "black"],
+        "type": "corruptedCoins",
+        "amount": 400
+    },
+
+    {
+        "id": "gift_corrupted_gems_small",
+        "title": "Corrupted Gems",
+        "icon": "c_gem",
+        "iconColor": "green",
+        "colors": ["green", "black"],
+        "type": "corruptedGems",
+        "amount": 50
+    },
+    {
+        "id": "gift_corrupted_gems_medium",
+        "title": "Corrupted Gems",
+        "icon": "c_gem",
+        "iconColor": "green",
+        "colors": ["green", "black"],
+        "type": "corruptedGems",
+        "amount": 120
+    },
+    {
+        "id": "gift_corrupted_gems_big",
+        "title": "Corrupted Gems",
+        "icon": "c_gem",
+        "iconColor": "green",
+        "colors": ["green", "black"],
+        "type": "corruptedGems",
+        "amount": 300
     }
 ]

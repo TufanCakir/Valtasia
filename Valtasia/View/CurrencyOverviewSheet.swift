@@ -17,7 +17,7 @@ struct CurrencyOverviewSheet: View {
     @ObservedObject var corruptedGems = CorruptedGemManager.shared
 
     var theme: UITheme {
-        appModel.homeMode == .portal ? .portal : .island
+        appModel.homeMode == .corrupted ? .corrupted : .island
     }
 
     var body: some View {
@@ -43,29 +43,29 @@ struct CurrencyOverviewSheet: View {
                     title: "Coins",
                     icon: "icon_coin",
                     value: coins.coins,
-                    gradient: [.yellow, .orange]
+                    gradient: [.black, .indigo]
                 )
 
                 currencyCard(
                     title: "Gems",
                     icon: "icon_gem",
                     value: gems.gems,
-                    gradient: [.cyan, .blue]
+                    gradient: [.black, .indigo]
                 )
 
                 // ⭐ Corrupted
                 currencyCard(
                     title: "Corrupted Coins",
-                    icon: "icon_c_coin",
+                    icon: "c_coin",
                     value: corruptedCoins.coins,
-                    gradient: [.green, .purple]
+                    gradient: [.black, .green]
                 )
 
                 currencyCard(
                     title: "Corrupted Gems",
-                    icon: "icon_c_gem",
+                    icon: "c_gem",
                     value: corruptedGems.gems,
-                    gradient: [.green, .purple]
+                    gradient: [.black, .green]
                 )
 
             }

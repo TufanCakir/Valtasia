@@ -19,6 +19,13 @@ final class CorruptedGemManager: ObservableObject {
     private init() {
         load()
     }
+    
+    func spend(_ amount: Int) -> Bool {
+        guard amount > 0, gems >= amount else { return false }
+        gems -= amount
+        save()
+        return true
+    }
 
     func add(_ amount: Int) {
         guard amount > 0 else { return }

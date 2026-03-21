@@ -35,7 +35,9 @@ struct ValtasiaApp: App {
                         switch appModel.appState {
                         case .start:
                             StartView()
-                        case .game:
+                        case .story:
+                            StoryView()
+                        case .home, .game:
                             RootView()
                         }
 
@@ -80,9 +82,9 @@ struct ValtasiaApp: App {
         }
         .onChange(of: appModel.appState) { _, state in
             switch state {
-            case .game:
+            case .game, .home:
                 MusicManager.shared.play()
-            case .start:
+            case .start, .story:
                 MusicManager.shared.stop()
             }
         }

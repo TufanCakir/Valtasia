@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SummonResultView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     let characters: [Character]
 
@@ -16,6 +18,10 @@ struct SummonResultView: View {
     let columns = [
         GridItem(.adaptive(minimum: 120), spacing: 20)
     ]
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
@@ -74,7 +80,7 @@ struct SummonResultView: View {
                     .padding(.vertical, 14)
                     .background(
                         LinearGradient(
-                            colors: [.purple, .blue],
+                            colors: theme.headerGradient,
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -86,12 +92,9 @@ struct SummonResultView: View {
         }
         .background(
             LinearGradient(
-                colors: [
-                    Color.black,
-                    Color.blue.opacity(0.25),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
+                colors: theme.headerGradient,
+                startPoint: .leading,
+                endPoint: .trailing
             )
             .ignoresSafeArea()
         )
@@ -111,14 +114,10 @@ extension SummonResultView {
 
                 Circle()
                     .fill(
-                        RadialGradient(
-                            colors: [
-                                color.opacity(0.5),
-                                .clear,
-                            ],
-                            center: .center,
-                            startRadius: 10,
-                            endRadius: 120
+                        LinearGradient(
+                            colors: theme.headerGradient,
+                            startPoint: .leading,
+                            endPoint: .trailing
                         )
                     )
                     .frame(width: 120, height: 120)
@@ -144,22 +143,24 @@ extension SummonResultView {
         .padding(18)
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(.ultraThinMaterial)
+                .fill(LinearGradient(
+                    colors: theme.headerGradient,
+                    startPoint: .leading,
+                    endPoint: .trailing
+                ))
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(
                             LinearGradient(
-                                colors: [
-                                    .cyan.opacity(0.6),
-                                    .purple.opacity(0.5),
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                                colors: theme.headerGradient,
+                                startPoint: .leading,
+                                endPoint: .trailing
                             ),
-                            lineWidth: 1.5
+                            lineWidth: 3
                         )
                 )
         )
         .shadow(color: .cyan.opacity(0.25), radius: 10)
     }
 }
+

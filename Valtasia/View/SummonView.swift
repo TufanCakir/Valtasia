@@ -28,14 +28,17 @@ struct SummonView: View {
     @State private var tutorialSummonUsed = UserDefaults.standard.bool(
         forKey: "tutorial_summon_done"
     )
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
         VStack {
-
-            // MARK: HEADER
+            
             GameHeaderView()
-                .padding()
+              
 
             SummonCategoryTabs(
                 categories: summonManager.categories,
@@ -73,11 +76,11 @@ struct SummonView: View {
         }
         .background(
             LinearGradient(
-                colors: [Color.black, Color.blue.opacity(0.25)],
+                colors:        theme.headerGradient,
+             
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .ignoresSafeArea()
         )
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -158,55 +161,49 @@ extension SummonView {
 
 extension SummonView {
 
+    func tagView(_ text: String) -> some View {
+        Text(text)
+            .font(.caption.bold())
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(
+                LinearGradient(
+                    colors: theme.headerGradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+            .foregroundStyle(.white)
+            .clipShape(Capsule())
+    }
+
     func summonBannerCard(_ banner: SummonBanner) -> some View {
 
         ZStack {
 
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.9)],
-                startPoint: .center,
-                endPoint: .bottom
-            )
-
             HStack(alignment: .center) {
-
+                
                 // ⭐ LINKS: Charakter + Banner Infos
-                VStack(alignment: .leading, spacing: 10) {
-
+                VStack(alignment: .leading, spacing: 8) {
+                    
                     Image(banner.bannerImage)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 150)
-
-                    // STEP
+                    
+                    // ⭐ STEP (nur wenn vorhanden)
                     if let stepUp = banner.stepUp, stepUp.enabled,
-                        let stepData = summonManager.currentStepData(
-                            for: banner
-                        )
-                    {
-
-                        Text("STEP \(stepData.step) / \(stepUp.steps.count)")
-                            .font(.caption.bold())
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 4)
-                            .background(
-                                LinearGradient(
-                                    colors: [.yellow, .orange],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .foregroundStyle(.black)
-                            .clipShape(Capsule())
+                       let stepData = summonManager.currentStepData(for: banner) {
+                        
+                        tagView("STEP \(stepData.step) / \(stepUp.steps.count)")
                     }
-
-                    // PITY
+                    
+                    // ⭐ PITY (IMMER wenn vorhanden)
                     if let pity = banner.pity, pity.enabled {
+                        
                         let pulls = PityManager.shared.pulls(for: banner.id)
-
-                        Text("PITY \(pulls) / \(pity.requiredPulls)")
-                            .font(.caption2.bold())
-                            .foregroundStyle(.orange)
+                        
+                        tagView("PITY \(pulls) / \(pity.requiredPulls)")
                     }
                 }
 
@@ -235,7 +232,7 @@ extension SummonView {
             RoundedRectangle(cornerRadius: 24)
                 .stroke(
                     LinearGradient(
-                        colors: [.cyan.opacity(0.7), .purple.opacity(0.6)],
+                        colors: theme.borderGradient,
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
@@ -293,7 +290,7 @@ extension SummonView {
             label: {
                 HStack(spacing: 6) {
                     if !isTutorial {
-                        Image("icon_gem")
+                        Image(banner.currency == "c_gem" ? "c_gem" : "icon_gem")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 18, height: 18)
@@ -313,7 +310,7 @@ extension SummonView {
                 .padding(.vertical, 10)
                 .background(
                     LinearGradient(
-                        colors: [.cyan, .purple],
+                        colors: theme.borderGradient,
                         startPoint: .leading,
                         endPoint: .trailing
                     )
@@ -359,7 +356,13 @@ extension SummonView {
                     return
                 }
                 EventInventory.shared.tokens -= cost
-
+                
+            case "c_gem":
+                guard CorruptedGemManager.shared.spend(cost) else {
+                    showNotEnoughGems = true
+                    return
+                }
+                
             default:
                 break
             }
@@ -393,3 +396,4 @@ extension SummonView {
         }
     }
 }
+

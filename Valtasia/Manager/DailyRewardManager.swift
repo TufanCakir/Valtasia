@@ -24,30 +24,59 @@ final class DailyRewardManager: ObservableObject {
         load()
         checkAvailability()
     }
-    
+
+    // MARK: - RESET
+
     func reset() {
         currentDay = 1
         canClaimToday = true
 
-        UserDefaults.standard.removeObject(forKey: lastClaimKey)
-        UserDefaults.standard.set(1, forKey: dayKey)
+        let d = UserDefaults.standard
+        d.removeObject(forKey: lastClaimKey)
+        d.set(1, forKey: dayKey)
     }
 
-    // MARK: - Claim Logic
+    // MARK: - CLAIM
 
     func claim() {
         guard canClaimToday else { return }
-        guard let reward = rewards.first(where: { $0.day == currentDay }) else {
-            return
-        }
+        guard let reward = rewardForToday else { return }
 
-        CoinManager.shared.add(reward.coins)
-        GemManager.shared.add(reward.gems)
-        PlayerProgressManager.shared.addEXP(reward.exp)
+        apply(reward)
 
         saveClaimDate()
         advanceDay()
         canClaimToday = false
+    }
+
+    // MARK: - APPLY REWARD (🔥 ZENTRAL)
+    private func apply(_ reward: DailyReward) {
+
+        if let coins = reward.coins {
+            CoinManager.shared.add(coins)
+        }
+
+        if let gems = reward.gems {
+            GemManager.shared.add(gems)
+        }
+
+        if let exp = reward.exp {
+            PlayerProgressManager.shared.addEXP(exp)
+        }
+
+        if let cCoins = reward.corruptedCoins {
+            CorruptedCoinManager.shared.add(cCoins)
+        }
+
+        if let cGems = reward.corruptedGems {
+            CorruptedGemManager.shared.add(cGems)
+        }
+    }
+
+    // MARK: - HELPERS
+
+    private var rewardForToday: DailyReward? {
+        rewards.first(where: { $0.day == currentDay })
     }
 
     private func advanceDay() {
@@ -60,11 +89,10 @@ final class DailyRewardManager: ObservableObject {
         UserDefaults.standard.set(currentDay, forKey: dayKey)
     }
 
-    // MARK: - Date Check
+    // MARK: - DATE CHECK
 
     private func checkAvailability() {
-        let lastClaim =
-            UserDefaults.standard.object(forKey: lastClaimKey) as? Date
+        let lastClaim = UserDefaults.standard.object(forKey: lastClaimKey) as? Date
 
         if let lastClaim {
             canClaimToday = !Calendar.current.isDateInToday(lastClaim)

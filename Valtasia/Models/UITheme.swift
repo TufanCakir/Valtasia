@@ -18,28 +18,31 @@ extension UITheme {
 
     static let island = UITheme(
         headerGradient: [
-            Color.blue.opacity(0.35),
-            Color.purple.opacity(0.35),
+            Color.black,
+            Color.indigo,
         ],
-        borderGradient: [.cyan, .purple],
+        borderGradient: [
+            Color.black,
+            Color.indigo,
+            ],
         footerGradient: [
-            Color.blue.opacity(0.35),
-            Color.purple.opacity(0.35),
+            Color.black,
+            Color.indigo,
         ]
     )
 
-    static let portal = UITheme(
+    static let corrupted = UITheme(
         headerGradient: [
-            Color.green.opacity(0.35),
-            Color.purple.opacity(0.35),
+            Color.black,
+            Color.green,
         ],
         borderGradient: [
+            Color.black,
             Color.green,
-            Color.purple,
         ],
         footerGradient: [
-            Color.green.opacity(0.35),
-            Color.purple.opacity(0.35),
+            Color.black,
+            Color.green,
         ]
     )
 }

@@ -1,13 +1,13 @@
 [
     {
         "id": "world_tutorial",
-        "background": "p_hell_bg",
-        "battleBackground": "p_hell_bg",
+        "background": "c_corrupted_bg",
+        "battleBackground": "c_corrupted_bg",
         "unlockAfterWorld": null,
         "worldNodes": [
             {
                 "id": "tutorial_node",
-                "image": "portal_fire",
+                "image": "c_corrupted_portal",
                 "positionX": 0.5,
                 "positionY": 0.5,
                 "connectsTo": [],
@@ -17,10 +17,10 @@
                         "enemies": [
                             "pyrothar"
                         ],
-                        "portalHPMultiplier": 1000.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     }
                 ]
@@ -29,13 +29,13 @@
     },
     {
         "id": "world_1",
-        "background": "p_hell_bg",
-        "battleBackground": "p_hell_bg",
+        "background": "c_corrupted_bg",
+        "battleBackground": "c_corrupted_bg",
         "unlockAfterWorld": null,
         "worldNodes": [
             {
                 "id": "1",
-                "image": "portal_hell",
+                "image": "c_corrupted_portal",
                 "positionX": 0.15,
                 "positionY": 0.5,
                 "connectsTo": [
@@ -47,10 +47,10 @@
                         "enemies": [
                             "pyrothar"
                         ],
-                        "portalHPMultiplier": 5.0,
-                        "portalReward": {
+                        "corruptedHPMultiplier": 6.0,
+                        "corruptedReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     },
                     {
@@ -58,17 +58,17 @@
                         "enemies": [
                             "nullwinter"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     }
                 ]
             },
             {
                 "id": "2",
-                "image": "portal_coruppted",
+                "image": "c_hell_portal",
                 "positionX": 0.38,
                 "positionY": 0.28,
                 "connectsTo": [
@@ -80,28 +80,27 @@
                         "enemies": [
                             "nullwinter"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
-                        }
-                    },
+                            "gems": 1
+                        }                    },
                     {
                         "id": "level_4",
                         "enemies": [
                             "frost_colossus"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     }
                 ]
             },
             {
                 "id": "3",
-                "image": "portal_hell",
+                "image": "c_demon_portal",
                 "positionX": 0.58,
                 "positionY": 0.62,
                 "connectsTo": [
@@ -113,10 +112,10 @@
                         "enemies": [
                             "ash_sovereign"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     },
                     {
@@ -124,17 +123,17 @@
                         "enemies": [
                             "ash_sovereign"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     }
                 ]
             },
             {
                 "id": "4",
-                "image": "portal_coruppted",
+                "image": "c_fire_portal",
                 "positionX": 0.85,
                 "positionY": 0.48,
                 "connectsTo": [],
@@ -144,10 +143,10 @@
                         "enemies": [
                             "coregon"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     },
                     {
@@ -155,10 +154,10 @@
                         "enemies": [
                             "ignivar"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     }
                 ]
@@ -167,13 +166,13 @@
     },
     {
         "id": "world_2",
-        "background": "p_demon_bg",
-        "battleBackground": "p_demon_bg",
+        "background": "c_corrupted_bg",
+        "battleBackground": "c_corrupted_bg",
         "unlockAfterWorld": "world_1",
         "worldNodes": [
             {
                 "id": "1",
-                "image": "portal_demon",
+                "image": "c_corrupted_portal",
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
@@ -185,10 +184,10 @@
                         "enemies": [
                             "coregon"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     },
                     {
@@ -196,10 +195,10 @@
                         "enemies": [
                             "pyrothar"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     }
                 ]
@@ -208,13 +207,13 @@
     },
     {
         "id": "world_3",
-        "background": "p_corrupted_bg",
-        "battleBackground": "p_corrupted_bg",
+        "background": "c_hell_bg",
+        "battleBackground": "c_hell_bg",
         "unlockAfterWorld": "world_2",
         "worldNodes": [
             {
                 "id": "1",
-                "image": "portal_coruppted",
+                "image": "c_hell_portal",
                 "positionX": 0.18,
                 "positionY": 0.55,
                 "connectsTo": [],
@@ -224,10 +223,10 @@
                         "enemies": [
                             "ignivar"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     },
                     {
@@ -235,10 +234,10 @@
                         "enemies": [
                             "stormreign"
                         ],
-                        "portalHPMultiplier": 5.0,
+                        "corruptedHPMultiplier": 6.0,
                         "portalReward": {
                             "coins": 120,
-                            "gems": 3
+                            "gems": 1
                         }
                     }
                 ]

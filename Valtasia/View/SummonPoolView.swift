@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct SummonPoolView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     let banner: SummonBanner
     let rates: [CharacterRate]
 
     @Environment(\.dismiss) private var dismiss
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
@@ -22,14 +28,14 @@ struct SummonPoolView: View {
 
             TabView {
                 ForEach(rates) { entry in
-                    PoolPage(entry: entry)
+                    PoolPage(entry: entry, theme: theme)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 40)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .automatic))
         }
-        .background(BackgroundStyle.main)
+        .background(BackgroundStyle.main(theme))
         .ignoresSafeArea()
     }
 }
@@ -38,7 +44,7 @@ extension SummonPoolView {
 
     fileprivate var headerCard: some View {
         ZStack {
-            BackgroundStyle.headerFade
+            BackgroundStyle.headerFade(theme)
 
             HStack(spacing: 16) {
 
@@ -54,7 +60,7 @@ extension SummonPoolView {
 
                     Text("Pool: \(rates.count) Characters")
                         .font(.caption)
-                        .foregroundStyle(.white.opacity(0.7))
+                        .foregroundStyle(.white)
                 }
 
                 Spacer()
@@ -72,7 +78,7 @@ extension SummonPoolView {
         }
         .frame(height: 160)
         .clipShape(RoundedRectangle(cornerRadius: 24))
-        .overlay(GlowStyle.cardStroke)
+        .overlay(GlowStyle.cardStroke(theme))
         .shadow(color: .cyan.opacity(0.35), radius: 14)
         .padding()
     }
@@ -81,6 +87,7 @@ extension SummonPoolView {
 struct PoolPage: View {
 
     let entry: CharacterRate
+    let theme: UITheme
 
     var body: some View {
 
@@ -93,7 +100,7 @@ struct PoolPage: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 28)
                     .fill(.ultraThinMaterial)
-                    .overlay(GlowStyle.cardStroke)
+                    .overlay(GlowStyle.cardStroke(theme))
 
                 VStack(spacing: 22) {
 
@@ -112,7 +119,7 @@ struct PoolPage: View {
                         .foregroundStyle(.white.opacity(0.75))
 
                     if entry.isRateUp {
-                        RateUpBadge()
+                        RateUpBadge(theme: theme)
                     }
                 }
                 .padding(30)
@@ -147,6 +154,8 @@ struct PoolPage: View {
 }
 
 struct RateUpBadge: View {
+    let theme: UITheme
+    
     var body: some View {
         Text("RATE UP")
             .font(.caption.bold())
@@ -155,7 +164,7 @@ struct RateUpBadge: View {
             .padding(.vertical, 8)
             .background(
                 LinearGradient(
-                    colors: [.yellow, .orange],
+                    colors: theme.headerGradient,
                     startPoint: .leading,
                     endPoint: .trailing
                 )
@@ -166,34 +175,35 @@ struct RateUpBadge: View {
 }
 
 enum BackgroundStyle {
-
-    static let main =
+    static func main(_ theme: UITheme) -> LinearGradient {
         LinearGradient(
-            colors: [Color.black, Color.blue.opacity(0.25)],
-            startPoint: .top,
-            endPoint: .bottom
+            colors: theme.headerGradient,
+            startPoint: .leading,
+            endPoint: .trailing
         )
+    }
 
-    static let headerFade =
+    static func headerFade(_ theme: UITheme) -> LinearGradient {
         LinearGradient(
-            colors: [.clear, .black.opacity(0.9)],
-            startPoint: .center,
-            endPoint: .bottom
+            colors: theme.headerGradient,
+            startPoint: .leading,
+            endPoint: .trailing
         )
+    }
 }
 
 enum GlowStyle {
-
-    static let cardStroke =
+    static func cardStroke(_ theme: UITheme) -> some View {
         RoundedRectangle(cornerRadius: 28)
-        .stroke(
-            LinearGradient(
-                colors: [.cyan.opacity(0.7), .purple.opacity(0.6)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ),
-            lineWidth: 2
-        )
+            .stroke(
+                LinearGradient(
+                    colors: theme.headerGradient,
+                    startPoint: .leading,
+                    endPoint: .trailing
+                ),
+                lineWidth: 3
+            )
+    }
 }
 
 extension CharacterRate {

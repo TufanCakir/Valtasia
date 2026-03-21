@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct VictoryView: View {
+    
+    @EnvironmentObject var appModel: AppModel
 
     var onContinue: () -> Void
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
@@ -18,46 +24,44 @@ struct VictoryView: View {
             // MARK: Background Blur Overlay
 
             LinearGradient(
-                colors: [
-                    Color.black.opacity(0.85),
-                    Color.blue.opacity(0.4),
-                ],
+                colors: theme.headerGradient,
                 startPoint: .top,
                 endPoint: .bottom
             )
             .ignoresSafeArea()
 
             VStack(spacing: 28) {
-
+                
                 Text("VICTORY")
                     .font(.largeTitle.bold())
                     .tracking(2)
                     .foregroundStyle(.white)
-
+                
                 Text("Enemy Defeated!")
                     .font(.caption)
                     .foregroundStyle(.white.opacity(0.75))
-
+                
                 Divider()
                     .background(.white.opacity(0.2))
-
+                
                 Button {
                     onContinue()
                 } label: {
-
+                    
                     Text("Continue")
                         .font(.caption.bold())
                         .padding(.horizontal, 26)
                         .padding(.vertical, 10)
                         .background(
                             LinearGradient(
-                                colors: [.purple, .blue],
-                                startPoint: .leading,
-                                endPoint: .trailing
+                                colors: theme.headerGradient,
+                                startPoint: .top,
+                                endPoint: .bottom
                             )
+                            .foregroundStyle(.white)
+                            .clipShape(Capsule())
                         )
-                        .foregroundStyle(.white)
-                        .clipShape(Capsule())
+                    }
                 }
             }
             .padding()
@@ -68,12 +72,9 @@ struct VictoryView: View {
                         RoundedRectangle(cornerRadius: 24)
                             .stroke(
                                 LinearGradient(
-                                    colors: [
-                                        .cyan.opacity(0.7),
-                                        .purple.opacity(0.6),
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
+                                    colors: theme.borderGradient,
+                                    startPoint: .top,
+                                    endPoint: .bottom
                                 ),
                                 lineWidth: 2
                             )
@@ -83,4 +84,4 @@ struct VictoryView: View {
             .padding(.horizontal, 32)
         }
     }
-}
+

@@ -9,10 +9,14 @@ import SwiftUI
 
 struct SummonCategoryTabs: View {
 
-    @EnvironmentObject var appModel: AppModel  // 👈 neu
+    @EnvironmentObject var appModel: AppModel
 
     let categories: [SummonCategory]
     @Binding var selected: String
+    
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -46,19 +50,19 @@ struct SummonCategoryTabs: View {
         } label: {
             Text(cat.title)
                 .font(.subheadline.bold())
-                .foregroundStyle(selected == cat.id ? .black : .white)
+                .foregroundStyle(selected == cat.id ? .white : .white)
                 .padding(.horizontal, 18)
                 .padding(.vertical, 10)
                 .background {
                     Capsule().fill(
                         selected == cat.id
                             ? LinearGradient(
-                                colors: [.cyan, .purple],
+                                colors: theme.headerGradient,
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
                             : LinearGradient(
-                                colors: [Color.white.opacity(0.08)],
+                                colors: theme.headerGradient,
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )

@@ -8,52 +8,51 @@
 import SwiftUI
 
 struct CustomFooter: View {
-
+    
     @EnvironmentObject var appModel: AppModel
-
+    
     @Binding var selectedTab: RootView.Tab
-
+    
     var theme: UITheme {
-        appModel.homeMode == .portal ? .portal : .island
+        appModel.homeMode == .corrupted ? .corrupted : .island
     }
-
+    
     var body: some View {
-
-        HStack(spacing: 16) {
-
-            footerButton(.home, "house.fill", "Home")
-            footerButton(.team, "person.3.fill", "Team")
-            footerButton(.summon, "sparkles", "Summon")
-            footerButton(.shop, "cart.fill", "Shop")
-            footerButton(.exchange, "arrow.2.circlepath", "Exchange")
-        }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 32)
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            theme.footerGradient.first!.opacity(0.2),
-                            .black,
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
+        
+        ZStack {
+            
+            Image(appModel.homeMode == .corrupted
+                  ? "footer_green_bg"
+                  : "footer_purple_bg")
+            .resizable()
+            .scaledToFill()
+            .frame(height: 100)
+            .clipped()
+            
+            .overlay(
+                Rectangle()
+                    .stroke(
+                        LinearGradient(
+                            colors: appModel.homeMode == .corrupted ? [.green] : [.indigo],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ),
+                        lineWidth: 3
                     )
-                )
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 32)
-                .stroke(
-                    LinearGradient(
-                        colors: theme.footerGradient,
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ),
-                    lineWidth: 1.5
-                )
-        )
-        .shadow(color: .cyan.opacity(0.35), radius: 20)
+            )
+            
+            HStack(spacing: 16) {
+                footerButton(.home, "house.fill", "Home")
+                footerButton(.team, "person.3.fill", "Team")
+                footerButton(.summon, "sparkles", "Summon")
+                footerButton(.shop, "cart.fill", "Shop")
+                footerButton(.exchange, "arrow.2.circlepath", "Exchange")
+            }
+            .padding(.horizontal)
+        }
+        .frame(height: 100)
         .padding()
+        .animation(.easeInOut(duration: 0.4), value: appModel.homeMode)
     }
 }
 
@@ -92,8 +91,8 @@ extension CustomFooter {
                             .fill(
                                 RadialGradient(
                                     colors: [
-                                        .cyan.opacity(0.6),
-                                        .clear,
+                                        theme.borderGradient.last ?? .white,
+                                        .clear
                                     ],
                                     center: .center,
                                     startRadius: 5,
@@ -109,7 +108,7 @@ extension CustomFooter {
                             selected
                                 ? AnyShapeStyle(
                                     LinearGradient(
-                                        colors: [.cyan, .purple],
+                                        colors: theme.borderGradient,
                                         startPoint: .top,
                                         endPoint: .bottom
                                     )
@@ -132,3 +131,4 @@ extension CustomFooter {
         .buttonStyle(.plain)
     }
 }
+
