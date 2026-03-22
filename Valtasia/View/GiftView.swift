@@ -27,14 +27,18 @@ struct GiftView: View {
         VStack {
 
             ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(availableGifts) { gift in
-                        GiftRow(gift: gift) {
-                            claim(gift)
+                if availableGifts.isEmpty {
+                    emptyState
+                } else {
+                    VStack(spacing: 16) {
+                        ForEach(availableGifts) { gift in
+                            GiftRow(gift: gift) {
+                                claim(gift)
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
             }
             .scrollIndicators(.hidden)
         }
@@ -47,6 +51,25 @@ struct GiftView: View {
             .ignoresSafeArea()
         )
     }
+}
+
+var emptyState: some View {
+    VStack(spacing: 16) {
+
+        Image(systemName: "gift.fill")
+            .font(.system(size: 40))
+            .foregroundStyle(.white)
+
+        Text("All rewards claimed")
+            .font(.headline)
+            .foregroundStyle(.white)
+
+        Text("Come back later for new gifts 🎁")
+            .font(.caption)
+            .foregroundStyle(.white)
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.top, 100)
 }
 
 extension GiftView {

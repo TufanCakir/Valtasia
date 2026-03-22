@@ -4,12 +4,12 @@
         {
             "type": "dialog",
             "speaker": "Mentor",
-            "text": "Willkommen, Held. Ich zeige dir den Kampf."
+            "text": "Welcome, hero. I will show you how to fight."
         },
         {
             "type": "dialog",
             "speaker": "Mentor",
-            "text": "Tippe auf einen Gegner, um anzugreifen."
+            "text": "Tap an enemy to attack."
         },
         {
             "type": "action",
@@ -18,7 +18,7 @@
         {
             "type": "dialog",
             "speaker": "Mentor",
-            "text": "Sehr gut! Skills sind stärker."
+            "text": "Good job! Skills are stronger."
         },
         {
             "type": "action",
@@ -27,7 +27,7 @@
         {
             "type": "dialog",
             "speaker": "Mentor",
-            "text": "Perfekt. Du bist bereit."
+            "text": "Perfect. You are ready."
         },
         {
             "type": "finish"

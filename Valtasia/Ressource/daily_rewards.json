@@ -116,5 +116,65 @@
         "corruptedCoins": 300,
         "corruptedGems": 50,
         "exp": 30
+    },
+    {
+        "day": 21,
+        "coins": 2000,
+        "gems": 80,
+        "exp": 500
+    },
+    {
+        "day": 22,
+        "corruptedCoins": 900,
+        "corruptedGems": 20,
+        "exp": 300
+    },
+    {
+        "day": 23,
+        "coins": 2200,
+        "gems": 90,
+        "exp": 550
+    },
+    {
+        "day": 24,
+        "corruptedGems": 40,
+        "exp": 350
+    },
+    {
+        "day": 25,
+        "coins": 2500,
+        "gems": 100,
+        "exp": 600
+    },
+    {
+        "day": 26,
+        "corruptedCoins": 1200,
+        "exp": 400
+    },
+    {
+        "day": 27,
+        "coins": 2800,
+        "gems": 120,
+        "exp": 650
+    },
+    {
+        "day": 28,
+        "corruptedCoins": 1500,
+        "corruptedGems": 50,
+        "exp": 500
+    },
+    {
+        "day": 29,
+        "coins": 3000,
+        "gems": 150,
+        "exp": 700
+    },
+    {
+        "day": 30,
+        "coins": 5000,
+        "gems": 300,
+        "corruptedCoins": 2000,
+        "corruptedGems": 100,
+        "exp": 1000
     }
 ]

@@ -11,16 +11,17 @@
     {
         "id": "chapter_tutorial_corrupted",
         "title": "Das verdorbene Erwachen",
-        "description": "Die ersten Portale zeigen ihre wahre, dunkle Natur.",
-        "worldId": "world_tutorial",
+        "description":
+            "Ein dunkles Portal öffnet sich – etwas beobachtet dich bereits.",
+        "worldId": "c_world_tutorial",
         "image": "c_corrupted_bg",
         "type": "corrupted"
     },
+
     {
         "id": "chapter_1",
         "title": "Die erste Insel",
-        "description":
-            "Elemente erwachen – Feuer, Eis und Natur stehen im Konflikt.",
+        "description": "Feuer, Eis und Natur geraten außer Kontrolle.",
         "worldId": "world_1",
         "image": "water_bg",
         "type": "island"
@@ -29,16 +30,17 @@
         "id": "chapter_1_corrupted",
         "title": "Flammen der Verderbnis",
         "description":
-            "Die Portale verzerren die Elemente und entfesseln Chaos.",
-        "worldId": "world_1",
-        "image": "c_hell_bg",
+            "Die Elemente werden verzerrt – etwas manipuliert ihre Essenz.",
+        "worldId": "c_world_1",
+        "image": "c_corrupted_bg",
         "type": "corrupted"
     },
+
     {
         "id": "chapter_2",
         "title": "Die Portale öffnen sich",
         "description":
-            "Neue Dimensionen erscheinen und dunkle Kräfte werden stärker.",
+            "Neue Dimensionen entstehen und fremde Wesen treten hervor.",
         "worldId": "world_2",
         "image": "epic_bg",
         "type": "island"
@@ -47,15 +49,17 @@
         "id": "chapter_2_corrupted",
         "title": "Dämonische Risse",
         "description":
-            "Die Portale reißen die Realität auf und Dämonen strömen hervor.",
-        "worldId": "world_2",
-        "image": "c_demon_bg",
+            "Die Realität bricht auf – dämonische Kräfte übernehmen die Kontrolle.",
+        "worldId": "c_world_2",
+        "image": "c_hell_bg",
         "type": "corrupted"
     },
+
     {
         "id": "chapter_3",
         "title": "Himmel und Chaos",
-        "description": "Die Balance der Welt beginnt zu zerbrechen.",
+        "description":
+            "Die Balance zerbricht – Licht und Dunkelheit kollidieren.",
         "worldId": "world_3",
         "image": "sky_bg",
         "type": "island"
@@ -63,40 +67,70 @@
     {
         "id": "chapter_3_corrupted",
         "title": "Zerfallene Realität",
-        "description": "Die Welt wird von korrumpierten Kräften verschlungen.",
-        "worldId": "world_3",
-        "image": "c_corrupted_bg",
+        "description": "Die Welt wird instabil – Portale verschlingen alles.",
+        "worldId": "c_world_3",
+        "image": "c_demon_bg",
         "type": "corrupted"
     },
 
     {
         "id": "chapter_4",
         "title": "Die Lavawelt",
-        "description": "Glühende Lava und uralte Mächte bedrohen alles.",
+        "description": "Uralte Mächte erwachen unter glühender Lava.",
         "worldId": "world_4",
         "image": "lava_bg",
         "type": "island"
     },
     {
+        "id": "chapter_4_corrupted",
+        "title": "Inferno der Verderbnis",
+        "description":
+            "Die Lava wird von dunkler Energie kontrolliert – nichts bleibt stabil.",
+        "worldId": "c_world_4",
+        "image": "c_hell_bg",
+        "type": "corrupted"
+    },
+
+    {
         "id": "chapter_5",
         "title": "Natur vs. Void",
-        "description": "Die Natur kämpft gegen die Dunkelheit.",
+        "description":
+            "Die Natur kämpft verzweifelt gegen die wachsende Dunkelheit.",
         "worldId": "world_5",
         "image": "nature_bg",
         "type": "island"
     },
     {
+        "id": "chapter_5_corrupted",
+        "title": "Vergiftete Natur",
+        "description": "Die Wurzeln der Welt selbst werden korrumpiert.",
+        "worldId": "c_world_5",
+        "image": "c_corrupted_bg",
+        "type": "corrupted"
+    },
+
+    {
         "id": "chapter_6",
         "title": "Erde & Sturm",
-        "description": "Elementare Kräfte kollidieren.",
+        "description": "Elementare Kräfte geraten völlig außer Kontrolle.",
         "worldId": "world_6",
         "image": "earth_bg",
         "type": "island"
     },
     {
+        "id": "chapter_6_corrupted",
+        "title": "Sturm des Untergangs",
+        "description":
+            "Der Himmel selbst wird von der Verderbnis verschlungen.",
+        "worldId": "c_world_6",
+        "image": "c_demon_bg",
+        "type": "corrupted"
+    },
+
+    {
         "id": "chapter_7",
         "title": "Im All verloren",
-        "description": "Eine Reise durch Raum und Leere beginnt.",
+        "description": "Du verlässt die bekannte Welt – das Void wartet.",
         "worldId": "world_7",
         "image": "space_bg",
         "type": "island"
@@ -104,7 +138,7 @@
     {
         "id": "chapter_8",
         "title": "Das Void erwacht",
-        "description": "Die Dunkelheit wird lebendig.",
+        "description": "Die Quelle der Verderbnis beginnt sich zu zeigen.",
         "worldId": "world_8",
         "image": "void_bg",
         "type": "island"
@@ -112,7 +146,7 @@
     {
         "id": "chapter_9",
         "title": "Die verlorenen Seelen",
-        "description": "Eine düstere Welt voller Geheimnisse.",
+        "description": "Gefallene Welten flüstern ihre letzten Geheimnisse.",
         "worldId": "world_9",
         "image": "bg_emo",
         "type": "island"
@@ -120,7 +154,7 @@
     {
         "id": "chapter_10",
         "title": "Friedhof der Helden",
-        "description": "Gefallene Krieger ruhen hier… oder doch nicht?",
+        "description": "Selbst Helden konnten der Dunkelheit nicht entkommen.",
         "worldId": "world_10",
         "image": "bg_cemetery",
         "type": "island"
@@ -128,7 +162,7 @@
     {
         "id": "chapter_11",
         "title": "Süße Illusion",
-        "description": "Eine täuschend friedliche Welt.",
+        "description": "Eine falsche Realität versucht dich aufzuhalten.",
         "worldId": "world_11",
         "image": "bg_candy",
         "type": "island"
@@ -136,7 +170,7 @@
     {
         "id": "chapter_12",
         "title": "Die Wüste ruft",
-        "description": "Hitze, Sand und uralte Geheimnisse.",
+        "description": "Unter dem Sand verbirgt sich uralte Macht.",
         "worldId": "world_12",
         "image": "bg_desert",
         "type": "island"
@@ -144,7 +178,7 @@
     {
         "id": "chapter_13",
         "title": "Der Wahnsinn beginnt",
-        "description": "Realität und Chaos verschwimmen.",
+        "description": "Realität zerbricht vollständig.",
         "worldId": "world_13",
         "image": "bg_crazy",
         "type": "island"
@@ -152,7 +186,7 @@
     {
         "id": "chapter_14",
         "title": "Disco Dimension",
-        "description": "Eine verrückte Welt voller Energie.",
+        "description": "Eine verzerrte Welt voller Energie und Chaos.",
         "worldId": "world_14",
         "image": "bg_disco",
         "type": "island"
@@ -160,7 +194,8 @@
     {
         "id": "chapter_15",
         "title": "Der Händler",
-        "description": "Ein Ort voller Reichtum… und Gefahren.",
+        "description":
+            "Nicht alles ist, wie es scheint… selbst Handel hat seinen Preis.",
         "worldId": "world_15",
         "image": "bg_shop",
         "type": "island"
@@ -168,7 +203,7 @@
     {
         "id": "chapter_16",
         "title": "Die Reise beginnt erneut",
-        "description": "Auf hoher See wartet dein Schicksal.",
+        "description": "Du näherst dich dem Ursprung der Dunkelheit.",
         "worldId": "world_16",
         "image": "bg_ship",
         "type": "island"
@@ -176,7 +211,7 @@
     {
         "id": "chapter_17",
         "title": "Die Dunkelheit",
-        "description": "Alles wird von Schatten verschlungen.",
+        "description": "Alles wird verschlungen – es gibt kein Zurück mehr.",
         "worldId": "world_17",
         "image": "bg_dark",
         "type": "island"
@@ -184,7 +219,8 @@
     {
         "id": "chapter_18",
         "title": "Finale Realität",
-        "description": "Alle Welten kollidieren im finalen Kampf.",
+        "description":
+            "Alle Welten kollidieren – der Ursprung der Verderbnis erwartet dich.",
         "worldId": "world_18",
         "image": "bg_rainbow",
         "type": "island"

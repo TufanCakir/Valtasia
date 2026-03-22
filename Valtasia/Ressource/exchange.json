@@ -115,5 +115,103 @@
         "corruptedCoinCost": 0,
         "corruptedGemReward": 25,
         "purchaseLimit": 1
+    },
+    {
+        "id": "tiny_pack",
+        "title": "Tiny Pack",
+        "coinCost": 50,
+        "gemReward": 1,
+        "purchaseLimit": 50
+    },
+    {
+        "id": "mini_pack",
+        "title": "Mini Pack",
+        "coinCost": 75,
+        "gemReward": 2,
+        "purchaseLimit": 50
+    },
+    {
+        "id": "basic_pack",
+        "title": "Basic Pack",
+        "coinCost": 120,
+        "gemReward": 3,
+        "purchaseLimit": 40
+    },
+    {
+        "id": "value_pack",
+        "title": "Value Pack",
+        "coinCost": 250,
+        "gemReward": 6,
+        "purchaseLimit": 30
+    },
+    {
+        "id": "boost_pack",
+        "title": "Boost Pack",
+        "coinCost": 350,
+        "gemReward": 8,
+        "purchaseLimit": 25
+    },
+    {
+        "id": "multi_helper",
+        "title": "Multi Helper",
+        "coinCost": 700,
+        "gemReward": 15,
+        "purchaseLimit": 20
+    },
+    {
+        "id": "multi_ready",
+        "title": "Multi Ready",
+        "coinCost": 1200,
+        "gemReward": 30,
+        "purchaseLimit": 10
+    },
+    {
+        "id": "c_tiny_pack",
+        "title": "Corrupted Tiny Pack",
+        "corruptedCoinCost": 50,
+        "corruptedGemReward": 1,
+        "purchaseLimit": 50
+    },
+    {
+        "id": "c_mini_pack",
+        "title": "Corrupted Mini Pack",
+        "corruptedCoinCost": 75,
+        "corruptedGemReward": 2,
+        "purchaseLimit": 50
+    },
+    {
+        "id": "c_basic_pack",
+        "title": "Corrupted Basic Pack",
+        "corruptedCoinCost": 120,
+        "corruptedGemReward": 3,
+        "purchaseLimit": 40
+    },
+    {
+        "id": "c_value_pack",
+        "title": "Corrupted Value Pack",
+        "corruptedCoinCost": 250,
+        "corruptedGemReward": 6,
+        "purchaseLimit": 30
+    },
+    {
+        "id": "c_boost_pack",
+        "title": "Corrupted Boost Pack",
+        "corruptedCoinCost": 350,
+        "corruptedGemReward": 8,
+        "purchaseLimit": 25
+    },
+    {
+        "id": "c_multi_helper",
+        "title": "Corrupted Multi Helper",
+        "corruptedCoinCost": 700,
+        "corruptedGemReward": 15,
+        "purchaseLimit": 20
+    },
+    {
+        "id": "c_multi_ready",
+        "title": "Corrupted Multi Ready",
+        "corruptedCoinCost": 1200,
+        "corruptedGemReward": 30,
+        "purchaseLimit": 10
     }
 ]

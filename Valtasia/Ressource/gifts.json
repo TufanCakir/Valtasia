@@ -286,5 +286,153 @@
         ],
         "type": "gems",
         "amount": 100
+    },
+    {
+        "id": "gift_coins_tiny",
+        "title": "Coins",
+        "icon": "icon_coin",
+        "iconColor": "yellow",
+        "colors": [
+            "yellow",
+            "orange"
+        ],
+        "type": "coins",
+        "amount": 25
+    },
+    {
+        "id": "gift_coins_bonus",
+        "title": "Bonus Coins",
+        "icon": "icon_coin",
+        "iconColor": "yellow",
+        "colors": [
+            "yellow",
+            "orange"
+        ],
+        "type": "coins",
+        "amount": 500
+    },
+
+    {
+        "id": "gift_gems_tiny",
+        "title": "Gems",
+        "icon": "icon_gem",
+        "iconColor": "cyan",
+        "colors": [
+            "cyan",
+            "purple"
+        ],
+        "type": "gems",
+        "amount": 2
+    },
+    {
+        "id": "gift_gems_single_ready",
+        "title": "Single Summon",
+        "icon": "icon_gem",
+        "iconColor": "cyan",
+        "colors": [
+            "cyan",
+            "purple"
+        ],
+        "type": "gems",
+        "amount": 5
+    },
+    {
+        "id": "gift_gems_almost_multi",
+        "title": "Almost There",
+        "icon": "icon_gem",
+        "iconColor": "cyan",
+        "colors": [
+            "cyan",
+            "purple"
+        ],
+        "type": "gems",
+        "amount": 40
+    },
+
+    {
+        "id": "gift_exp_tiny",
+        "title": "EXP Potion",
+        "icon": "icon_exp",
+        "iconColor": "blue",
+        "colors": [
+            "green",
+            "blue"
+        ],
+        "type": "exp",
+        "amount": 1
+    },
+    {
+        "id": "gift_exp_bonus",
+        "title": "EXP Boost",
+        "icon": "icon_exp",
+        "iconColor": "blue",
+        "colors": [
+            "green",
+            "blue"
+        ],
+        "type": "exp",
+        "amount": 6
+    },
+
+    {
+        "id": "gift_corrupted_coins_tiny",
+        "title": "Corrupted Coins",
+        "icon": "c_coin",
+        "iconColor": "green",
+        "colors": [
+            "green",
+            "black"
+        ],
+        "type": "corruptedCoins",
+        "amount": 30
+    },
+    {
+        "id": "gift_corrupted_coins_bonus",
+        "title": "Corrupted Bonus",
+        "icon": "c_coin",
+        "iconColor": "green",
+        "colors": [
+            "green",
+            "black"
+        ],
+        "type": "corruptedCoins",
+        "amount": 600
+    },
+
+    {
+        "id": "gift_corrupted_gems_tiny",
+        "title": "Corrupted Gems",
+        "icon": "c_gem",
+        "iconColor": "green",
+        "colors": [
+            "green",
+            "black"
+        ],
+        "type": "corruptedGems",
+        "amount": 3
+    },
+    {
+        "id": "gift_corrupted_gems_single",
+        "title": "Corrupted Summon",
+        "icon": "c_gem",
+        "iconColor": "green",
+        "colors": [
+            "green",
+            "black"
+        ],
+        "type": "corruptedGems",
+        "amount": 5
+    },
+    {
+        "id": "gift_corrupted_gems_almost_multi",
+        "title": "Corrupted Almost",
+        "icon": "c_gem",
+        "iconColor": "green",
+        "colors": [
+            "green",
+            "black"
+        ],
+        "type": "corruptedGems",
+        "amount": 45
     }
 ]

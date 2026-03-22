@@ -123,7 +123,6 @@ extension ExchangeView {
     func offerCard(_ offer: ExchangeOffer) -> some View {
         let isCorrupted = appModel.homeMode == .corrupted
 
-        // 🔥 SAFE VALUES
         let cost =
             isCorrupted
             ? (offer.corruptedCoinCost ?? offer.coinCost ?? 0)
@@ -140,7 +139,8 @@ extension ExchangeView {
         let gemImage = isCorrupted ? "c_gem" : "icon_gem"
 
         return VStack(spacing: 16) {
-            // MARK: HEADER
+
+            // HEADER
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(offer.title)
@@ -151,11 +151,10 @@ extension ExchangeView {
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.6))
                 }
-
                 Spacer()
             }
 
-            // MARK: EXCHANGE ROW
+            // EXCHANGE ROW
             HStack {
                 HStack(spacing: 6) {
                     Image(coinImage)
@@ -186,7 +185,7 @@ extension ExchangeView {
             }
             .font(.subheadline.bold())
 
-            // MARK: BUTTON
+            // BUTTON
             Button {
                 if !exchange.buy(offer: offer, isCorrupted: isCorrupted) {
                     showFail = true
@@ -207,11 +206,29 @@ extension ExchangeView {
                     .clipShape(Capsule())
             }
             .disabled(remaining == 0 || (cost == 0 && reward == 0))
-            .opacity(remaining == 0 ? 0.4 : 1)
         }
         .padding()
         .background(Color.black.opacity(0.35))
         .clipShape(RoundedRectangle(cornerRadius: 20))
+
+        // ✅ GANZE CARD AUSGRAUEN
+        .opacity(remaining == 0 ? 0.4 : 1)
+        .grayscale(remaining == 0 ? 1 : 0)
+
+        // ✅ SOLD OUT BADGE
+        .overlay(
+            remaining == 0
+                ? Text("SOLD OUT")
+                    .font(.caption.bold())
+                    .padding(6)
+                    .background(.black.opacity(0.7))
+                    .clipShape(Capsule())
+                    .foregroundColor(.white)
+                : nil,
+            alignment: .topTrailing
+        )
+
+        // BORDER
         .overlay(
             RoundedRectangle(cornerRadius: 20)
                 .stroke(
