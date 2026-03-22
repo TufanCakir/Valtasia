@@ -4,55 +4,116 @@
         "title": "Small Gem Pack",
         "coinCost": 100,
         "gemReward": 1,
-        "purchaseLimit": 10
+        "purchaseLimit": 30
     },
     {
         "id": "medium_pack",
         "title": "Medium Gem Pack",
         "coinCost": 200,
         "gemReward": 2,
-        "purchaseLimit": 10
+        "purchaseLimit": 30
     },
     {
         "id": "large_pack",
         "title": "Large Gem Pack",
-        "coinCost": 300,
-        "gemReward": 3,
-        "purchaseLimit": 10
+        "coinCost": 400,
+        "gemReward": 5,
+        "purchaseLimit": 25
     },
     {
         "id": "mega_pack",
         "title": "Mega Gem Pack",
-        "coinCost": 500,
-        "gemReward": 5,
-        "purchaseLimit": 10
+        "coinCost": 800,
+        "gemReward": 11,
+        "purchaseLimit": 15
     },
+
     {
         "id": "ultra_pack",
-        "title": "Ultra Gem Pack",
-        "coinCost": 1000,
-        "gemReward": 100,
-        "purchaseLimit": 1
+        "title": "Ultra Pack",
+        "coinCost": 1500,
+        "gemReward": 25,
+        "purchaseLimit": 8
     },
     {
         "id": "legend_pack",
-        "title": "Legendary Gem Pack",
-        "coinCost": 2000,
-        "gemReward": 200,
-        "purchaseLimit": 1
+        "title": "Legend Pack",
+        "coinCost": 3000,
+        "gemReward": 55,
+        "purchaseLimit": 4
     },
     {
         "id": "best_deal",
-        "title": "Best Gem Deal",
-        "coinCost": 3000,
-        "gemReward": 300,
+        "title": "Best Deal",
+        "coinCost": 5000,
+        "gemReward": 110,
+        "purchaseLimit": 2
+    },
+
+    {
+        "id": "starter_pack",
+        "title": "Starter Pack",
+        "coinCost": 0,
+        "gemReward": 25,
         "purchaseLimit": 1
     },
+
     {
-        "id": "starter_bundle",
-        "title": "Starter Gem Bundle",
-        "coinCost": 0,
-        "gemReward": 100,
+        "id": "c_small_pack",
+        "title": "Corrupted Small Pack",
+        "corruptedCoinCost": 100,
+        "corruptedGemReward": 1,
+        "purchaseLimit": 30
+    },
+    {
+        "id": "c_medium_pack",
+        "title": "Corrupted Medium Pack",
+        "corruptedCoinCost": 200,
+        "corruptedGemReward": 2,
+        "purchaseLimit": 30
+    },
+    {
+        "id": "c_large_pack",
+        "title": "Corrupted Large Pack",
+        "corruptedCoinCost": 400,
+        "corruptedGemReward": 5,
+        "purchaseLimit": 25
+    },
+    {
+        "id": "c_mega_pack",
+        "title": "Corrupted Mega Pack",
+        "corruptedCoinCost": 800,
+        "corruptedGemReward": 11,
+        "purchaseLimit": 15
+    },
+
+    {
+        "id": "c_ultra_pack",
+        "title": "Corrupted Ultra Pack",
+        "corruptedCoinCost": 1500,
+        "corruptedGemReward": 25,
+        "purchaseLimit": 8
+    },
+    {
+        "id": "c_legend_pack",
+        "title": "Corrupted Legend Pack",
+        "corruptedCoinCost": 3000,
+        "corruptedGemReward": 55,
+        "purchaseLimit": 4
+    },
+    {
+        "id": "c_best_deal",
+        "title": "Corrupted Best Deal",
+        "corruptedCoinCost": 5000,
+        "corruptedGemReward": 110,
+        "purchaseLimit": 2
+    },
+
+    {
+        "id": "c_starter_pack",
+        "title": "Corrupted Starter",
+        "corruptedCoinCost": 0,
+        "corruptedGemReward": 25,
         "purchaseLimit": 1
     }
 ]

@@ -9,8 +9,14 @@ import SwiftUI
 
 struct EventRewardView: View {
 
+    @EnvironmentObject var appModel: AppModel
+
     @Environment(\.dismiss) private var dismiss
     var event: GameEvent
+
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
 
@@ -19,7 +25,7 @@ struct EventRewardView: View {
             // MARK: Background
 
             LinearGradient(
-                colors: [Color.black, Color.blue.opacity(0.25)],
+                colors: theme.headerGradient,
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -83,15 +89,13 @@ extension EventRewardView {
             RoundedRectangle(cornerRadius: 24)
                 .stroke(
                     LinearGradient(
-                        colors: [.cyan.opacity(0.6), .purple.opacity(0.5)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+                        colors: theme.borderGradient,
+                        startPoint: .top,
+                        endPoint: .bottom
                     ),
                     lineWidth: 1.5
                 )
         )
-
-        .shadow(color: .cyan.opacity(0.3), radius: 14)
     }
 }
 
@@ -128,7 +132,6 @@ func rewardIconRow(_ icon: String, _ value: String) -> some View {
             .resizable()
             .scaledToFit()
             .frame(width: 22, height: 22)
-            .shadow(color: .cyan.opacity(0.6), radius: 4)
 
         Text(value)
             .font(.headline)
@@ -154,17 +157,15 @@ extension EventRewardView {
                 .padding()
 
                 .background(
-
                     LinearGradient(
-                        colors: [.cyan, .purple],
-                        startPoint: .leading,
-                        endPoint: .trailing
+                        colors: theme.headerGradient,
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
                 )
 
                 .foregroundStyle(.white)
                 .clipShape(Capsule())
-                .shadow(color: .cyan.opacity(0.4), radius: 10)
         }
     }
 }

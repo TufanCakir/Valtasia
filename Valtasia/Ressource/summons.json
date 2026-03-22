@@ -144,7 +144,7 @@
             "pool": [
                 {
                     "characterId": "hero_01",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
@@ -174,7 +174,7 @@
                 },
                 {
                     "characterId": "hero_07",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
@@ -184,22 +184,22 @@
                 },
                 {
                     "characterId": "hero_09",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_10",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_11",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_12",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
@@ -219,17 +219,17 @@
                 },
                 {
                     "characterId": "hero_16",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_17",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_18",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 }
             ],
@@ -263,7 +263,7 @@
             "pool": [
                 {
                     "characterId": "hero_01",
-                    "rate": 0.01,
+                    "rate": 0.02,
                     "rateUp": true
                 },
                 {
@@ -283,7 +283,7 @@
                 },
                 {
                     "characterId": "hero_07",
-                    "rate": 0.01,
+                    "rate": 0.02,
                     "rateUp": true
                 },
                 {
@@ -293,22 +293,22 @@
                 },
                 {
                     "characterId": "hero_09",
-                    "rate": 0.01,
+                    "rate": 0.02,
                     "rateUp": true
                 },
                 {
                     "characterId": "hero_10",
-                    "rate": 0.01,
+                    "rate": 0.02,
                     "rateUp": true
                 },
                 {
                     "characterId": "hero_12",
-                    "rate": 0.01,
+                    "rate": 0.02,
                     "rateUp": true
                 },
                 {
                     "characterId": "hero_16",
-                    "rate": 0.01,
+                    "rate": 0.02,
                     "rateUp": true
                 }
             ],
@@ -345,7 +345,7 @@
                         "pool": [
                             {
                                 "characterId": "hero_01",
-                                "rate": 0.01,
+                                "rate": 0.02,
                                 "rateUp": true
                             },
                             {
@@ -365,7 +365,7 @@
                             },
                             {
                                 "characterId": "hero_07",
-                                "rate": 0.01,
+                                "rate": 0.02,
                                 "rateUp": true
                             }
                         ]
@@ -385,7 +385,7 @@
                         "pool": [
                             {
                                 "characterId": "hero_01",
-                                "rate": 0.01,
+                                "rate": 0.02,
                                 "rateUp": true
                             },
                             {
@@ -400,12 +400,12 @@
                             },
                             {
                                 "characterId": "hero_07",
-                                "rate": 0.01,
+                                "rate": 0.02,
                                 "rateUp": true
                             },
                             {
                                 "characterId": "hero_09",
-                                "rate": 0.01,
+                                "rate": 0.02,
                                 "rateUp": true
                             }
                         ]
@@ -449,7 +449,7 @@
             "pool": [
                 {
                     "characterId": "hero_01",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
@@ -479,7 +479,7 @@
                 },
                 {
                     "characterId": "hero_07",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
@@ -489,22 +489,22 @@
                 },
                 {
                     "characterId": "hero_09",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_10",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_11",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_12",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
@@ -524,17 +524,17 @@
                 },
                 {
                     "characterId": "hero_16",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_17",
-                    "rate": 0.0001,
+                    "rate": 0.01,
                     "rateUp": false
                 },
                 {
                     "characterId": "hero_18",
-                    "rate": 0.01,
+                    "rate": 0.02,
                     "rateUp": true
                 }
             ],

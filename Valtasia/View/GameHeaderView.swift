@@ -8,45 +8,48 @@
 import SwiftUI
 
 struct GameHeaderView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
-    
+
     @ObservedObject var coins = CoinManager.shared
     @ObservedObject var gems = GemManager.shared
     @ObservedObject var corruptedCoins = CorruptedCoinManager.shared
     @ObservedObject var corruptedGems = CorruptedGemManager.shared
-    
+
     @State private var showCurrencySheet = false
     @ObservedObject var progress = PlayerProgressManager.shared
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
-    
+
     var body: some View {
-        
+
         ZStack {
-            
-            Image(appModel.homeMode == .corrupted
-                  ? "header_green_bg"
-                  : "header_purple_bg")
+
+            Image(
+                appModel.homeMode == .corrupted
+                    ? "header_green_bg"
+                    : "header_purple_bg"
+            )
             .resizable()
             .scaledToFill()
-            .frame(height: 100)
+            .frame(height: 80)
             .clipped()
-            
+
             .overlay(
                 Rectangle()
                     .stroke(
                         LinearGradient(
-                            colors: appModel.homeMode == .corrupted ? [.green] : [.indigo],
+                            colors: appModel.homeMode == .corrupted
+                                ? [.green] : [.indigo],
                             startPoint: .leading,
                             endPoint: .trailing
                         ),
                         lineWidth: 3
                     )
             )
-            
+
             HStack {
                 levelSection
                 Spacer()
@@ -54,9 +57,8 @@ struct GameHeaderView: View {
             }
             .padding()
         }
-        .frame(height: 100)
         .animation(.easeInOut(duration: 0.4), value: appModel.homeMode)
-        .padding()
+        .padding(.horizontal)
     }
 }
 
@@ -79,7 +81,7 @@ extension GameHeaderView {
             }
 
             expBar
-                .frame(width: 120)
+                .frame(maxWidth: 120)
         }
     }
 }
@@ -118,24 +120,29 @@ extension GameHeaderView {
 
     var currencySection: some View {
 
-        HStack(spacing: 14) {
+        VStack(alignment: .trailing, spacing: 6) {
 
-            // ⭐ Normale
-            currencyItem(icon: "icon_gem", value: gems.gems)
-            currencyItem(icon: "icon_coin", value: coins.coins)
+            HStack(spacing: 10) {
+                currencyItem(icon: "icon_gem", value: gems.gems)
+                currencyItem(icon: "icon_coin", value: coins.coins)
+            }
 
-            // ⭐ Info Button
+            HStack(spacing: 10) {
+                currencyItem(icon: "c_gem", value: corruptedGems.gems)
+                currencyItem(icon: "c_coin", value: corruptedCoins.coins)
+            }
+
             Button {
                 showCurrencySheet = true
             } label: {
                 Image(systemName: "info.circle")
-                    .foregroundStyle(.white)
-                    .font(.title3)
+                    .foregroundStyle(.white.opacity(0.8))
+                    .font(.caption)
             }
         }
         .sheet(isPresented: $showCurrencySheet) {
             CurrencyOverviewSheet()
-                .environmentObject(appModel)  // ⭐ NICHT VERGESSEN
+                .environmentObject(appModel)
         }
     }
 
@@ -198,4 +205,3 @@ extension GameHeaderView {
         )
     }
 }
-

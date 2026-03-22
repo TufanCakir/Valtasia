@@ -9,33 +9,46 @@ import SwiftUI
 
 struct StartView: View {
 
-    @EnvironmentObject var appModel: AppModel  
-    
+    @EnvironmentObject var appModel: AppModel
+    @State private var animate = false
+
     var body: some View {
         ZStack {
 
+            // MARK: BACKGROUND
             Image("bg_1")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
 
-            VStack(spacing: 16) {
+            VStack {
 
-                Text("Valtasia")
-                    .font(.system(size: 50, weight: .heavy))
-                    .foregroundStyle(.indigo)
-                    .shadow(color: .black, radius: 10)
+                Spacer()
+
+                // ⭐ LOGO
+                Image("v_logo")
+                    .resizable()
+                    .scaledToFit()
+                    .scaleEffect(animate ? 1 : 0.8)
+                    .opacity(animate ? 1 : 0)
+                    .animation(.easeOut(duration: 0.8), value: animate)
+
+                Spacer()
             }
         }
-        .contentShape(Rectangle())
+        .contentShape(Rectangle())  // ⭐ wichtig für full tap area
         .onTapGesture {
-            withAnimation {
+            withAnimation(.easeInOut(duration: 0.3)) {
                 appModel.appState = .story
             }
+        }
+        .onAppear {
+            animate = true
         }
     }
 }
 
 #Preview {
     StartView()
+        .environmentObject(AppModel())
 }

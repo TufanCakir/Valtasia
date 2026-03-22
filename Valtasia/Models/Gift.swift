@@ -22,14 +22,19 @@ enum GiftType: String, Codable {
     case coins
     case gems
     case exp
-    case corruptedCoins = "corrupted_coins"
-    case corruptedGems = "corrupted_gems"
+    case corruptedCoins
+    case corruptedGems
 }
 
-final class GiftLoader {
-
+    final class GiftLoader {
+        
     static func load() -> [Gift] {
-        guard let url = Bundle.main.url(forResource: "gifts", withExtension: "json") else {
+        guard
+            let url = Bundle.main.url(
+                forResource: "gifts",
+                withExtension: "json"
+            )
+        else {
             print("❌ gifts.json nicht im Bundle gefunden")
             return []
         }

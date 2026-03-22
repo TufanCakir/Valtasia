@@ -8,107 +8,92 @@
 import SwiftUI
 
 struct EventView: View {
-    
-    @EnvironmentObject var appModel: AppModel
 
+    @EnvironmentObject var appModel: AppModel
     @EnvironmentObject var eventManager: EventManager
 
-    // Existing category selection
     @State private var selectedCategory: EventCategory = .boss
-
-    // State used by navigation in the lower snippet
-    @State private var startBoss: Bool = false
-    @State private var openSummon: Bool = false
-    @State private var selectedEvent: GameEvent? = nil
+    @State private var selectedEvent: GameEvent?
 
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
-    
+
     var body: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: 16) {
 
             EventCategoryTabs(selected: $selectedCategory)
 
-            // Content area: show empty state when there are no active events,
-            // otherwise list events for the selected category.
-            Group {
-                let events = eventManager.events(for: selectedCategory)
-
-                if events.isEmpty {
-                    emptyCategoryState
-                } else {
-                    ScrollView {
-                        VStack(spacing: 20) {
-                            ForEach(events) { event in
-                                EventCardView(event: event) {
-                                    selectedEvent = event
-                                }
-                            }
-                        }
-                        .padding()
-                    }
-                }
-            }
+            content
         }
-        .background(
-            LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        )
-        // Navigation destinations consolidated here
+        .background(background)
         .navigationTitle("Events")
-        .navigationDestination(isPresented: $startBoss) {
-            Text("Boss Fight Scene")
-        }
-        .navigationDestination(isPresented: $openSummon) {
-            Text("Summon Banner")
-        }
+        .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(item: $selectedEvent) { event in
             EventDetailView(event: event)
         }
     }
 }
 
-private var emptyCategoryState: some View {
-    VStack(spacing: 16) {
-        Image(systemName: "calendar")
-            .font(.system(size: 48))
-            .foregroundStyle(.cyan.opacity(0.8))
+extension EventView {
 
-        Text("Keine Events verfügbar")
-            .font(.title3.bold())
-            .foregroundStyle(.white)
+    private var content: some View {
 
-        Text("Schau später wieder vorbei für neue Events und Belohnungen.")
-            .font(.subheadline)
-            .foregroundStyle(.white.opacity(0.7))
-            .multilineTextAlignment(.center)
-            .padding(.horizontal, 24)
+        let events = eventManager.events(for: selectedCategory)
+
+        return Group {
+            if events.isEmpty {
+                emptyState
+            } else {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(events) { event in
+                            EventCardView(event: event) {
+                                selectedEvent = event
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                    .padding(.bottom, 30)
+                }
+                .scrollIndicators(.hidden)
+            }
+        }
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .padding(.top, 60)
 }
 
 extension EventView {
 
-    fileprivate var emptyState: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "calendar.badge.exclamationmark")
-                .font(.system(size: 50))
-                .foregroundStyle(.purple)
+    private var emptyState: some View {
+        VStack(spacing: 14) {
 
-            Text("No Active Events")
-                .font(.title2.bold())
+            Image(systemName: "calendar")
+                .font(.system(size: 40))
+                .foregroundStyle(.white.opacity(0.5))
+
+            Text("No Events Available")
+                .font(.headline.bold())
                 .foregroundStyle(.white)
 
-            Text("Check back later for limited events and rewards.")
-                .font(.subheadline)
+            Text("Come back later for new challenges and rewards.")
+                .font(.caption)
                 .foregroundStyle(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
+                .padding(.horizontal, 30)
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+extension EventView {
+
+    private var background: some View {
+        LinearGradient(
+            colors: theme.headerGradient,
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .ignoresSafeArea()
     }
 }

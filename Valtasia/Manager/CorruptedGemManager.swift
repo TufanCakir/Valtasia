@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 17.03.26.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 final class CorruptedGemManager: ObservableObject {
 
@@ -19,7 +19,7 @@ final class CorruptedGemManager: ObservableObject {
     private init() {
         load()
     }
-    
+
     func spend(_ amount: Int) -> Bool {
         guard amount > 0, gems >= amount else { return false }
         gems -= amount

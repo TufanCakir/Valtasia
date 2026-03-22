@@ -22,12 +22,10 @@ extension UITheme {
             Color.indigo,
         ],
         borderGradient: [
-            Color.black,
-            Color.indigo,
-            ],
+            Color.indigo
+        ],
         footerGradient: [
-            Color.black,
-            Color.indigo,
+            Color.indigo
         ]
     )
 
@@ -37,12 +35,10 @@ extension UITheme {
             Color.green,
         ],
         borderGradient: [
-            Color.black,
-            Color.green,
+            Color.green
         ],
         footerGradient: [
-            Color.black,
-            Color.green,
+            Color.green
         ]
     )
 }

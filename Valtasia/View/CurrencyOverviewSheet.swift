@@ -122,10 +122,6 @@ struct CurrencyOverviewSheet: View {
                     lineWidth: 1
                 )
         )
-        .shadow(
-            color: gradient.first?.opacity(0.4) ?? .clear,
-            radius: 10
-        )
     }
 }
 

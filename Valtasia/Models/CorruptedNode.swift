@@ -12,6 +12,6 @@ struct CorruptedNode: Codable, Identifiable {
     let image: String
     let positionX: CGFloat
     let positionY: CGFloat
-    let connectsTo: [String] // ⭐ DAS HAT GEFEHLT
+    let connectsTo: [String]  // ⭐ DAS HAT GEFEHLT
     let levels: [Level]
 }

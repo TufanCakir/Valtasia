@@ -11,7 +11,7 @@ final class PityManager {
 
     static let shared = PityManager()
     private let prefix = "pity_"
-    
+
     func resetAll() {
         let defaults = UserDefaults.standard
         defaults.dictionaryRepresentation().keys

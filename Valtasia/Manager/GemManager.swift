@@ -19,7 +19,7 @@ final class GemManager: ObservableObject {
     private init() {
         load()
     }
-    
+
     func reset() {
         gems = 0
         save()

@@ -9,25 +9,30 @@ import SwiftUI
 
 struct EventCategoryTabs: View {
 
+    @EnvironmentObject var appModel: AppModel
     @EnvironmentObject var eventManager: EventManager
     @Binding var selected: EventCategory
 
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 14) {
+            HStack(spacing: 10) {
                 ForEach(visibleCategories, id: \.self) { cat in
                     tab(cat)
                 }
             }
             .padding(.horizontal)
-            .padding(.vertical, 6)
+            .padding(.vertical, 8)
         }
+        .animation(.easeInOut(duration: 0.2), value: selected)
     }
 
-    // ⭐ Nur Kategorien mit Events anzeigen
     private var visibleCategories: [EventCategory] {
-        EventCategory.allCases.filter { cat in
-            !eventManager.events(for: cat).isEmpty
+        EventCategory.allCases.filter {
+            !eventManager.events(for: $0).isEmpty
         }
     }
 
@@ -35,52 +40,50 @@ struct EventCategoryTabs: View {
 
         let isSelected = selected == cat
 
+        let fillStyle: AnyShapeStyle =
+            isSelected
+            ? AnyShapeStyle(
+                LinearGradient(
+                    colors: theme.borderGradient,
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            : AnyShapeStyle(Color.black.opacity(0.25))
+
         return Button {
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                selected = cat
-            }
+            selected = cat
         } label: {
 
             Text(eventManager.title(for: cat))
-                .font(.subheadline.weight(.bold))
-                .foregroundStyle(isSelected ? .black : .white.opacity(0.85))
-                .padding(.horizontal, 18)
-                .padding(.vertical, 10)
+                .font(.subheadline.bold())
+                .foregroundStyle(
+                    isSelected
+                        ? .white
+                        : Color.white.opacity(0.6)
+                )
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
                 .background {
                     Capsule()
-                        .fill(
-                            isSelected
-                                ? LinearGradient(
-                                    colors: [.cyan, .purple],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                                : LinearGradient(
-                                    colors: [
-                                        Color.white.opacity(0.06),
-                                        Color.white.opacity(0.04),
-                                    ],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                        )
+                        .fill(fillStyle)
                 }
                 .overlay {
                     Capsule()
                         .stroke(
                             isSelected
-                                ? Color.white.opacity(0.25)
-                                : Color.white.opacity(0.08),
-                            lineWidth: isSelected ? 1.5 : 1
+                                ? AnyShapeStyle(
+                                    LinearGradient(
+                                        colors: theme.borderGradient,
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                : AnyShapeStyle(Color.white.opacity(0.15)),
+                            lineWidth: 1
                         )
                 }
-                .scaleEffect(isSelected ? 1.06 : 1.0)
-                .shadow(
-                    color: isSelected
-                        ? .cyan.opacity(0.35)
-                        : .clear,
-                    radius: 10
-                )
+                .scaleEffect(isSelected ? 1.04 : 1)
         }
         .buttonStyle(.plain)
     }

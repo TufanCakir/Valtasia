@@ -10,9 +10,9 @@ struct Level: Codable, Identifiable {
     var id: String
 
     var battleBackground: String?
-    
+
     var enemies: [String]
-    
+
     let corruptedHPMultiplier: Double?
     let portalReward: CorruptedReward?
 }

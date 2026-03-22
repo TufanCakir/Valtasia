@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SummonResultView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
 
     let characters: [Character]
@@ -16,9 +16,9 @@ struct SummonResultView: View {
     @Environment(\.dismiss) private var dismiss
 
     let columns = [
-        GridItem(.adaptive(minimum: 120), spacing: 20)
+        GridItem(.adaptive(minimum: 140), spacing: 16)
     ]
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -28,25 +28,23 @@ struct SummonResultView: View {
         VStack(spacing: 0) {
 
             // MARK: HEADER
-
             HStack {
-
                 VStack(alignment: .leading, spacing: 4) {
 
                     Text("Summon Result")
-                        .font(.largeTitle.bold())
+                        .font(.title.bold())
                         .foregroundStyle(.white)
 
-                    Text("\(characters.count) Characters Summoned")
+                    Text("\(characters.count) Characters")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.7))
                 }
 
                 Spacer()
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 18)
-            .padding(.bottom, 12)
+            .padding(.horizontal)
+            .padding(.top, 16)
+            .padding(.bottom, 10)
 
             Divider()
                 .background(.white.opacity(0.15))
@@ -67,20 +65,16 @@ struct SummonResultView: View {
             }
 
             // MARK: CONTINUE BUTTON
-
             Button {
-
                 dismiss()
-
             } label: {
-
                 Text("Continue")
                     .font(.headline.bold())
-                    .padding(.horizontal, 32)
+                    .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
                     .background(
                         LinearGradient(
-                            colors: theme.headerGradient,
+                            colors: theme.borderGradient,
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -88,13 +82,14 @@ struct SummonResultView: View {
                     .foregroundStyle(.white)
                     .clipShape(Capsule())
             }
-            .padding(.bottom, 30)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 24)
         }
         .background(
             LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .leading,
-                endPoint: .trailing
+                colors: theme.headerGradient.map { $0.opacity(0.85) },
+                startPoint: .top,
+                endPoint: .bottom
             )
             .ignoresSafeArea()
         )
@@ -106,21 +101,13 @@ extension SummonResultView {
 
     func summonCard(_ character: Character) -> some View {
 
-        let color = character.rarity.color
-
         return VStack(spacing: 12) {
 
             ZStack {
 
                 Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: theme.headerGradient,
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(width: 120, height: 120)
+                    .fill(Color.black.opacity(0.25))
+                    .frame(width: 100, height: 100)
 
                 Image(character.sprite)
                     .resizable()
@@ -135,32 +122,32 @@ extension SummonResultView {
             Text(character.rarity.rawValue.uppercased())
                 .font(.caption.bold())
                 .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(color.opacity(0.2))
-                .foregroundStyle(color)
-                .clipShape(Capsule())
+                .padding(.vertical, 4)
+                .background(
+                    Capsule()
+                        .fill(Color.black.opacity(0.4))
+                )
+                .overlay(
+                    Capsule()
+                        .stroke(character.rarity.color, lineWidth: 1)
+                )
+                .foregroundStyle(character.rarity.color)
         }
         .padding(18)
         .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(LinearGradient(
-                    colors: theme.headerGradient,
-                    startPoint: .leading,
-                    endPoint: .trailing
-                ))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(
-                            LinearGradient(
-                                colors: theme.headerGradient,
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ),
-                            lineWidth: 3
-                        )
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color.black.opacity(0.35))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(
+                    LinearGradient(
+                        colors: theme.borderGradient,
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    lineWidth: 3
                 )
         )
-        .shadow(color: .cyan.opacity(0.25), radius: 10)
     }
 }
-

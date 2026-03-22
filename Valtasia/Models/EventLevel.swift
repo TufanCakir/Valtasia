@@ -7,8 +7,8 @@
 
 struct EventLevel: Codable {
 
-var id:String
-var battleBackground:String
-var enemies:[String]
+    var id: String
+    var battleBackground: String
+    var enemies: [String]
 
 }

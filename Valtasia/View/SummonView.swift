@@ -28,7 +28,7 @@ struct SummonView: View {
     @State private var tutorialSummonUsed = UserDefaults.standard.bool(
         forKey: "tutorial_summon_done"
     )
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -36,15 +36,11 @@ struct SummonView: View {
     var body: some View {
 
         VStack {
-            
-            GameHeaderView()
-              
 
             SummonCategoryTabs(
                 categories: summonManager.categories,
                 selected: $selectedCategory
             )
-            .padding(.top, 8)
 
             Divider()
                 .background(.white.opacity(0.15))
@@ -76,8 +72,8 @@ struct SummonView: View {
         }
         .background(
             LinearGradient(
-                colors:        theme.headerGradient,
-             
+                colors: theme.headerGradient,
+
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -182,27 +178,30 @@ extension SummonView {
         ZStack {
 
             HStack(alignment: .center) {
-                
+
                 // ⭐ LINKS: Charakter + Banner Infos
                 VStack(alignment: .leading, spacing: 8) {
-                    
+
                     Image(banner.bannerImage)
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 150)
-                    
+                        .frame(maxHeight: 140)
+
                     // ⭐ STEP (nur wenn vorhanden)
                     if let stepUp = banner.stepUp, stepUp.enabled,
-                       let stepData = summonManager.currentStepData(for: banner) {
-                        
+                        let stepData = summonManager.currentStepData(
+                            for: banner
+                        )
+                    {
+
                         tagView("STEP \(stepData.step) / \(stepUp.steps.count)")
                     }
-                    
+
                     // ⭐ PITY (IMMER wenn vorhanden)
                     if let pity = banner.pity, pity.enabled {
-                        
+
                         let pulls = PityManager.shared.pulls(for: banner.id)
-                        
+
                         tagView("PITY \(pulls) / \(pity.requiredPulls)")
                     }
                 }
@@ -210,7 +209,7 @@ extension SummonView {
                 Spacer()
 
                 // ⭐ MITTE: Titel + Buttons
-                VStack(spacing: 14) {
+                VStack(spacing: 12) {
 
                     Text(banner.title)
                         .font(.title.bold())
@@ -239,7 +238,6 @@ extension SummonView {
                     lineWidth: 2
                 )
         )
-        .shadow(color: .cyan.opacity(0.35), radius: 14)
     }
 
     func infoButton(_ banner: SummonBanner) -> some View {
@@ -252,7 +250,22 @@ extension SummonView {
                 .font(.title3)
                 .foregroundStyle(.white)
                 .padding(8)
-                .background(.black.opacity(0.6))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.black.opacity(0.35))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(
+                            LinearGradient(
+                                colors: theme.borderGradient,
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1.5
+                        )
+                )
                 .clipShape(Circle())
         }
     }
@@ -294,7 +307,6 @@ extension SummonView {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 18, height: 18)
-                            .shadow(color: .cyan.opacity(0.7), radius: 4)
                     }
                     Text(
                         isTutorial
@@ -316,7 +328,6 @@ extension SummonView {
                     )
                 )
                 .clipShape(Capsule())
-                .shadow(color: .cyan.opacity(0.35), radius: 6)
             }
         )
         .disabled(isTutorial && tutorialSummonUsed)
@@ -356,13 +367,13 @@ extension SummonView {
                     return
                 }
                 EventInventory.shared.tokens -= cost
-                
+
             case "c_gem":
                 guard CorruptedGemManager.shared.spend(cost) else {
                     showNotEnoughGems = true
                     return
                 }
-                
+
             default:
                 break
             }
@@ -396,4 +407,3 @@ extension SummonView {
         }
     }
 }
-

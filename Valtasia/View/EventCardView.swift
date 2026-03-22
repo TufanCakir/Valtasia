@@ -10,6 +10,8 @@ import SwiftUI
 
 struct EventCardView: View {
 
+    @EnvironmentObject var appModel: AppModel
+
     let event: GameEvent
     var onTap: (() -> Void)?
 
@@ -18,6 +20,10 @@ struct EventCardView: View {
     private let timer =
         Timer.publish(every: 1, on: .main, in: .common)
         .autoconnect()
+
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     var body: some View {
         Button {
@@ -33,7 +39,7 @@ struct EventCardView: View {
 
                 // MARK: Gradient Overlay
                 LinearGradient(
-                    colors: [.clear, .black.opacity(0.9)],
+                    colors: [.clear, .black.opacity(0.7)],
                     startPoint: .center,
                     endPoint: .bottom
                 )
@@ -42,13 +48,14 @@ struct EventCardView: View {
                 // MARK: Content
                 VStack(alignment: .leading, spacing: 10) {
                     Text(event.title)
-                        .font(.title.bold())
+                        .font(.headline.bold())
                         .foregroundStyle(.white)
 
                     if let description = event.description {
                         Text(description)
                             .font(.caption)
                             .foregroundStyle(.white.opacity(0.8))
+                            .lineLimit(2)
                     }
 
                     countdownView
@@ -64,21 +71,18 @@ struct EventCardView: View {
             RoundedRectangle(cornerRadius: 24)
                 .stroke(
                     LinearGradient(
-                        colors: [
-                            .cyan.opacity(0.7),
-                            .purple.opacity(0.6),
-                        ],
+                        colors: theme.borderGradient,
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
-                    lineWidth: 2
+                    lineWidth: 1.5
                 )
         )
-        // MARK: Glow
-        .shadow(color: .cyan.opacity(0.35), radius: 14)
         .buttonStyle(.plain)
         .onReceive(timer) { value in
-            now = value
+            withAnimation(.linear(duration: 0.2)) {
+                now = value
+            }
         }
     }
 
@@ -101,10 +105,14 @@ struct EventCardView: View {
             if remaining <= 0 {
                 Text("Event Ended")
                     .font(.caption.bold())
+                    .foregroundStyle(.white)
                     .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(.red.opacity(0.7))
-                    .clipShape(Capsule())
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule()
+                            .fill(Color.black.opacity(0.6))
+                    )
+
             } else {
                 let days = remaining / 86400
                 let hours = (remaining % 86400) / 3600
@@ -113,28 +121,40 @@ struct EventCardView: View {
 
                 HStack(spacing: 6) {
                     Image(systemName: "clock.fill")
+
                     Text("\(days)d \(hours)h \(minutes)m \(seconds)s")
                         .font(.caption.bold())
                 }
                 .foregroundStyle(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
                 .background(
-                    LinearGradient(
-                        colors: [.cyan, .purple],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
+                    Capsule()
+                        .fill(Color.black.opacity(0.5))
                 )
-                .clipShape(Capsule())
+                .overlay(
+                    Capsule()
+                        .stroke(
+                            LinearGradient(
+                                colors: theme.borderGradient,
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 1
+                        )
+                )
             }
+
         } else {
             Text("Starting...")
                 .font(.caption.bold())
+                .foregroundStyle(.white)
                 .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(.gray.opacity(0.4))
-                .clipShape(Capsule())
+                .padding(.vertical, 5)
+                .background(
+                    Capsule()
+                        .fill(Color.black.opacity(0.4))
+                )
         }
     }
 }

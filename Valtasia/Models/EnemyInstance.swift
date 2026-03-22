@@ -18,7 +18,7 @@ final class EnemyInstance {
     init(
         base: Enemy,
         level: Int,
-        hpMultiplier: Double = 1.0 // ⭐ NEU
+        hpMultiplier: Double = 1.0  // ⭐ NEU
     ) {
         self.base = base
         self.level = level
@@ -28,7 +28,7 @@ final class EnemyInstance {
         let scaledHP =
             Double(base.hp)
             * pow(growth, Double(level - 1))
-            * hpMultiplier   // ⭐ HIER PASSIERT PORTAL SCALING
+            * hpMultiplier  // ⭐ HIER PASSIERT PORTAL SCALING
 
         self.maxHP = Int(scaledHP)
         self.hp = self.maxHP

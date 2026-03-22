@@ -38,6 +38,8 @@ final class AppModel: ObservableObject {
     // MARK: - Published State
 
     @Published var appState: AppState = .start
+    
+    @Published var selectedTab: RootView.Tab = .home
 
     @Published var worlds: [World] = []
     @Published var corruptedWorlds: [CorruptedWorld] = []
@@ -53,7 +55,7 @@ final class AppModel: ObservableObject {
             UserDefaults.standard.set(homeMode.rawValue, forKey: homeModeKey)
         }
     }
-    
+
     func pickLoadingImage() {
         currentLoadingImage = loadingImages.randomElement() ?? "epic_bg"
     }
@@ -81,6 +83,9 @@ final class AppModel: ObservableObject {
         "bg_exp",
         "bg_coin",
         "bg_tutorial",
+        "c_corrupted_bg",
+        "c_hell_bg",
+        "c_demon_bg",
     ]
 
     var randomLoadingImage: String {
@@ -89,14 +94,14 @@ final class AppModel: ObservableObject {
 
     enum AppState {
         case start
-        case home   // ✅ NEU
+        case home  // ✅ NEU
         case story
         case game
     }
 
     // MARK: - Init
     init() {
-        determineTutorialState()   // 👈 ZUERST!
+        determineTutorialState()  // 👈 ZUERST!
         initializeGameIfNeeded()
     }
 
@@ -129,11 +134,12 @@ final class AppModel: ObservableObject {
 
     func loadHomeMode() {
         if let saved = UserDefaults.standard.string(forKey: homeModeKey),
-           let mode = HomeMode(rawValue: saved) {
+            let mode = HomeMode(rawValue: saved)
+        {
             homeMode = mode
         }
     }
-    
+
     // MARK: - Navigation mit Loading
 
     func switchToGame() {
@@ -166,14 +172,14 @@ final class AppModel: ObservableObject {
     func startGame() {
         appState = .game
     }
-    
+
     func resetTutorial() {
         let d = UserDefaults.standard
         d.removeObject(forKey: tutorialFightKey)
         d.removeObject(forKey: tutorialSummonKey)
         tutorialState = .none
     }
-    
+
     func completeLevel() {
         guard let levelId = selectedLevelId else { return }
 
@@ -184,7 +190,7 @@ final class AppModel: ObservableObject {
 
         completeNormalLevel(levelId)
     }
-    
+
     private func completeTutorial() {
         UserDefaults.standard.set(true, forKey: tutorialFightKey)
         tutorialState = .summon
@@ -192,7 +198,7 @@ final class AppModel: ObservableObject {
         selectedWorld = worlds.first { $0.id == "world_1" }
         selectedLevelId = nil
     }
-    
+
     private func completeNormalLevel(_ levelId: String) {
         guard let world = world(containing: levelId) else {
             print("❌ World not found:", levelId)
@@ -250,7 +256,7 @@ final class AppModel: ObservableObject {
             .flatMap { $0.levels }
             .first { $0.id == id }
     }
-    
+
     // MARK: - World / Level Flow
 
     func startNode(_ node: WorldNode, in world: World) {
@@ -281,19 +287,21 @@ final class AppModel: ObservableObject {
         switch mode {
 
         case .island:
-            return worlds
+            return
+                worlds
                 .flatMap { $0.worldNodes }
                 .flatMap { $0.levels }
                 .first { $0.id == id }
 
         case .corrupted:
-            return corruptedWorlds
+            return
+                corruptedWorlds
                 .flatMap { $0.worldNodes }
                 .flatMap { $0.levels }
                 .first { $0.id == id }
         }
     }
-    
+
     func loadStory() {
         do {
             storyChapters = try JSONLoader.load("story")
@@ -302,7 +310,7 @@ final class AppModel: ObservableObject {
             print("❌ Story load failed:", error)
         }
     }
-    
+
     func loadCorruptedWorlds() {
         do {
             let loaded: [CorruptedWorld] = try JSONLoader.load("corrupted")

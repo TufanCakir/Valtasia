@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct DailyRewardView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
 
     @ObservedObject var manager = DailyRewardManager.shared
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -20,8 +20,6 @@ struct DailyRewardView: View {
     var body: some View {
 
         VStack {
-            
-            GameHeaderView()
 
             ScrollView {
 
@@ -53,120 +51,129 @@ extension DailyRewardView {
     private func rewardCard(for reward: DailyReward) -> some View {
 
         let day = reward.day
-
         let isCurrent = day == manager.currentDay
         let isClaimable = isCurrent && manager.canClaimToday
         let isClaimed = isCurrent && !manager.canClaimToday
 
-        return ZStack {
+        return HStack(spacing: 14) {
 
-            LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            // MARK: DAY
+            ZStack {
+                Circle()
+                    .fill(
+                        isCurrent
+                            ? theme.borderGradient.last ?? .white
+                            : Color.black.opacity(0.25)
+                    )
+                    .frame(width: 44, height: 44)
 
-            HStack(spacing: 16) {
+                Text("\(day)")
+                    .font(.headline.bold())
+                    .foregroundStyle(.white)
+            }
 
-                // Day Badge
-                ZStack {
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: theme.headerGradient,
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
-                        .frame(width: 50, height: 50)
+            // MARK: REWARD
+            VStack(alignment: .leading, spacing: 6) {
 
-                    Text("\(day)")
-                        .font(.title3.bold())
-                        .foregroundStyle(.white)
-                }
+                Text("Day \(day)")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(.white)
 
-                // Reward Info
-                VStack(alignment: .leading, spacing: 4) {
-                    
-                    Text("Day \(day)")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                    
-                    HStack(spacing: 12) {
-                        
-                        if let coins = reward.coins, coins > 0 {
-                            rewardStat(icon: "icon_coin", value: coins)
-                        }
-                        
-                        if let gems = reward.gems, gems > 0 {
-                            rewardStat(icon: "icon_gem", value: gems)
-                        }
-                        
-                        if let cCoins = reward.corruptedCoins, cCoins > 0 {
-                            rewardStat(icon: "c_coin", value: cCoins)
-                        }
-                        
-                        if let cGems = reward.corruptedGems, cGems > 0 {
-                            rewardStat(icon: "c_gem", value: cGems)
-                        }
-                        
-                        if let exp = reward.exp, exp > 0 {
-                            rewardStat(icon: "icon_exp", value: exp)
-                        }
-                    }
-                }
+                HStack(spacing: 10) {
 
-                Spacer()
-
-                // State Button
-                if isClaimable {
-
-                    Button {
-                        manager.claim()
-                    } label: {
-                        Text("CLAIM")
-                            .font(.caption.bold())
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 10)
-                            .background(
-                                    LinearGradient(
-                                        colors: theme.headerGradient,
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                )
-                            )
-                            .clipShape(Capsule())
+                    if let coins = reward.coins, coins > 0 {
+                        rewardStat(icon: "icon_coin", value: coins)
                     }
 
-                } else if isClaimed {
+                    if let gems = reward.gems, gems > 0 {
+                        rewardStat(icon: "icon_gem", value: gems)
+                    }
 
-                    Text("CLAIMED")
-                        .font(.caption.bold())
-                        .foregroundStyle(.green)
+                    if let cCoins = reward.corruptedCoins, cCoins > 0 {
+                        rewardStat(icon: "c_coin", value: cCoins)
+                    }
 
-                } else {
+                    if let cGems = reward.corruptedGems, cGems > 0 {
+                        rewardStat(icon: "c_gem", value: cGems)
+                    }
 
-                    Text("LOCKED")
-                        .font(.caption.bold())
-                        .foregroundStyle(.white.opacity(0.4))
+                    if let exp = reward.exp, exp > 0 {
+                        rewardStat(icon: "icon_exp", value: exp)
+                    }
                 }
             }
-            .padding()
+
+            Spacer()
+
+            // MARK: ACTION
+            if isClaimable {
+
+                Button {
+                    manager.claim()
+                } label: {
+                    Text("CLAIM")
+                        .font(.caption.bold())
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(
+                            Capsule()
+                                .fill(
+                                    LinearGradient(
+                                        colors: theme.borderGradient,
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                        )
+                        .foregroundStyle(.white)
+                }
+
+            } else if isClaimed {
+
+                Text("✓")
+                    .font(.headline.bold())
+                    .foregroundStyle(.green)
+
+            } else {
+
+                Image(systemName: "lock.fill")
+                    .foregroundStyle(.white.opacity(0.4))
+            }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-        .opacity(day > manager.currentDay ? 0.6 : 1)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color.black.opacity(0.25))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(
+                    isCurrent
+                        ? LinearGradient(
+                            colors: theme.borderGradient,
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        : LinearGradient(
+                            colors: [Color.white.opacity(0.1)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ),
+                    lineWidth: isCurrent ? 2 : 1
+                )
+        )
+        .opacity(day > manager.currentDay ? 0.5 : 1)
     }
 
     private func rewardStat(icon: String, value: Int) -> some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 4) {
             Image(icon)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 18, height: 18)
+                .frame(width: 16, height: 16)
 
             Text("\(value)")
-                .font(.subheadline.bold())
+                .font(.caption.bold())
                 .foregroundStyle(.white.opacity(0.85))
         }
     }

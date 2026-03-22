@@ -16,7 +16,7 @@ struct HomeView: View {
     @State private var selectedWorldIndex = 0
     @State private var zoomToBattle = false
     @State private var showTutorialSummon = false
-    
+
     private let worldNodeSize: CGFloat = 30
 
     private var visibleWorlds: [World] {
@@ -46,7 +46,7 @@ struct HomeView: View {
         .padding()
         .background(
             LinearGradient(
-                colors: theme.borderGradient,
+                colors: theme.headerGradient,
                 startPoint: .leading,
                 endPoint: .trailing
             )
@@ -81,7 +81,7 @@ struct HomeView: View {
                 .background(
                     LinearGradient(
                         colors: active
-                            ? theme.borderGradient
+                            ? theme.headerGradient
                             : [.clear, .clear],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -96,40 +96,56 @@ struct HomeView: View {
     }
 
     var body: some View {
-        
+
         ZStack {
 
-            // ⭐ BACKGROUND FULLSCREEN
+            // ⭐ BACKGROUND
             if appModel.homeMode == .corrupted {
-                if let selected = visibleWorlds[safe: selectedWorldIndex],
-                   let world = appModel.corruptedWorlds.first(where: { $0.id == selected.id }) {
 
+                if let world = appModel.corruptedWorlds[
+                    safe: selectedWorldIndex
+                ] {
                     Image(world.background)
                         .resizable()
                         .scaledToFill()
+                        .ignoresSafeArea()
                 }
+
             } else {
+
                 if let world = visibleWorlds[safe: selectedWorldIndex] {
                     Image(world.background)
                         .resizable()
                         .scaledToFill()
+                        .ignoresSafeArea()
                 }
             }
 
             // ⭐ CONTENT (SAFE AREA!)
             VStack {
-                GameHeaderView()
 
                 worldMapSection
                 modeSwitch
+
                 eventButton
 
                 if appModel.homeMode == .island {
                     worldBar
+                        .padding(
+                            .bottom,
+                            UIDevice.current.userInterfaceIdiom == .pad
+                                ? 200 : 0
+                        )
                 } else {
                     portalBar
+                        .padding(
+                            .bottom,
+                            UIDevice.current.userInterfaceIdiom == .pad
+                                ? 200 : 0
+                        )
                 }
             }
+            .padding()
             .scaleEffect(zoomToBattle ? 1.12 : 1)
             .blur(radius: zoomToBattle ? 8 : 0)
             .animation(.easeInOut(duration: 0.4), value: zoomToBattle)
@@ -193,7 +209,7 @@ struct HomeView: View {
             validateSelectedIndex()
         }
         .onChange(of: appModel.selectedWorld?.id) { _, _ in
-            syncSelectedWorld()   // 👈 NEU
+            syncSelectedWorld()  // 👈 NEU
         }
         .fullScreenCover(isPresented: $showTutorialSummon) {
             SummonView(
@@ -224,7 +240,7 @@ extension HomeView {
     fileprivate var eventButton: some View {
 
         HStack(spacing: 16) {
-            
+
             Button {
                 appModel.appState = .story
             } label: {
@@ -265,13 +281,14 @@ extension HomeView {
                 )
             }
         }
+        .padding()
     }
 }
 
 extension HomeView {
-    
+
     func iconCapsule(icon: String) -> some View {
-        
+
         ZStack {
             Capsule()
                 .fill(
@@ -281,16 +298,12 @@ extension HomeView {
                         endPoint: .bottomTrailing
                     )
                 )
-            
+
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundStyle(.white)
         }
         .frame(width: 50, height: 50)
-        .shadow(
-            color: (theme.borderGradient.last ?? .white).opacity(0.4),
-            radius: 8
-        )
     }
 }
 
@@ -309,10 +322,13 @@ extension HomeView {
                 } else {
 
                     // ⭐ PORTAL JSON verwenden!
-                    if let corruptedWorld = appModel.corruptedWorlds.first(where: {
-                        $0.id == world.id
-                    }) {
-                        CorruptedWorldMapView(world: corruptedWorld) { levelId in
+                    if let corruptedWorld = appModel.corruptedWorlds.first(
+                        where: {
+                            $0.id == world.id
+                        })
+                    {
+                        CorruptedWorldMapView(world: corruptedWorld) {
+                            levelId in
                             startLevelFlow(levelId)
                         }
                     } else {
@@ -428,7 +444,6 @@ extension HomeView {
                 )
         )
         .padding()
-        .padding(.bottom)
     }
 }
 
@@ -474,7 +489,6 @@ extension HomeView {
                 )
         )
         .padding()
-        .padding(.bottom)
     }
 
     private var worldBarBackground: some View {

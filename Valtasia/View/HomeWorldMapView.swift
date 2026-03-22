@@ -17,16 +17,37 @@ struct HomeWorldMapView: View {
     @State private var focusedNode: WorldNode?
     @State private var pulse = false
 
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
+
     var body: some View {
         GeometryReader { geo in
+
             ZStack {
                 connectionLines(in: geo)
                 nodesView(in: geo)
             }
-            .onAppear {
-                withAnimation(.easeInOut(duration: 1.5).repeatForever()) {
-                    pulse.toggle()
-                }
+        }
+        .safeAreaInset(edge: .bottom) {
+            if let node = focusedNode {
+                LevelBarView(
+                    node: node,
+                    onSelectLevel: onSelectLevel
+                )
+                .background(
+                    LinearGradient(
+                        colors: theme.headerGradient,
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1.5).repeatForever()) {
+                pulse.toggle()
             }
         }
     }
@@ -41,7 +62,7 @@ extension HomeWorldMapView {
                     if let target = world.worldNodes.first(where: {
                         $0.id == targetId
                     }),
-                       node.id != target.id
+                        node.id != target.id
                     {
                         Path { path in
                             path.move(to: point(for: node, in: geo))
@@ -49,20 +70,19 @@ extension HomeWorldMapView {
                         }
                         .stroke(
                             LinearGradient(
-                                colors: [.black, .indigo],
+                                colors: theme.borderGradient,
                                 startPoint: .leading,
                                 endPoint: .trailing
                             ),
-                            style: StrokeStyle(lineWidth: 4, lineCap: .round)
+                            style: StrokeStyle(lineWidth: 3, lineCap: .round)
                         )
                         .overlay(
                             Path { path in
                                 path.move(to: point(for: node, in: geo))
                                 path.addLine(to: point(for: target, in: geo))
                             }
-                                .stroke(.white.opacity(0.2), lineWidth: 1)
+                            .stroke(.white.opacity(0.2), lineWidth: 1)
                         )
-                        .shadow(color: .cyan.opacity(0.9), radius: 12)
                     }
                 }
             }
@@ -99,8 +119,6 @@ extension HomeWorldMapView {
                 }
             }()
 
-            let shadowColor: Color = isFocused ? .cyan.opacity(0.7) : .clear
-
             WorldNodeView(
                 node: node,
                 geo: geo,
@@ -116,7 +134,6 @@ extension HomeWorldMapView {
             .opacity(isUnlocked ? 1 : 0.4)
             .position(point(for: node, in: geo))
             .scaleEffect(scale)
-            .shadow(color: shadowColor, radius: 15)
         }
     }
 }

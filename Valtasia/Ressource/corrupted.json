@@ -84,7 +84,8 @@
                         "portalReward": {
                             "coins": 120,
                             "gems": 1
-                        }                    },
+                        }
+                    },
                     {
                         "id": "level_4",
                         "enemies": [
@@ -166,13 +167,13 @@
     },
     {
         "id": "world_2",
-        "background": "c_corrupted_bg",
-        "battleBackground": "c_corrupted_bg",
+        "background": "c_hell_bg",
+        "battleBackground": "c_hell_bg",
         "unlockAfterWorld": "world_1",
         "worldNodes": [
             {
                 "id": "1",
-                "image": "c_corrupted_portal",
+                "image": "c_hell_portal",
                 "positionX": 0.2,
                 "positionY": 0.5,
                 "connectsTo": [
@@ -207,13 +208,13 @@
     },
     {
         "id": "world_3",
-        "background": "c_hell_bg",
-        "battleBackground": "c_hell_bg",
+        "background": "c_demon_bg",
+        "battleBackground": "c_demon_bg",
         "unlockAfterWorld": "world_2",
         "worldNodes": [
             {
                 "id": "1",
-                "image": "c_hell_portal",
+                "image": "c_demon_portal",
                 "positionX": 0.18,
                 "positionY": 0.55,
                 "connectsTo": [],

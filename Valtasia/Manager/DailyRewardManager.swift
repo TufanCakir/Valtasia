@@ -92,7 +92,8 @@ final class DailyRewardManager: ObservableObject {
     // MARK: - DATE CHECK
 
     private func checkAvailability() {
-        let lastClaim = UserDefaults.standard.object(forKey: lastClaimKey) as? Date
+        let lastClaim =
+            UserDefaults.standard.object(forKey: lastClaimKey) as? Date
 
         if let lastClaim {
             canClaimToday = !Calendar.current.isDateInToday(lastClaim)

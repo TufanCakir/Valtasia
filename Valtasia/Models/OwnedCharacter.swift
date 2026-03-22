@@ -16,7 +16,7 @@ final class OwnedCharacter: Codable, Identifiable {
 
     var level: Int = 1
     var exp: Int = 0
-    var stars: Int = 1   // ⭐ 1–7 (7 = Corrupted)
+    var stars: Int = 1  // ⭐ 1–7 (7 = Corrupted)
 
     // MARK: - ⭐ STAR MULTIPLIER
 
@@ -28,16 +28,16 @@ final class OwnedCharacter: Codable, Identifiable {
         case 4: return 1.18
         case 5: return 1.26
         case 6: return 1.35
-        case 7: return 1.55   // 🔥 CORRUPTED BOOST
+        case 7: return 1.55  // 🔥 CORRUPTED BOOST
         default: return 1.0
         }
     }
-    
+
     // MARK: - STAR COLOR
 
     var starColor: Color {
         if isCorrupted {
-            return .green   // 🔥 corrupted override
+            return .green  // 🔥 corrupted override
         }
         return base.rarity.color
     }

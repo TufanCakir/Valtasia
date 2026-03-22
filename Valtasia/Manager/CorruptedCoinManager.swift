@@ -5,8 +5,8 @@
 //  Created by Tufan Cakir on 17.03.26.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 final class CorruptedCoinManager: ObservableObject {
 
@@ -18,6 +18,13 @@ final class CorruptedCoinManager: ObservableObject {
 
     private init() {
         load()
+    }
+
+    func spend(_ amount: Int) -> Bool {
+        guard amount > 0, coins >= amount else { return false }
+        coins -= amount
+        save()
+        return true
     }
 
     func add(_ amount: Int) {

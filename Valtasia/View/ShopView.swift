@@ -9,10 +9,8 @@ import StoreKit
 import SwiftUI
 
 struct ShopView: View {
-    
-    @EnvironmentObject var appModel: AppModel
 
-    @StateObject private var storeKit = StoreKitService.shared
+    @EnvironmentObject var appModel: AppModel
 
     @State private var storeProducts: [StoreProduct] = []
     @State private var isLoading = true
@@ -28,43 +26,16 @@ struct ShopView: View {
         )
     }
 
-    fileprivate var contentList: some View {
-        Group {
-            if isLoading {
-                ProgressView("Loading Shop...")
-                    .tint(.white)
-                    .padding(.top, 60)
-
-            } else if let errorMessage {
-                Text(errorMessage)
-                    .foregroundStyle(.red)
-                    .padding(.top, 60)
-
-            } else {
-                LazyVGrid(
-                    columns: gridColumns,
-                    spacing: 16  // ⭐ mehr Abstand zwischen Cards
-                ) {
-                    ForEach(filteredProducts, id: \.id) { item in
-                        ShopCardView(storeProduct: item) {
-                            Task { await purchase(item) }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private var gridColumns: [GridItem] {
         [
-            GridItem(.flexible(), spacing: 18),
-            GridItem(.flexible(), spacing: 18),
+            GridItem(.adaptive(minimum: 150), spacing: 16)
         ]
     }
 
     fileprivate var filteredProducts: [StoreProduct] {
         storeProducts.filter {
-            $0.shopItem.category.id == selectedCategory
+            selectedCategory.isEmpty
+                || $0.shopItem.category.id == selectedCategory
         }
     }
 
@@ -95,7 +66,7 @@ struct ShopView: View {
         .frame(maxWidth: .infinity)
         .padding(.top, 80)
     }
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -103,22 +74,18 @@ struct ShopView: View {
     var body: some View {
         VStack {
 
-            GameHeaderView()
-
             // MARK: CATEGORY BAR
             ShopCategoryBar(
                 categories: uniqueCategories,
                 selected: $selectedCategory
             )
-            .padding(.top, 10)
-            .padding(.bottom, 14)
 
             Divider()
                 .background(.white.opacity(0.15))
 
             // MARK: CONTENT
             ScrollView {
-                VStack(spacing: 22) {
+                VStack(spacing: 20) {
 
                     if isLoading {
                         loadingState
@@ -129,8 +96,7 @@ struct ShopView: View {
                     }
                 }
                 .padding(.horizontal)
-                .padding(.top, 18)
-                .padding(.bottom, 40)
+                .padding(.vertical, 20)
             }
             .scrollIndicators(.hidden)
         }
@@ -148,30 +114,14 @@ extension ShopView {
 
             let ids = shopItems.compactMap { $0.storeProductId }
 
-            print("🆔 Angefragte IDs:", ids)
-
             try await StoreKitService.shared.loadProducts(ids: ids)
-
-            print(
-                "📦 Geladene StoreKit Produkte:",
-                StoreKitService.shared.products.map { $0.id }
-            )
-
-            if let sf = await Storefront.current {
-                print("🛒 Storefront Country:", sf.countryCode)
-            } else {
-                print("🛒 Storefront Country: unavailable")
-            }
 
             let manager = ShopManager()
             storeProducts = manager.buildStoreProducts(shopItems: shopItems)
 
-            print("🛒 Finale Produkte:", storeProducts.count)
-
             isLoading = false
 
         } catch {
-            print("❌ Shop Fehler:", error)
             errorMessage = "Shop konnte nicht geladen werden."
             isLoading = false
         }
@@ -236,10 +186,7 @@ extension ShopView {
     }
 
     private var shopGrid: some View {
-        LazyVGrid(
-            columns: gridColumns,
-            spacing: 18
-        ) {
+        LazyVGrid(columns: gridColumns, spacing: 16) {
             ForEach(filteredProducts, id: \.id) { item in
                 ShopCardView(storeProduct: item) {
                     Task { await purchase(item) }

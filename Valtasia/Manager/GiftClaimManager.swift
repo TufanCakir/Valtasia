@@ -19,7 +19,7 @@ final class GiftClaimManager: ObservableObject {
     private init() {
         load()
     }
-    
+
     func reset() {
         claimed = []
         save()

@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SummonPoolView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
 
     let banner: SummonBanner
     let rates: [CharacterRate]
 
     @Environment(\.dismiss) private var dismiss
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -35,7 +35,13 @@ struct SummonPoolView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .automatic))
         }
-        .background(BackgroundStyle.main(theme))
+        .background(
+            LinearGradient(
+                colors: theme.headerGradient.map { $0.opacity(0.8) },
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
         .ignoresSafeArea()
     }
 }
@@ -44,7 +50,6 @@ extension SummonPoolView {
 
     fileprivate var headerCard: some View {
         ZStack {
-            BackgroundStyle.headerFade(theme)
 
             HStack(spacing: 16) {
 
@@ -78,7 +83,6 @@ extension SummonPoolView {
         }
         .frame(height: 160)
         .clipShape(RoundedRectangle(cornerRadius: 24))
-        .overlay(GlowStyle.cardStroke(theme))
         .shadow(color: .cyan.opacity(0.35), radius: 14)
         .padding()
     }
@@ -99,24 +103,29 @@ struct PoolPage: View {
 
             ZStack {
                 RoundedRectangle(cornerRadius: 28)
-                    .fill(.ultraThinMaterial)
-                    .overlay(GlowStyle.cardStroke(theme))
+                    .fill(
+                        LinearGradient(
+                            colors: theme.headerGradient,
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
 
                 VStack(spacing: 22) {
 
                     portrait(character)
 
                     Text(character.name)
-                        .font(.title.bold())
+                        .font(.headline.bold())
                         .foregroundStyle(.white)
 
                     Text(character.rarity.rawValue.capitalized)
-                        .font(.headline)
+                        .font(.caption.bold())
                         .foregroundStyle(character.rarity.color)
 
                     Text("Drop Rate \(entry.ratePercent)")
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.75))
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.7))
 
                     if entry.isRateUp {
                         RateUpBadge(theme: theme)
@@ -124,8 +133,6 @@ struct PoolPage: View {
                 }
                 .padding(30)
             }
-            .shadow(color: .cyan.opacity(0.35), radius: 18)
-
             Spacer()
         }
     }
@@ -133,75 +140,34 @@ struct PoolPage: View {
     private func portrait(_ character: Character) -> some View {
         ZStack {
             Circle()
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            character.rarity.color.opacity(0.4),
-                            .black.opacity(0.5),
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .fill(Color.black.opacity(0.25))
 
             Image(character.sprite)
                 .resizable()
                 .scaledToFit()
-                .padding(28)
         }
-        .frame(width: 180, height: 180)
+        .frame(width: 160, height: 160)
     }
 }
 
 struct RateUpBadge: View {
     let theme: UITheme
-    
+
     var body: some View {
         Text("RATE UP")
             .font(.caption.bold())
-            .foregroundStyle(.black)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
             .background(
-                LinearGradient(
-                    colors: theme.headerGradient,
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-            )
-            .clipShape(Capsule())
-            .shadow(color: .yellow.opacity(0.6), radius: 8)
-    }
-}
-
-enum BackgroundStyle {
-    static func main(_ theme: UITheme) -> LinearGradient {
-        LinearGradient(
-            colors: theme.headerGradient,
-            startPoint: .leading,
-            endPoint: .trailing
-        )
-    }
-
-    static func headerFade(_ theme: UITheme) -> LinearGradient {
-        LinearGradient(
-            colors: theme.headerGradient,
-            startPoint: .leading,
-            endPoint: .trailing
-        )
-    }
-}
-
-enum GlowStyle {
-    static func cardStroke(_ theme: UITheme) -> some View {
-        RoundedRectangle(cornerRadius: 28)
-            .stroke(
-                LinearGradient(
-                    colors: theme.headerGradient,
-                    startPoint: .leading,
-                    endPoint: .trailing
-                ),
-                lineWidth: 3
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: theme.borderGradient,
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
             )
     }
 }

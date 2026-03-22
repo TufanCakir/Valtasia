@@ -9,15 +9,14 @@ import StoreKit
 import SwiftUI
 
 struct ShopCardView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
 
-    @StateObject private var storeKit = StoreKitService.shared
     @State private var isPressed = false
 
     let storeProduct: StoreProduct
     let onBuy: () -> Void
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -39,22 +38,6 @@ struct ShopCardView: View {
             }
             .padding()
         }
-        .overlay(glowStroke)
-    }
-}
-
-extension ShopCardView {
-
-    fileprivate var glowStroke: some View {
-        RoundedRectangle(cornerRadius: 24)
-            .stroke(
-                LinearGradient(
-                    colors: theme.headerGradient,
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ),
-                lineWidth: 3
-            )
     }
 }
 
@@ -63,32 +46,29 @@ extension ShopCardView {
     fileprivate var iconView: some View {
         ZStack {
             Circle()
-                .fill(
-                    LinearGradient(
-                        colors: theme.headerGradient,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .fill(Color.black.opacity(0.25))
+
             iconImage
+                .padding(10)
         }
+        .frame(width: 60, height: 60)
     }
 }
 
 extension ShopCardView {
 
     fileprivate var titleView: some View {
-        Group {
-            VStack {
-                if let gems = storeProduct.shopItem.gems {
-                    Text("\(gems) Gems")
-                }
-                
-                if let cGems = storeProduct.shopItem.corruptedGems {
-                    Text("\(cGems) Corrupted Gems")
-                }
+        VStack(spacing: 2) {
+            if let gems = storeProduct.shopItem.gems {
+                Text("\(gems) Gems")
+            }
+
+            if let cGems = storeProduct.shopItem.corruptedGems {
+                Text("\(cGems) Corrupted")
             }
         }
+        .font(.subheadline.bold())
+        .foregroundStyle(.white)
     }
 }
 
@@ -96,48 +76,49 @@ extension ShopCardView {
 
     fileprivate var buyButton: some View {
         Button(action: onBuy) {
-            HStack(spacing: 8) {
-
-                Text(buttonTitle)
-                    .bold()
-            }
-            .font(.subheadline.bold())
-            .foregroundStyle(.white)
-            .padding()
-            .background(
-                LinearGradient(
-                    colors: theme.headerGradient,
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+            Text(buttonTitle)
+                .font(.caption.bold())
+                .foregroundStyle(.white)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .frame(maxWidth: .infinity)
+                .background(
+                    LinearGradient(
+                        colors: theme.borderGradient,
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
                 )
-            )
-            .clipShape(Capsule())
-            .shadow(color: .cyan.opacity(0.35), radius: 6)
-            .scaleEffect(isPressed ? 0.97 : 1)
-            .animation(.easeOut(duration: 0.12), value: isPressed)
+                .clipShape(Capsule())
         }
         .buttonStyle(.plain)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in isPressed = true }
-                .onEnded { _ in isPressed = false }
-        )
     }
 }
 
 extension ShopCardView {
 
+    @ViewBuilder
     fileprivate var badgeView: some View {
-        Group {
-            if let tag = storeProduct.shopItem.tag {
-                Text(badgeTitle(for: tag))
-                    .font(.caption2.bold())
-                    .padding()
-                    .background(badgeColor(for: tag))
-                    .foregroundStyle(.white)
-                    .clipShape(Capsule())
-                    .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
-            }
+        if let tag = storeProduct.shopItem.tag {
+            Text(badgeTitle(for: tag))
+                .font(.caption2.bold())
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(
+                    Capsule().fill(Color.black.opacity(0.4))
+                )
+                .overlay(
+                    Capsule()
+                        .stroke(
+                            LinearGradient(
+                                colors: theme.borderGradient,
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 1
+                        )
+                )
+                .foregroundStyle(.white)
         }
     }
 }
@@ -145,30 +126,18 @@ extension ShopCardView {
 extension ShopCardView {
 
     fileprivate var cardBackground: some View {
-        RoundedRectangle(cornerRadius: 24)
-            .fill(.ultraThinMaterial)
-            .background(
-                LinearGradient(
-                    colors: theme.headerGradient,
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .clipShape(RoundedRectangle(cornerRadius: 24))
-            )
+        RoundedRectangle(cornerRadius: 20)
+            .fill(Color.black.opacity(0.3))
             .overlay(
-                RoundedRectangle(cornerRadius: 24)
+                RoundedRectangle(cornerRadius: 20)
                     .stroke(
                         LinearGradient(
-                                colors: theme.headerGradient,
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                            colors: theme.borderGradient,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
                         ),
-                        lineWidth: 3
+                        lineWidth: 1.5
                     )
-            )
-            .shadow(
-                color: iconColor.opacity(isPressed ? 0.6 : 0.25),
-                radius: isPressed ? 18 : 10
             )
     }
 }
@@ -185,57 +154,23 @@ extension ShopCardView {
         }
     }
 
-    fileprivate func badgeColor(for tag: String) -> LinearGradient {
-        switch tag {
-        case "best_value":
-            return       LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        case "sale":
-            return       LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        case "popular":
-            return       LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        default:
-            return       LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        }
-    }
-
     @ViewBuilder
     fileprivate var iconImage: some View {
-
-        // 👇 NEU: Currency check
-        if storeProduct.shopItem.corruptedGems != nil {
-
-            Image("c_gem")   // 🔴 dein corrupted icon
-                .resizable()
-                .scaledToFit()
-
-        } else if storeProduct.shopItem.gems != nil {
-
-            Image("icon_gem")     // 🔵 normales icon
-                .resizable()
-                .scaledToFit()
-
-        } else {
-
-            Image(systemName: iconName)
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(iconColor)
+        Group {
+            if storeProduct.shopItem.corruptedGems != nil {
+                Image("c_gem")
+                    .resizable()
+                    .scaledToFit()
+            } else if storeProduct.shopItem.gems != nil {
+                Image("icon_gem")
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                Image(systemName: iconName)
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(iconColor)
+            }
         }
     }
 

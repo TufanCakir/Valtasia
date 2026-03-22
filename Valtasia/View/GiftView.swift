@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GiftView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
 
     @ObservedObject private var claimManager = GiftClaimManager.shared
@@ -18,15 +18,13 @@ struct GiftView: View {
     private var availableGifts: [Gift] {
         gifts.filter { !GiftClaimManager.shared.isClaimed($0.id) }
     }
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
 
     var body: some View {
         VStack {
-            
-            GameHeaderView()
 
             ScrollView {
                 VStack(spacing: 16) {
@@ -48,31 +46,29 @@ struct GiftView: View {
             )
             .ignoresSafeArea()
         )
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 extension GiftView {
-    
+
     private func claim(_ gift: Gift) {
-        
+
         guard let amount = gift.amount else { return }
-        
+
         switch gift.type {
-            
+
         case .coins:
             CoinManager.shared.add(amount)
-            
+
         case .gems:
             GemManager.shared.add(amount)
-            
+
         case .exp:
             PlayerProgressManager.shared.addEXP(amount)
-            
+
         case .corruptedCoins:
             CorruptedCoinManager.shared.add(amount)
-            
+
         case .corruptedGems:
             CorruptedGemManager.shared.add(amount)
         }

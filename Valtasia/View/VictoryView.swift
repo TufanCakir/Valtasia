@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct VictoryView: View {
-    
-    @EnvironmentObject var appModel: AppModel
 
+    @EnvironmentObject var appModel: AppModel
     var onContinue: () -> Void
-    
+
+    @State private var animate = false
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -21,67 +22,94 @@ struct VictoryView: View {
 
         ZStack {
 
-            // MARK: Background Blur Overlay
-
+            // MARK: BACKGROUND
             LinearGradient(
-                colors: theme.headerGradient,
+                colors: theme.headerGradient.map { $0.opacity(0.9) },
                 startPoint: .top,
                 endPoint: .bottom
             )
             .ignoresSafeArea()
 
-            VStack(spacing: 28) {
-                
+            VStack(spacing: 24) {
+
+                Spacer()
+
+                // MARK: TITLE
                 Text("VICTORY")
-                    .font(.largeTitle.bold())
-                    .tracking(2)
+                    .font(.system(size: 42, weight: .heavy))
+                    .tracking(3)
                     .foregroundStyle(.white)
-                
-                Text("Enemy Defeated!")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.75))
-                
-                Divider()
-                    .background(.white.opacity(0.2))
-                
-                Button {
-                    onContinue()
-                } label: {
-                    
-                    Text("Continue")
-                        .font(.caption.bold())
-                        .padding(.horizontal, 26)
-                        .padding(.vertical, 10)
-                        .background(
-                            LinearGradient(
-                                colors: theme.headerGradient,
-                                startPoint: .top,
-                                endPoint: .bottom
+                    .scaleEffect(animate ? 1 : 0.8)
+                    .opacity(animate ? 1 : 0)
+                    .animation(.easeOut(duration: 0.5), value: animate)
+
+                Text("Enemy Defeated")
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.7))
+                    .opacity(animate ? 1 : 0)
+                    .animation(.easeOut(duration: 0.7), value: animate)
+
+                // MARK: CARD
+                VStack(spacing: 16) {
+
+                    Divider()
+                        .background(.white.opacity(0.15))
+
+                    // 👉 hier kannst du später Rewards reinbauen
+                    Text("Well done, hero.")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.8))
+
+                    Divider()
+                        .background(.white.opacity(0.15))
+
+                    // MARK: BUTTON
+                    Button {
+                        onContinue()
+                    } label: {
+                        Text("Continue")
+                            .font(.headline.bold())
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                Capsule()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: theme.borderGradient,
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
                             )
                             .foregroundStyle(.white)
-                            .clipShape(Capsule())
-                        )
                     }
                 }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.black.opacity(0.3))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(
+                            LinearGradient(
+                                colors: theme.borderGradient,
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 1.5
+                        )
+                )
+                .padding(.horizontal, 28)
+                .scaleEffect(animate ? 1 : 0.95)
+                .opacity(animate ? 1 : 0)
+                .animation(.easeOut(duration: 0.8), value: animate)
+
+                Spacer()
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 24)
-                    .fill(.ultraThinMaterial)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 24)
-                            .stroke(
-                                LinearGradient(
-                                    colors: theme.borderGradient,
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                ),
-                                lineWidth: 2
-                            )
-                    )
-            )
-            .shadow(color: .cyan.opacity(0.35), radius: 20)
-            .padding(.horizontal, 32)
+        }
+        .onAppear {
+            animate = true
         }
     }
-
+}

@@ -32,7 +32,7 @@ class TeamManager: ObservableObject {
     init() {
         load()
     }
-    
+
     func reset() {
         ownedCharacters = []
         activeTeam = []

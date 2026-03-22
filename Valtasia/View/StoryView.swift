@@ -11,53 +11,55 @@ struct StoryView: View {
 
     @EnvironmentObject var appModel: AppModel
     @State private var currentPage = 0
-    
+
     func isUnlocked(_ chapter: StoryChapter) -> Bool {
-        guard let world = appModel.worlds.first(where: {
-            $0.id == chapter.worldId
-        }) else { return false }
+        guard
+            let world = appModel.worlds.first(where: {
+                $0.id == chapter.worldId
+            })
+        else { return false }
 
         return appModel.progress.isWorldUnlocked(world)
     }
-    
+
     func storyPage(_ chapter: StoryChapter) -> some View {
-        
+
         let unlocked = isUnlocked(chapter)
-        
+
         return ZStack {
-            
+
             // 👇 DAS sorgt für echtes Zentrieren
             VStack {
                 Spacer()
-                
+
                 cardContent(chapter, unlocked: unlocked)
-                
+
                 Spacer()
             }
         }
-        
+
         func cardContent(_ chapter: StoryChapter, unlocked: Bool) -> some View {
-            
+
             VStack(spacing: 0) {
-                
+
                 Image(chapter.image)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 250, height: 300)
                     .clipped()
-                
+
                 VStack(spacing: 12) {
-                    
+
                     Text(chapter.title)
                         .font(.title2.bold())
                         .foregroundStyle(.white)
-                    
+
                     Text(chapter.description)
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.8))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
-                    
+
                     Button {
                         if unlocked {
                             openChapter(chapter)
@@ -70,7 +72,7 @@ struct StoryView: View {
                             .background(
                                 LinearGradient(
                                     colors: unlocked
-                                        ? theme.borderGradient
+                                        ? theme.headerGradient
                                         : [Color.gray, Color.black],
                                     startPoint: .leading,
                                     endPoint: .trailing
@@ -80,13 +82,13 @@ struct StoryView: View {
                             .clipShape(Capsule())
                     }
                 }
-                .padding(16)
+                .padding()
                 .frame(width: 260)
                 .background(
                     LinearGradient(
                         colors: [
                             Color.black.opacity(0.8),
-                            (theme.headerGradient.last ?? .black).opacity(0.4)
+                            (theme.headerGradient.last ?? .black).opacity(0.4),
                         ],
                         startPoint: .top,
                         endPoint: .bottom
@@ -94,7 +96,7 @@ struct StoryView: View {
                 )
             }
             .clipShape(RoundedRectangle(cornerRadius: 26))
-            
+
             .overlay(
                 RoundedRectangle(cornerRadius: 26)
                     .stroke(
@@ -106,7 +108,7 @@ struct StoryView: View {
                         lineWidth: 3
                     )
             )
-            
+
             .overlay {
                 if !unlocked {
                     Image(systemName: "lock.fill")
@@ -120,17 +122,11 @@ struct StoryView: View {
                         .offset(y: -150)
                 }
             }
-            
-            .shadow(
-                color: (theme.borderGradient.last ?? .white).opacity(0.4),
-                radius: 25
-            )
             .opacity(unlocked ? 1 : 0.55)
             .saturation(unlocked ? 1 : 0)
-            .blur(radius: unlocked ? 0 : 2)
         }
     }
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -148,17 +144,7 @@ struct StoryView: View {
                 endPoint: .bottomTrailing
             )
         )
-        .overlay(
-            Capsule()
-                .stroke(
-                    LinearGradient(
-                        colors: theme.borderGradient,
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ),
-                    lineWidth: 2
-                )
-        )
+        .clipShape(Capsule())
     }
 
     func modeButton(_ title: String, _ mode: HomeMode) -> some View {
@@ -176,17 +162,17 @@ struct StoryView: View {
                 .padding(.vertical, 6)
                 .background(
                     active
-                    ? LinearGradient(
-                        colors: theme.headerGradient,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                    : nil
+                        ? LinearGradient(
+                            colors: theme.headerGradient,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        : nil
                 )
                 .clipShape(Capsule())
         }
     }
-    
+
     var visibleChapters: [StoryChapter] {
 
         let validWorldIds: Set<String> = {
@@ -207,25 +193,26 @@ struct StoryView: View {
             return correctType && validWorldIds.contains(chapter.worldId)
         }
     }
-    
+
     var body: some View {
         ZStack {
-            
+
             LinearGradient(
                 colors: theme.headerGradient,
                 startPoint: .leading,
                 endPoint: .trailing
             )
             .ignoresSafeArea()
-            
+
             VStack {
-                
-                GameHeaderView()
-                                
-                modeSwitch   // 💥 HIER IST DER SWITCH
-                
+
+                modeSwitch  // 💥 HIER IST DER SWITCH
+
                 TabView(selection: $currentPage) {
-                    ForEach(Array(visibleChapters.enumerated()), id: \.element.id) { index, chapter in
+                    ForEach(
+                        Array(visibleChapters.enumerated()),
+                        id: \.element.id
+                    ) { index, chapter in
                         storyPage(chapter)
                             .tag(index)
                     }
@@ -237,7 +224,6 @@ struct StoryView: View {
             currentPage = 0
         }
     }
-
 
     // MARK: - Action
     func openChapter(_ chapter: StoryChapter) {
@@ -265,7 +251,7 @@ struct StoryView: View {
 
         appModel.appState = .home
     }
-    
+
     // MARK: - UI
 
     func storyCard(_ chapter: StoryChapter) -> some View {
@@ -298,7 +284,7 @@ struct StoryView: View {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(
                     LinearGradient(
-                        colors: theme.headerGradient,
+                        colors: theme.borderGradient,
                         startPoint: .leading,
                         endPoint: .trailing
                     ),

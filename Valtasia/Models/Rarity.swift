@@ -13,4 +13,5 @@ enum Rarity: String, Codable, Hashable {
     case rare
     case epic
     case legendary
+    case corrupted
 }

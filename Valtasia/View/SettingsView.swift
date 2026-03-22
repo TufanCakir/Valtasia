@@ -12,7 +12,7 @@ struct SettingsView: View {
     @EnvironmentObject var appModel: AppModel
 
     @State private var showConfirm = false
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -265,7 +265,7 @@ extension SettingsView {
                     title: "Gems",
                     value: "\(GemManager.shared.gems)"
                 )
-                
+
                 settingsRowAsset(
                     icon: "icon_coin",
                     title: "Coins",
@@ -413,10 +413,6 @@ extension SettingsView {
                 ),
                 lineWidth: 2
             )
-        )
-        .shadow(
-            color: .cyan.opacity(0.35),
-            radius: 14
         )
     }
 

@@ -14,7 +14,7 @@ struct TutorialBattle: Decodable {
 
 struct TutorialStep: Decodable, Identifiable {
 
-    let id = UUID()   // lokal erzeugt
+    let id = UUID()
     let type: StepType
     let speaker: String?
     let text: String?

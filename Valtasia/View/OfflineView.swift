@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct OfflineView: View {
-    
+
     @EnvironmentObject var appModel: AppModel
 
     @ObservedObject private var network = NetworkMonitor.shared
     @Environment(\.dismiss) private var dismiss
 
     @State private var animate = false
-    
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
@@ -52,7 +52,13 @@ struct OfflineView: View {
                 actionButton
             }
             .padding(30)
-            .background(.ultraThinMaterial)
+            .background(
+                LinearGradient(
+                    colors: theme.headerGradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
             .clipShape(RoundedRectangle(cornerRadius: 28))
             .overlay(
                 RoundedRectangle(cornerRadius: 28)
@@ -81,16 +87,12 @@ extension OfflineView {
                     Circle()
                         .stroke(
                             LinearGradient(
-                                colors: [.red, .pink],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                                colors: theme.borderGradient,
+                                startPoint: .top,
+                                endPoint: .bottom
                             ),
                             lineWidth: 3
                         )
-                )
-                .shadow(
-                    color: .red.opacity(0.5),
-                    radius: animate ? 25 : 10
                 )
                 .animation(
                     .easeInOut(duration: 1.5)
@@ -132,9 +134,9 @@ extension OfflineView {
             .padding()
             .background(
                 LinearGradient(
-                    colors: [.cyan, .purple],
-                    startPoint: .leading,
-                    endPoint: .trailing
+                    colors: theme.headerGradient,
+                    startPoint: .top,
+                    endPoint: .bottom
                 )
             )
             .clipShape(Capsule())
@@ -142,6 +144,5 @@ extension OfflineView {
         .disabled(network.isChecking)
         .padding(.horizontal, 40)
         .foregroundStyle(.white)
-        .shadow(color: .purple.opacity(0.4), radius: 10)
     }
 }

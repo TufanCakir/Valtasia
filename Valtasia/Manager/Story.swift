@@ -11,6 +11,6 @@ struct StoryChapter: Identifiable, Codable {
     let description: String
     let image: String
     let worldId: String
-    
-    let type: StoryType   // 💥 DAS HINZUFÜGEN
+
+    let type: StoryType  // 💥 DAS HINZUFÜGEN
 }

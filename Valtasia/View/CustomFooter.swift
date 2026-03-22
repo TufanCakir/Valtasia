@@ -8,55 +8,69 @@
 import SwiftUI
 
 struct CustomFooter: View {
-    
+
     @EnvironmentObject var appModel: AppModel
-    
     @Binding var selectedTab: RootView.Tab
-    
+
+    @ScaledMetric private var iconSize: CGFloat = 20
+
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
     }
-    
-    var body: some View {
-        
-        ZStack {
-            
-            Image(appModel.homeMode == .corrupted
-                  ? "footer_green_bg"
-                  : "footer_purple_bg")
-            .resizable()
-            .scaledToFill()
-            .frame(height: 100)
-            .clipped()
-            
-            .overlay(
-                Rectangle()
-                    .stroke(
-                        LinearGradient(
-                            colors: appModel.homeMode == .corrupted ? [.green] : [.indigo],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ),
-                        lineWidth: 3
-                    )
-            )
-            
-            HStack(spacing: 16) {
-                footerButton(.home, "house.fill", "Home")
-                footerButton(.team, "person.3.fill", "Team")
-                footerButton(.summon, "sparkles", "Summon")
-                footerButton(.shop, "cart.fill", "Shop")
-                footerButton(.exchange, "arrow.2.circlepath", "Exchange")
-            }
-            .padding(.horizontal)
-        }
-        .frame(height: 100)
-        .padding()
-        .animation(.easeInOut(duration: 0.4), value: appModel.homeMode)
-    }
-}
 
-extension CustomFooter {
+    var body: some View {
+
+        HStack {
+            footerButton(.home, "house.fill", "Home")
+            footerButton(.team, "person.3.fill", "Team")
+            footerButton(.summon, "sparkles", "Summon")
+            footerButton(.shop, "cart.fill", "Shop")
+            footerButton(.exchange, "arrow.2.circlepath", "Exchange")
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+
+        // 🔥 FLOATING BACKGROUND
+        .background(
+            ZStack {
+                RoundedRectangle(cornerRadius: 26)
+                    .fill(.ultraThinMaterial)  // 👈 Glass Effekt
+
+                RoundedRectangle(cornerRadius: 26)
+                    .fill(
+                        LinearGradient(
+                            colors: theme.headerGradient,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        .opacity(0.25)
+                    )
+            }
+        )
+
+        // 🔥 BORDER
+        .overlay(
+            RoundedRectangle(cornerRadius: 26)
+                .stroke(
+                    LinearGradient(
+                        colors: theme.borderGradient,
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    lineWidth: 1.5
+                )
+        )
+
+        // 🔥 SHADOW = DEPTH
+        .shadow(color: .black.opacity(0.4), radius: 12, y: 6)
+
+        // 🔥 SAFE AREA FLOATING
+        .padding(.horizontal)
+        .padding(.bottom, 10)
+        .padding()
+
+        .animation(.easeInOut(duration: 0.25), value: appModel.homeMode)
+    }
 
     func footerButton(
         _ tab: RootView.Tab,
@@ -67,68 +81,67 @@ extension CustomFooter {
         let selected = selectedTab == tab
 
         return Button {
-
-            UIImpactFeedbackGenerator(style: .medium)
-                .impactOccurred()
-
-            withAnimation(
-                .spring(
-                    response: 0.4,
-                    dampingFraction: 0.75
-                )
-            ) {
-                selectedTab = tab
-            }
-
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            selectedTab = tab
         } label: {
 
-            VStack(spacing: 6) {
+            VStack(spacing: 4) {
 
-                ZStack {
-
-                    if selected {
-                        Circle()
-                            .fill(
-                                RadialGradient(
-                                    colors: [
-                                        theme.borderGradient.last ?? .white,
-                                        .clear
-                                    ],
-                                    center: .center,
-                                    startRadius: 5,
-                                    endRadius: 35
-                                )
-                            )
-                            .frame(width: 50, height: 50)
-                    }
-
-                    Image(systemName: icon)
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(
-                            selected
-                                ? AnyShapeStyle(
-                                    LinearGradient(
-                                        colors: theme.borderGradient,
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                )
-                                : AnyShapeStyle(Color.white.opacity(0.6))
-                        )
-                }
-
-                Text(title)
-                    .font(.caption2.bold())
+                Image(systemName: icon)
+                    .font(.system(size: iconSize, weight: .semibold))
                     .foregroundStyle(
                         selected
-                            ? Color.white
-                            : Color.white.opacity(0.6)
+                            ? AnyShapeStyle(
+                                LinearGradient(
+                                    colors: theme.footerGradient,
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                            : AnyShapeStyle(Color.white.opacity(0.7))
+                    )
+                    .scaleEffect(selected ? 1.15 : 1)
+
+                Text(title)
+                    .font(.caption2.weight(.medium))
+                    .foregroundStyle(
+                        selected ? .white : .white.opacity(0.7)
                     )
             }
             .frame(maxWidth: .infinity)
-            .scaleEffect(selected ? 1.1 : 1)
+            .padding(.vertical, 6)
+
+            // 🔥 SELECTED GLOW BACKGROUND
+            .background(
+                ZStack {
+                    if selected {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(
+                                LinearGradient(
+                                    colors: theme.footerGradient,
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                                .opacity(0.25)
+                            )
+
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(
+                                LinearGradient(
+                                    colors: theme.footerGradient,
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1
+                            )
+                    }
+                }
+            )
+            .animation(
+                .spring(response: 0.3, dampingFraction: 0.7),
+                value: selected
+            )
         }
         .buttonStyle(.plain)
     }
 }
-

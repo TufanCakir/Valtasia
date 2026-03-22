@@ -46,20 +46,20 @@ final class EnemyFactory {
             }
             // As a last resort, use legacy UIScreen.main on older systems where it's not deprecated at compile time
             #if !os(watchOS)
-            if #available(iOS 26.0, *) {
-                // Avoid UIScreen.main on iOS 26+; choose a conservative default
-                return 320 * 0.45
-            } else {
-                return UIScreen.main.bounds.width * 0.45
-            }
+                if #available(iOS 26.0, *) {
+                    // Avoid UIScreen.main on iOS 26+; choose a conservative default
+                    return 320 * 0.45
+                } else {
+                    return UIScreen.main.bounds.width * 0.45
+                }
             #else
-            return 320 * 0.45
+                return 320 * 0.45
             #endif
         }()
 
         let scale = targetWidth / sprite.size.width
         sprite.setScale(scale)
-        
+
         sprite.zPosition = 10
 
         container.addChild(sprite)
