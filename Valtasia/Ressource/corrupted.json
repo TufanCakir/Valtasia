@@ -56,8 +56,7 @@
                     {
                         "id": "level_2",
                         "enemies": [
-                            "morvethis",
-                            "hnir"
+                            "morvethis"
                         ],
                         "corruptedHPMultiplier": 6.0,
                         "portalReward": {
@@ -90,8 +89,7 @@
                     {
                         "id": "level_4",
                         "enemies": [
-                            "varkhul",
-                            "hnir"
+                            "varkhul"
                         ],
                         "corruptedHPMultiplier": 6.0,
                         "portalReward": {
@@ -124,8 +122,7 @@
                     {
                         "id": "level_6",
                         "enemies": [
-                            "verdanox",
-                            "hnir"
+                            "verdanox"
                         ],
                         "corruptedHPMultiplier": 6.0,
                         "portalReward": {
@@ -156,8 +153,7 @@
                     {
                         "id": "level_8",
                         "enemies": [
-                            "pyroth",
-                            "hnir"
+                            "pyroth"
                         ],
                         "corruptedHPMultiplier": 6.0,
                         "portalReward": {
@@ -171,8 +167,8 @@
     },
     {
         "id": "world_2",
-        "background": "c_poisen_bg",
-        "battleBackground": "c_poisen_bg",
+        "background": "c_hell_bg",
+        "battleBackground": "c_hell_bg",
         "unlockAfterWorld": "world_1",
         "worldNodes": [
             {
@@ -187,7 +183,7 @@
                     {
                         "id": "level_15",
                         "enemies": [
-                            "hnir"
+                            "verdanox"
                         ],
                         "corruptedHPMultiplier": 6.0,
                         "portalReward": {
@@ -205,6 +201,26 @@
                         "portalReward": {
                             "coins": 150,
                             "gems": 2
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "c_hell_portal",
+                "positionX": 0.5,
+                "positionY": 0.3,
+                "connectsTo": [],
+                "levels": [
+                    {
+                        "id": "level_17",
+                        "enemies": [
+                            "malverion"
+                        ],
+                        "corruptedHPMultiplier": 7.0,
+                        "portalReward": {
+                            "coins": 200,
+                            "gems": 3
                         }
                     }
                 ]
@@ -227,8 +243,7 @@
                     {
                         "id": "level_28",
                         "enemies": [
-                            "malverion",
-                            "hnir"
+                            "malverion"
                         ],
                         "corruptedHPMultiplier": 6.0,
                         "portalReward": {
@@ -239,8 +254,7 @@
                     {
                         "id": "level_29",
                         "enemies": [
-                            "varkhul",
-                            "pyroth"
+                            "malverion"
                         ],
                         "corruptedHPMultiplier": 6.0,
                         "portalReward": {

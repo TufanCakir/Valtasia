@@ -11,7 +11,8 @@ struct GameEvent: Codable, Identifiable, Hashable {
     var title: String
     var type: String
 
-    var category: EventCategory  // ⭐ NEU
+    var category: EventCategory
+    var mode: EventMode
 
     var description: String?
     var icon: String?
@@ -33,7 +34,6 @@ struct EventRewards: Codable, Hashable {
     var gems: Int?
     var exp: Int?
     var eventToken: Int?
-
 }
 
 struct EventModifier: Codable, Hashable {

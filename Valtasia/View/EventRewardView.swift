@@ -105,12 +105,20 @@ extension EventRewardView {
 
         VStack(spacing: 12) {
 
+            let isCorrupted = event.mode == .corrupted
+
             if let coins = event.rewards?.coins {
-                rewardIconRow("icon_coin", "+\(coins)")
+                rewardIconRow(
+                    isCorrupted ? "c_coin" : "icon_coin",
+                    "+\(coins)"
+                )
             }
 
             if let gems = event.rewards?.gems {
-                rewardIconRow("icon_gem", "+\(gems)")
+                rewardIconRow(
+                    isCorrupted ? "c_gem" : "icon_gem",
+                    "+\(gems)"
+                )
             }
 
             if let exp = event.rewards?.exp {
@@ -178,24 +186,46 @@ extension EventRewardView {
             return
         }
 
-        if let coins = reward.coins {
-            CoinManager.shared.add(coins)
+        let isCorrupted = event.mode == .corrupted  // ⭐ WICHTIG
+
+        if isCorrupted {
+
+            // 🔥 CORRUPTED REWARDS
+            if let coins = reward.coins {
+                CorruptedCoinManager.shared.add(coins)
+            }
+
+            if let gems = reward.gems {
+                CorruptedGemManager.shared.add(gems)
+            }
+
+            // optional: corrupted EXP später eigenes System
+            if let exp = reward.exp {
+                PlayerProgressManager.shared.addEXP(exp * 2)  // optional buff
+            }
+
+        } else {
+
+            // 🌍 NORMAL REWARDS
+            if let coins = reward.coins {
+                CoinManager.shared.add(coins)
+            }
+
+            if let gems = reward.gems {
+                GemManager.shared.add(gems)
+            }
+
+            if let exp = reward.exp {
+                PlayerProgressManager.shared.addEXP(exp)
+            }
         }
 
-        if let gems = reward.gems {
-            GemManager.shared.add(gems)
-        }
-
-        if let exp = reward.exp {
-            PlayerProgressManager.shared.addEXP(exp)
-        }
-
+        // 🎟 Event Tokens bleiben global
         if let token = reward.eventToken {
             EventInventory.shared.addTokens(token)
         }
 
         EventRuntime.shared.clear()
-
         dismiss()
     }
 }

@@ -44,12 +44,12 @@ class EventManager: ObservableObject {  // ⭐ hinzufügen
         categories.first { $0.id == category.rawValue }?.title
             ?? category.rawValue.capitalized
     }
-    
+
     private func seededShuffle(_ events: [GameEvent]) -> [GameEvent] {
         var generator = SeededGenerator(seed: currentRotationIndex())
         return events.shuffled(using: &generator)
     }
-    
+
     struct SeededGenerator: RandomNumberGenerator {
         private var state: UInt64
 
@@ -58,15 +58,17 @@ class EventManager: ObservableObject {  // ⭐ hinzufügen
         }
 
         mutating func next() -> UInt64 {
-            state = 2862933555777941757 &* state &+ 3037000493
+            state = 2_862_933_555_777_941_757 &* state &+ 3_037_000_493
             return state
         }
     }
-    
-    func events(for category: EventCategory) -> [GameEvent] {
+
+    func events(for category: EventCategory, mode: HomeMode) -> [GameEvent] {
 
         let filtered = activeEvents()
-            .filter { $0.category == category }
+            .filter {
+                $0.category == category && $0.mode.rawValue == mode.rawValue  // ⭐ KEY FIX
+            }
 
         let shuffled = seededShuffle(filtered)
 
@@ -74,26 +76,27 @@ class EventManager: ObservableObject {  // ⭐ hinzufügen
             let featured = shuffled.first
             let rest = Array(shuffled.dropFirst())
 
-            return [featured].compactMap { $0 } + rotatedEvents(from: rest, count: 2)
+            return [featured].compactMap { $0 }
+                + rotatedEvents(from: rest, count: 2)
         }
 
         return rotatedEvents(from: shuffled, count: 3)
     }
 
     var bossEvents: [GameEvent] {
-        events(for: .boss)
+        events(for: .boss, mode: .island)
     }
 
     var storyEvents: [GameEvent] {
-        events(for: .story)
+        events(for: .story, mode: .island)
     }
 
     var specialEvents: [GameEvent] {
-        events(for: .special)
+        events(for: .special, mode: .island)
     }
 
     var buffEvents: [GameEvent] {
-        events(for: .buff)
+        events(for: .buff, mode: .island)
     }
 
     func expMultiplier() -> Double {
@@ -110,12 +113,13 @@ class EventManager: ObservableObject {  // ⭐ hinzufügen
 
         return events.filter { event in
             if let startString = event.startDate,
-               let endString = event.endDate {
+                let endString = event.endDate
+            {
 
                 let formatter = ISO8601DateFormatter()
 
                 guard let start = formatter.date(from: startString),
-                      let end = formatter.date(from: endString)
+                    let end = formatter.date(from: endString)
                 else { return false }
 
                 return now >= start && now <= end
@@ -125,14 +129,18 @@ class EventManager: ObservableObject {  // ⭐ hinzufügen
             return true
         }
     }
-    
+
     private func currentRotationIndex() -> Int {
-        let startDate = Date(timeIntervalSince1970: 1700000000) // FIX GLOBAL START
-        let days = Calendar.current.dateComponents([.day], from: startDate, to: Date()).day ?? 0
+        let startDate = Date(timeIntervalSince1970: 1_700_000_000)  // FIX GLOBAL START
+        let days =
+            Calendar.current.dateComponents([.day], from: startDate, to: Date())
+            .day ?? 0
         return days / 7
     }
-    
-    private func rotatedEvents(from events: [GameEvent], count: Int = 3) -> [GameEvent] {
+
+    private func rotatedEvents(from events: [GameEvent], count: Int = 3)
+        -> [GameEvent]
+    {
         guard !events.isEmpty else { return [] }
 
         let rotation = currentRotationIndex()

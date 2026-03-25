@@ -32,7 +32,7 @@ struct EventCategoryTabs: View {
 
     private var visibleCategories: [EventCategory] {
         EventCategory.allCases.filter {
-            !eventManager.events(for: $0).isEmpty
+            !eventManager.events(for: $0, mode: .island).isEmpty
         }
     }
 

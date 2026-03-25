@@ -22,6 +22,8 @@ struct EventView: View {
     var body: some View {
         VStack(spacing: 16) {
 
+            ModeSwitchView()
+
             EventCategoryTabs(selected: $selectedCategory)
 
             content
@@ -35,11 +37,56 @@ struct EventView: View {
     }
 }
 
+struct ModeSwitchView: View {
+
+    @EnvironmentObject var appModel: AppModel
+
+    var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
+
+    var body: some View {
+        HStack {
+            button("Island", .island)
+            button("Corrupted", .corrupted)
+        }
+        .padding()
+        .background(
+            LinearGradient(
+                colors: theme.headerGradient,
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        )
+        .clipShape(Capsule())
+    }
+
+    func button(_ title: String, _ mode: HomeMode) -> some View {
+
+        let active = appModel.homeMode == mode
+
+        return Button {
+            withAnimation(.spring()) {
+                appModel.homeMode = mode
+            }
+        } label: {
+            Text(title)
+                .font(.caption.bold())
+                .foregroundStyle(active ? .white : .white.opacity(0.6))
+                .padding(.horizontal, 14)
+                .padding(.vertical, 6)
+        }
+    }
+}
+
 extension EventView {
 
     private var content: some View {
 
-        let events = eventManager.events(for: selectedCategory)
+        let events = eventManager.events(
+            for: selectedCategory,
+            mode: appModel.homeMode  // ⭐ HIER IST DER MAGIC
+        )
 
         return Group {
             if events.isEmpty {

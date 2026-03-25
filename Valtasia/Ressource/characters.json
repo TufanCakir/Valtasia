@@ -428,7 +428,7 @@
     {
         "id": "hero_11",
         "name": "Stellara",
-        "rarity": "legendary",
+        "rarity": "rare",
         "role": "support",
         "stats": {
             "hp": 1450,
@@ -518,7 +518,7 @@
     {
         "id": "hero_13",
         "name": "Cassiel",
-        "rarity": "epic",
+        "rarity": "rare",
         "role": "support",
         "stats": {
             "hp": 1650,
@@ -563,7 +563,7 @@
     {
         "id": "hero_14",
         "name": "Lunara",
-        "rarity": "epic",
+        "rarity": "rare",
         "role": "support",
         "stats": {
             "hp": 1350,
@@ -608,7 +608,7 @@
     {
         "id": "hero_15",
         "name": "Seraphina",
-        "rarity": "epic",
+        "rarity": "rare",
         "role": "dps",
         "stats": {
             "hp": 1400,
@@ -698,7 +698,7 @@
     {
         "id": "hero_17",
         "name": "Eryndor",
-        "rarity": "legendary",
+        "rarity": "rare",
         "role": "dps",
         "stats": {
             "hp": 1580,
@@ -743,7 +743,7 @@
     {
         "id": "hero_18",
         "name": "Corrupted Riven",
-        "rarity": "legendary",
+        "rarity": "corrupted",
         "role": "dps",
         "stats": {
             "hp": 1350,

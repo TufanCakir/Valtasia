@@ -21,7 +21,7 @@
         "id": "chapter_2",
         "title": "Giftige Verderbnis",
         "description":
-            "Die Luft selbst ist tödlich – Hnir breitet seine Seuche aus.",
+            "Die Luft selbst ist tödlich – alles beginnt zu verfallen.",
         "worldId": "world_2",
         "image": "c_poisen_bg",
         "type": "corrupted"
@@ -36,7 +36,7 @@
         "type": "corrupted"
     },
     {
-        "id": "chapter_fire",
+        "id": "chapter_4",
         "title": "Inferno des Ursprungs",
         "description":
             "Flammen verschlingen alles – Pyroth entfesselt seine Macht.",
@@ -45,18 +45,28 @@
         "type": "corrupted"
     },
     {
-        "id": "chapter_hell",
+        "id": "chapter_5",
         "title": "Tor zur Hölle",
         "description":
-            "Die stärksten Kräfte kollidieren – überlebe den Ansturm.",
+            "Die Tore öffnen sich – eine neue Dimension des Schmerzes beginnt.",
         "worldId": "world_2",
         "image": "c_hell_bg",
         "type": "corrupted"
     },
     {
-        "id": "chapter_final",
+        "id": "chapter_6",
+        "title": "Herz der Verdammnis",
+        "description":
+            "Im Zentrum der Hölle wartet Malverion… stärker als je zuvor.",
+        "worldId": "world_2",
+        "image": "c_hell_bg",
+        "type": "corrupted"
+    },
+    {
+        "id": "chapter_7",
         "title": "Ende aller Dinge",
-        "description": "Malverion ist erwacht… der wahre Kampf beginnt jetzt.",
+        "description":
+            "Die Leere verschlingt alles – dies ist dein letzter Kampf.",
         "worldId": "world_3",
         "image": "c_corrupted_bg",
         "type": "corrupted"

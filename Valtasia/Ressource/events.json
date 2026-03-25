@@ -19,6 +19,7 @@
             "id": "event_boss_level_01",
             "type": "boss",
             "category": "boss",
+            "mode": "island",
             "battleBackground": "epic_bg",
             "title": "Pyrothar Clash",
             "description": "Defeat Pyrothar and earn rewards.",
@@ -39,6 +40,7 @@
             "id": "event_boss_level_02",
             "type": "boss",
             "category": "boss",
+            "mode": "island",
             "battleBackground": "void_bg",
             "title": "Nullwinter Clash",
             "description": "Defeat Nullwinter and earn rewards.",
@@ -59,6 +61,7 @@
             "id": "event_boss_level_03",
             "type": "boss",
             "category": "boss",
+            "mode": "island",
             "battleBackground": "space_bg",
             "title": "Ash Sovereign Clash",
             "description": "Defeat the Ash Sovereign.",
@@ -79,6 +82,7 @@
             "id": "event_boss_level_04",
             "type": "boss",
             "category": "boss",
+            "mode": "island",
             "battleBackground": "nature_bg",
             "title": "Coregon Clash",
             "description": "Defeat Coregon.",
@@ -99,6 +103,7 @@
             "id": "event_boss_level_05",
             "type": "boss",
             "category": "boss",
+            "mode": "island",
             "battleBackground": "sky_bg",
             "title": "Frost Colossus Clash",
             "description": "Defeat the Frost Colossus.",
@@ -119,6 +124,7 @@
             "id": "event_boss_level_06",
             "type": "boss",
             "category": "boss",
+            "mode": "island",
             "battleBackground": "lava_bg",
             "title": "Stormreign Clash",
             "description": "Defeat Stormreign.",
@@ -139,6 +145,7 @@
             "id": "event_boss_level_07",
             "type": "boss",
             "category": "boss",
+            "mode": "island",
             "battleBackground": "earth_bg",
             "title": "Zerath Clash",
             "description": "Defeat Zerath.",
@@ -159,6 +166,7 @@
             "id": "event_boss_level_08",
             "type": "boss",
             "category": "boss",
+            "mode": "island",
             "battleBackground": "water_bg",
             "title": "Ignivar Clash",
             "description": "Defeat Ignivar and survive the flames.",
@@ -179,6 +187,7 @@
             "id": "event_story_riven",
             "type": "boss",
             "category": "story",
+            "mode": "island",
             "battleBackground": "bg_emo",
             "title": "Rivens Story",
             "description": "Defeat Riven and survive the dark.",
@@ -199,6 +208,7 @@
             "id": "event_story_c_riven",
             "type": "boss",
             "category": "story",
+            "mode": "island",
             "battleBackground": "c_riven_bg",
             "title": "Corrupted Rivens Story",
             "description": "Defeat Corrupted Riven and survive the dark.",
@@ -219,6 +229,7 @@
             "id": "event_boss_level_10",
             "type": "boss",
             "category": "original",
+            "mode": "island",
             "battleBackground": "void_bg",
             "title": "Zerath das Monster",
             "description": "Defeat Zerath and survive the Monster.",
@@ -239,6 +250,7 @@
             "id": "event_boss_level_11",
             "type": "boss",
             "category": "original",
+            "mode": "island",
             "battleBackground": "heaven_bg",
             "title": "Solmireth der Beschützer",
             "description": "Defeat Solmireth and survive the Heaven.",
@@ -259,6 +271,7 @@
             "id": "exp_battle_event",
             "type": "boss",
             "category": "special",
+            "mode": "island",
             "battleBackground": "bg_exp",
             "title": "EXP Training Grounds",
             "description": "Fight powerful enemies and earn massive EXP.",
@@ -278,6 +291,7 @@
             "id": "coin_battle_event",
             "type": "boss",
             "category": "special",
+            "mode": "island",
             "battleBackground": "bg_coin",
             "title": "Golden Coin Rush",
             "description": "Defeat enemies and farm huge amounts of coins.",
@@ -297,6 +311,7 @@
             "id": "event_boss_varkhul",
             "type": "boss",
             "category": "boss",
+            "mode": "corrupted",
             "battleBackground": "c_devil_bg",
             "title": "Varkhul Clash",
             "description": "Face Varkhul, the embodiment of the Void.",
@@ -307,16 +322,17 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 300,
             "rewards": {
-                "coins": 180,
-                "gems": 2,
-                "exp": 180,
-                "eventToken": 300
+                "coins": 50,
+                "gems": 1,
+                "exp": 5,
+                "eventToken": 650
             }
         },
         {
             "id": "event_boss_verdanox",
             "type": "boss",
             "category": "boss",
+            "mode": "corrupted",
             "battleBackground": "c_poisen_bg",
             "title": "Verdanox Clash",
             "description": "Defeat Verdanox, the corrupted force of nature.",
@@ -327,16 +343,17 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 320,
             "rewards": {
-                "coins": 200,
-                "gems": 2,
-                "exp": 200,
-                "eventToken": 320
+                "coins": 50,
+                "gems": 1,
+                "exp": 5,
+                "eventToken": 650
             }
         },
         {
             "id": "event_boss_pyroth",
             "type": "boss",
             "category": "boss",
+            "mode": "corrupted",
             "battleBackground": "c_fire_bg",
             "title": "Pyroth Clash",
             "description": "Challenge Pyroth, the infernal titan.",
@@ -347,16 +364,17 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 340,
             "rewards": {
-                "coins": 220,
-                "gems": 3,
-                "exp": 220,
-                "eventToken": 340
+                "coins": 50,
+                "gems": 1,
+                "exp": 5,
+                "eventToken": 650
             }
         },
         {
             "id": "event_boss_morvethis",
             "type": "boss",
             "category": "boss",
+            "mode": "corrupted",
             "battleBackground": "c_void_bg",
             "title": "Morvethis Clash",
             "description": "Confront Morvethis, the void incarnate.",
@@ -367,16 +385,17 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 360,
             "rewards": {
-                "coins": 250,
-                "gems": 3,
-                "exp": 250,
-                "eventToken": 360
+                "coins": 50,
+                "gems": 1,
+                "exp": 5,
+                "eventToken": 650
             }
         },
         {
             "id": "event_boss_malverion",
             "type": "boss",
             "category": "boss",
+            "mode": "corrupted",
             "battleBackground": "c_bg",
             "title": "Malverion, Final Cataclysm",
             "description": "Face Malverion, the ultimate corrupted entity.",
@@ -387,10 +406,10 @@
             "rewardCurrency": "event_token",
             "rewardAmount": 600,
             "rewards": {
-                "coins": 400,
-                "gems": 5,
-                "exp": 400,
-                "eventToken": 600
+                "coins": 50,
+                "gems": 1,
+                "exp": 5,
+                "eventToken": 650
             }
         }
     ]

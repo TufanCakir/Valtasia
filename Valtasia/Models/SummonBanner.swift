@@ -30,6 +30,5 @@ struct SummonPoolEntry: Codable, Identifiable {
     var id: String { characterId }
 
     let characterId: String
-    let rate: Double
     let rateUp: Bool
 }

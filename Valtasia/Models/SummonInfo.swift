@@ -9,5 +9,4 @@ struct SummonInfo: Codable, Hashable {
     let rate: Double
     let banner: String
     let rateUp: Bool
-
 }

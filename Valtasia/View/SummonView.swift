@@ -53,16 +53,6 @@ struct SummonView: View {
 
                     ForEach(
                         summonManager.banners(for: selectedCategory)
-                            .filter { banner in
-                                if isTutorial {
-                                    return banner.id == "tutorial_banner"
-                                        && !UserDefaults.standard.bool(
-                                            forKey: "tutorial_summon_done"
-                                        )
-                                } else {
-                                    return banner.id != "tutorial_banner"
-                                }
-                            }
                     ) { banner in
                         summonBannerCard(banner)
                     }

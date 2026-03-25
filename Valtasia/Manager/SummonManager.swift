@@ -100,7 +100,7 @@ extension SummonManager {
 
                 return CharacterRate(
                     character: character,
-                    rate: entry.rate,
+                    rate: character.rarity.summonRate,
                     isRateUp: entry.rateUp
                 )
             }
@@ -114,7 +114,6 @@ extension SummonManager {
 
     /// Uses poolLimit for actual pulls
     func summon(from bannerId: String) -> Character? {
-
         guard let banner = banners.first(where: { $0.id == bannerId }) else {
             return nil
         }
@@ -122,22 +121,7 @@ extension SummonManager {
         let entries = poolEntries(for: banner, applyLimit: true)
         guard !entries.isEmpty else { return nil }
 
-        let totalRate = entries.reduce(0.0) { $0 + max(0, $1.rate) }
-        guard totalRate > 0 else { return nil }
-
-        let roll = Double.random(in: 0..<totalRate)
-
-        var cumulative = 0.0
-
-        for entry in entries {
-            cumulative += max(0, entry.rate)
-            if roll <= cumulative {
-                return characterMap[entry.characterId]
-            }
-        }
-
-        // Floating point fallback
-        return characterMap[entries.last!.characterId]
+        return weightedSummon(from: entries, banner: banner)  // ⭐ reuse!
     }
 }
 
@@ -175,7 +159,7 @@ extension SummonManager {
         }
 
         // ⭐ 3. Normal pull
-        let character = weightedSummon(from: pool)
+        let character = weightedSummon(from: pool, banner: banner)
 
         // ⭐ 4. Increase pity
         PityManager.shared.addPull(for: banner.id)
@@ -192,21 +176,47 @@ extension SummonManager {
     }
 
     // MARK: - Weighted Summon
-    private func weightedSummon(from entries: [SummonPoolEntry]) -> Character? {
-        let total = entries.reduce(0.0) { $0 + Swift.max(0, $1.rate) }
+    private func weightedSummon(
+        from entries: [SummonPoolEntry],
+        banner: SummonBanner
+    ) -> Character? {
+
+        let weighted: [(Character, Double)] = entries.compactMap { entry in
+            guard let character = characterMap[entry.characterId] else {
+                return nil
+            }
+
+            // ❌ remove corrupted from normal banners
+            if banner.category != "corrupted" && character.rarity == .corrupted
+            {
+                return nil
+            }
+
+            var rate = character.rarity.summonRate
+
+            // ⭐ RateUp boost
+            if entry.rateUp == true {
+                rate *= 2.0
+            }
+
+            return (character, rate)
+        }
+
+        let total = weighted.reduce(0.0) { $0 + $1.1 }
         guard total > 0 else { return nil }
 
         let roll = Double.random(in: 0..<total)
+
         var cumulative = 0.0
 
-        for entry in entries {
-            cumulative += Swift.max(0, entry.rate)
+        for (character, rate) in weighted {
+            cumulative += rate
             if roll <= cumulative {
-                return self.characterMap[entry.characterId]
+                return character
             }
         }
 
-        return self.characterMap[entries.last!.characterId]
+        return weighted.last?.0
     }
 
     // MARK: - Step Progress
