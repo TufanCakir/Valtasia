@@ -13,7 +13,7 @@ struct SummonView: View {
     @Environment(\.dismiss) private var dismiss
 
     @ObservedObject var teamManager: TeamManager
-    @StateObject private var summonManager = SummonManager()
+    @ObservedObject var summonManager = SummonManager.shared
     @StateObject private var crystalManager = GemManager.shared  // ✅ live updates
     @State private var selectedBanner: SummonBanner?
     @State private var selectedCharacter: Character?
@@ -117,31 +117,6 @@ struct SummonView: View {
                 )
             }
         }
-        .onAppear {
-            syncCategoryWithTutorial()
-        }
-        .onChange(of: appModel.tutorialState) { _, _ in
-            syncCategoryWithTutorial()
-        }
-    }
-}
-
-extension SummonView {
-
-    func syncCategoryWithTutorial() {
-        switch appModel.tutorialState {
-        case .fight, .summon:
-            withAnimation(.spring()) {
-                selectedCategory = "tutorial"
-            }
-
-        case .done, .none:
-            if selectedCategory == "tutorial" {
-                withAnimation(.spring()) {
-                    selectedCategory = "standard"
-                }
-            }
-        }
     }
 }
 
@@ -194,9 +169,15 @@ extension SummonView {
 
                         tagView("PITY \(pulls) / \(pity.requiredPulls)")
                     }
-                }
 
-                Spacer()
+                    if banner.maxSummons > 0 {
+
+                        let pulls = summonManager.totalPulls(for: banner.id)
+                        let max = banner.maxSummons
+
+                        tagView("SUMMONS \(pulls) / \(max)")
+                    }
+                }
 
                 // ⭐ MITTE: Titel + Buttons
                 VStack(spacing: 12) {
@@ -217,6 +198,8 @@ extension SummonView {
             .padding()
         }
         .clipShape(RoundedRectangle(cornerRadius: 24))
+        .disabled(!summonManager.canSummon(banner))
+        .opacity(summonManager.canSummon(banner) ? 1 : 0.4)
         .overlay(
             RoundedRectangle(cornerRadius: 24)
                 .stroke(
@@ -299,9 +282,11 @@ extension SummonView {
                             .frame(width: 18, height: 18)
                     }
                     Text(
-                        isTutorial
-                            ? (tutorialSummonUsed ? "COMPLETED" : "FREE")
-                            : "\(cost)"
+                        !summonManager.canSummon(banner)
+                            ? "COMPLETED"
+                            : (isTutorial
+                                ? (tutorialSummonUsed ? "COMPLETED" : "FREE")
+                                : "\(cost)")
                     )
 
                     .bold()
@@ -336,6 +321,11 @@ extension SummonView {
         let options = stepData?.costs ?? banner.summons
 
         guard let option = options.first(where: { $0.amount == amount }) else {
+            return
+        }
+
+        guard summonManager.canSummon(banner) else {
+            print("❌ Max summons reached")
             return
         }
 
@@ -381,6 +371,8 @@ extension SummonView {
                 summonResults.append(character)
             }
         }
+
+        summonManager.addPull(for: banner.id)
 
         // ⭐ Ergebnis anzeigen (IMMER)
         showResults = true

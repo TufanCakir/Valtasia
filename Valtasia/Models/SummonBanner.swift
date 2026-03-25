@@ -12,7 +12,7 @@ struct SummonBanner: Codable, Identifiable {
     let currency: String
     let bannerImage: String
     let summons: [SummonOption]
-    let poolLimit: Int
+    let maxSummons: Int
     let pool: [SummonPoolEntry]
 
     let pity: PitySystem?

@@ -10,6 +10,8 @@ import Foundation
 
 final class SummonManager: ObservableObject {
 
+    static let shared = SummonManager()  // 👈 HINZUFÜGEN
+
     // MARK: - Published
 
     @Published private(set) var characters: [Character] = []
@@ -64,6 +66,26 @@ final class SummonManager: ObservableObject {
     }
 }
 
+extension SummonManager {
+
+    func totalPulls(for bannerId: String) -> Int {
+        UserDefaults.standard.integer(forKey: "pulls_\(bannerId)")
+    }
+
+    func addPull(for bannerId: String, amount: Int = 1) {
+        let key = "pulls_\(bannerId)"
+        let current = totalPulls(for: bannerId)
+        UserDefaults.standard.set(current + amount, forKey: key)
+
+        objectWillChange.send()  // 🔥 WICHTIG für UI Update
+    }
+
+    func canSummon(_ banner: SummonBanner) -> Bool {
+        guard banner.maxSummons > 0 else { return true }
+        return totalPulls(for: banner.id) < banner.maxSummons
+    }
+}
+
 // MARK: - Pool Handling
 
 extension SummonManager {
@@ -73,11 +95,8 @@ extension SummonManager {
         applyLimit: Bool
     ) -> [SummonPoolEntry] {
 
-        guard applyLimit, banner.poolLimit > 0 else {
-            return banner.pool
-        }
-
-        return Array(banner.pool.prefix(banner.poolLimit))
+        // ❌ KEIN prefix mehr!
+        return banner.pool
     }
 }
 

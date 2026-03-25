@@ -83,7 +83,6 @@ extension SummonPoolView {
         }
         .frame(height: 160)
         .clipShape(RoundedRectangle(cornerRadius: 24))
-        .shadow(color: .cyan.opacity(0.35), radius: 14)
         .padding()
     }
 }

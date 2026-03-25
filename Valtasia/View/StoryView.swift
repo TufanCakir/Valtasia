@@ -278,7 +278,6 @@ struct StoryView: View {
                     lineWidth: 3
                 )
         )
-        .shadow(color: .cyan.opacity(0.4), radius: 10)
     }
 }
 

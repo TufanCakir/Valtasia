@@ -31,11 +31,10 @@ struct SummonCategoryTabs: View {
     }
 
     private var visibleCategories: [SummonCategory] {
-        switch appModel.tutorialState {
-        case .fight, .summon:
-            return categories.filter { $0.id == "tutorial" }
-        case .done, .none:
-            return categories.filter { $0.id != "tutorial" }
+        categories.sorted {
+            if $0.id == "beginnings" { return true }
+            if $1.id == "beginnings" { return false }
+            return false
         }
     }
 

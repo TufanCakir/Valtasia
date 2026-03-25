@@ -33,36 +33,33 @@ struct CustomFooter: View {
         // 🔥 FLOATING BACKGROUND
         .background(
             ZStack {
-                RoundedRectangle(cornerRadius: 26)
-                    .fill(.ultraThinMaterial)  // 👈 Glass Effekt
 
-                RoundedRectangle(cornerRadius: 26)
-                    .fill(
-                        LinearGradient(
-                            colors: theme.headerGradient,
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                        .opacity(0.25)
-                    )
+                // 🖼 BG IMAGE (wie Header)
+                Image(
+                    appModel.homeMode == .corrupted
+                        ? "footer_green_bg"
+                        : "footer_purple_bg"
+                )
+                .resizable()
+                .scaledToFill()
+                .frame(height: 80)
+                .clipped()
             }
         )
 
         // 🔥 BORDER
         .overlay(
-            RoundedRectangle(cornerRadius: 26)
+            Rectangle()
                 .stroke(
                     LinearGradient(
-                        colors: theme.borderGradient,
+                        colors: appModel.homeMode == .corrupted
+                            ? [.green] : [.indigo],
                         startPoint: .leading,
                         endPoint: .trailing
                     ),
-                    lineWidth: 1.5
+                    lineWidth: 3
                 )
         )
-
-        // 🔥 SHADOW = DEPTH
-        .shadow(color: .black.opacity(0.4), radius: 12, y: 6)
 
         // 🔥 SAFE AREA FLOATING
         .padding(.horizontal)
@@ -115,7 +112,7 @@ struct CustomFooter: View {
             .background(
                 ZStack {
                     if selected {
-                        RoundedRectangle(cornerRadius: 16)
+                        Rectangle()
                             .fill(
                                 LinearGradient(
                                     colors: theme.footerGradient,
@@ -132,7 +129,7 @@ struct CustomFooter: View {
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ),
-                                lineWidth: 1
+                                lineWidth: 3
                             )
                     }
                 }

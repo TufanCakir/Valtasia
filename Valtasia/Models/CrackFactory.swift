@@ -15,7 +15,6 @@ final class CrackFactory {
     private static var textureCache: [String: SKTexture] = [:]
 
     // MARK: - Public
-
     static func createNode(from crack: Crack) -> SKNode {
 
         let container = SKNode()
@@ -23,40 +22,15 @@ final class CrackFactory {
 
         let path = buildPath(for: crack)
 
-        let glow = createGlowLayer(path: path, crack: crack)
+        // ❌ glow entfernen
+        // let glow = createGlowLayer(path: path, crack: crack)
+
         let core = createCoreLayer(path: path, crack: crack)
 
-        container.addChild(glow)
+        // ❌ container.addChild(glow)
         container.addChild(core)
 
-        applyRarityScale(container, crack)
-
         return container
-    }
-
-    // MARK: - Glow Layer
-
-    private static func createGlowLayer(
-        path: CGPath,
-        crack: Crack
-    ) -> SKShapeNode {
-
-        let glow = SKShapeNode(path: path)
-
-        glow.lineCap = .round
-        glow.lineJoin = .round
-        glow.lineWidth = crack.shape.lineWidth * 3
-
-        glow.strokeColor =
-            crack.energyColor.skColor
-            .withAlphaComponent(0.25)
-
-        glow.glowWidth = crack.visual.glow
-        glow.blendMode = .add
-        glow.isAntialiased = true
-        glow.zPosition = 0
-
-        return glow
     }
 
     // MARK: - Core Layer
@@ -70,12 +44,10 @@ final class CrackFactory {
 
         core.lineCap = .round
         core.lineJoin = .round
-        core.lineWidth = crack.shape.lineWidth * 1.6
+        core.lineWidth = 6  // feste Größe
 
-        core.strokeColor = .white
+        core.strokeColor = UIColor.white.withAlphaComponent(0.9)
         core.strokeTexture = gradientTexture(for: crack)
-
-        core.blendMode = .add
         core.isAntialiased = true
         core.zPosition = 1
 
@@ -89,18 +61,17 @@ final class CrackFactory {
     ) -> CGPath {
 
         let path = CGMutablePath()
-
-        let halfLength = crack.shape.length / 2
+        let segments = min(crack.shape.segments, 10)
+        let jaggedness = min(CGFloat(crack.shape.jaggedness), 25)
+        let fixedLength: CGFloat = 120
+        let halfLength = fixedLength / 2
         path.move(to: CGPoint(x: -halfLength, y: 0))
 
         var currentX: CGFloat = -halfLength
         let segmentLength =
-            crack.shape.length / CGFloat(crack.shape.segments)
+            fixedLength / CGFloat(segments)
 
-        let jaggedness =
-            CGFloat(crack.shape.jaggedness)
-
-        for _ in 0..<crack.shape.segments {
+        for _ in 0..<segments {
 
             currentX += segmentLength
 
@@ -207,29 +178,5 @@ final class CrackFactory {
         case .plasma:
             return [.magenta, .cyan]
         }
-    }
-
-    // MARK: - Rarity Scale
-
-    private static func applyRarityScale(
-        _ node: SKNode,
-        _ crack: Crack
-    ) {
-
-        let scale: CGFloat
-
-        switch crack.rarity {
-
-        case .common: scale = 0.55
-        case .uncommon: scale = 0.65
-        case .rare: scale = 0.75
-        case .epic: scale = 0.85
-        case .legendary: scale = 0.95
-        case .mythic: scale = 1.05
-        case .ancient: scale = 1.15
-        case .divine: scale = 1.25
-        }
-
-        node.setScale(scale)
     }
 }

@@ -13,15 +13,15 @@
             "title": "Limited"
         },
         {
-            "id": "tutorial",
-            "title": "Tutorial"
+            "id": "beginnings",
+            "title": "Beginnings"
         }
     ],
     "banners": [
         {
             "id": "tutorial_banner",
-            "title": "New Beginnings Summon",
-            "category": "tutorial",
+            "title": "Beginnings Summon",
+            "category": "beginnings",
             "currency": "gem",
             "bannerImage": "character_riven",
             "summons": [
@@ -30,7 +30,7 @@
                     "cost": 0
                 }
             ],
-            "poolLimit": 0,
+            "maxSummons": 1,
             "pool": [
                 {
                     "characterId": "hero_01",
@@ -122,7 +122,7 @@
                     "cost": 50
                 }
             ],
-            "poolLimit": 0,
+            "maxSummons": 0,
             "pool": [
                 {
                     "characterId": "hero_01",
@@ -223,7 +223,7 @@
                     "cost": 50
                 }
             ],
-            "poolLimit": 100,
+            "maxSummons": 300,
             "pool": [
                 {
                     "characterId": "hero_01",
@@ -271,7 +271,7 @@
                 "requiredPulls": 300,
                 "guaranteedPool": [
                     {
-                        "characterId": "hero_01",
+                        "characterId": "hero_01"
                     }
                 ]
             },
@@ -383,7 +383,7 @@
                     "cost": 50
                 }
             ],
-            "poolLimit": 100,
+            "maxSummons": 300,
             "pool": [
                 {
                     "characterId": "hero_01",
@@ -455,7 +455,7 @@
                 },
                 {
                     "characterId": "hero_18",
-                    "rateUp": false
+                    "rateUp": true
                 }
             ],
             "pity": {
