@@ -38,12 +38,14 @@ final class AppModel: ObservableObject {
     // MARK: - Published State
 
     @Published var appState: AppState = .start
-    
+
     @Published var selectedTab: RootView.Tab = .home
 
     @Published var worlds: [World] = []
     @Published var corruptedWorlds: [CorruptedWorld] = []
     @Published var storyChapters: [StoryChapter] = []
+    @Published var islandStory: [StoryChapter] = []
+    @Published var corruptedStory: [StoryChapter] = []
     @Published var selectedWorld: World?
     @Published var selectedNode: WorldNode?
     @Published var selectedLevelId: String?
@@ -83,9 +85,17 @@ final class AppModel: ObservableObject {
         "bg_exp",
         "bg_coin",
         "bg_tutorial",
+
+        // Corrupted / Demon Set
         "c_corrupted_bg",
         "c_hell_bg",
         "c_demon_bg",
+
+        // 🔥 NEU hinzugefügt
+        "c_poisen_bg",
+        "c_void_bg",
+        "c_fire_bg",
+        "c_devil_bg",
     ]
 
     var randomLoadingImage: String {
@@ -304,9 +314,9 @@ final class AppModel: ObservableObject {
 
     func loadStory() {
         do {
-            storyChapters = try JSONLoader.load("story")
+            islandStory = try JSONLoader.load("story_island")
+            corruptedStory = try JSONLoader.load("story_corrupted")
         } catch {
-            storyChapters = []
             print("❌ Story load failed:", error)
         }
     }
@@ -317,7 +327,49 @@ final class AppModel: ObservableObject {
             corruptedWorlds = loaded
 
             print("🌀 Corrupted loaded:", corruptedWorlds.count)
-            print("🌀 IDs:", corruptedWorlds.map { $0.id })
+
+            for world in corruptedWorlds {
+
+                // 🌍 WORLD BACKGROUND CHECK
+                if UIImage(named: world.background) == nil {
+                    print("❌ Missing BACKGROUND:", world.background)
+                }
+
+                if UIImage(named: world.battleBackground) == nil {
+                    print("❌ Missing BATTLE BG:", world.battleBackground)
+                }
+
+                for node in world.worldNodes {
+
+                    // 🌀 PORTAL IMAGE CHECK
+                    if UIImage(named: node.image) == nil {
+                        print(
+                            "❌ Missing PORTAL:",
+                            node.image,
+                            "in world:",
+                            world.id
+                        )
+                    }
+
+                    for level in node.levels {
+
+                        for enemy in level.enemies {
+
+                            // 👹 ENEMY IMAGE CHECK
+                            if UIImage(named: enemy) == nil {
+                                print(
+                                    "❌ Missing ENEMY IMAGE:",
+                                    enemy,
+                                    "in level:",
+                                    level.id
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            print("✅ Corrupted validation done")
 
         } catch {
             print("❌ Corrupted load failed:", error)

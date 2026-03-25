@@ -60,6 +60,11 @@
         "growthRate": 1.12
     },
     {
+        "id": "c_riven",
+        "hp": 10000,
+        "growthRate": 1.12
+    },
+    {
         "id": "goblin_coin",
         "hp": 10000,
         "growthRate": 1.12
@@ -68,5 +73,30 @@
         "id": "goblin_exp",
         "hp": 10000,
         "growthRate": 1.12
+    },
+    {
+        "id": "varkhul",
+        "hp": 12000,
+        "growthRate": 1.15
+    },
+    {
+        "id": "verdanox",
+        "hp": 13000,
+        "growthRate": 1.16
+    },
+    {
+        "id": "pyroth",
+        "hp": 14000,
+        "growthRate": 1.17
+    },
+    {
+        "id": "morvethis",
+        "hp": 15000,
+        "growthRate": 1.18
+    },
+    {
+        "id": "malverion",
+        "hp": 16000,
+        "growthRate": 1.19
     }
 ]

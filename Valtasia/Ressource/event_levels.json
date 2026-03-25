@@ -56,10 +56,17 @@
         ]
     },
     {
-        "id": "event_boss_level_09",
+        "id": "event_story_riven",
         "battleBackground": "bg_emo",
         "enemies": [
             "character_riven"
+        ]
+    },
+    {
+        "id": "event_story_c_riven",
+        "battleBackground": "c_riven_bg",
+        "enemies": [
+            "c_riven"
         ]
     },
     {
@@ -88,6 +95,41 @@
         "battleBackground": "bg_exp",
         "enemies": [
             "goblin_exp"
+        ]
+    },
+    {
+        "id": "event_boss_varkhul",
+        "battleBackground": "c_devil_bg",
+        "enemies": [
+            "varkhul"
+        ]
+    },
+    {
+        "id": "event_boss_verdanox",
+        "battleBackground": "c_poisen_bg",
+        "enemies": [
+            "verdanox"
+        ]
+    },
+    {
+        "id": "event_boss_pyroth",
+        "battleBackground": "c_fire_bg",
+        "enemies": [
+            "pyroth"
+        ]
+    },
+    {
+        "id": "event_boss_morvethis",
+        "battleBackground": "c_void_bg",
+        "enemies": [
+            "morvethis"
+        ]
+    },
+    {
+        "id": "event_boss_malverion",
+        "battleBackground": "c_bg",
+        "enemies": [
+            "malverion"
         ]
     }
 ]

@@ -1,0 +1,64 @@
+[
+    {
+        "id": "chapter_tutorial_corrupted",
+        "title": "Das verdorbene Erwachen",
+        "description":
+            "Ein dunkles Portal öffnet sich – etwas beobachtet dich bereits.",
+        "worldId": "world_tutorial",
+        "image": "c_corrupted_bg",
+        "type": "corrupted"
+    },
+    {
+        "id": "chapter_1",
+        "title": "Reich der Teufel",
+        "description":
+            "Du betrittst ein Gebiet, in dem selbst die Dunkelheit lebt.",
+        "worldId": "world_1",
+        "image": "c_devil_bg",
+        "type": "corrupted"
+    },
+    {
+        "id": "chapter_2",
+        "title": "Giftige Verderbnis",
+        "description":
+            "Die Luft selbst ist tödlich – Hnir breitet seine Seuche aus.",
+        "worldId": "world_2",
+        "image": "c_poisen_bg",
+        "type": "corrupted"
+    },
+    {
+        "id": "chapter_3",
+        "title": "Flüstern der Leere",
+        "description":
+            "Die Realität beginnt zu zerbrechen… nichts ist mehr real.",
+        "worldId": "world_3",
+        "image": "c_void_bg",
+        "type": "corrupted"
+    },
+    {
+        "id": "chapter_fire",
+        "title": "Inferno des Ursprungs",
+        "description":
+            "Flammen verschlingen alles – Pyroth entfesselt seine Macht.",
+        "worldId": "world_1",
+        "image": "c_fire_bg",
+        "type": "corrupted"
+    },
+    {
+        "id": "chapter_hell",
+        "title": "Tor zur Hölle",
+        "description":
+            "Die stärksten Kräfte kollidieren – überlebe den Ansturm.",
+        "worldId": "world_2",
+        "image": "c_hell_bg",
+        "type": "corrupted"
+    },
+    {
+        "id": "chapter_final",
+        "title": "Ende aller Dinge",
+        "description": "Malverion ist erwacht… der wahre Kampf beginnt jetzt.",
+        "worldId": "world_3",
+        "image": "c_corrupted_bg",
+        "type": "corrupted"
+    }
+]

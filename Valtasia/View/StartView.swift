@@ -16,7 +16,7 @@ struct StartView: View {
         ZStack {
 
             // MARK: BACKGROUND
-            Image("bg_1")
+            Image("bg_start")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()

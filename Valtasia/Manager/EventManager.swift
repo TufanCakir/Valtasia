@@ -44,9 +44,40 @@ class EventManager: ObservableObject {  // ⭐ hinzufügen
         categories.first { $0.id == category.rawValue }?.title
             ?? category.rawValue.capitalized
     }
+    
+    private func seededShuffle(_ events: [GameEvent]) -> [GameEvent] {
+        var generator = SeededGenerator(seed: currentRotationIndex())
+        return events.shuffled(using: &generator)
+    }
+    
+    struct SeededGenerator: RandomNumberGenerator {
+        private var state: UInt64
 
+        init(seed: Int) {
+            self.state = UInt64(seed)
+        }
+
+        mutating func next() -> UInt64 {
+            state = 2862933555777941757 &* state &+ 3037000493
+            return state
+        }
+    }
+    
     func events(for category: EventCategory) -> [GameEvent] {
-        activeEvents().filter { $0.category == category }
+
+        let filtered = activeEvents()
+            .filter { $0.category == category }
+
+        let shuffled = seededShuffle(filtered)
+
+        if category == .boss {
+            let featured = shuffled.first
+            let rest = Array(shuffled.dropFirst())
+
+            return [featured].compactMap { $0 } + rotatedEvents(from: rest, count: 2)
+        }
+
+        return rotatedEvents(from: shuffled, count: 3)
     }
 
     var bossEvents: [GameEvent] {
@@ -75,46 +106,45 @@ class EventManager: ObservableObject {  // ⭐ hinzufügen
     }
 
     func activeEvents() -> [GameEvent] {
-
         let now = Date()
 
         return events.filter { event in
-
-            // 1️⃣ Datum Event (wenn definiert)
             if let startString = event.startDate,
-                let endString = event.endDate
-            {
+               let endString = event.endDate {
 
                 let formatter = ISO8601DateFormatter()
 
                 guard let start = formatter.date(from: startString),
-                    let end = formatter.date(from: endString)
+                      let end = formatter.date(from: endString)
                 else { return false }
 
                 return now >= start && now <= end
             }
 
-            // 2️⃣ Auto Duration Event
-            let duration = event.durationDays ?? 7
-
-            let key = "event_start_\(event.id)"
-
-            if UserDefaults.standard.object(forKey: key) == nil {
-                UserDefaults.standard.set(now, forKey: key)
-            }
-
-            guard let start = UserDefaults.standard.object(forKey: key) as? Date
-            else { return false }
-
-            guard
-                let end = Calendar.current.date(
-                    byAdding: .day,
-                    value: duration,
-                    to: start
-                )
-            else { return false }
-
-            return now <= end
+            // ❗ Alle ohne Datum sind grundsätzlich "pool events"
+            return true
         }
+    }
+    
+    private func currentRotationIndex() -> Int {
+        let startDate = Date(timeIntervalSince1970: 1700000000) // FIX GLOBAL START
+        let days = Calendar.current.dateComponents([.day], from: startDate, to: Date()).day ?? 0
+        return days / 7
+    }
+    
+    private func rotatedEvents(from events: [GameEvent], count: Int = 3) -> [GameEvent] {
+        guard !events.isEmpty else { return [] }
+
+        let rotation = currentRotationIndex()
+        let startIndex = (rotation * count) % events.count
+
+        var result: [GameEvent] = []
+
+        for i in 0..<min(count, events.count) {
+            let index = (startIndex + i) % events.count
+            result.append(events[index])
+        }
+
+        return result
     }
 }

@@ -9,16 +9,6 @@
         "type": "island"
     },
     {
-        "id": "chapter_tutorial_corrupted",
-        "title": "Das verdorbene Erwachen",
-        "description":
-            "Ein dunkles Portal öffnet sich – etwas beobachtet dich bereits.",
-        "worldId": "c_world_tutorial",
-        "image": "c_corrupted_bg",
-        "type": "corrupted"
-    },
-
-    {
         "id": "chapter_1",
         "title": "Die erste Insel",
         "description": "Feuer, Eis und Natur geraten außer Kontrolle.",
@@ -26,16 +16,6 @@
         "image": "water_bg",
         "type": "island"
     },
-    {
-        "id": "chapter_1_corrupted",
-        "title": "Flammen der Verderbnis",
-        "description":
-            "Die Elemente werden verzerrt – etwas manipuliert ihre Essenz.",
-        "worldId": "c_world_1",
-        "image": "c_corrupted_bg",
-        "type": "corrupted"
-    },
-
     {
         "id": "chapter_2",
         "title": "Die Portale öffnen sich",
@@ -46,16 +26,6 @@
         "type": "island"
     },
     {
-        "id": "chapter_2_corrupted",
-        "title": "Dämonische Risse",
-        "description":
-            "Die Realität bricht auf – dämonische Kräfte übernehmen die Kontrolle.",
-        "worldId": "c_world_2",
-        "image": "c_hell_bg",
-        "type": "corrupted"
-    },
-
-    {
         "id": "chapter_3",
         "title": "Himmel und Chaos",
         "description":
@@ -65,15 +35,6 @@
         "type": "island"
     },
     {
-        "id": "chapter_3_corrupted",
-        "title": "Zerfallene Realität",
-        "description": "Die Welt wird instabil – Portale verschlingen alles.",
-        "worldId": "c_world_3",
-        "image": "c_demon_bg",
-        "type": "corrupted"
-    },
-
-    {
         "id": "chapter_4",
         "title": "Die Lavawelt",
         "description": "Uralte Mächte erwachen unter glühender Lava.",
@@ -81,16 +42,6 @@
         "image": "lava_bg",
         "type": "island"
     },
-    {
-        "id": "chapter_4_corrupted",
-        "title": "Inferno der Verderbnis",
-        "description":
-            "Die Lava wird von dunkler Energie kontrolliert – nichts bleibt stabil.",
-        "worldId": "c_world_4",
-        "image": "c_hell_bg",
-        "type": "corrupted"
-    },
-
     {
         "id": "chapter_5",
         "title": "Natur vs. Void",
@@ -101,15 +52,6 @@
         "type": "island"
     },
     {
-        "id": "chapter_5_corrupted",
-        "title": "Vergiftete Natur",
-        "description": "Die Wurzeln der Welt selbst werden korrumpiert.",
-        "worldId": "c_world_5",
-        "image": "c_corrupted_bg",
-        "type": "corrupted"
-    },
-
-    {
         "id": "chapter_6",
         "title": "Erde & Sturm",
         "description": "Elementare Kräfte geraten völlig außer Kontrolle.",
@@ -117,16 +59,6 @@
         "image": "earth_bg",
         "type": "island"
     },
-    {
-        "id": "chapter_6_corrupted",
-        "title": "Sturm des Untergangs",
-        "description":
-            "Der Himmel selbst wird von der Verderbnis verschlungen.",
-        "worldId": "c_world_6",
-        "image": "c_demon_bg",
-        "type": "corrupted"
-    },
-
     {
         "id": "chapter_7",
         "title": "Im All verloren",

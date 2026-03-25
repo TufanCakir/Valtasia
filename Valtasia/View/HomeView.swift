@@ -341,77 +341,62 @@ extension HomeView {
 }
 
 extension HomeView {
-
-    func portalWorldButton(for world: World, index: Int) -> some View {
-
+    
+    func portalWorldButtonCorrupted(
+        for world: CorruptedWorld,
+        index: Int
+    ) -> some View {
+        
         let isSelected = index == selectedWorldIndex
-        let isLocked = !appModel.progress.isWorldUnlocked(world)
-
+        let isLocked = !appModel.progress.isCorruptedWorldUnlocked(world)
+        
         return Button {
-            guard !isLocked else { return }  // ❗ verhindert Klick
-
+            guard !isLocked else { return }
+            
             withAnimation(.spring()) {
                 selectedWorldIndex = index
             }
-
+            
         } label: {
-
+            
             ZStack {
-
+                
                 Circle()
                     .fill(
                         LinearGradient(
                             colors:
                                 isLocked
                                 ? [.gray.opacity(0.5), .black]
-                                : isSelected
-                                    ? [.black, .green]
-                                    : [.black, .green],
+                                : [.black, .green],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
                     .frame(width: worldNodeSize, height: worldNodeSize)
-                    .overlay(
-                        Circle()
-                            .stroke(
-                                LinearGradient(
-                                    colors: [
-                                        .green,
-                                        .green,
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ),
-                                lineWidth: isSelected ? 2 : 1
-                            )
-                    )
                     .scaleEffect(isSelected ? 1.15 : 1)
-
+                
                 Text("\(index + 1)")
                     .foregroundStyle(.white)
                     .font(.caption.bold())
-
-                // 🔒 LOCK ICON
+                
                 if isLocked {
                     Image(systemName: "lock.fill")
                         .foregroundStyle(.white)
-                        .padding(6)
-                        .background(.black.opacity(0.7))
-                        .clipShape(Circle())
-                        .opacity(isLocked ? 0.6 : 1)
                 }
             }
         }
     }
-
+    
     var portalBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        
+        let worlds = appModel.corruptedWorlds  // 🔥 DAS ist der Fix!
+        
+        return ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
-                ForEach(Array(visibleWorlds.enumerated()), id: \.element.id) {
-                    index,
-                    world in
-                    portalWorldButton(for: world, index: index)
+                ForEach(Array(worlds.enumerated()), id: \.element.id) {
+                    index, world in
+                    
+                    portalWorldButtonCorrupted(for: world, index: index)
                 }
             }
             .padding()
@@ -420,27 +405,10 @@ extension HomeView {
             RoundedRectangle(cornerRadius: 20)
                 .fill(
                     LinearGradient(
-                        colors: [
-                            Color.black,
-                            Color.green,
-                        ],
+                        colors: [Color.black, Color.green],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(
-                            LinearGradient(
-                                colors: [
-                                    Color.black,
-                                    Color.green,
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ),
-                            lineWidth: 3
-                        )
                 )
         )
         .padding()

@@ -174,23 +174,10 @@ struct StoryView: View {
     }
 
     var visibleChapters: [StoryChapter] {
-
-        let validWorldIds: Set<String> = {
-            if appModel.homeMode == .corrupted {
-                return Set(appModel.corruptedWorlds.map { $0.id })
-            } else {
-                return Set(appModel.worlds.map { $0.id })
-            }
-        }()
-
-        return appModel.storyChapters.filter { chapter in
-
-            let correctType =
-                appModel.homeMode == .corrupted
-                ? chapter.type == .corrupted
-                : chapter.type == .island
-
-            return correctType && validWorldIds.contains(chapter.worldId)
+        if appModel.homeMode == .corrupted {
+            return appModel.corruptedStory
+        } else {
+            return appModel.islandStory
         }
     }
 

@@ -176,7 +176,7 @@
             }
         },
         {
-            "id": "event_boss_level_09",
+            "id": "event_story_riven",
             "type": "boss",
             "category": "story",
             "battleBackground": "bg_emo",
@@ -185,7 +185,27 @@
             "icon": "bg_emo",
             "bossEnemy": "character_riven",
             "durationDays": 7,
-            "bossLevelId": "event_boss_level_09",
+            "bossLevelId": "event_story_riven",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 250,
+            "rewards": {
+                "coins": 20,
+                "gems": 1,
+                "exp": 200,
+                "eventToken": 350
+            }
+        },
+        {
+            "id": "event_story_c_riven",
+            "type": "boss",
+            "category": "story",
+            "battleBackground": "c_riven_bg",
+            "title": "Corrupted Rivens Story",
+            "description": "Defeat Corrupted Riven and survive the dark.",
+            "icon": "c_riven_bg",
+            "bossEnemy": "c_riven",
+            "durationDays": 7,
+            "bossLevelId": "event_story_c_riven",
             "rewardCurrency": "event_token",
             "rewardAmount": 250,
             "rewards": {
@@ -198,7 +218,7 @@
         {
             "id": "event_boss_level_10",
             "type": "boss",
-            "category": "special",
+            "category": "original",
             "battleBackground": "void_bg",
             "title": "Zerath das Monster",
             "description": "Defeat Zerath and survive the Monster.",
@@ -274,136 +294,96 @@
             }
         },
         {
-            "id": "corrupted_event_01",
+            "id": "event_boss_varkhul",
             "type": "boss",
-            "category": "special",
-            "battleBackground": "c_corrupted_bg",
-            "title": "Corrupted Pyrothar",
-            "description": "A twisted version of Pyrothar appears.",
-            "icon": "c_corrupted_bg",
-            "bossEnemy": "pyrothar",
+            "category": "boss",
+            "battleBackground": "c_devil_bg",
+            "title": "Varkhul Clash",
+            "description": "Face Varkhul, the embodiment of the Void.",
+            "icon": "c_devil_bg",
+            "bossEnemy": "varkhul",
             "durationDays": 7,
-            "bossLevelId": "corrupted_event_01",
+            "bossLevelId": "event_boss_varkhul",
             "rewardCurrency": "event_token",
-            "rewardAmount": 200,
-            "rewards": {
-                "coins": 150,
-                "gems": 2,
-                "exp": 150,
-                "eventToken": 200
-            }
-        },
-        {
-            "id": "corrupted_event_02",
-            "type": "boss",
-            "category": "special",
-            "battleBackground": "c_hell_bg",
-            "title": "Hellborn Nullwinter",
-            "description": "Nullwinter returns from the abyss.",
-            "icon": "c_hell_bg",
-            "bossEnemy": "nullwinter",
-            "durationDays": 7,
-            "bossLevelId": "corrupted_event_02",
-            "rewardCurrency": "event_token",
-            "rewardAmount": 240,
+            "rewardAmount": 300,
             "rewards": {
                 "coins": 180,
                 "gems": 2,
                 "exp": 180,
-                "eventToken": 240
+                "eventToken": 300
             }
         },
         {
-            "id": "corrupted_event_03",
-            "type": "boss",
-            "category": "special",
-            "battleBackground": "c_demon_bg",
-            "title": "Demon Sovereign",
-            "description": "The Ash Sovereign is fully corrupted.",
-            "icon": "c_demon_bg",
-            "bossEnemy": "ash_sovereign",
-            "durationDays": 7,
-            "bossLevelId": "corrupted_event_03",
-            "rewardCurrency": "event_token",
-            "rewardAmount": 280,
-            "rewards": {
-                "coins": 200,
-                "gems": 3,
-                "exp": 200,
-                "eventToken": 280
-            }
-        },
-        {
-            "id": "corrupted_event_04",
+            "id": "event_boss_verdanox",
             "type": "boss",
             "category": "boss",
-            "battleBackground": "c_corrupted_bg",
-            "title": "Coregon Overload",
-            "description": "Coregon has lost control.",
-            "icon": "c_corrupted_bg",
-            "bossEnemy": "coregon",
+            "battleBackground": "c_poisen_bg",
+            "title": "Verdanox Clash",
+            "description": "Defeat Verdanox, the corrupted force of nature.",
+            "icon": "c_poisen_bg",
+            "bossEnemy": "verdanox",
             "durationDays": 7,
-            "bossLevelId": "corrupted_event_04",
+            "bossLevelId": "event_boss_verdanox",
             "rewardCurrency": "event_token",
             "rewardAmount": 320,
             "rewards": {
-                "coins": 220,
-                "gems": 3,
-                "exp": 220,
+                "coins": 200,
+                "gems": 2,
+                "exp": 200,
                 "eventToken": 320
             }
         },
         {
-            "id": "corrupted_event_05",
+            "id": "event_boss_pyroth",
             "type": "boss",
             "category": "boss",
-            "battleBackground": "c_hell_bg",
-            "title": "Infernal Ignivar",
-            "description": "Flames consume everything.",
-            "icon": "c_hell_bg",
-            "bossEnemy": "ignivar",
+            "battleBackground": "c_fire_bg",
+            "title": "Pyroth Clash",
+            "description": "Challenge Pyroth, the infernal titan.",
+            "icon": "c_fire_bg",
+            "bossEnemy": "pyroth",
             "durationDays": 7,
-            "bossLevelId": "corrupted_event_05",
+            "bossLevelId": "event_boss_pyroth",
+            "rewardCurrency": "event_token",
+            "rewardAmount": 340,
+            "rewards": {
+                "coins": 220,
+                "gems": 3,
+                "exp": 220,
+                "eventToken": 340
+            }
+        },
+        {
+            "id": "event_boss_morvethis",
+            "type": "boss",
+            "category": "boss",
+            "battleBackground": "c_void_bg",
+            "title": "Morvethis Clash",
+            "description": "Confront Morvethis, the void incarnate.",
+            "icon": "c_void_bg",
+            "bossEnemy": "morvethis",
+            "durationDays": 7,
+            "bossLevelId": "event_boss_morvethis",
             "rewardCurrency": "event_token",
             "rewardAmount": 360,
             "rewards": {
                 "coins": 250,
-                "gems": 4,
+                "gems": 3,
                 "exp": 250,
                 "eventToken": 360
             }
         },
         {
-            "id": "corrupted_event_06",
+            "id": "event_boss_malverion",
             "type": "boss",
             "category": "boss",
-            "battleBackground": "c_demon_bg",
-            "title": "Stormreign Unleashed",
-            "description": "The storm cannot be stopped.",
-            "icon": "c_demon_bg",
-            "bossEnemy": "stormreign",
+            "battleBackground": "c_bg",
+            "title": "Malverion, Final Cataclysm",
+            "description": "Face Malverion, the ultimate corrupted entity.",
+            "icon": "c_bg",
+            "bossEnemy": "malverion",
             "durationDays": 7,
-            "bossLevelId": "corrupted_event_06",
-            "rewardCurrency": "event_token",
-            "rewardAmount": 400,
-            "rewards": {
-                "coins": 300,
-                "gems": 4,
-                "exp": 300,
-                "eventToken": 400
-            }
-        },
-        {
-            "id": "corrupted_event_final",
-            "type": "boss",
-            "category": "special",
-            "battleBackground": "c_void_bg",
-            "title": "Corrupted Apex",
-            "description": "The ultimate corrupted entity emerges.",
-            "icon": "c_void_bg",
-            "bossEnemy": "zerath",
-            "durationDays": 7,
-            "bossLevelId": "corrupted_event_final",
+            "bossLevelId": "event_boss_malverion",
             "rewardCurrency": "event_token",
             "rewardAmount": 600,
             "rewards": {
@@ -412,55 +392,6 @@
                 "exp": 400,
                 "eventToken": 600
             }
-        },
-        {
-            "id": "corrupted_event_01",
-            "battleBackground": "c_corrupted_bg",
-            "enemies": [
-                "pyrothar"
-            ]
-        },
-        {
-            "id": "corrupted_event_02",
-            "battleBackground": "c_hell_bg",
-            "enemies": [
-                "nullwinter"
-            ]
-        },
-        {
-            "id": "corrupted_event_03",
-            "battleBackground": "c_demon_bg",
-            "enemies": [
-                "ash_sovereign"
-            ]
-        },
-        {
-            "id": "corrupted_event_04",
-            "battleBackground": "c_corrupted_bg",
-            "enemies": [
-                "coregon"
-            ]
-        },
-        {
-            "id": "corrupted_event_05",
-            "battleBackground": "c_hell_bg",
-            "enemies": [
-                "ignivar"
-            ]
-        },
-        {
-            "id": "corrupted_event_06",
-            "battleBackground": "c_demon_bg",
-            "enemies": [
-                "stormreign"
-            ]
-        },
-        {
-            "id": "corrupted_event_final",
-            "battleBackground": "c_void_bg",
-            "enemies": [
-                "zerath"
-            ]
         }
     ]
 }
