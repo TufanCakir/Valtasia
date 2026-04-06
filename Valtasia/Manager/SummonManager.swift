@@ -59,10 +59,57 @@ final class SummonManager: ObservableObject {
         }
     }
 
-    // MARK: - Category Filter
+    func startDate(for bannerId: String) -> Date {
+        let key = "banner_start_\(bannerId)"
 
+        if let saved = UserDefaults.standard.object(forKey: key) as? Date {
+
+            let end = saved.addingTimeInterval(7 * 86400)
+
+            if Date() > end {
+                let newStart = Date()
+                UserDefaults.standard.set(newStart, forKey: key)
+                return newStart
+            }
+
+            return saved
+        }
+
+        let now = Date()
+        UserDefaults.standard.set(now, forKey: key)
+        return now
+    }
+
+    func timeRemaining(for bannerId: String) -> String {
+        let start = startDate(for: bannerId)
+        let end = start.addingTimeInterval(7 * 86400)
+
+        let remaining = end.timeIntervalSince(Date())
+
+        if remaining <= 0 {
+            return "Ended"
+        }
+
+        let days = Int(remaining) / 86400
+        let hours = (Int(remaining) % 86400) / 3600
+
+        return "\(days)d \(hours)h"
+    }
+
+    // MARK: - Category Filter
     func banners(for categoryId: String) -> [SummonBanner] {
-        banners.filter { $0.category == categoryId }
+
+        let categoryBanners = banners.filter { $0.category == categoryId }
+
+        // Nur für limited markieren wir den aktiven Banner
+        if categoryId != "limited" {
+            return categoryBanners
+        }
+
+        guard !categoryBanners.isEmpty else { return [] }
+
+        // 👉 ALLE Banner zurückgeben (NICHT nur 1!)
+        return categoryBanners
     }
 }
 
@@ -202,12 +249,6 @@ extension SummonManager {
 
         let weighted: [(Character, Double)] = entries.compactMap { entry in
             guard let character = characterMap[entry.characterId] else {
-                return nil
-            }
-
-            // ❌ remove corrupted from normal banners
-            if banner.category != "corrupted" && character.rarity == .corrupted
-            {
                 return nil
             }
 

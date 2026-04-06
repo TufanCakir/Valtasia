@@ -91,16 +91,20 @@ final class AppModel: ObservableObject {
         "c_hell_bg",
         "c_demon_bg",
 
-        // 🔥 NEU hinzugefügt
+        // 🔥 EXISTIEREND
         "c_poisen_bg",
         "c_void_bg",
         "c_fire_bg",
         "c_devil_bg",
-    ]
 
-    var randomLoadingImage: String {
-        loadingImages.randomElement() ?? "loading1"
-    }
+        // 🔥 NEU (DEINE WORLDS 19–22)
+        "bg_angel",
+        "bg_underground",
+        "bg_reward",
+        "bg_gift",
+        "bg_poisen",
+        "bg_arena",
+    ]
 
     enum AppState {
         case start

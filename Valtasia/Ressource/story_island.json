@@ -156,5 +156,37 @@
         "worldId": "world_18",
         "image": "bg_rainbow",
         "type": "island"
+    },
+    {
+        "id": "chapter_19",
+        "title": "Das Lichtreich",
+        "description": "Ein letztes Refugium des Lichts offenbart sich – doch selbst hier lauert Gefahr.",
+        "worldId": "world_19",
+        "image": "bg_angel",
+        "type": "island"
+    },
+    {
+        "id": "chapter_20",
+        "title": "Hölle entfesselt",
+        "description": "Die tiefsten Ebenen der Verdammnis öffnen sich – Dämonen erheben sich.",
+        "worldId": "world_20",
+        "image": "c_hell_bg",
+        "type": "island"
+    },
+    {
+        "id": "chapter_21",
+        "title": "Unter der Oberfläche",
+        "description": "Vergiftete Tiefen und vergessene Tunnel bergen uralte Schrecken.",
+        "worldId": "world_21",
+        "image": "bg_underground",
+        "type": "island"
+    },
+    {
+        "id": "chapter_22",
+        "title": "Die letzte Prüfung",
+        "description": "Belohnung oder Untergang – nur die Würdigsten erreichen den finalen Schatz.",
+        "worldId": "world_22",
+        "image": "bg_reward",
+        "type": "island"
     }
 ]

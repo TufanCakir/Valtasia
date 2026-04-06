@@ -213,7 +213,7 @@
             "title": "Corrupted Rivens Story",
             "description": "Defeat Corrupted Riven and survive the dark.",
             "icon": "c_riven_bg",
-            "bossEnemy": "c_riven",
+            "bossEnemy": "character_corrupted_riven",
             "durationDays": 7,
             "bossLevelId": "event_story_c_riven",
             "rewardCurrency": "event_token",

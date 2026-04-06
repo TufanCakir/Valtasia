@@ -5,10 +5,6 @@
             "title": "Standard"
         },
         {
-            "id": "corrupted",
-            "title": "Corrupted"
-        },
-        {
             "id": "limited",
             "title": "Limited"
         },
@@ -33,75 +29,83 @@
             "maxSummons": 1,
             "pool": [
                 {
-                    "characterId": "hero_01",
+                    "characterId": "character_riven",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_02",
+                    "characterId": "character_nyra",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_03",
+                    "characterId": "character_vex",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_04",
+                    "characterId": "character_selyn",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_05",
+                    "characterId": "character_voltis",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_06",
+                    "characterId": "character_nerika",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_07",
+                    "characterId": "character_zareth",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_08",
+                    "characterId": "character_mireya",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_09",
+                    "characterId": "character_azrael",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_10",
+                    "characterId": "character_azrak",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_11",
+                    "characterId": "character_stellara",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_12",
+                    "characterId": "character_virex",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_13",
+                    "characterId": "character_cassiel",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_14",
+                    "characterId": "character_lunara",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_15",
+                    "characterId": "character_seraphina",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_16",
+                    "characterId": "character_velistra",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_17",
+                    "characterId": "character_eryndor",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_18",
+                    "characterId": "character_corrupted_riven",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_zerion",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_zerina",
                     "rateUp": false
                 }
             ]
@@ -125,75 +129,83 @@
             "maxSummons": 0,
             "pool": [
                 {
-                    "characterId": "hero_01",
+                    "characterId": "character_riven",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_02",
+                    "characterId": "character_nyra",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_03",
+                    "characterId": "character_vex",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_04",
+                    "characterId": "character_selyn",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_05",
+                    "characterId": "character_voltis",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_06",
+                    "characterId": "character_nerika",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_07",
+                    "characterId": "character_zareth",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_08",
+                    "characterId": "character_mireya",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_09",
+                    "characterId": "character_azrael",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_10",
+                    "characterId": "character_azrak",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_11",
+                    "characterId": "character_stellara",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_12",
+                    "characterId": "character_virex",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_13",
+                    "characterId": "character_cassiel",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_14",
+                    "characterId": "character_lunara",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_15",
+                    "characterId": "character_seraphina",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_16",
+                    "characterId": "character_velistra",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_17",
+                    "characterId": "character_eryndor",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_18",
+                    "characterId": "character_corrupted_riven",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_zerion",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_zerina",
                     "rateUp": false
                 }
             ],
@@ -202,7 +214,7 @@
                 "requiredPulls": 300,
                 "guaranteedPool": [
                     {
-                        "characterId": "hero_01"
+                        "characterId": "character_riven"
                     }
                 ]
             }
@@ -226,43 +238,43 @@
             "maxSummons": 300,
             "pool": [
                 {
-                    "characterId": "hero_01",
+                    "characterId": "character_riven",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_02",
+                    "characterId": "character_nyra",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_03",
+                    "characterId": "character_vex",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_04",
+                    "characterId": "character_selyn",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_07",
+                    "characterId": "character_zareth",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_08",
+                    "characterId": "character_mireya",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_09",
+                    "characterId": "character_azrael",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_10",
+                    "characterId": "character_azrak",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_12",
+                    "characterId": "character_virex",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_16",
+                    "characterId": "character_velistra",
                     "rateUp": false
                 }
             ],
@@ -271,7 +283,7 @@
                 "requiredPulls": 300,
                 "guaranteedPool": [
                     {
-                        "characterId": "hero_01"
+                        "characterId": "character_riven"
                     }
                 ]
             },
@@ -292,23 +304,23 @@
                         ],
                         "pool": [
                             {
-                                "characterId": "hero_01",
+                                "characterId": "character_riven",
                                 "rateUp": false
                             },
                             {
-                                "characterId": "hero_02",
+                                "characterId": "character_nyra",
                                 "rateUp": false
                             },
                             {
-                                "characterId": "hero_03",
+                                "characterId": "character_vex",
                                 "rateUp": false
                             },
                             {
-                                "characterId": "hero_04",
+                                "characterId": "character_selyn",
                                 "rateUp": false
                             },
                             {
-                                "characterId": "hero_07",
+                                "characterId": "character_zareth",
                                 "rateUp": false
                             }
                         ]
@@ -327,23 +339,23 @@
                         ],
                         "pool": [
                             {
-                                "characterId": "hero_01",
+                                "characterId": "character_riven",
                                 "rateUp": false
                             },
                             {
-                                "characterId": "hero_02",
+                                "characterId": "character_nyra",
                                 "rateUp": false
                             },
                             {
-                                "characterId": "hero_03",
+                                "characterId": "character_vex",
                                 "rateUp": false
                             },
                             {
-                                "characterId": "hero_07",
+                                "characterId": "character_zareth",
                                 "rateUp": false
                             },
                             {
-                                "characterId": "hero_09",
+                                "characterId": "character_azrael",
                                 "rateUp": false
                             }
                         ]
@@ -361,7 +373,7 @@
                             }
                         ],
                         "guaranteed": {
-                            "characterId": "hero_01"
+                            "characterId": "character_riven"
                         }
                     }
                 ]
@@ -370,9 +382,9 @@
         {
             "id": "corrupted_riven_banner",
             "title": "Corrupted Summon",
-            "category": "corrupted",
+            "category": "limited",
             "currency": "c_gem",
-            "bannerImage": "c_riven",
+            "bannerImage": "character_corrupted_riven",
             "summons": [
                 {
                     "amount": 1,
@@ -386,76 +398,84 @@
             "maxSummons": 300,
             "pool": [
                 {
-                    "characterId": "hero_01",
+                    "characterId": "character_riven",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_02",
+                    "characterId": "character_nyra",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_03",
+                    "characterId": "character_vex",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_04",
+                    "characterId": "character_selyn",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_05",
+                    "characterId": "character_voltis",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_06",
+                    "characterId": "character_nerika",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_07",
+                    "characterId": "character_zareth",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_08",
+                    "characterId": "character_mireya",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_09",
+                    "characterId": "character_azrael",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_10",
+                    "characterId": "character_azrak",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_11",
+                    "characterId": "character_stellara",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_12",
+                    "characterId": "character_virex",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_13",
+                    "characterId": "character_cassiel",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_14",
+                    "characterId": "character_lunara",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_15",
+                    "characterId": "character_seraphina",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_16",
+                    "characterId": "character_velistra",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_17",
+                    "characterId": "character_eryndor",
                     "rateUp": false
                 },
                 {
-                    "characterId": "hero_18",
+                    "characterId": "character_corrupted_riven",
                     "rateUp": true
+                },
+                {
+                    "characterId": "character_zerion",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_zerina",
+                    "rateUp": false
                 }
             ],
             "pity": {
@@ -463,7 +483,119 @@
                 "requiredPulls": 300,
                 "guaranteedPool": [
                     {
-                        "characterId": "hero_18"
+                        "characterId": "character_corrupted_riven"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "infernal_twins_banner",
+            "title": "Infernal Twins",
+            "category": "limited",
+            "currency": "gem",
+            "bannerImage": "character_zerion",
+            "summons": [
+                {
+                    "amount": 1,
+                    "cost": 5
+                },
+                {
+                    "amount": 10,
+                    "cost": 50
+                }
+            ],
+            "maxSummons": 300,
+            "pool": [
+                {
+                    "characterId": "character_riven",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_nyra",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_vex",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_selyn",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_voltis",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_nerika",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_zareth",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_mireya",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_azrael",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_azrak",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_stellara",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_virex",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_cassiel",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_lunara",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_seraphina",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_velistra",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_eryndor",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_corrupted_riven",
+                    "rateUp": false
+                },
+                {
+                    "characterId": "character_zerion",
+                    "rateUp": true
+                },
+                {
+                    "characterId": "character_zerina",
+                    "rateUp": true
+                }
+            ],
+            "pity": {
+                "enabled": true,
+                "requiredPulls": 200,
+                "guaranteedPool": [
+                    {
+                        "characterId": "character_zerion"
+                    },
+                    {
+                        "characterId": "character_zerina"
                     }
                 ]
             }

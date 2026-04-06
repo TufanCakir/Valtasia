@@ -1645,5 +1645,157 @@
                 ]
             }
         ]
+    },
+    {
+        "id": "world_19",
+        "background": "bg_angel",
+        "battleBackground": "bg_angel",
+        "unlockAfterWorld": "world_18",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_angel",
+                "positionX": 0.20,
+                "positionY": 0.55,
+                "connectsTo": ["2"],
+                "levels": [
+                    { "id": "level_136", "enemies": ["ash_sovereign"] }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_reward",
+                "positionX": 0.50,
+                "positionY": 0.30,
+                "connectsTo": ["3"],
+                "levels": [
+                    { "id": "level_137", "enemies": ["coregon"] }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_treasure",
+                "positionX": 0.80,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    { "id": "level_138", "enemies": ["zerath"] }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_20",
+        "background": "c_hell_bg",
+        "battleBackground": "c_hell_bg",
+        "unlockAfterWorld": "world_19",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_demon",
+                "positionX": 0.20,
+                "positionY": 0.60,
+                "connectsTo": ["2"],
+                "levels": [
+                    { "id": "level_139", "enemies": ["ignivar"] }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_devil",
+                "positionX": 0.50,
+                "positionY": 0.30,
+                "connectsTo": ["3"],
+                "levels": [
+                    { "id": "level_140", "enemies": ["noxarion"] }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_arena",
+                "positionX": 0.80,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    { "id": "level_141", "enemies": ["solmireth"] }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_21",
+        "background": "bg_underground",
+        "battleBackground": "bg_poisen",
+        "unlockAfterWorld": "world_20",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_underground",
+                "positionX": 0.18,
+                "positionY": 0.55,
+                "connectsTo": ["2"],
+                "levels": [
+                    { "id": "level_142", "enemies": ["nullwinter"] }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_poisen",
+                "positionX": 0.48,
+                "positionY": 0.30,
+                "connectsTo": ["3"],
+                "levels": [
+                    { "id": "level_143", "enemies": ["ash_sovereign"] }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_random",
+                "positionX": 0.78,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    { "id": "level_144", "enemies": ["stormreign"] }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "world_22",
+        "background": "bg_reward",
+        "battleBackground": "bg_gift",
+        "unlockAfterWorld": "world_21",
+        "worldNodes": [
+            {
+                "id": "1",
+                "image": "island_gift",
+                "positionX": 0.20,
+                "positionY": 0.60,
+                "connectsTo": ["2"],
+                "levels": [
+                    { "id": "level_145", "enemies": ["coregon"] }
+                ]
+            },
+            {
+                "id": "2",
+                "image": "island_reward",
+                "positionX": 0.50,
+                "positionY": 0.30,
+                "connectsTo": ["3"],
+                "levels": [
+                    { "id": "level_146", "enemies": ["ignivar"] }
+                ]
+            },
+            {
+                "id": "3",
+                "image": "island_treasure",
+                "positionX": 0.80,
+                "positionY": 0.50,
+                "connectsTo": [],
+                "levels": [
+                    { "id": "level_147", "enemies": ["noxarion"] }
+                ]
+            }
+        ]
     }
 ]

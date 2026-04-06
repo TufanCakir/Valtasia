@@ -38,7 +38,7 @@ struct StartView: View {
         }
         .contentShape(Rectangle())  // ⭐ wichtig für full tap area
         .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.3)) {
+            appModel.navigateWithLoading {
                 appModel.appState = .story
             }
         }

@@ -17,7 +17,9 @@ struct HomeView: View {
     @State private var zoomToBattle = false
     @State private var showTutorialSummon = false
 
-    private let worldNodeSize: CGFloat = 30
+    private var theme: UITheme {
+        appModel.homeMode == .corrupted ? .corrupted : .island
+    }
 
     private var visibleWorlds: [World] {
         appModel.tutorialState == .done
@@ -25,7 +27,135 @@ struct HomeView: View {
             : appModel.worlds
     }
 
-    func startLevelFlow(_ levelId: String) {
+    private var currentBottomInset: CGFloat {
+        UIDevice.current.userInterfaceIdiom == .pad ? 200 : 0
+    }
+
+    private var currentBackgroundName: String? {
+        switch appModel.homeMode {
+        case .island:
+            visibleWorlds[safe: selectedWorldIndex]?.background
+        case .corrupted:
+            appModel.corruptedWorlds[safe: selectedWorldIndex]?.background
+        }
+    }
+
+    private var isShowingBattle: Binding<Bool> {
+        Binding(
+            get: { appModel.selectedLevelId != nil },
+            set: { newValue in
+                guard !newValue else { return }
+                appModel.selectedLevelId = nil
+                fadeToBattle = false
+                zoomToBattle = false
+            }
+        )
+    }
+
+    var body: some View {
+        ZStack {
+            backgroundView
+
+            VStack {
+                worldMapSection
+                ModeSwitchView(theme: theme)
+                HomeActionBarView(theme: theme)
+                selectorBar
+                    .padding(.bottom, currentBottomInset)
+            }
+            .padding()
+            .scaleEffect(zoomToBattle ? 1.12 : 1)
+            .blur(radius: zoomToBattle ? 8 : 0)
+            .animation(.easeInOut(duration: 0.4), value: zoomToBattle)
+
+            Color.black
+                .opacity(fadeToBattle ? 0.85 : 0)
+                .ignoresSafeArea()
+                .animation(.easeInOut(duration: 0.35), value: fadeToBattle)
+        }
+        .fullScreenCover(isPresented: isShowingBattle) {
+            if let levelId = appModel.selectedLevelId {
+                GameContainerView(
+                    teamManager: appModel.teamManager,
+                    levelId: levelId
+                )
+                .environmentObject(appModel)
+            }
+        }
+        .fullScreenCover(isPresented: $showTutorialSummon) {
+            SummonView(
+                teamManager: appModel.teamManager,
+                isTutorial: true
+            )
+        }
+        .onAppear(perform: handleAppear)
+        .onChange(of: appModel.tutorialState) { _, newState in
+            guard newState == .summon else { return }
+            presentTutorialSummon(after: 0.4)
+        }
+        .onChange(of: visibleWorlds.count) { _, _ in
+            handleVisibleWorldsChange()
+        }
+        .onChange(of: appModel.worlds.count) { _, _ in
+            validateSelectedIndex()
+        }
+        .onChange(of: appModel.homeMode) { _, _ in
+            validateSelectedIndex()
+        }
+        .onChange(of: appModel.selectedWorld?.id) { _, _ in
+            syncSelectedWorld()
+        }
+    }
+}
+
+extension HomeView {
+
+    fileprivate var backgroundView: some View {
+        Group {
+            if let backgroundName = currentBackgroundName {
+                Image(backgroundName)
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+            }
+        }
+    }
+
+    fileprivate var worldMapSection: some View {
+        Group {
+            switch appModel.homeMode {
+            case .island:
+                if let world = visibleWorlds[safe: selectedWorldIndex] {
+                    HomeWorldMapView(
+                        world: world,
+                        onSelectLevel: startLevelFlow
+                    )
+                }
+            case .corrupted:
+                if let world = appModel.corruptedWorlds[
+                    safe: selectedWorldIndex
+                ] {
+                    CorruptedWorldMapView(
+                        world: world,
+                        onSelectLevel: startLevelFlow
+                    )
+                } else {
+                    Text("No corrupted data")
+                        .foregroundStyle(.white)
+                }
+            }
+        }
+    }
+
+    fileprivate var selectorBar: some View {
+        HomeWorldSelectorBarView(
+            homeMode: appModel.homeMode,
+            selectedWorldIndex: $selectedWorldIndex
+        )
+        .environmentObject(appModel)
+    }
+
+    fileprivate func startLevelFlow(_ levelId: String) {
         guard !appModel.teamManager.activeTeam.isEmpty else { return }
 
         withAnimation(.easeInOut(duration: 0.35)) {
@@ -38,548 +168,64 @@ struct HomeView: View {
         }
     }
 
-    private var modeSwitch: some View {
-        HStack {
-            modeButton("Island", .island)
-            modeButton("Corrupted", .corrupted)
+    fileprivate func handleAppear() {
+        validateSelectedIndex()
+        syncSelectedWorld()
+
+        if appModel.tutorialState == .summon {
+            presentTutorialSummon(after: 0.6)
         }
-        .padding()
-        .background(
-            LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .leading,
-                endPoint: .trailing
+    }
+
+    fileprivate func handleVisibleWorldsChange() {
+        validateSelectedIndex()
+
+        guard appModel.tutorialState == .done,
+            let index = visibleWorlds.firstIndex(where: { $0.id == "world_1" })
+        else {
+            return
+        }
+
+        selectedWorldIndex = index
+    }
+
+    fileprivate func presentTutorialSummon(after delay: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            showTutorialSummon = true
+        }
+    }
+
+    fileprivate func syncSelectedWorld() {
+        guard appModel.homeMode == .island,
+            let selected = appModel.selectedWorld,
+            let index = visibleWorlds.firstIndex(where: { $0.id == selected.id }
             )
-        )
-        .clipShape(Capsule())
-        .overlay(
-            Capsule()
-                .stroke(
-                    LinearGradient(
-                        colors: theme.borderGradient,
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ),
-                    lineWidth: 2
-                )
-        )
-    }
+        else {
+            return
+        }
 
-    func modeButton(_ title: String, _ mode: HomeMode) -> some View {
-        let active = appModel.homeMode == mode
-
-        return Button {
-            withAnimation(.spring()) {
-                appModel.homeMode = mode
-            }
-        } label: {
-            Text(title)
-                .font(.caption.bold())
-                .foregroundStyle(active ? .white : .white.opacity(0.6))
-                .padding(.horizontal, 14)
-                .padding(.vertical, 6)
-                .background(
-                    LinearGradient(
-                        colors: active
-                            ? theme.headerGradient
-                            : [.clear, .clear],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .clipShape(Capsule())
+        withAnimation(.spring()) {
+            selectedWorldIndex = index
         }
     }
-
-    var theme: UITheme {
-        appModel.homeMode == .corrupted ? .corrupted : .island
-    }
-
-    var body: some View {
-
-        ZStack {
-
-            // ⭐ BACKGROUND
-            if appModel.homeMode == .corrupted {
-
-                if let world = appModel.corruptedWorlds[
-                    safe: selectedWorldIndex
-                ] {
-                    Image(world.background)
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                }
-
-            } else {
-
-                if let world = visibleWorlds[safe: selectedWorldIndex] {
-                    Image(world.background)
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                }
-            }
-
-            // ⭐ CONTENT (SAFE AREA!)
-            VStack {
-
-                worldMapSection
-                modeSwitch
-
-                eventButton
-
-                if appModel.homeMode == .island {
-                    worldBar
-                        .padding(
-                            .bottom,
-                            UIDevice.current.userInterfaceIdiom == .pad
-                                ? 200 : 0
-                        )
-                } else {
-                    portalBar
-                        .padding(
-                            .bottom,
-                            UIDevice.current.userInterfaceIdiom == .pad
-                                ? 200 : 0
-                        )
-                }
-            }
-            .padding()
-            .scaleEffect(zoomToBattle ? 1.12 : 1)
-            .blur(radius: zoomToBattle ? 8 : 0)
-            .animation(.easeInOut(duration: 0.4), value: zoomToBattle)
-
-            // ⭐ Fade Overlay (kept inside ZStack)
-            Color.black
-                .opacity(fadeToBattle ? 0.85 : 0)
-                .ignoresSafeArea()
-                .animation(.easeInOut(duration: 0.35), value: fadeToBattle)
-        }
-        .fullScreenCover(
-            isPresented: Binding(
-                get: {
-                    appModel.selectedLevelId != nil
-                },
-                set: { newValue in
-                    if !newValue {
-                        appModel.selectedLevelId = nil
-                        fadeToBattle = false
-                        zoomToBattle = false
-                    }
-                }
-            )
-        ) {
-            if let levelId = appModel.selectedLevelId {
-                GameContainerView(
-                    teamManager: appModel.teamManager,
-                    levelId: levelId
-                )
-                .environmentObject(appModel)
-            }
-        }
-        .onAppear {
-            validateSelectedIndex()
-            syncSelectedWorld()
-
-            if appModel.tutorialState == .summon {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    showTutorialSummon = true
-                }
-            }
-        }
-        .onChange(of: appModel.tutorialState) { _, newState in
-            if newState == .summon {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    showTutorialSummon = true
-                }
-            }
-        }
-        .onChange(of: visibleWorlds.count) { _, _ in
-            validateSelectedIndex()
-            if appModel.tutorialState == .done {
-                if let index = visibleWorlds.firstIndex(where: {
-                    $0.id == "world_1"
-                }) {
-                    selectedWorldIndex = index
-                }
-            }
-        }
-        .onChange(of: appModel.worlds.count) { _, _ in
-            validateSelectedIndex()
-        }
-        .onChange(of: appModel.selectedWorld?.id) { _, _ in
-            syncSelectedWorld()  // 👈 NEU
-        }
-        .fullScreenCover(isPresented: $showTutorialSummon) {
-            SummonView(
-                teamManager: appModel.teamManager,
-                isTutorial: true
-            )
-        }
-    }
-}
-
-extension HomeView {
-
-    func syncSelectedWorld() {
-        guard let selected = appModel.selectedWorld else { return }
-
-        let worlds = visibleWorlds
-
-        if let index = worlds.firstIndex(where: { $0.id == selected.id }) {
-            withAnimation(.spring()) {
-                selectedWorldIndex = index
-            }
-        }
-    }
-}
-
-extension HomeView {
-
-    fileprivate var eventButton: some View {
-
-        HStack(spacing: 16) {
-
-            Button {
-                appModel.appState = .story
-            } label: {
-                iconCapsule(
-                    icon: "book",
-                )
-            }
-
-            NavigationLink {
-                GiftView()
-            } label: {
-                iconCapsule(
-                    icon: "gift.fill",
-                )
-            }
-
-            NavigationLink {
-                EventView()
-            } label: {
-                iconCapsule(
-                    icon: "gamecontroller.fill",
-                )
-            }
-
-            NavigationLink {
-                DailyRewardView()
-            } label: {
-                iconCapsule(
-                    icon: "calendar",
-                )
-            }
-
-            NavigationLink {
-                SettingsView()
-            } label: {
-                iconCapsule(
-                    icon: "gearshape.fill",
-                )
-            }
-        }
-        .padding()
-    }
-}
-
-extension HomeView {
-
-    func iconCapsule(icon: String) -> some View {
-
-        ZStack {
-            Capsule()
-                .fill(
-                    LinearGradient(
-                        colors: theme.headerGradient,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundStyle(.white)
-        }
-        .frame(width: 50, height: 50)
-    }
-}
-
-extension HomeView {
-
-    fileprivate var worldMapSection: some View {
-        Group {
-
-            if appModel.homeMode == .island {
-
-                if let world = visibleWorlds[safe: selectedWorldIndex] {
-                    HomeWorldMapView(world: world) { levelId in
-                        startLevelFlow(levelId)
-                    }
-                }
-
-            } else {
-
-                // ❌ ALT (löschen!)
-                // .first(where:)
-
-                // ✅ NEU (RICHTIG)
-                if let corruptedWorld = appModel.corruptedWorlds[
-                    safe: selectedWorldIndex
-                ] {
-
-                    CorruptedWorldMapView(world: corruptedWorld) {
-                        levelId in
-                        startLevelFlow(levelId)
-                    }
-
-                } else {
-                    Text("⚠️ No corrupted data")
-                }
-            }
-        }
-        .onAppear {
-            print("🧭 MODE:", appModel.homeMode)
-            print("📍 selectedWorldIndex:", selectedWorldIndex)
-            print(
-                "🌍 ISLAND WORLD:",
-                visibleWorlds[safe: selectedWorldIndex]?.id ?? "nil"
-            )
-            print(
-                "🌀 CORRUPTED WORLD:",
-                appModel.corruptedWorlds[safe: selectedWorldIndex]?.id ?? "nil"
-            )
-        }
-    }
-}
-
-extension HomeView {
-
-    func portalWorldButtonCorrupted(
-        for world: CorruptedWorld,
-        index: Int
-    ) -> some View {
-
-        let isSelected = index == selectedWorldIndex
-        let isLocked = !appModel.progress.isCorruptedWorldUnlocked(world)
-
-        return Button {
-            guard !isLocked else { return }
-
-            withAnimation(.spring()) {
-                selectedWorldIndex = index
-            }
-
-        } label: {
-
-            ZStack {
-
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors:
-                                isLocked
-                                ? [.gray.opacity(0.5), .black]
-                                : [.black, .green],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: worldNodeSize, height: worldNodeSize)
-                    .scaleEffect(isSelected ? 1.15 : 1)
-
-                Text("\(index + 1)")
-                    .foregroundStyle(.white)
-                    .font(.caption.bold())
-
-                if isLocked {
-                    Image(systemName: "lock.fill")
-                        .foregroundStyle(.white)
-                }
-            }
-        }
-    }
-
-    var portalBar: some View {
-
-        let worlds = appModel.corruptedWorlds  // 🔥 DAS ist der Fix!
-
-        return ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
-                ForEach(Array(worlds.enumerated()), id: \.element.id) {
-                    index,
-                    world in
-
-                    portalWorldButtonCorrupted(for: world, index: index)
-                }
-            }
-            .padding()
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(
-                    LinearGradient(
-                        colors: [Color.black, Color.green],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-        )
-        .padding()
-    }
-}
-
-extension HomeView {
-
-    fileprivate var worldBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
-                ForEach(
-                    Array(visibleWorlds.enumerated()),
-                    id: \.element.id
-                ) { index, world in
-                    worldButton(for: world, index: index)
-                }
-            }
-            .padding()
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color.black,
-                            Color.indigo,
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(
-                            LinearGradient(
-                                colors: [
-                                    Color.black,
-                                    Color.indigo,
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ),
-                            lineWidth: 3
-                        )
-                )
-        )
-        .padding()
-    }
-
-    private var worldBarBackground: some View {
-        ZStack {
-            LinearGradient(
-                colors: [
-                    Color.black,
-                    Color.indigo,
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            RoundedRectangle(cornerRadius: 28)
-                .stroke(
-                    LinearGradient(
-                        colors: [
-                            Color.black,
-                            Color.indigo,
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ),
-                    lineWidth: 1.5
-                )
-        }
-    }
-}
-
-extension HomeView {
-
-    fileprivate func worldButton(
-        for world: World,
-        index: Int
-    ) -> some View {
-
-        let isSelected = index == selectedWorldIndex
-        let isLocked = !appModel.progress.isWorldUnlocked(world)
-
-        return Button {
-            guard !isLocked else { return }
-
-            withAnimation(.spring()) {
-                selectedWorldIndex = index
-            }
-
-        } label: {
-
-            ZStack {
-
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors:
-                                isLocked
-                                ? [.gray.opacity(0.5), .black]
-                                : isSelected
-                                    ? [.black, .indigo]
-                                    : [.black, .indigo],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: worldNodeSize, height: worldNodeSize)
-
-                    .overlay(
-                        Circle()
-                            .stroke(
-                                LinearGradient(
-                                    colors: [.indigo, .indigo],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ),
-                                lineWidth: isSelected ? 3 : 3
-                            )
-                    )
-
-                    .scaleEffect(isSelected ? 1.15 : 1)
-
-                Text("\(index + 1)")
-                    .foregroundStyle(.white)
-                    .font(.caption.bold())
-
-                if isLocked {
-                    Image(systemName: "lock.fill")
-                        .foregroundStyle(.white)
-                        .clipShape(Circle())
-                }
-            }
-        }
-        .buttonStyle(.plain)
-    }
-
-    fileprivate var lockOverlay: some View {
-        Image(systemName: "lock.fill")
-            .font(.caption)
-            .foregroundStyle(.white)
-            .padding()
-            .background(Circle().fill(.black.opacity(0.6)))
-            .offset(y: 22)
-    }
-}
-
-extension HomeView {
 
     fileprivate func validateSelectedIndex() {
-        if selectedWorldIndex >= visibleWorlds.count {
-            selectedWorldIndex = max(0, visibleWorlds.count - 1)
+        let worldsCount: Int
+
+        switch appModel.homeMode {
+        case .island:
+            worldsCount = visibleWorlds.count
+        case .corrupted:
+            worldsCount = appModel.corruptedWorlds.count
+        }
+
+        guard worldsCount > 0 else {
+            selectedWorldIndex = 0
+            return
+        }
+
+        if selectedWorldIndex >= worldsCount {
+            selectedWorldIndex = worldsCount - 1
         }
     }
 }

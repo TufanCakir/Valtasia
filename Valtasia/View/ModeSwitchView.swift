@@ -10,18 +10,68 @@ import SwiftUI
 struct ModeSwitchView: View {
     @EnvironmentObject var appModel: AppModel
 
-    var body: some View {
-        HStack {
-            button("Island", .island)
-            button("Corrupted", .corrupted)
-        }
+    let theme: UITheme?
+
+    init(theme: UITheme? = nil) {
+        self.theme = theme
     }
 
-    func button(_ title: String, _ mode: HomeMode) -> some View {
-        Button {
-            appModel.homeMode = mode
+    var body: some View {
+        HStack {
+            modeButton("Island", mode: .island)
+            modeButton("Corrupted", mode: .corrupted)
+        }
+        .padding()
+        .background(
+            LinearGradient(
+                colors: resolvedTheme.headerGradient,
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        )
+        .clipShape(Capsule())
+        .overlay(
+            Capsule()
+                .stroke(
+                    LinearGradient(
+                        colors: resolvedTheme.borderGradient,
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    lineWidth: 2
+                )
+        )
+    }
+}
+
+extension ModeSwitchView {
+
+    fileprivate var resolvedTheme: UITheme {
+        theme ?? (appModel.homeMode == .corrupted ? .corrupted : .island)
+    }
+
+    fileprivate func modeButton(_ title: String, mode: HomeMode) -> some View {
+        let isActive = appModel.homeMode == mode
+
+        return Button {
+            withAnimation(.spring()) {
+                appModel.homeMode = mode
+            }
         } label: {
             Text(title)
+                .font(.caption.bold())
+                .foregroundStyle(isActive ? .white : .white.opacity(0.6))
+                .padding(.horizontal, 14)
+                .padding(.vertical, 6)
+                .background(
+                    LinearGradient(
+                        colors: isActive
+                            ? resolvedTheme.headerGradient : [.clear, .clear],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .clipShape(Capsule())
         }
     }
 }

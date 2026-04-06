@@ -66,7 +66,7 @@
         "id": "event_story_c_riven",
         "battleBackground": "c_riven_bg",
         "enemies": [
-            "c_riven"
+            "character_corrupted_riven"
         ]
     },
     {

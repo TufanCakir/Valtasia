@@ -217,26 +217,20 @@ struct StoryView: View {
 
         let isCorrupted = chapter.type == .corrupted
 
-        print("👉 openChapter tapped")
-        print("👉 chapter.type:", chapter.type)
-        print("👉 BEFORE homeMode:", appModel.homeMode)
-
         withAnimation(.spring()) {
             appModel.homeMode = isCorrupted ? .corrupted : .island
         }
-
-        print("👉 AFTER homeMode:", appModel.homeMode)
 
         if let world = appModel.worlds.first(where: {
             $0.id == chapter.worldId
         }) {
             appModel.selectedWorld = world
-            print("👉 selectedWorld set:", world.id)
         }
 
-        print("👉 switching to HOME")
-
-        appModel.appState = .home
+        // ✅ HIER IST DER FIX
+        appModel.navigateWithLoading {
+            appModel.appState = .home
+        }
     }
 
     // MARK: - UI

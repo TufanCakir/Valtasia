@@ -5,6 +5,7 @@
 //  Created by Tufan Cakir on 27.02.26.
 //
 
+import Combine
 import SwiftUI
 
 struct SummonView: View {
@@ -28,6 +29,9 @@ struct SummonView: View {
     @State private var tutorialSummonUsed = UserDefaults.standard.bool(
         forKey: "tutorial_summon_done"
     )
+    @State private var refreshID = UUID()
+    @State private var timer = Timer.publish(every: 1, on: .main, in: .common)
+        .autoconnect()
 
     var theme: UITheme {
         appModel.homeMode == .corrupted ? .corrupted : .island
@@ -152,6 +156,28 @@ extension SummonView {
                         .scaledToFit()
                         .frame(maxHeight: 140)
 
+                    if banner.category == "limited" {
+                        Text(
+                            "Ends in \(summonManager.timeRemaining(for: banner.id))"
+                        )
+                        .font(.caption.bold())
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .background(
+                            LinearGradient(
+                                colors: theme.headerGradient,
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .foregroundStyle(.white)
+                        .clipShape(Capsule())
+                        .onReceive(timer) { _ in
+                            refreshID = UUID()
+                        }
+                        .id(refreshID)
+                    }
+
                     // ⭐ STEP (nur wenn vorhanden)
                     if let stepUp = banner.stepUp, stepUp.enabled,
                         let stepData = summonManager.currentStepData(
@@ -162,19 +188,16 @@ extension SummonView {
                         tagView("STEP \(stepData.step) / \(stepUp.steps.count)")
                     }
 
-                    // ⭐ PITY (IMMER wenn vorhanden)
+                    // ⭐ PITY
                     if let pity = banner.pity, pity.enabled {
-
                         let pulls = PityManager.shared.pulls(for: banner.id)
-
                         tagView("PITY \(pulls) / \(pity.requiredPulls)")
                     }
 
+                    // ⭐ SUMMONS
                     if banner.maxSummons > 0 {
-
                         let pulls = summonManager.totalPulls(for: banner.id)
                         let max = banner.maxSummons
-
                         tagView("SUMMONS \(pulls) / \(max)")
                     }
                 }

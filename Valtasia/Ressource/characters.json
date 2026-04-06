@@ -1,6 +1,6 @@
 [
     {
-        "id": "hero_01",
+        "id": "character_riven",
         "name": "Riven",
         "rarity": "legendary",
         "role": "dps",
@@ -46,7 +46,7 @@
     },
 
     {
-        "id": "hero_02",
+        "id": "character_nyra",
         "name": "Nyra",
         "rarity": "epic",
         "role": "dps",
@@ -83,7 +83,7 @@
     },
 
     {
-        "id": "hero_03",
+        "id": "character_vex",
         "name": "Vex",
         "rarity": "epic",
         "role": "support",
@@ -120,7 +120,7 @@
     },
 
     {
-        "id": "hero_04",
+        "id": "character_selyn",
         "name": "Selyn",
         "rarity": "epic",
         "role": "support",
@@ -156,7 +156,7 @@
         ]
     },
     {
-        "id": "hero_05",
+        "id": "character_voltis",
         "name": "Voltis",
         "rarity": "epic",
         "role": "dps",
@@ -201,7 +201,7 @@
         ]
     },
     {
-        "id": "hero_06",
+        "id": "character_nerika",
         "name": "Nerika",
         "rarity": "epic",
         "role": "support",
@@ -246,7 +246,7 @@
         ]
     },
     {
-        "id": "hero_07",
+        "id": "character_zareth",
         "name": "Zareth",
         "rarity": "legendary",
         "role": "dps",
@@ -291,7 +291,7 @@
         ]
     },
     {
-        "id": "hero_08",
+        "id": "character_mireya",
         "name": "Mireya",
         "rarity": "epic",
         "role": "dps",
@@ -336,7 +336,7 @@
         ]
     },
     {
-        "id": "hero_09",
+        "id": "character_azrael",
         "name": "Azrael",
         "rarity": "legendary",
         "role": "dps",
@@ -381,7 +381,7 @@
         ]
     },
     {
-        "id": "hero_10",
+        "id": "character_azrak",
         "name": "Azrak",
         "rarity": "legendary",
         "role": "dps",
@@ -426,7 +426,7 @@
         ]
     },
     {
-        "id": "hero_11",
+        "id": "character_stellara",
         "name": "Stellara",
         "rarity": "rare",
         "role": "support",
@@ -471,7 +471,7 @@
         ]
     },
     {
-        "id": "hero_12",
+        "id": "character_virex",
         "name": "Virex",
         "rarity": "legendary",
         "role": "dps",
@@ -516,7 +516,7 @@
         ]
     },
     {
-        "id": "hero_13",
+        "id": "character_cassiel",
         "name": "Cassiel",
         "rarity": "rare",
         "role": "support",
@@ -561,7 +561,7 @@
         ]
     },
     {
-        "id": "hero_14",
+        "id": "character_lunara",
         "name": "Lunara",
         "rarity": "rare",
         "role": "support",
@@ -606,7 +606,7 @@
         ]
     },
     {
-        "id": "hero_15",
+        "id": "character_seraphina",
         "name": "Seraphina",
         "rarity": "rare",
         "role": "dps",
@@ -651,7 +651,7 @@
         ]
     },
     {
-        "id": "hero_16",
+        "id": "character_velistra",
         "name": "Velistra",
         "rarity": "legendary",
         "role": "dps",
@@ -696,7 +696,7 @@
         ]
     },
     {
-        "id": "hero_17",
+        "id": "character_eryndor",
         "name": "Eryndor",
         "rarity": "rare",
         "role": "dps",
@@ -741,7 +741,7 @@
         ]
     },
     {
-        "id": "hero_18",
+        "id": "character_corrupted_riven",
         "name": "Corrupted Riven",
         "rarity": "corrupted",
         "role": "dps",
@@ -757,11 +757,11 @@
             "banner": "corrupted_riven_banner",
             "rateUp": true
         },
-        "sprite": "c_riven",
+        "sprite": "character_corrupted_riven",
         "skins": [
             {
                 "id": "default",
-                "sprite": "c_riven"
+                "sprite": "character_corrupted_riven"
             }
         ],
         "skills": [
@@ -782,6 +782,96 @@
                 "cooldown": 5,
                 "particle": "ShadowParticle",
                 "color": "shadow"
+            }
+        ]
+    },
+    {
+        "id": "character_zerion",
+        "name": "Zerion",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1550,
+            "attack": 245,
+            "energyPower": 140,
+            "attackSpeed": 1.5
+        },
+        "energyType": "fire",
+        "summon": {
+            "rate": 0.012,
+            "banner": "infernal_twins_banner",
+            "rateUp": true
+        },
+        "sprite": "character_zerion",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_zerion"
+            }
+        ],
+        "skills": [
+            {
+                "id": "infernal_cleave",
+                "name": "Infernal Cleave",
+                "type": "damage",
+                "multiplier": 2.6,
+                "cooldown": 5,
+                "particle": "FireParticle",
+                "color": "fire"
+            },
+            {
+                "id": "hellfire_reign",
+                "name": "Hellfire Reign",
+                "type": "damage",
+                "multiplier": 3.4,
+                "cooldown": 5,
+                "particle": "ExplosionParticle",
+                "color": "crimson"
+            }
+        ]
+    },
+    {
+        "id": "character_zerina",
+        "name": "Zerina",
+        "rarity": "legendary",
+        "role": "dps",
+        "stats": {
+            "hp": 1400,
+            "attack": 260,
+            "energyPower": 160,
+            "attackSpeed": 1.7
+        },
+        "energyType": "fire",
+        "summon": {
+            "rate": 0.012,
+            "banner": "infernal_twins_banner",
+            "rateUp": true
+        },
+        "sprite": "character_zerina",
+        "skins": [
+            {
+                "id": "default",
+                "sprite": "character_zerina"
+            }
+        ],
+        "skills": [
+            {
+                "id": "flame_dash",
+                "name": "Flame Dash",
+                "type": "damage",
+                "multiplier": 2.2,
+                "cooldown": 5,
+                "particle": "FireParticle",
+                "color": "fire"
+            },
+            {
+                "id": "ashen_cataclysm",
+                "name": "Ashen Cataclysm",
+                "type": "damage",
+                "multiplier": 3.6,
+                "cooldown": 5,
+                "particle": "ExplosionParticle",
+                "color": "crimson"
             }
         ]
     }
