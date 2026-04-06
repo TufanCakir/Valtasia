@@ -35,31 +35,6 @@ struct EventView: View {
             EventDetailView(event: event)
         }
     }
-}
-
-struct ModeSwitchView: View {
-
-    @EnvironmentObject var appModel: AppModel
-
-    var theme: UITheme {
-        appModel.homeMode == .corrupted ? .corrupted : .island
-    }
-
-    var body: some View {
-        HStack {
-            button("Island", .island)
-            button("Corrupted", .corrupted)
-        }
-        .padding()
-        .background(
-            LinearGradient(
-                colors: theme.headerGradient,
-                startPoint: .leading,
-                endPoint: .trailing
-            )
-        )
-        .clipShape(Capsule())
-    }
 
     func button(_ title: String, _ mode: HomeMode) -> some View {
 

@@ -451,10 +451,12 @@ class GameScene: SKScene {
         }
 
         // NORMAL GAME
-
         guard
             let levelId,
-            let level = appModel?.level(for: levelId, mode: .island),
+            let level = appModel?.level(
+                for: levelId,
+                mode: (gameMode == .corrupted ? .corrupted : .island)
+            ),
             let enemyId = level.enemies.randomElement()
         else {
 

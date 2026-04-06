@@ -311,56 +311,71 @@ extension HomeView {
 
     fileprivate var worldMapSection: some View {
         Group {
-            if let world = visibleWorlds[safe: selectedWorldIndex] {
 
-                if appModel.homeMode == .island {
+            if appModel.homeMode == .island {
 
+                if let world = visibleWorlds[safe: selectedWorldIndex] {
                     HomeWorldMapView(world: world) { levelId in
+                        startLevelFlow(levelId)
+                    }
+                }
+
+            } else {
+
+                // ❌ ALT (löschen!)
+                // .first(where:)
+
+                // ✅ NEU (RICHTIG)
+                if let corruptedWorld = appModel.corruptedWorlds[
+                    safe: selectedWorldIndex
+                ] {
+
+                    CorruptedWorldMapView(world: corruptedWorld) {
+                        levelId in
                         startLevelFlow(levelId)
                     }
 
                 } else {
-
-                    // ⭐ PORTAL JSON verwenden!
-                    if let corruptedWorld = appModel.corruptedWorlds.first(
-                        where: {
-                            $0.id == world.id
-                        })
-                    {
-                        CorruptedWorldMapView(world: corruptedWorld) {
-                            levelId in
-                            startLevelFlow(levelId)
-                        }
-                    } else {
-                        Text("⚠️ No corrupted data")
-                    }
+                    Text("⚠️ No corrupted data")
                 }
             }
+        }
+        .onAppear {
+            print("🧭 MODE:", appModel.homeMode)
+            print("📍 selectedWorldIndex:", selectedWorldIndex)
+            print(
+                "🌍 ISLAND WORLD:",
+                visibleWorlds[safe: selectedWorldIndex]?.id ?? "nil"
+            )
+            print(
+                "🌀 CORRUPTED WORLD:",
+                appModel.corruptedWorlds[safe: selectedWorldIndex]?.id ?? "nil"
+            )
         }
     }
 }
 
 extension HomeView {
-    
+
     func portalWorldButtonCorrupted(
         for world: CorruptedWorld,
         index: Int
     ) -> some View {
-        
+
         let isSelected = index == selectedWorldIndex
         let isLocked = !appModel.progress.isCorruptedWorldUnlocked(world)
-        
+
         return Button {
             guard !isLocked else { return }
-            
+
             withAnimation(.spring()) {
                 selectedWorldIndex = index
             }
-            
+
         } label: {
-            
+
             ZStack {
-                
+
                 Circle()
                     .fill(
                         LinearGradient(
@@ -374,11 +389,11 @@ extension HomeView {
                     )
                     .frame(width: worldNodeSize, height: worldNodeSize)
                     .scaleEffect(isSelected ? 1.15 : 1)
-                
+
                 Text("\(index + 1)")
                     .foregroundStyle(.white)
                     .font(.caption.bold())
-                
+
                 if isLocked {
                     Image(systemName: "lock.fill")
                         .foregroundStyle(.white)
@@ -386,16 +401,17 @@ extension HomeView {
             }
         }
     }
-    
+
     var portalBar: some View {
-        
+
         let worlds = appModel.corruptedWorlds  // 🔥 DAS ist der Fix!
-        
+
         return ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 ForEach(Array(worlds.enumerated()), id: \.element.id) {
-                    index, world in
-                    
+                    index,
+                    world in
+
                     portalWorldButtonCorrupted(for: world, index: index)
                 }
             }
